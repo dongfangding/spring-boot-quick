@@ -1,5 +1,7 @@
 package com.ddf.boot.quick.service;
 
+import com.ddf.boot.quick.model.bo.AuthUserRegistryVo;
+import com.ddf.boot.quick.model.vo.AuthUserVo;
 import com.ddf.common.model.datao.quick.AuthUser;
 import com.ddf.common.mybatis.service.CustomizeIService;
 
@@ -9,6 +11,16 @@ import javax.validation.constraints.NotNull;
  * @author DDf on 2019/12/8
  */
 public interface AuthUserService extends CustomizeIService<AuthUser> {
+
+
+	/**
+	 * 用户注册
+	 *
+	 * @param authUserRegistryVo
+	 * @return
+	 */
+	AuthUserVo registry(AuthUserRegistryVo authUserRegistryVo);
+
 
 	/**
 	 * 登录
