@@ -1,6 +1,6 @@
 package com.ddf.boot.quick;
 
-import com.ddf.boot.quick.model.bo.AuthUserRegistryVo;
+import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
 import com.ddf.boot.quick.service.AuthUserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,10 +23,10 @@ public class QuickApplicationTest {
 
     @Test
     public void test() {
-        AuthUserRegistryVo authUserRegistryVo = new AuthUserRegistryVo();
+        AuthUserRegistryBo authUserRegistryBo = new AuthUserRegistryBo();
 
-        authUserRegistryVo.setUserName("ddf").setPassword("123456");
+        authUserRegistryBo.setUserName("ddf").setPassword("123456");
 
-        authUserService.registry(authUserRegistryVo);
+        authUserService.registry(authUserRegistryBo);
     }
 }

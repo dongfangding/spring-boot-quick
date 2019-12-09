@@ -13,9 +13,9 @@ import java.util.Date;
  * @author dongfang.ding on 2019/12/8
  */
 @Data
-@ApiModel("用户展示层对象")
+@ApiModel("用户注册请求参数")
 @Accessors(chain = true)
-public class AuthUserRegistryVo {
+public class AuthUserRegistryBo {
 
 	@ApiModelProperty("姓名")
 	private String userName;
