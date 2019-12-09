@@ -1,11 +1,13 @@
 package com.ddf.boot.quick.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.common.mybatis.service.CustomizeIService;
-import com.ddf.boot.quick.model.bo.AuthUserRegistryVo;
+import com.ddf.boot.quick.model.bo.AuthUserPageBo;
+import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
+import com.ddf.boot.quick.model.bo.LoginBo;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * @author DDf on 2019/12/8
@@ -16,20 +18,19 @@ public interface AuthUserService extends CustomizeIService<AuthUser> {
 	/**
 	 * 用户注册
 	 *
-	 * @param authUserRegistryVo
+	 * @param authUserRegistryBo
 	 * @return
 	 */
-	AuthUserVo registry(AuthUserRegistryVo authUserRegistryVo);
+	AuthUserVo registry(AuthUserRegistryBo authUserRegistryBo);
 
 
 	/**
 	 * 登录
 	 *
-	 * @param userName 用户名
-	 * @param password 密码
+	 * @param loginBo
 	 * @return
 	 */
-	String login(String userName, String password);
+	String loginByPassword(LoginBo loginBo);
 
 
 	/**
@@ -40,13 +41,13 @@ public interface AuthUserService extends CustomizeIService<AuthUser> {
 	 */
 	AuthUser findByName(String userName);
 
-
 	/**
-	 * 根据用户名和密码查找用户
+	 * 分页查询
 	 *
-	 * @param userName
-	 * @param password
+	 * @param page
+	 * @param authUserPageBo
 	 * @return
 	 */
-	AuthUser getByUserNameAndPassword(@NotNull String userName, @NotNull String password);
+	IPage<AuthUser> pageList(Page<AuthUser> page, AuthUserPageBo authUserPageBo);
+
 }
