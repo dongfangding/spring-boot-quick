@@ -60,6 +60,24 @@ spring:
     host: smtp.qq.com                         # 邮件服务器类型
     properties.mail.smtp.ssl.enable: true # 用以支持授权码登陆
 
+  rabbitmq:
+    addresses: localhost:5672
+    username: admin
+    password: 123456
+    virtualHost: /
+    cache:
+      channel:
+        size: 100
+      connection:
+        mode: connection
+    template:
+      retry:
+        enabled: true
+        initialInterval: 2000  # 第一次和第二次尝试传递消息之间的持续时间
+    listener:
+      simple:
+        default-requeue-rejected: false
+
 #  rabbitmq:
 #    addresses: localhost:5672
 #    username: root
