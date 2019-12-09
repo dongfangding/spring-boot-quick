@@ -1,8 +1,8 @@
 package com.ddf.boot.quick.mapper;
 
 
-import com.ddf.common.model.datao.quick.AuthUser;
-import com.ddf.common.mybatis.mapper.CustomizeBaseMapper;
+import com.ddf.boot.common.model.datao.quick.AuthUser;
+import com.ddf.boot.common.mybatis.mapper.CustomizeBaseMapper;
 
 /**
  * 用户映射类
