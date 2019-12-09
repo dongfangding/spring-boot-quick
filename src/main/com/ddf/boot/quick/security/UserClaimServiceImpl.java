@@ -1,11 +1,8 @@
 package com.ddf.boot.quick.security;
 
-import com.ddf.common.jwt.consts.JwtConstant;
-import com.ddf.common.jwt.interfaces.UserClaimService;
-import com.ddf.common.jwt.model.UserClaim;
-import com.ddf.common.util.WebUtil;
-import org.apache.dubbo.config.annotation.Service;
-import org.apache.dubbo.rpc.RpcContext;
+import com.ddf.boot.common.jwt.interfaces.UserClaimService;
+import com.ddf.boot.common.jwt.model.UserClaim;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,8 +29,8 @@ public class UserClaimServiceImpl implements UserClaimService {
      **/
     @Override
     public void storeRequest(HttpServletRequest request, String host) {
-        RpcContext.getContext().setRequest(request);
-        RpcContext.getContext().setAttachment(JwtConstant.CLIENT_IP, WebUtil.getHost());
+        /*RpcContext.getContext().setRequest(request);
+        RpcContext.getContext().setAttachment(JwtConstant.CLIENT_IP, WebUtil.getHost());*/
     }
 
     /**

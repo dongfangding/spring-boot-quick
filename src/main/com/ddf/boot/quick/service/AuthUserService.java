@@ -1,9 +1,9 @@
 package com.ddf.boot.quick.service;
 
+import com.ddf.boot.common.model.datao.quick.AuthUser;
+import com.ddf.boot.common.mybatis.service.CustomizeIService;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryVo;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
-import com.ddf.common.model.datao.quick.AuthUser;
-import com.ddf.common.mybatis.service.CustomizeIService;
 
 import javax.validation.constraints.NotNull;
 
