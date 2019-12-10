@@ -68,15 +68,15 @@ spring:
     cache:
       channel:
         size: 100
+        checkoutTimeout: 3000
       connection:
         mode: connection
+        size:
     template:
       retry:
         enabled: true
+        maxAttempts: 5
         initialInterval: 2000  # 第一次和第二次尝试传递消息之间的持续时间
-    listener:
-      simple:
-        default-requeue-rejected: false
 
 #  rabbitmq:
 #    addresses: localhost:5672
@@ -136,6 +136,8 @@ logging:
 management:
   health:
     redis:
+      enabled: false
+    rabbit:
       enabled: false
   endpoints:
     web:
