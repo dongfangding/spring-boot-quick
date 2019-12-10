@@ -16,10 +16,12 @@ import com.ddf.boot.common.mybatis.service.impl.CusomizeIServiceImpl;
 import com.ddf.boot.common.util.IdsUtil;
 import com.ddf.boot.common.util.SecureUtil;
 import com.ddf.boot.common.util.WebUtil;
+import com.ddf.boot.quick.biz.AsyncTask;
 import com.ddf.boot.quick.mapper.AuthUserMapper;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
 import com.ddf.boot.quick.model.bo.LoginBo;
+import com.ddf.boot.quick.model.dto.LogUserLoginHistoryDto;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
 import com.ddf.boot.quick.service.AuthUserService;
 import com.google.common.base.Preconditions;
@@ -29,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 
 /**
  * @author DDf on 2019/12/8
@@ -39,6 +42,9 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 	@Autowired
 	private IdsUtil idsUtil;
+
+	@Autowired
+	private AsyncTask asyncTask;
 
 	/**
 	 * 用户注册
@@ -104,7 +110,9 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 				existUser.getLastModifyPassword()).setCredit(WebUtil.getHost()).setLastLoginTime(existUser.getLastLoginTime());
 		String verifyToken = JwtUtil.defaultJws(userClaim);
 
-		existUser.setLastLoginTime(System.currentTimeMillis());
+		long loginTime = System.currentTimeMillis();
+
+		existUser.setLastLoginTime(loginTime);
 
 		LambdaUpdateWrapper<AuthUser> userUpdateWrapper = Wrappers.lambdaUpdate();
 		userUpdateWrapper.eq(AuthUser::getId, existUser.getId());
@@ -114,6 +122,9 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 		// FIXME Caused by: java.lang.ClassCastException: com.ddf.boot.common.model.datao.quick.AuthUser cannot be cast to org.apache.ibatis.binding.MapperMethod$ParamMap
 //		updateById(existUser);
+
+		asyncTask.logUserLoginHistory(new LogUserLoginHistoryDto().setUserId(existUser.getId()).setToken(verifyToken)
+				.setLoginTime(new Date(loginTime)).setLoginIp(WebUtil.getHost()));
 
 		return verifyToken;
 	}
