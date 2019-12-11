@@ -39,10 +39,6 @@ import java.util.Date;
 @Service
 public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, AuthUser> implements AuthUserService {
 
-
-	@Autowired
-	private IdsUtil idsUtil;
-
 	@Autowired
 	private AsyncTask asyncTask;
 
@@ -67,7 +63,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 		AuthUser authUser = new AuthUser();
 		BeanUtil.copyProperties(authUserRegistryBo, authUser);
-		String userToken = idsUtil.getNextStrId();
+		String userToken = IdsUtil.getNextStrId();
 		authUser.setUserToken(userToken);
 		authUser.setPassword(SecureUtil.signWithHMac(authUserRegistryBo.getPassword(), userToken));
 		saveCheckDuplicateKey(authUser, new GlobalCustomizeException("用户已存在！"));

@@ -11,10 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
 
 /**
  * 用户登录日志消费
@@ -28,7 +25,7 @@ public class UserLoginHistoryListener {
 
     @RabbitListener(queues = BindingConst.QueueName.USER_LOGIN_HISTORY_QUEUE, containerFactory = "manualAckRabbitListenerContainerFactory")
     @RabbitHandler
-    public void consumer(@Payload String json, Channel channel, Message message) {
+    public void consumer(Channel channel, Message message) {
         log.info("开始消费登录日志。。。。。。。。。。。。。。");
         MqMessageWrapper<LogUserLoginHistoryDto> parse = null;
         try {
@@ -40,15 +37,8 @@ public class UserLoginHistoryListener {
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
             log.error("消息消费异常！ {}", MqMessageUtil.getBodyAsString(message.getBody()), e);
-            try {
-                channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
-                if (parse != null) {
-                    parse.setRetryTimes(parse.getRetryTimes() + 1);
-                    RabbitTemplateHelper.sendNotNecessary(QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, parse);
-                }
-            } catch (IOException ex) {
-                log.error("消息拒绝异常！{}", json, e);
-            }
+            RabbitTemplateHelper.nackAndRequeueIfFailure(channel, message, QueueBuilder.QueueDefinition
+                    .USER_LOGIN_HISTORY_QUEUE, parse);
         }
     }
 }

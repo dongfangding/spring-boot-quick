@@ -35,7 +35,4 @@ public class AuthUserVo {
 
 	@ApiModelProperty("上次登录密码的时间")
 	private Long lastLoginTime;
-
-	@ApiModelProperty("用户是否有效 0 否 1 是")
-	private Byte isEnable;
 }
