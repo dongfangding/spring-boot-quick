@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2019/12/7 0007 23:28
  */
 @SpringBootApplication(scanBasePackages = GlobalConstants.BASE_PACKAGE)
-@MapperScan(basePackages = {"com.ddf.boot.quick.mapper"})
+@MapperScan(basePackages = {"com.ddf.boot.quick.mapper", "com.ddf.boot.common.websocket.mapper"})
 @EnableJwt
 public class QuickApplication {
 
