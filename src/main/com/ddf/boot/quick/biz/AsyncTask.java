@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
- * 异步任务集合$
+ * 异步任务集合
  *
  * @author dongfang.ding
  * @date 2019/12/10 0010 20:18
