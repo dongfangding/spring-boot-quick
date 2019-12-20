@@ -1,16 +1,18 @@
 package com.ddf.boot.quick.consumer;
 
+import com.ddf.boot.common.exception.GlobalCustomizeException;
 import com.ddf.boot.common.mq.definition.BindingConst;
 import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.common.mq.definition.QueueBuilder;
+import com.ddf.boot.common.mq.helper.MqMessageHelper;
 import com.ddf.boot.common.mq.helper.RabbitTemplateHelper;
-import com.ddf.boot.common.mq.util.MqMessageUtil;
 import com.ddf.boot.quick.model.dto.LogUserLoginHistoryDto;
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -24,6 +26,12 @@ import java.io.IOException;
 @Slf4j
 @Component
 public class DemoConsumer {
+
+    @Autowired
+    private MqMessageHelper mqMessageHelper;
+
+    @Autowired
+    private RabbitTemplateHelper rabbitTemplateHelper;
 
     /**
      *
@@ -44,10 +52,10 @@ public class DemoConsumer {
         log.info("开始消费[{}]登录日志>>>>", BindingConst.QueueName.USER_LOGIN_HISTORY_QUEUE);
         MqMessageWrapper<LogUserLoginHistoryDto> parse = null;
         try {
-            parse = MqMessageUtil.parse(message, LogUserLoginHistoryDto.class);
+            parse = mqMessageHelper.parse(message, LogUserLoginHistoryDto.class);
             log.info("消费到消息内容: {}", parse);
             if (true) {
-                throw new RuntimeException();
+                throw new RuntimeException("故意报错");
             }
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
@@ -56,8 +64,10 @@ public class DemoConsumer {
                 // 这一块重投再消费再重投的错误日志，有点影响看后面的演示打印；因此先睡一会
                 Thread.sleep(5000);
             } catch (Exception ignored) {}
-            RabbitTemplateHelper.nackAndRequeue(channel, message, QueueBuilder.QueueDefinition
+            rabbitTemplateHelper.nackAndRequeue(channel, message, QueueBuilder.QueueDefinition
                     .USER_LOGIN_HISTORY_QUEUE, parse);
+            // catch之后必须再把异常throw出去，否则无法捕捉到消费异常
+            throw new GlobalCustomizeException(e.getMessage());
         }
     }
 
@@ -89,6 +99,8 @@ public class DemoConsumer {
             } catch (IOException ex) {
                 log.error("拒绝失败！", e);
             }
+            // catch之后必须再把异常throw出去，否则无法捕捉到消费异常
+            throw new GlobalCustomizeException(e.getMessage());
         }
     }
 
@@ -106,7 +118,7 @@ public class DemoConsumer {
     @RabbitHandler
     public void consumerDeadLetterReceiveQueue(Channel channel, Message message) {
         log.info("开始消费[{}]死信队列转发后的消息>>>>", BindingConst.QueueName.TEST_DEAD_LETTER_RECEIVE_QUEUE);
-        log.info("消息到消息: {}", MqMessageUtil.getBodyAsString(message.getBody()));
+        log.info("消息到消息: {}", mqMessageHelper.getBodyAsString(message.getBody()));
     }
 
 
@@ -137,6 +149,8 @@ public class DemoConsumer {
             } catch (IOException ex) {
                 log.error("拒绝失败！", e);
             }
+            // catch之后必须再把异常throw出去，否则无法捕捉到消费异常
+            throw new GlobalCustomizeException(e.getMessage());
         }
     }
 }

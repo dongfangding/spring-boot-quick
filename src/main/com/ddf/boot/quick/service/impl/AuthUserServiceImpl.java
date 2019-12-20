@@ -3,7 +3,6 @@ package com.ddf.boot.quick.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -110,14 +109,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 		existUser.setLastLoginTime(loginTime);
 
-		LambdaUpdateWrapper<AuthUser> userUpdateWrapper = Wrappers.lambdaUpdate();
-		userUpdateWrapper.eq(AuthUser::getId, existUser.getId());
-		userUpdateWrapper.eq(AuthUser::getVersion, existUser.getVersion());
-		userUpdateWrapper.set(AuthUser::getLastLoginTime, System.currentTimeMillis());
-		update(userUpdateWrapper);
-
-		// FIXME Caused by: java.lang.ClassCastException: com.ddf.boot.common.model.datao.quick.AuthUser cannot be cast to org.apache.ibatis.binding.MapperMethod$ParamMap
-//		updateById(existUser);
+		updateById(existUser);
 
 		asyncTask.logUserLoginHistory(new LogUserLoginHistoryDto().setUserId(existUser.getId()).setToken(verifyToken)
 				.setLoginTime(new Date(loginTime)).setLoginIp(WebUtil.getHost()));
