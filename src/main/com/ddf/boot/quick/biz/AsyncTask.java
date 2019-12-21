@@ -32,15 +32,15 @@ public class AsyncTask {
             rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, userLoginHistoryDto);
         } catch (MqSendException ignored) {}
 
-//        try {
-//            // 发送给一个死信队列
-//            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.TEST_DEAD_LETTER_QUEUE, userLoginHistoryDto );
-//        } catch (MqSendException ignored) {}
-//
-//        try {
-//            // 发送给一个死信延迟队列
-//            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.TEST_TTL_QUEUE, userLoginHistoryDto);
-//        } catch (MqSendException ignored) {}
+        try {
+            // 发送给一个死信队列
+            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.TEST_DEAD_LETTER_QUEUE, userLoginHistoryDto );
+        } catch (MqSendException ignored) {}
+
+        try {
+            // 发送给一个死信延迟队列
+            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.TEST_TTL_QUEUE, userLoginHistoryDto);
+        } catch (MqSendException ignored) {}
     }
 
 

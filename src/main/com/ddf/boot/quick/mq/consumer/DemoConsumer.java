@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.consumer;
+package com.ddf.boot.quick.mq.consumer;
 
 import com.ddf.boot.common.exception.GlobalCustomizeException;
 import com.ddf.boot.common.mq.definition.BindingConst;
@@ -54,9 +54,9 @@ public class DemoConsumer {
         try {
             parse = mqMessageHelper.parse(message, LogUserLoginHistoryDto.class);
             log.info("消费到消息内容: {}", parse);
-            if (true) {
-                throw new RuntimeException("故意报错");
-            }
+//            if (true) {
+//                throw new RuntimeException("故意报错");
+//            }
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
             log.error("消息消费异常！ {}", parse, e);
