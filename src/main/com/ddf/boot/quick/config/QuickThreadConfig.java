@@ -24,4 +24,13 @@ public class QuickThreadConfig {
     public ThreadPoolTaskExecutor userLoginLogExecutor() {
         return ThreadBuilderHelper.buildThreadExecutor("user-login-executor-", 30, 1000);
     }
+
+    /**
+     * 邮件发送
+     * @return
+     */
+    @Bean
+    public ThreadPoolTaskExecutor mailSendExecutor() {
+        return ThreadBuilderHelper.buildThreadExecutor("mail-send-executor-", 30, 100);
+    }
 }
