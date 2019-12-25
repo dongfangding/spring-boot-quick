@@ -39,21 +39,42 @@ import java.util.List;
 @Accessors(chain = true)
 public class MqttProperties {
 
+    /**
+     * 初始化所有要定义的topic
+     */
     private List<SubscribeDetail> subscribeDetails;
 
+    /**
+     * server host
+     */
     private String serverHost;
 
+    /**
+     * server port
+     */
     private int serverPort;
 
+    /**
+     * 用户名
+     */
     private String username;
 
+    /**
+     * 密码
+     */
     private String password;
 
 
     @Data
     @Accessors(chain = true)
     public static class SubscribeDetail {
+        /**
+         * topic
+         */
         private String topic;
+        /**
+         * 消息质量
+         */
         private MqttQos qos;
 
         public SubscribeDetail(String topic, MqttQos qos) {

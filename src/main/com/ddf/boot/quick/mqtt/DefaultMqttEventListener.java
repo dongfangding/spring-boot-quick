@@ -39,6 +39,9 @@ import java.util.List;
 @Slf4j
 public class DefaultMqttEventListener implements MqttEventListener {
 
+    /**
+     * 主题的订阅事件，接收到消息成功还是失败
+     */
     private MqttSubscribeEvent mqttSubscribeEvent;
 
     public DefaultMqttEventListener(MqttSubscribeEvent mqttSubscribeEvent) {

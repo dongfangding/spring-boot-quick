@@ -19,9 +19,9 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * https://mosquitto.org/man/mosquitto-conf-5.html
- *
+ * <p>
  * 要修改的几个配置点
- *
+ * <p>
  * # 持久化设置为true
  * persistence true
  * # 如果设置为 true，则在客户端套接字上设置 TCP nodelay 选项，以禁用 Nagle 的算法。 这可以减少某些消息的延迟，从而可能增加正在发送的 TCP 数据包的数量。 默认为 false。
@@ -81,8 +81,14 @@ public class DefaultMqtt5Client {
      */
     private MqttEventListener mqttEventListener;
 
+    /**
+     * 连接属性
+     */
     private MqttProperties mqttProperties;
 
+    /**
+     * 初始化的线程对该字段赋值，要保证对其它发布线程立马可见
+     */
     private volatile boolean connAck;
 
     public static DefaultMqtt5Client getInstance(MqttProperties mqttProperties, MqttEventListener mqttEventListener) {
@@ -122,12 +128,8 @@ public class DefaultMqtt5Client {
                 .serverHost(mqttProperties.getServerHost()).serverPort(mqttProperties.getServerPort())
 
                 // --------------------------------监听器配置---------------------------------------------
-                .addConnectedListener(mqttClientConnectedContext -> {
-                    mqttEventListener.connected(mqttClientConnectedContext, this);
-                })
-                .addDisconnectedListener(mqttClientDisconnectedContext -> {
-                    mqttEventListener.disconnected(mqttClientDisconnectedContext, this);
-                })
+                .addConnectedListener(mqttClientConnectedContext -> mqttEventListener.connected(mqttClientConnectedContext, this))
+                .addDisconnectedListener(mqttClientDisconnectedContext -> mqttEventListener.disconnected(mqttClientDisconnectedContext, this))
 
                 // ---------------------------------线程配置----------------------------------------------
                 // 一个注释也没有，nettyExecutor好像时用来配置Netty的线程池， applicationScheduler是用来配置mqtt相关的异步线程池，
@@ -135,9 +137,10 @@ public class DefaultMqtt5Client {
                 .executorConfig(MqttClientExecutorConfigImpl.DEFAULT.extend()
                         // 这应该不是核心数，不然下面就不会再让配置线程池了吧，还是说最大线程数？搞不清楚，不动了
 //                        .nettyThreads()
-                                .nettyExecutor(new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(),
-                                        Runtime.getRuntime().availableProcessors() * 2, 60L, TimeUnit.SECONDS,
-                                        new ArrayBlockingQueue<>(1000), ThreadFactoryBuilder.create().setNamePrefix("mqtt-netty-executor-").build()))
+                        .nettyExecutor(new ThreadPoolExecutor(Runtime.getRuntime().availableProcessors(),
+                                Runtime.getRuntime().availableProcessors() * 2, 60L,
+                                TimeUnit.SECONDS, new ArrayBlockingQueue<>(1000),
+                                ThreadFactoryBuilder.create().setNamePrefix("mqtt-netty-executor-").build()))
                         .build())
 
 
@@ -182,16 +185,15 @@ public class DefaultMqtt5Client {
                 .requestResponseInformation(true)
                 .applyRestrictions()
                 .send().whenComplete((connAck, throwable) -> {
-                    if (throwable != null) {
-                        mqttEventListener.handlerThrowable(connAck, throwable);
-                    }
-                });
+            if (throwable != null) {
+                mqttEventListener.handlerThrowable(connAck, throwable);
+            }
+        });
         mqtt5Client = mqtt5AsyncClient;
     }
 
 
     /**
-     *
      * 由于客户端的建立使用的是异步的API,因此可能在客户端还没初始化完成时，就调用了客户端的方法，那么肯定会失败；
      * 目前不强制在调用方法前进行校验是否已完成，没完成就循环等待；而是提供一个方法，让调用方明确
      *
@@ -199,7 +201,7 @@ public class DefaultMqtt5Client {
      * @author dongfang.ding
      * @date 2019/12/25 0025 16:38
      **/
-    public void waitComplete() {
+    public void waitConnected() {
         while (!connAck) {
         }
     }
@@ -212,7 +214,7 @@ public class DefaultMqtt5Client {
      * @author dongfang.ding
      * @date 2019/12/25 0025 16:39
      **/
-    public void waitComplete(long millionSecond) {
+    public void waitConnected(long millionSecond) {
         long before = System.currentTimeMillis();
         while (!connAck) {
             if (System.currentTimeMillis() - before > millionSecond) {
@@ -222,8 +224,16 @@ public class DefaultMqtt5Client {
     }
 
     public void publish(String topic, String message) {
+        publish(topic, message, false);
+    }
+
+    public void publish(String topic, String message, boolean retain) {
+        publish(topic, message, retain, MqttQos.EXACTLY_ONCE);
+    }
+
+    public void publish(String topic, String message, boolean retain, MqttQos qos) {
         mqtt5Client.toAsync().publishWith().topic(topic).payload(message.getBytes())
-                .retain(true).qos(MqttQos.EXACTLY_ONCE).send().whenComplete((publish, throwable) -> {
+                .retain(retain).qos(qos).send().whenComplete((publish, throwable) -> {
             if (throwable != null) {
                 log.error("发送失败", throwable);
             } else {
@@ -269,7 +279,8 @@ public class DefaultMqtt5Client {
         MqttProperties mqttProperties = new MqttProperties();
         mqttProperties.setServerHost("localhost").setServerPort(1883).setUsername("ddf").setPassword("123456");
 
-        MqttProperties.SubscribeDetailBuilder.create(20).add("/demo", MqttQos.EXACTLY_ONCE)
+        MqttProperties.SubscribeDetailBuilder.create(20)
+                .add("/demo", MqttQos.EXACTLY_ONCE)
                 .add("/demo1", MqttQos.EXACTLY_ONCE)
                 .add("/demo2", MqttQos.EXACTLY_ONCE)
                 .toProperties(mqttProperties);
@@ -281,7 +292,8 @@ public class DefaultMqtt5Client {
 
         DefaultMqtt5Client defaultMqtt5Client = DefaultMqtt5Client.getInstance(mqttProperties, mqttEventListener);
 
-        defaultMqtt5Client.waitComplete();
-        defaultMqtt5Client.publish("/demo", "hello-world!");
+        defaultMqtt5Client.waitConnected();
+        System.out.println("================================");
+        defaultMqtt5Client.publish("/demo", "hello-world!".concat(IdUtil.objectId()));
     }
 }
