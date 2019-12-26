@@ -65,7 +65,7 @@ public class NoticeMqEventListener implements MqEventListener {
     public <T> void sendFailure(QueueBuilder.QueueDefinition queueDefinition, MqMessageWrapper<T> messageWrapper, Throwable throwable) {
         mailSendExecutor.execute(() -> {
             try {
-                mailUtil.sendMimeMail(new String[]{"1041765757@qq.com"} , String.format("mq消息[%s]消费失败提醒", messageWrapper.getMessageId()),
+                mailUtil.sendMimeMail(new String[]{"1041765757@qq.com"} , String.format("mq消息[%s]发送失败提醒", messageWrapper.getMessageId()),
                         JsonUtil.asString(messageWrapper) + "<br /><br /> <font color='red'>"
                                 + StringUtil.exceptionToString(throwable) + "</font>");
             } catch (MessagingException e) {
