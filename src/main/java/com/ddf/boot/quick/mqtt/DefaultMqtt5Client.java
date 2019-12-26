@@ -3,6 +3,11 @@ package com.ddf.boot.quick.mqtt;
 import cn.hutool.core.thread.ThreadFactoryBuilder;
 import cn.hutool.core.util.IdUtil;
 import com.hivemq.client.internal.mqtt.MqttClientExecutorConfigImpl;
+import com.hivemq.client.internal.mqtt.datatypes.*;
+import com.hivemq.client.internal.mqtt.message.publish.MqttPublish;
+import com.hivemq.client.internal.mqtt.message.subscribe.MqttSubscribe;
+import com.hivemq.client.internal.mqtt.message.subscribe.MqttSubscription;
+import com.hivemq.client.internal.util.collections.ImmutableList;
 import com.hivemq.client.mqtt.MqttClient;
 import com.hivemq.client.mqtt.MqttClientBuilder;
 import com.hivemq.client.mqtt.datatypes.MqttQos;
@@ -13,6 +18,11 @@ import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PayloadFormatIndicator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -67,11 +77,6 @@ import java.util.concurrent.TimeUnit;
 public class DefaultMqtt5Client {
 
     /**
-     * 保证当前服务只提供一个实例
-     */
-    private static volatile DefaultMqtt5Client defaultMqtt5Client;
-
-    /**
      * Mqtt的客户端
      */
     private Mqtt5Client mqtt5Client;
@@ -80,6 +85,11 @@ public class DefaultMqtt5Client {
      * 连接建立相关事件
      */
     private MqttEventListener mqttEventListener;
+
+    /**
+     * 订阅相关事件
+     */
+    private List<MqttPublishSubscribeEvent> mqttPublishSubscribeEvents;
 
     /**
      * 连接属性
@@ -91,23 +101,35 @@ public class DefaultMqtt5Client {
      */
     private volatile boolean connAck;
 
-    public static DefaultMqtt5Client getInstance(MqttProperties mqttProperties, MqttEventListener mqttEventListener) {
-        if (defaultMqtt5Client == null) {
-            synchronized (DefaultMqtt5Client.class) {
-                if (defaultMqtt5Client == null) {
-                    defaultMqtt5Client = new DefaultMqtt5Client(mqttProperties, mqttEventListener);
-                }
-            }
-        }
-        return defaultMqtt5Client;
-    }
-
-    private DefaultMqtt5Client(MqttProperties mqttProperties, MqttEventListener mqttEventListener) {
+    public DefaultMqtt5Client(@NotNull MqttProperties mqttProperties, @Nullable MqttEventListener mqttEventListener) {
         this.mqttProperties = mqttProperties;
         this.mqttEventListener = mqttEventListener;
         init();
     }
 
+
+    /**
+     * 添加发布与订阅事件实现
+     *
+     * @param mqttPublishSubscribeEvent
+     * @return void
+     * @author dongfang.ding
+     * @date 2019/12/26 0026 10:47
+     **/
+    public void addMqttSubscribeEvent(MqttPublishSubscribeEvent mqttPublishSubscribeEvent) {
+        if (mqttPublishSubscribeEvents == null) {
+            mqttPublishSubscribeEvents = new ArrayList<>();
+        }
+        mqttPublishSubscribeEvents.add(mqttPublishSubscribeEvent);
+    }
+
+    /**
+     * 校验参数
+     *
+     * @return void
+     * @author dongfang.ding
+     * @date 2019/12/26 0026 10:47
+     **/
     public void validProperties() {
         if (mqttProperties == null) {
             throw new IllegalArgumentException("mqttProperties can not be null!");
@@ -128,8 +150,16 @@ public class DefaultMqtt5Client {
                 .serverHost(mqttProperties.getServerHost()).serverPort(mqttProperties.getServerPort())
 
                 // --------------------------------监听器配置---------------------------------------------
-                .addConnectedListener(mqttClientConnectedContext -> mqttEventListener.connected(mqttClientConnectedContext, this))
-                .addDisconnectedListener(mqttClientDisconnectedContext -> mqttEventListener.disconnected(mqttClientDisconnectedContext, this))
+                .addConnectedListener(mqttClientConnectedContext -> {
+                    if (mqttEventListener != null) {
+                        mqttEventListener.connected(mqttClientConnectedContext, this);
+                    }
+                })
+                .addDisconnectedListener(mqttClientDisconnectedContext -> {
+                    if (mqttEventListener != null) {
+                        mqttEventListener.disconnected(mqttClientDisconnectedContext, this);
+                    }
+                })
 
                 // ---------------------------------线程配置----------------------------------------------
                 // 一个注释也没有，nettyExecutor好像时用来配置Netty的线程池， applicationScheduler是用来配置mqtt相关的异步线程池，
@@ -186,7 +216,9 @@ public class DefaultMqtt5Client {
                 .applyRestrictions()
                 .send().whenComplete((connAck, throwable) -> {
             if (throwable != null) {
-                mqttEventListener.handlerThrowable(connAck, throwable);
+                if (mqttEventListener != null) {
+                    mqttEventListener.handlerThrowable(connAck, throwable);
+                }
             }
         });
         mqtt5Client = mqtt5AsyncClient;
@@ -227,17 +259,89 @@ public class DefaultMqtt5Client {
         publish(topic, message, false);
     }
 
+    public void publish(String topic, String message, MqttUserPropertiesImpl mqttUserProperties) {
+        publish(topic, message, false, MqttQos.EXACTLY_ONCE, mqttUserProperties);
+    }
+
+
     public void publish(String topic, String message, boolean retain) {
         publish(topic, message, retain, MqttQos.EXACTLY_ONCE);
     }
 
     public void publish(String topic, String message, boolean retain, MqttQos qos) {
-        mqtt5Client.toAsync().publishWith().topic(topic).payload(message.getBytes())
-                .retain(retain).qos(qos).send().whenComplete((publish, throwable) -> {
-            if (throwable != null) {
-                log.error("发送失败", throwable);
-            } else {
-                log.info("消息发送成功>>>>>>: {}", message);
+        publish(topic, message, retain, qos, MqttUserPropertiesImpl.NO_USER_PROPERTIES);
+    }
+
+    /**
+     * 发布主题，并触发发布事件
+     *
+     * @param topic
+     * @param message
+     * @param retain
+     * @param qos
+     * @return void
+     * @author dongfang.ding
+     * @date 2019/12/26 0026 10:46
+     **/
+    public void publish(String topic, String message, boolean retain, MqttQos qos, MqttUserPropertiesImpl mqttUserProperties) {
+        MqttPublish mqttPublish = new MqttPublish(MqttTopicImpl.of(topic),
+                ByteBuffer.wrap(message.getBytes()), qos, retain,
+                0, Mqtt5PayloadFormatIndicator.UTF_8,
+                MqttUtf8StringImpl.of("application/json;charset=utf-8"), null, null,
+                mqttUserProperties);
+        mqtt5Client.toAsync().publish(mqttPublish);
+    }
+
+
+    public void publish(MqttPublish mqttPublish) {
+        mqtt5Client.toAsync().publish(mqttPublish).whenComplete((publish, throwable) -> {
+            if (mqttPublishSubscribeEvents != null && !mqttPublishSubscribeEvents.isEmpty()) {
+                for (MqttPublishSubscribeEvent mqttPublishSubscribeEvent : mqttPublishSubscribeEvents) {
+                    mqttPublishSubscribeEvent.onPublishComplete(this, publish);
+                }
+            }
+        });
+    }
+
+
+    public void subscribe(String topic) {
+        subscribe(topic, MqttQos.EXACTLY_ONCE);
+    }
+
+    public void subscribe(String topic, MqttQos qos) {
+        subscribe(topic, qos, MqttUserPropertiesImpl.NO_USER_PROPERTIES);
+    }
+
+    /**
+     * 订阅主题，并触发订阅事件
+     *
+     * @param topic
+     * @param qos
+     * @return void
+     * @author dongfang.ding
+     * @date 2019/12/26 0026 10:41
+     **/
+    public void subscribe(String topic, MqttQos qos, MqttUserPropertiesImpl mqtt5UserProperties) {
+        MqttSubscription mqttSubscription = new MqttSubscription(MqttTopicFilterImpl.of(topic), qos, MqttSubscription.DEFAULT_NO_LOCAL,
+                MqttSubscription.DEFAULT_RETAIN_HANDLING, MqttSubscription.DEFAULT_RETAIN_AS_PUBLISHED);
+        ImmutableList<MqttSubscription> subscriptions = ImmutableList.of(mqttSubscription);
+        // 该类的构造函数使用的是具体实现类,MqttUserPropertiesImpl,所以方法上也只能使用具体实现类了
+        MqttSubscribe mqttSubscribe = new MqttSubscribe(subscriptions, mqtt5UserProperties);
+        subscribe(mqttSubscribe);
+    }
+
+    public void subscribe(MqttSubscribe mqttSubscribe) {
+        mqtt5Client.toAsync().subscribe(mqttSubscribe, publish -> {
+            if (mqttPublishSubscribeEvents != null && !mqttPublishSubscribeEvents.isEmpty()) {
+                for (MqttPublishSubscribeEvent mqttPublishSubscribeEvent : mqttPublishSubscribeEvents) {
+                    mqttPublishSubscribeEvent.onSubscribeCallback(this, publish);
+                }
+            }
+        }).whenComplete((subAck, throwable) -> {
+            if (mqttPublishSubscribeEvents != null && !mqttPublishSubscribeEvents.isEmpty()) {
+                for (MqttPublishSubscribeEvent mqttPublishSubscribeEvent : mqttPublishSubscribeEvents) {
+                    mqttPublishSubscribeEvent.onSubscribeComplete(this, mqttSubscribe, subAck, throwable);
+                }
             }
         });
     }
@@ -275,7 +379,6 @@ public class DefaultMqtt5Client {
     }
 
     public static void main(String[] args) throws InterruptedException {
-
         MqttProperties mqttProperties = new MqttProperties();
         mqttProperties.setServerHost("localhost").setServerPort(1883).setUsername("ddf").setPassword("123456");
 
@@ -286,14 +389,58 @@ public class DefaultMqtt5Client {
                 .toProperties(mqttProperties);
 
 
-        MqttSubscribeEvent mqttSubscribeEvent = new MqttSubscribeEventImpl();
+        MqttPublishSubscribeEvent mqttPublishSubscribeEvent = new MqttPublishSubscribeEventImpl();
 
-        MqttEventListener mqttEventListener = new DefaultMqttEventListener(mqttSubscribeEvent);
+        MqttEventListener mqttEventListener = new DefaultMqttEventListener();
 
-        DefaultMqtt5Client defaultMqtt5Client = DefaultMqtt5Client.getInstance(mqttProperties, mqttEventListener);
+        DefaultMqtt5Client defaultMqtt5Client = Mqtt5ClientFactory.getInstance(mqttProperties, mqttEventListener);
 
-        defaultMqtt5Client.waitConnected();
-        System.out.println("================================");
+        defaultMqtt5Client.addMqttSubscribeEvent(mqttPublishSubscribeEvent);
+
+//        testBase(defaultMqtt5Client);
+//        chatRoom(defaultMqtt5Client);
+        concurrentPublish(defaultMqtt5Client);
+    }
+
+    public static void testBase(DefaultMqtt5Client defaultMqtt5Client) throws InterruptedException {
         defaultMqtt5Client.publish("/demo", "hello-world!".concat(IdUtil.objectId()));
+
+        Thread.sleep(5000);
+
+        // 模拟接口动态订阅
+        defaultMqtt5Client.subscribe("/sub2");
+
+        Thread.sleep(5000);
+        defaultMqtt5Client.publish("/demo", "模拟接口调用!".concat(IdUtil.objectId()));
+        defaultMqtt5Client.publish("/sub2", "模拟接口调用!".concat(IdUtil.objectId()));
+
+        DefaultMqtt5Client defaultMqtt5Client1 = Mqtt5ClientFactory.create(defaultMqtt5Client.getMqttProperties(), defaultMqtt5Client.getMqttEventListener());
+        defaultMqtt5Client.publish("/sub2", "模拟另外一个客户端向之前的客户端发送主题!".concat(IdUtil.objectId()));
+    }
+
+    public static void chatRoom(DefaultMqtt5Client defaultMqtt5Client) throws InterruptedException {
+
+        defaultMqtt5Client.subscribe("/chatRoom", MqttQos.EXACTLY_ONCE,
+                MqttUserPropertiesImpl.of(ImmutableList.of(MqttUserPropertyImpl.of("username", "小红"))));
+
+        defaultMqtt5Client.publish("/chatRoom", "大家好!我是小红!",
+                MqttUserPropertiesImpl.of(ImmutableList.of(MqttUserPropertyImpl.of("username", "小红"))));
+
+        Thread.sleep(5000);
+
+        defaultMqtt5Client.publish("/chatRoom", "大家好!我是小蓝!",
+                MqttUserPropertiesImpl.of(ImmutableList.of(MqttUserPropertyImpl.of("username", "小蓝"))));
+    }
+
+    public static void concurrentPublish(DefaultMqtt5Client defaultMqtt5Client) {
+        defaultMqtt5Client.subscribe("/concurrent", MqttQos.AT_LEAST_ONCE);
+
+        for (int i = 0; i < 1000; i++) {
+
+            // fixme 发送数量与订阅到的数量对应不上
+            new Thread(() -> {
+                defaultMqtt5Client.publish("/concurrent", "并发发送!".concat(IdUtil.objectId()));
+            }).start();
+        }
     }
 }

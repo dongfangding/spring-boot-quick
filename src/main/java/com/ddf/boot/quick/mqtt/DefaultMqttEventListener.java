@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.mqtt;
 
+import com.hivemq.client.internal.mqtt.datatypes.MqttUserPropertiesImpl;
 import com.hivemq.client.mqtt.lifecycle.MqttClientConnectedContext;
 import com.hivemq.client.mqtt.lifecycle.MqttClientDisconnectedContext;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
@@ -40,16 +41,6 @@ import java.util.List;
 public class DefaultMqttEventListener implements MqttEventListener {
 
     /**
-     * 主题的订阅事件，接收到消息成功还是失败
-     */
-    private MqttSubscribeEvent mqttSubscribeEvent;
-
-    public DefaultMqttEventListener(MqttSubscribeEvent mqttSubscribeEvent) {
-        this.mqttSubscribeEvent = mqttSubscribeEvent;
-    }
-
-
-    /**
      * 服务初始化完成，
      * 在这里可以初始化所有的订阅事件
      *
@@ -63,17 +54,11 @@ public class DefaultMqttEventListener implements MqttEventListener {
     public void connected(MqttClientConnectedContext mqttClientConnectedContext, @NotNull DefaultMqtt5Client defaultMqtt5Client) {
         MqttProperties mqttProperties = defaultMqtt5Client.getMqttProperties();
         if (mqttProperties != null) {
+            // 初始化所有的订阅主题
             List<MqttProperties.SubscribeDetail> subscribeDetails = mqttProperties.getSubscribeDetails();
             if (subscribeDetails != null && !subscribeDetails.isEmpty()) {
                 for (MqttProperties.SubscribeDetail subscribeDetail : subscribeDetails) {
-                    defaultMqtt5Client.getMqtt5Client().toAsync().subscribeWith().topicFilter(subscribeDetail.getTopic())
-                            .qos(subscribeDetail.getQos()).callback(publish -> {
-                        mqttSubscribeEvent.onSuccess(publish);
-                    }).send().whenComplete((subAck, throwable) -> {
-                        if (throwable != null) {
-                            mqttSubscribeEvent.onFailure(subAck, throwable);
-                        }
-                    });
+                    defaultMqtt5Client.subscribe(subscribeDetail.getTopic(), subscribeDetail.getQos(), MqttUserPropertiesImpl.NO_USER_PROPERTIES);
                 }
             }
         }
