@@ -1,6 +1,7 @@
 package com.ddf.boot.quick.exception;
 
 import cn.hutool.http.HttpStatus;
+import com.ddf.boot.common.exception.ErrorAttributesHandler;
 import com.ddf.boot.common.exception.ErrorHttpStatusMapping;
 import com.ddf.boot.common.jwt.exception.UserClaimMissionException;
 import org.springframework.stereotype.Component;
