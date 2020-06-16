@@ -148,6 +148,7 @@ mybatis-plus:
 logging:
   level:
     root: info
+    com.ddf.boot.common.log.AccessLogAspect: debug
     com.ddf.boot.quick.mapper: debug
     com.ddf.boot.common.mq: debug
 
