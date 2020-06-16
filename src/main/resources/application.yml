@@ -4,7 +4,11 @@ server:
     max-connections: 20000
     max-threads: 400
     min-spare-threads: 20
+  servlet:
+    context-path: /boot-quick
 spring:
+  application:
+    name: boot-quick
   jackson:
     time-zone: GMT+8
     default-property-inclusion: ALWAYS
@@ -15,7 +19,7 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-      url: jdbc:p6spy:mysql://localhost:3306/boot-quick?characterEncoding=utf8&useSSL=true&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull
+      url: jdbc:p6spy:mysql://localhost:3306/boot-quick?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
       username: root
       password: 123456
       initial-size: 3
@@ -38,7 +42,7 @@ spring:
 
   messages:
     basename: exception/exception
-    use-code-as-default-message: true
+    use-code-as-default-message: false
 
 #  redis:
 #    cluster:
@@ -62,8 +66,8 @@ spring:
 
   rabbitmq:
     addresses: localhost:5672
-    username: admin
-    password: 123456
+    username: guest
+    password: guest
     virtualHost: /
     cache:
       channel:
@@ -100,11 +104,16 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
   global-properties:
     snowflakeWorkerId: 1      # worker Id can't be greater than 31 or less than 0
     snowflakeDataCenterId: 1  # dataCenterId Id can't be greater than 31 or less than 0
+    ignoreErrorTraceProfile:  # 过滤将异常堆栈信息输出打前端接口返回值的环境
+      - pre
+      - prod
+  message_secret: false # 是否加密传输websocket消息数据
   jwt:
     secret: WoshiyigefenshuajiangfenshuabenlingqiangwoyaobanaxinfangzishuadegengpiaoliangshualefangziyoushuangqiangaiyawodexiaobizibianyabianleYang
     expiredMinute: 1080
     refreshTokenMinute: 10
     ignores:
+      - path: /
       - path: /v2/*
       - path: /swagger-ui.html
       - path: /swagger-ui.html/*
@@ -132,7 +141,8 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
     cache-enabled: false
-  mapper-locations: classpath:mapper/*.xml
+  ## mapper.xml文件所在路径
+  mapper-locations: classpath:com/ddf/boot/quick/mapper/*.xml
 
 
 logging:

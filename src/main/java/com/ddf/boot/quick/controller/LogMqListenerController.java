@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.common.mq.entity.LogMqListener;
 import com.ddf.boot.common.mq.mapper.LogMqListenerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,7 +46,7 @@ public class LogMqListenerController {
     private LogMqListenerMapper logMqListenerMapper;
 
 
-    @RequestMapping("/list")
+    @GetMapping("/list")
     public List<LogMqListener> list() {
         LambdaQueryWrapper<LogMqListener> query = Wrappers.lambdaQuery();
         query.orderByDesc(LogMqListener::getEventTimestamp);

@@ -1,7 +1,12 @@
 package com.ddf.boot.quick.security;
 
+import cn.hutool.core.convert.Convert;
 import com.ddf.boot.common.jwt.interfaces.UserClaimService;
 import com.ddf.boot.common.jwt.model.UserClaim;
+import com.ddf.boot.common.model.datao.quick.AuthUser;
+import com.ddf.boot.quick.service.AuthUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +18,11 @@ import javax.servlet.http.HttpServletRequest;
  * @date 2019/12/7 0007 15:57
  */
 @Service
+@Component
 public class UserClaimServiceImpl implements UserClaimService {
+
+    @Autowired
+    private AuthUserService authUserService;
 
 
     /**
@@ -36,12 +45,21 @@ public class UserClaimServiceImpl implements UserClaimService {
     /**
      * Jwt将token中的用户信息，传递给调用方，需要调用方实现这个接口来将数据库中的最新用户数据返回过来
      *
+     * @see com.ddf.boot.common.jwt.filter.JwtAuthorizationTokenFilter
+     *
      * @param userClaim
      * @return
      */
     @Override
     public UserClaim getStoreUserInfo(UserClaim userClaim) {
-        return userClaim;
+        UserClaim<?> dbUserClaim = new UserClaim<>();
+        AuthUser dbUser = authUserService.getById(userClaim.getUserId());
+        // 将当前token对应的用户查询出来返回，给调用方用户将数据库数据和token进行比较
+        dbUserClaim.setUserId(Convert.toStr(dbUser.getId()))
+                .setUsername(dbUser.getUserName())
+                .setLastLoginTime(dbUser.getLastLoginTime())
+                .setLastModifyPasswordTime(dbUser.getLastModifyPassword());
+        return dbUserClaim;
     }
 
 
@@ -52,6 +70,7 @@ public class UserClaimServiceImpl implements UserClaimService {
      * @author dongfang.ding
      * @date 2019/12/7 0007 15:58
      **/
+    @Override
     public void afterVerifySuccess(UserClaim userClaim) {
         /*if (SecurityContextHolder.getContext().getAuthentication() == null) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userClaim,
