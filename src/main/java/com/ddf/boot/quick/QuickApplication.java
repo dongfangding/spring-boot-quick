@@ -2,6 +2,7 @@ package com.ddf.boot.quick;
 
 import com.ddf.boot.common.constant.GlobalConstants;
 import com.ddf.boot.common.jwt.config.EnableJwt;
+import com.ddf.boot.common.log.EnableLogAspect;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication(scanBasePackages = GlobalConstants.BASE_PACKAGE)
 @MapperScan(basePackages = {"com.ddf.boot.quick.mapper", "com.ddf.boot.common.websocket.mapper"})
 @EnableJwt
+@EnableLogAspect(slowTime = 3000)
 public class QuickApplication {
 
     public static void main(String[] args) {
