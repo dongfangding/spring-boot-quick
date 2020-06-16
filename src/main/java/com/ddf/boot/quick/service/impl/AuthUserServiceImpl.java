@@ -48,7 +48,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 	 * @return
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public AuthUserVo registry(AuthUserRegistryBo authUserRegistryBo) {
 		Preconditions.checkNotNull(authUserRegistryBo, "请求参数不能为空!");
 		Preconditions.checkArgument(StringUtils.isNotBlank(authUserRegistryBo.getUserName()), "用户名不能为空！");
@@ -62,6 +62,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 		AuthUser authUser = new AuthUser();
 		BeanUtil.copyProperties(authUserRegistryBo, authUser);
+		// 随机给用户生成一个盐（当然如果用户主键是提前生成的，也可以使用主键）
 		String userToken = IdsUtil.getNextStrId();
 		authUser.setUserToken(userToken);
 		authUser.setPassword(SecureUtil.signWithHMac(authUserRegistryBo.getPassword(), userToken));
@@ -78,7 +79,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 	 * @return
 	 */
 	@Override
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public String loginByPassword(@NotNull LoginBo loginBo) {
 		Preconditions.checkNotNull(loginBo, "登录参数不能为空！");
 		String userName = loginBo.getUserName();
@@ -100,19 +101,27 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 			throw new GlobalCustomizeException(GlobalExceptionEnum.USERNAME_OR_PASSWORD_INVALID);
 		}
 
-		UserClaim userClaim = new UserClaim();
-		userClaim.setUserId(Convert.toStr(existUser.getId())).setUsername(existUser.getUserName()).setLastModifyPasswordTime(
-				existUser.getLastModifyPassword()).setCredit(WebUtil.getHost()).setLastLoginTime(existUser.getLastLoginTime());
-		String verifyToken = JwtUtil.defaultJws(userClaim);
-
 		long loginTime = System.currentTimeMillis();
 
-		existUser.setLastLoginTime(loginTime);
+		UserClaim userClaim = new UserClaim();
+		userClaim.setUserId(Convert.toStr(existUser.getId()))
+				.setUsername(existUser.getUserName())
+				.setLastModifyPasswordTime(existUser.getLastModifyPassword())
+				.setCredit(WebUtil.getHost())
+				// 记录用户当前登录时间
+				.setLastLoginTime(loginTime);
+		String verifyToken = JwtUtil.defaultJws(userClaim);
 
+		// 更新用户最后一次登录时间
+		existUser.setLastLoginTime(loginTime);
 		updateById(existUser);
 
-		asyncTask.logUserLoginHistory(new LogUserLoginHistoryDto().setUserId(existUser.getId()).setToken(verifyToken)
-				.setLoginTime(new Date(loginTime)).setLoginIp(WebUtil.getHost()));
+		asyncTask.logUserLoginHistory(new LogUserLoginHistoryDto()
+				.setUserId(existUser.getId())
+				.setToken(verifyToken)
+				.setLoginTime(new Date(loginTime))
+				.setLoginIp(WebUtil.getHost())
+		);
 
 		return verifyToken;
 	}
