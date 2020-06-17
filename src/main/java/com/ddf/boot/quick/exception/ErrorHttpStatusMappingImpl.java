@@ -46,8 +46,12 @@ public class ErrorHttpStatusMappingImpl implements ErrorHttpStatusMapping {
      */
     @Override
     public Integer getHttpStatus(Throwable error) {
-        if (UserClaimMissionException.class.getName().equals(error.getClass().getName())) {
+        String errorClassName = error.getClass().getName();
+        if (UserClaimMissionException.class.getName().equals(errorClassName)) {
             return HttpStatus.HTTP_UNAUTHORIZED;
+        } else if (BadRequestException.class.getName().equals(errorClassName)
+                || IllegalArgumentException.class.getName().equals(errorClassName)) {
+            return HttpStatus.HTTP_BAD_REQUEST;
         }
         return HttpStatus.HTTP_INTERNAL_ERROR;
     }

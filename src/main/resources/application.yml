@@ -40,7 +40,7 @@ spring:
         stat:
           enabled: true
           log-slow-sql: true
-          slow-sql-millis: 1
+          slow-sql-millis: 3000
         wall:
           enabled: true # 开启WallFilter
           db-type: mysql
