@@ -6,8 +6,9 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ddf.boot.common.exception.GlobalCustomizeException;
-import com.ddf.boot.common.exception.GlobalExceptionEnum;
+import com.ddf.boot.common.exception200.BadRequestException;
+import com.ddf.boot.common.exception200.BusinessException;
+import com.ddf.boot.common.exception200.UserErrorCallbackCode;
 import com.ddf.boot.common.jwt.model.UserClaim;
 import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
@@ -57,7 +58,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		LambdaQueryWrapper<AuthUser> queryWrapper = Wrappers.lambdaQuery();
 		queryWrapper.eq(AuthUser::getUserName, authUserRegistryBo.getUserName());
 		if (count(queryWrapper) > 0) {
-			throw new GlobalCustomizeException(GlobalExceptionEnum.USERNAME_EXIST);
+			throw new BadRequestException("用户已存在!");
 		}
 
 		AuthUser authUser = new AuthUser();
@@ -66,7 +67,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		String userToken = IdsUtil.getNextStrId();
 		authUser.setUserToken(userToken);
 		authUser.setPassword(SecureUtil.signWithHMac(authUserRegistryBo.getPassword(), userToken));
-		saveCheckDuplicateKey(authUser, new GlobalCustomizeException("用户已存在！"));
+		saveCheckDuplicateKey(authUser, new BadRequestException("用户已存在！"));
 		AuthUserVo authUserVo = new AuthUserVo();
 		BeanUtil.copyProperties(authUser, authUserVo);
 		return authUserVo;
@@ -89,7 +90,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 		AuthUser existUser = findByName(userName);
 		if (existUser == null) {
-			throw new GlobalCustomizeException(GlobalExceptionEnum.INVALID_ACCOUNT);
+			throw new BusinessException(UserErrorCallbackCode.USER_NOT_EXIST);
 		}
 
 		String userToken = existUser.getUserToken();
@@ -98,7 +99,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		userQueryWrapper.eq(AuthUser::getUserName, userName);
 		userQueryWrapper.eq(AuthUser::getPassword, SecureUtil.signWithHMac(password, userToken));
 		if (count(userQueryWrapper) != 1) {
-			throw new GlobalCustomizeException(GlobalExceptionEnum.USERNAME_OR_PASSWORD_INVALID);
+			throw new BusinessException(UserErrorCallbackCode.PASSWORD_ERROR);
 		}
 
 		long loginTime = System.currentTimeMillis();
