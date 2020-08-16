@@ -7,7 +7,7 @@ DROP TABLE IF EXISTS auth_user;
 
 CREATE TABLE auth_user
 (
-	id BIGINT(20) NOT NULL COMMENT '主键ID' AUTO_INCREMENT,
+	id BIGINT(20) NOT NULL COMMENT '主键ID',
 	user_name VARCHAR(30) NOT NULL COMMENT '姓名',
 	user_token varchar(64) NOT NULL COMMENT '用户随机码，生成密钥的盐，注册时生成且不可变！',
 	password VARCHAR(32) NOT NULL COMMENT '密码',
@@ -24,5 +24,36 @@ CREATE TABLE auth_user
 	version INT NOT NULL DEFAULT 1,
 
 	PRIMARY KEY (id)
+
+);
+
+
+
+
+CREATE DATABASE IF NOT EXISTS `boot-quick-slave1` default charset utf8mb4 COLLATE utf8mb4_general_ci;
+
+use `boot-quick-slave1`;
+
+DROP TABLE IF EXISTS auth_user;
+
+CREATE TABLE auth_user
+(
+    id BIGINT(20) NOT NULL COMMENT '主键ID',
+    user_name VARCHAR(30) NOT NULL COMMENT '姓名',
+    user_token varchar(64) NOT NULL COMMENT '用户随机码，生成密钥的盐，注册时生成且不可变！',
+    password VARCHAR(32) NOT NULL COMMENT '密码',
+    email VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
+    birthday DATE NULL DEFAULT NULL COMMENT '生日',
+    last_modify_password bigint  COMMENT '最后一次修改密码的时间',
+    last_login_time bigint COMMENT '最后一次使用密码登录的时间',
+
+    create_by VARCHAR(32) NULL,
+    create_time TIMESTAMP NULL,
+    modify_by VARCHAR(32) NULL,
+    modify_time TIMESTAMP NULL,
+    removed INT NOT NULL DEFAULT 0,
+    version INT NOT NULL DEFAULT 1,
+
+    PRIMARY KEY (id)
 
 );

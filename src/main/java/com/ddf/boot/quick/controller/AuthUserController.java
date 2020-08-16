@@ -29,6 +29,8 @@ public class AuthUserController {
     private AuthUserService authUserService;
 
 
+    // 主库操作
+
     /**
      * 用户注册
      *
@@ -66,9 +68,42 @@ public class AuthUserController {
      * @author dongfang.ding
      * @date 2019/12/9 0009 21:33
      **/
-    @GetMapping("pageList")
+    @PostMapping("pageList")
     @ApiOperation("分页查询用户列表")
     public IPage<AuthUser> pageList(Page<AuthUser> page, @ApiParam(value = "查询对象参数") AuthUserPageBo authUserPageBo) {
         return authUserService.pageList(page, authUserPageBo);
     }
+
+
+    // 从库操作
+
+    /**
+     * 用户注册
+     *
+     * @param authUserRegistryBo
+     * @return com.ddf.boot.quick.model.vo.AuthUserVo
+     * @author dongfang.ding
+     * @date 2019/12/9 0009 20:07
+     **/
+    @PostMapping("/registryBySlave1")
+    @ApiOperation(value = "从库1用户注册")
+    public AuthUserVo registryBySlave1(@RequestBody @ApiParam(value = "注册请求参数", required = true) AuthUserRegistryBo authUserRegistryBo) {
+        return authUserService.registryBySlave1(authUserRegistryBo);
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param page
+     * @param authUserPageBo
+     * @return com.baomidou.mybatisplus.core.metadata.IPage<com.ddf.boot.common.model.datao.quick.AuthUser>
+     * @author dongfang.ding
+     * @date 2019/12/9 0009 21:33
+     **/
+    @PostMapping("pageListBySlave1")
+    @ApiOperation("从库1分页查询用户列表")
+    public IPage<AuthUser> pageListBySlave1(Page<AuthUser> page, @ApiParam(value = "查询对象参数") AuthUserPageBo authUserPageBo) {
+        return authUserService.pageListBySlave1(page, authUserPageBo);
+    }
+
 }

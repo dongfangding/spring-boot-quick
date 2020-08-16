@@ -2,6 +2,7 @@ package com.ddf.boot.quick.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
+import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -12,11 +13,13 @@ import com.ddf.boot.common.core.exception200.UserErrorCallbackCode;
 import com.ddf.boot.common.core.util.IdsUtil;
 import com.ddf.boot.common.core.util.SecureUtil;
 import com.ddf.boot.common.core.util.WebUtil;
+import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
 import com.ddf.boot.common.jwt.model.UserClaim;
 import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.common.mybatis.service.impl.CusomizeIServiceImpl;
 import com.ddf.boot.quick.biz.AsyncTask;
+import com.ddf.boot.quick.constants.QuickConst;
 import com.ddf.boot.quick.mapper.AuthUserMapper;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
@@ -41,6 +44,8 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 	@Autowired
 	private AsyncTask asyncTask;
+	@Autowired
+	private SnowflakeServiceHelper snowflakeServiceHelper;
 
 	/**
 	 * 用户注册
@@ -66,6 +71,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		// 随机给用户生成一个盐（当然如果用户主键是提前生成的，也可以使用主键）
 		String userToken = IdsUtil.getNextStrId();
 		authUser.setUserToken(userToken);
+		authUser.setId(snowflakeServiceHelper.getLongId());
 		authUser.setPassword(SecureUtil.signWithHMac(authUserRegistryBo.getPassword(), userToken));
 		saveCheckDuplicateKey(authUser, new BadRequestException("用户已存在！"));
 		AuthUserVo authUserVo = new AuthUserVo();
@@ -160,5 +166,36 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 			userQueryWrapper.like(AuthUser::getEmail, authUserPageBo.getEmail());
 		}
 		return page(page, userQueryWrapper);
+	}
+
+	/**
+	 * 从库用户注册
+	 *
+	 * 利用本类不会产生代理的前提，可以直接调用主数据源的方法
+	 *
+	 * @param authUserRegistryBo
+	 * @return
+	 */
+	@Override
+	@DS(QuickConst.SLAVE_DS_1)
+	@Transactional(rollbackFor = Exception.class)
+	public AuthUserVo registryBySlave1(AuthUserRegistryBo authUserRegistryBo) {
+		return registry(authUserRegistryBo);
+	}
+
+	/**
+	 * 从库分页查询
+	 *
+	 * 利用本类不会产生代理的前提，可以直接调用主数据源的方法
+	 *
+	 * @param page
+	 * @param authUserPageBo
+	 * @return
+	 */
+	@Override
+	@DS(QuickConst.SLAVE_DS_1)
+	@Transactional(rollbackFor = Exception.class)
+	public IPage<AuthUser> pageListBySlave1(Page<AuthUser> page, AuthUserPageBo authUserPageBo) {
+		return pageList(page, authUserPageBo);
 	}
 }

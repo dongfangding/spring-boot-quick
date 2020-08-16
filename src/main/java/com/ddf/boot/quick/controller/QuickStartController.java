@@ -20,6 +20,11 @@ public class QuickStartController {
 
     private final SnowflakeServiceHelper snowflakeServiceHelper;
 
+
+    /**
+     * 基于leaf的获取雪花id
+     * @return
+     */
     @GetMapping("getSnowflakeId")
     public Long getSnowflakeId() {
         return snowflakeServiceHelper.getLongId();

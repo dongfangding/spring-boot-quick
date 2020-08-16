@@ -14,6 +14,7 @@ import com.ddf.boot.quick.model.vo.AuthUserVo;
  */
 public interface AuthUserService extends CustomizeIService<AuthUser> {
 
+	// 主库操作----------------------------------------------------------------
 
 	/**
 	 * 用户注册
@@ -49,5 +50,26 @@ public interface AuthUserService extends CustomizeIService<AuthUser> {
 	 * @return
 	 */
 	IPage<AuthUser> pageList(Page<AuthUser> page, AuthUserPageBo authUserPageBo);
+
+
+
+	// --------------------------------------从库操作-------------------------------------------
+
+	/**
+	 * 用户注册
+	 *
+	 * @param authUserRegistryBo
+	 * @return
+	 */
+	AuthUserVo registryBySlave1(AuthUserRegistryBo authUserRegistryBo);
+
+	/**
+	 * 分页查询
+	 *
+	 * @param page
+	 * @param authUserPageBo
+	 * @return
+	 */
+	IPage<AuthUser> pageListBySlave1(Page<AuthUser> page, AuthUserPageBo authUserPageBo);
 
 }
