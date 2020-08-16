@@ -1,6 +1,7 @@
 package com.ddf.boot.quick.exception;
 
-import com.ddf.boot.common.exception.GlobalCustomizeException;
+
+import com.ddf.boot.common.core.exception.GlobalCustomizeException;
 
 /**
  * <p>请求参数无效异常</p >

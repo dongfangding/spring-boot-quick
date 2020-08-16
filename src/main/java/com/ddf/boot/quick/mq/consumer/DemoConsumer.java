@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.mq.consumer;
 
-import com.ddf.boot.common.exception.GlobalCustomizeException;
+import com.ddf.boot.common.core.exception.GlobalCustomizeException;
 import com.ddf.boot.common.mq.definition.BindingConst;
 import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.common.mq.definition.QueueBuilder;
