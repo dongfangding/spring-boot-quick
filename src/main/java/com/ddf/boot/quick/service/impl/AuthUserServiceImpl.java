@@ -12,6 +12,7 @@ import com.ddf.boot.common.core.exception200.UserErrorCallbackCode;
 import com.ddf.boot.common.core.util.IdsUtil;
 import com.ddf.boot.common.core.util.SecureUtil;
 import com.ddf.boot.common.core.util.WebUtil;
+import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
 import com.ddf.boot.common.jwt.model.UserClaim;
 import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
@@ -41,6 +42,8 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 	@Autowired
 	private AsyncTask asyncTask;
+	@Autowired
+	private SnowflakeServiceHelper snowflakeServiceHelper;
 
 	/**
 	 * 用户注册
@@ -65,6 +68,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		BeanUtil.copyProperties(authUserRegistryBo, authUser);
 		// 随机给用户生成一个盐（当然如果用户主键是提前生成的，也可以使用主键）
 		String userToken = IdsUtil.getNextStrId();
+		authUser.setId(snowflakeServiceHelper.getLongId());
 		authUser.setUserToken(userToken);
 		authUser.setPassword(SecureUtil.signWithHMac(authUserRegistryBo.getPassword(), userToken));
 		saveCheckDuplicateKey(authUser, new BadRequestException("用户已存在！"));
