@@ -17,8 +17,8 @@ import com.hivemq.client.mqtt.mqtt5.message.connect.Mqtt5ConnectRestrictions;
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5PayloadFormatIndicator;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.lang.Nullable;
 
-import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;

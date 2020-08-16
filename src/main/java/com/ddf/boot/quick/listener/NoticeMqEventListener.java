@@ -1,11 +1,11 @@
 package com.ddf.boot.quick.listener;
 
+import com.ddf.boot.common.core.util.JsonUtil;
+import com.ddf.boot.common.core.util.MailUtil;
+import com.ddf.boot.common.core.util.StringUtil;
 import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.common.mq.definition.QueueBuilder;
 import com.ddf.boot.common.mq.listener.MqEventListener;
-import com.ddf.boot.common.util.JsonUtil;
-import com.ddf.boot.common.util.MailUtil;
-import com.ddf.boot.common.util.StringUtil;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
