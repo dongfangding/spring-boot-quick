@@ -12,39 +12,28 @@ import com.ddf.boot.common.core.exception200.UserErrorCallbackCode;
 import com.ddf.boot.common.core.util.IdsUtil;
 import com.ddf.boot.common.core.util.SecureUtil;
 import com.ddf.boot.common.core.util.WebUtil;
-import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
 import com.ddf.boot.common.jwt.model.UserClaim;
 import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.common.mybatis.service.impl.CusomizeIServiceImpl;
-import com.ddf.boot.quick.biz.AsyncTask;
 import com.ddf.boot.quick.mapper.AuthUserMapper;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
 import com.ddf.boot.quick.model.bo.LoginBo;
-import com.ddf.boot.quick.model.dto.LogUserLoginHistoryDto;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
 import com.ddf.boot.quick.service.AuthUserService;
 import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 /**
  * @author DDf on 2019/12/8
  */
 @Service
 public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, AuthUser> implements AuthUserService {
-
-	@Autowired
-	private AsyncTask asyncTask;
-	@Autowired
-	private SnowflakeServiceHelper snowflakeServiceHelper;
-
 	/**
 	 * 用户注册
 	 *
@@ -68,7 +57,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		BeanUtil.copyProperties(authUserRegistryBo, authUser);
 		// 随机给用户生成一个盐（当然如果用户主键是提前生成的，也可以使用主键）
 		String userToken = IdsUtil.getNextStrId();
-		authUser.setId(snowflakeServiceHelper.getLongId());
+		authUser.setId(IdsUtil.getNextLongId());
 		authUser.setUserToken(userToken);
 		authUser.setPassword(SecureUtil.signWithHMac(authUserRegistryBo.getPassword(), userToken));
 		saveCheckDuplicateKey(authUser, new BadRequestException("用户已存在！"));
@@ -120,14 +109,6 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		// 更新用户最后一次登录时间
 		existUser.setLastLoginTime(loginTime);
 		updateById(existUser);
-
-		asyncTask.logUserLoginHistory(new LogUserLoginHistoryDto()
-				.setUserId(existUser.getId())
-				.setToken(verifyToken)
-				.setLoginTime(new Date(loginTime))
-				.setLoginIp(WebUtil.getHost())
-		);
-
 		return verifyToken;
 	}
 
