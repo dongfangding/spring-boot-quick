@@ -17,9 +17,9 @@ CREATE TABLE auth_user
     last_login_time bigint COMMENT '最后一次使用密码登录的时间',
 
 	create_by VARCHAR(32) NULL,
-	create_time TIMESTAMP NULL,
+	create_time DATETIME NULL DEFAULT CURRENT_TIMESTAMP,
 	modify_by VARCHAR(32) NULL,
-	modify_time TIMESTAMP NULL,
+	modify_time TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
 	removed INT NOT NULL DEFAULT 0,
 	version INT NOT NULL DEFAULT 1,
 
