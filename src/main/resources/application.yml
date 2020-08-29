@@ -21,28 +21,12 @@ spring:
     default-property-inclusion: ALWAYS
     date-format: yyyy-MM-dd HH:mm:ss
     locale: zh_CN
+  main:
+    allow-bean-definition-overriding: true
+
+  # 经测试filter需要配置再datasource.druid下，而每个连接的信息还是得配置在sharding-sphere下的datasource每个自己的
   datasource:
-    initialization-mode: ALWAYS
-    type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      driver-class-name: com.p6spy.engine.spy.P6SpyDriver  # 优化sql显示插件，对性能有一定影响
-      url: jdbc:p6spy:mysql://${mysql.host}:${mysql.port}/${mysql.db}?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
-      username: ${mysql.username}
-      password: ${mysql.password} # https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter可以配置生数据库加密
-      initial-size: 5
-      max-active: 20
-      min-idle: 10
-      max-wait: 60000
-      time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
-      ## 回收连接相关
-      validation-query: SELECT 1
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      poolPreparedStatements: true
-      max-open-prepared-statements: 20
-      async-init: true
       filter:
         stat:
           enabled: true
@@ -58,7 +42,88 @@ spring:
         reset-enable: true
         login-username: admin
         login-password: 123456
-        # allow: 白名单
+
+  shardingsphere:
+    datasource:
+      names: master,slave0,slave1
+      # 配置数据源
+      master:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://${mysql.host}:${mysql.port}/${mysql.db}?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
+        username: ${mysql.username}
+        password: ${mysql.password}
+        initial-size: 5
+        max-active: 20
+        min-idle: 10
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        ## 回收连接相关
+        validation-query: SELECT 1
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        poolPreparedStatements: true
+        max-open-prepared-statements: 20
+        async-init: true
+      # 配置数据源
+      slave0:
+        type: com.alibaba.druid.pool.DruidDataSource
+        slave0.driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3307/${mysql.db}?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
+        username: root
+        password: 123456
+        initial-size: 5
+        max-active: 20
+        min-idle: 10
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        ## 回收连接相关
+        validation-query: SELECT 1
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        poolPreparedStatements: true
+        max-open-prepared-statements: 20
+        async-init: true
+      # 配置数据源
+      slave1:
+        type: com.alibaba.druid.pool.DruidDataSource
+        slave0.driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3308/${mysql.db}?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
+        username: root
+        password: 123456
+        initial-size: 5
+        max-active: 20
+        min-idle: 10
+        max-wait: 60000
+        time-between-eviction-runs-millis: 60000
+        min-evictable-idle-time-millis: 300000
+        ## 回收连接相关
+        validation-query: SELECT 1
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        poolPreparedStatements: true
+        max-open-prepared-statements: 20
+        async-init: true
+
+    # 配置主从规则
+    masterslave:
+      # 从库负载均衡算法
+      load-balance-algorithm-type: round_robin
+      # 读写分离数据源名称
+      name: ms
+      # 主库数据源名称， 从上面配置的数据源中选择
+      master-data-source-name: master
+      # 从库数据源名称列表， 从上面配置的数据源中选择
+      slave-data-source-names: slave0,slave1
+
+    props:
+      #  显示sql具体信息
+      sql.show: true
 
   # 国际化资源文件
   messages:
@@ -79,7 +144,6 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       - pre
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
-  message_secret: false # 是否加密传输websocket消息数据
 
   jwt:
     secret: WoshiyigefenshuajiangfenshuabenlingqiangwoyaobanaxinfangzishuadegengpiaoliangshualefangziyoushuangqiangaiyawodexiaobizibianyabianleYang
