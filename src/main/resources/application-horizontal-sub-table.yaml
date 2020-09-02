@@ -22,6 +22,7 @@ spring:
         reset-enable: true
         login-username: admin
         login-password: 123456
+        allow:
 
   shardingsphere:
     datasource:
@@ -34,19 +35,20 @@ spring:
         username: ${mysql.username}
         password: ${mysql.password}
         initial-size: 5
-        max-active: 20
+        asyncInit: true
+        max-active: 30
         min-idle: 10
+        keep-alive: true
         max-wait: 60000
+        use-unfair-lock: true
         time-between-eviction-runs-millis: 60000
-        min-evictable-idle-time-millis: 300000
-        ## 回收连接相关
+        min-evictable-idle-time-millis: 600000
         validation-query: SELECT 1
         test-while-idle: true
-        test-on-borrow: false
+        test-on-borrow: true
         test-on-return: false
-        poolPreparedStatements: true
+        poolPreparedStatements: false
         max-open-prepared-statements: 20
-        async-init: true
       # 配置数据源
       slave0:
         type: com.alibaba.druid.pool.DruidDataSource
@@ -55,19 +57,20 @@ spring:
         username: root
         password: 123456
         initial-size: 5
-        max-active: 20
+        asyncInit: true
+        max-active: 30
         min-idle: 10
+        keep-alive: true
         max-wait: 60000
+        use-unfair-lock: true
         time-between-eviction-runs-millis: 60000
-        min-evictable-idle-time-millis: 300000
-        ## 回收连接相关
+        min-evictable-idle-time-millis: 600000
         validation-query: SELECT 1
         test-while-idle: true
-        test-on-borrow: false
+        test-on-borrow: true
         test-on-return: false
-        poolPreparedStatements: true
+        poolPreparedStatements: false
         max-open-prepared-statements: 20
-        async-init: true
       # 配置数据源
       slave1:
         type: com.alibaba.druid.pool.DruidDataSource
@@ -76,19 +79,20 @@ spring:
         username: root
         password: 123456
         initial-size: 5
-        max-active: 20
+        asyncInit: true
+        max-active: 30
         min-idle: 10
+        keep-alive: true
         max-wait: 60000
+        use-unfair-lock: true
         time-between-eviction-runs-millis: 60000
-        min-evictable-idle-time-millis: 300000
-        ## 回收连接相关
+        min-evictable-idle-time-millis: 600000
         validation-query: SELECT 1
         test-while-idle: true
-        test-on-borrow: false
+        test-on-borrow: true
         test-on-return: false
-        poolPreparedStatements: true
+        poolPreparedStatements: false
         max-open-prepared-statements: 20
-        async-init: true
 
     # 配置主从规则
 #    masterslave:
