@@ -48,24 +48,24 @@ spring:
       username: ${mysql.username}
       password: ${mysql.password} # https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter可以配置生数据库加密
       initial-size: 5
-      max-active: 20
+      asyncInit: true
+      max-active: 30
       min-idle: 10
+      keep-alive: true
       max-wait: 60000
+      use-unfair-lock: true
       time-between-eviction-runs-millis: 60000
-      min-evictable-idle-time-millis: 300000
-      ## 回收连接相关
+      min-evictable-idle-time-millis: 600000
       validation-query: SELECT 1
       test-while-idle: true
-      test-on-borrow: false
+      test-on-borrow: true
       test-on-return: false
-      poolPreparedStatements: true
+      poolPreparedStatements: false
       max-open-prepared-statements: 20
-      async-init: true
       filter:
         stat:
-          enabled: true
-          log-slow-sql: true
-          slow-sql-millis: 3000
+          enabled: false
+          log-slow-sql: false
         wall:
           enabled: true # 开启WallFilter
           db-type: mysql
@@ -76,7 +76,7 @@ spring:
         reset-enable: true
         login-username: admin
         login-password: 123456
-        # allow: 白名单
+        allow:
 
   # 国际化资源文件
   messages:
