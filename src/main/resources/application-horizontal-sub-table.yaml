@@ -1,4 +1,4 @@
-######################################水平分表配置############################################################
+######################################水平分表+读写分离配置############################################################
 
 spring:
   main:
@@ -94,31 +94,32 @@ spring:
         poolPreparedStatements: false
         max-open-prepared-statements: 20
 
-    # 配置主从规则
-#    masterslave:
-#      # 从库负载均衡算法
-#      load-balance-algorithm-type: round_robin
-#      # 读写分离数据源名称
-#      name: ms
-#      # 主库数据源名称， 从上面配置的数据源中选择
-#      master-data-source-name: master
-#      # 从库数据源名称列表， 从上面配置的数据源中选择
-#      slave-data-source-names: slave0,slave1
-
     # 分支分片策略
     sharding:
       # 分表
       tables:
         # 逻辑表名， 即原表名比如有auth_user，现在分为实际的auth_user_1, auth_user_2, auth_user即为逻辑表名
         auth_user:
-          # 配置数据表分布情况，哪个表在哪个库里
+          # 配置数据表分布情况，哪个表在哪个数据源里,有哪些表
           actual-data-nodes: master.auth_user,master.auth_user_1
           table-strategy:
             # 指定当前表的分片策略
             inline:
               sharding-column: id
-              # 配置分表策略， auth_user对id进行判断，如果为偶数则为auth_user,如果为奇数则为auth_user_1
-              algorithm-expression: auth_user$->{id % 2 == 0 ?"":"_1"}
+              # 配置分表策略， id对2（分表数量）进行取模，为0则使用则为auth_user， 其它则增加后缀"_" + 取模后的值
+              algorithm-expression: auth_user$->{id % 2 == 0 ? "":"_" + id % 2}
+
+      # 配置分片之后的读写分离，分片之后的读写分离配置和只有读写分离的匹配属性是一样的，但是配置的位置是不同的，分片后读写分离配置要在sharding下
+      master-slave-rules:
+        # 对上面配置的actual-data-nodes的库配置读写分离策略
+        master:
+          # 从库负载均衡算法
+          load-balance-algorithm-type: round_robin
+          # 主库数据源名称， 从上面配置的数据源中选择
+          master-data-source-name: master
+          # 从库数据源名称列表， 从上面配置的数据源中选择
+          slave-data-source-names: slave0,slave1
+        # 如果有两个
 
     props:
       #  显示sql具体信息
