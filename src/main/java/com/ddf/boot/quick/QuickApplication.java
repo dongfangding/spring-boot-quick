@@ -1,7 +1,6 @@
 package com.ddf.boot.quick;
 
 import com.ddf.boot.common.core.logaccess.EnableLogAspect;
-import com.ddf.boot.common.jwt.config.EnableJwt;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan(basePackages = {"com.ddf.boot.quick.mapper"})
-@EnableJwt
+//@EnableJwt
 @EnableLogAspect(slowTime = 3000)
 public class QuickApplication {
 
