@@ -29,15 +29,15 @@ CREATE TABLE auth_user
 
 
 CREATE TABLE `boot-quick`.`user_article`  (
-                                          `id` bigint(0) NOT NULL,
-                                          `user_id` bigint(0) NOT NULL,
-                                          `title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
-                                          `content` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '内容',
-                                          `create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                                          `create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
-                                          `modify_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
-                                          `modify_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
-                                          `removed` int(0) NOT NULL DEFAULT 0,
-                                          `version` int(0) NOT NULL DEFAULT 1,
-                                          PRIMARY KEY (`id`) USING BTREE
+`id` bigint(0) NOT NULL,
+`user_id` bigint(0) NOT NULL,
+`title` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '标题',
+`content` varchar(2000) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '内容',
+`create_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+`create_time` datetime(0) NULL DEFAULT CURRENT_TIMESTAMP,
+`modify_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+`modify_time` datetime(0) NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP(0),
+`removed` int(0) NOT NULL DEFAULT 0,
+`version` int(0) NOT NULL DEFAULT 1,
+PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
