@@ -9,7 +9,7 @@ server:
     context-path: /boot-quick
 spring:
   profiles:
-    active: read-write-separation
+    active: horizontal-sub-database
   application:
     name: boot-quick
   jackson:
