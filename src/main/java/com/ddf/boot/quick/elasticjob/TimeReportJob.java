@@ -17,6 +17,6 @@ public class TimeReportJob implements SimpleJob {
 
     @Override
     public void execute(ShardingContext shardingContext) {
-        log.info("[{}]任务触发执行: {}", this.getClass().getName(), System.currentTimeMillis());
+        log.info("[{}]任务传递参数: {}, 触发执行: {}", this.getClass().getName(), shardingContext.getJobParameter(), System.currentTimeMillis());
     }
 }
