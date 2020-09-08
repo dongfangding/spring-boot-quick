@@ -52,7 +52,7 @@ public final class TableRuleConfigurationYamlSwapper implements YamlSwapper<Yaml
     public TableRuleConfiguration swap(final YamlTableRuleConfiguration yamlConfiguration) {
         Preconditions.checkNotNull(yamlConfiguration.getLogicTable(), "Logic table cannot be null.");
         TableRuleConfiguration result = new TableRuleConfiguration(yamlConfiguration.getLogicTable(),
-                yamlConfiguration.getActualDataNodes(), yamlConfiguration.isUserMasterSlaveRulesDatasourceNameIfExist());
+                yamlConfiguration.getActualDataNodes(), yamlConfiguration.isUseMasterSlaveRulesDatasourceNameIfExist());
         if (null != yamlConfiguration.getDatabaseStrategy()) {
             result.setDatabaseShardingStrategyConfig(shardingStrategyConfigurationYamlSwapper.swap(yamlConfiguration.getDatabaseStrategy()));
         }

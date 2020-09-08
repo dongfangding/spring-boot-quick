@@ -127,7 +127,7 @@ spring:
           # 配置数据表分布情况，哪个表在哪个数据源里,有哪些表
           actual-data-nodes: master.auth_user,master.auth_user_1
           table-strategy:
-            # 指定当前表的分片策略
+            # 指定当前表的分片策略https://shardingsphere.apache.org/document/legacy/4.x/document/cn/features/sharding/concept/sharding/
             inline:
               sharding-column: id
               # 配置分表策略， id对2（分表数量）进行取模，为0则使用则为auth_user， 其它则增加后缀"_" + 取模后的值
@@ -143,7 +143,6 @@ spring:
           master-data-source-name: master
           # 从库数据源名称列表， 从上面配置的数据源中选择
           slave-data-source-names: slave0,slave1
-        # 如果有两个
 
     props:
       #  显示sql具体信息

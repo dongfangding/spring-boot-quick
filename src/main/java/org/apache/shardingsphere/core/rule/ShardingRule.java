@@ -36,13 +36,7 @@ import org.apache.shardingsphere.underlying.common.config.exception.ShardingSphe
 import org.apache.shardingsphere.underlying.common.rule.BaseRule;
 import org.apache.shardingsphere.underlying.common.rule.DataNode;
 
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.TreeSet;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -97,7 +91,7 @@ public class ShardingRule implements BaseRule {
     private Collection<TableRule> createTableRules(final ShardingRuleConfiguration shardingRuleConfig) {
         return shardingRuleConfig.getTableRuleConfigs().stream().map(each -> {
             // modified by dongFang.Ding 2020-09-05 配置了读写分离后只有愿意使用读写分离数据源的才使用master数据源，其它还使用自己配置的数据源
-            if (each.isUserMasterSlaveRulesDatasourceNameIfExist()) {
+            if (each.isUseMasterSlaveRulesDatasourceNameIfExist()) {
                 return new TableRule(each, shardingDataSourceNames, getDefaultGenerateKeyColumn(shardingRuleConfig));
             } else {
                 return new TableRule(each, rawDataSourceNames, getDefaultGenerateKeyColumn(shardingRuleConfig));

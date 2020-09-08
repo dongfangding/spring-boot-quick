@@ -44,16 +44,16 @@ public final class TableRuleConfiguration {
      * added by dongFang.Ding 2020-09-05
      * 如果配置了读写分离当前逻辑表是否使用读写分离配置的master数据源
      */
-    private boolean userMasterSlaveRulesDatasourceNameIfExist;
+    private boolean useMasterSlaveRulesDatasourceNameIfExist = true;
 
     public TableRuleConfiguration(final String logicTable) {
         this(logicTable, null, true);
     }
 
-    public TableRuleConfiguration(final String logicTable, final String actualDataNodes, final boolean userMasterSlaveRulesDatasourceNameIfExist) {
+    public TableRuleConfiguration(final String logicTable, final String actualDataNodes, final boolean useMasterSlaveRulesDatasourceNameIfExist) {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(logicTable), "LogicTable is required.");
         this.logicTable = logicTable;
         this.actualDataNodes = actualDataNodes;
-        this.userMasterSlaveRulesDatasourceNameIfExist = userMasterSlaveRulesDatasourceNameIfExist;
+        this.useMasterSlaveRulesDatasourceNameIfExist = useMasterSlaveRulesDatasourceNameIfExist;
     }
 }

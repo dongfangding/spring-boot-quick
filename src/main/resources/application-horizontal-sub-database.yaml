@@ -4,7 +4,7 @@
 # 那么得最少两个master,否则的话master的数据就会被同步到从库里。这里没有搞多个master，
 # 但又要演示水平分库，所以下面配置的前提是目前用来演示水平分库的表是没有配置主从同步的
 # auth_user 配置水平分表+主从同步+读写分离
-# user_article 配置水平分库分表+特意在主从同步配置文件中忽略了该表的主从同步，如果有多个master只可以同时支持读写分离的，目前没那么多库
+# user_article 配置水平分库分表+特意在主从同步配置文件中忽略了该表的主从同步
 
 
 # mysql master连接信息
@@ -130,7 +130,6 @@ spring:
       default-data-source-name: master
       # 分表
       tables:
-
         # 逻辑表名， 即原表名比如有auth_user，现在以这个为依据分为实际的auth_user_1, auth_user_2, auth_user即为逻辑表名
         auth_user:
           # 配置数据表分布情况，哪个表在哪个数据源里,有哪些表，只要分配要写的表即可，这个因为要做读写分离和水平分表，所以只配了master的auth_user表分配情况
@@ -144,9 +143,9 @@ spring:
 
         # 逻辑表名， user_article，现在以这个为依据分为实际的auth_user, auth_user_2, user_article即为逻辑表名
         user_article:
-
-          userMasterSlaveRulesDatasourceNameIfExist: false
-
+          # https://github.com/apache/shardingsphere/issues/7269
+          # 目前发现是有这个问题的，后续会跟踪最终结果。为了解决这个问题，目前本地提供的解决方案
+          useMasterSlaveRulesDatasourceNameIfExist: false
           # 配置数据表分布情况，哪个表在哪个数据源里,有哪些表，只要配置要写的表，这个因为不做读写分离，只做水平分库分表，所以要把该逻辑表对应的所有数据库和数据表都配置出来
           # 这里已经明确告知了框架，有这么多的库和表是对应这个逻辑表的，如果只配置了分表策略，而不配置分库策略，则插入时按照分表策略，则会将这个表对应的所有库都会执行插入语句
           # 所以千万不要忘记配置了分库策略
@@ -154,6 +153,7 @@ spring:
 
           # 对actual-data-nodes配置的表的数据库的分布情况做分库策略
           database-strategy:
+            # 分库文档 https://shardingsphere.apache.org/document/legacy/4.x/document/cn/features/sharding/concept/sharding/
             standard:
               # 根据哪个字段进行分库
               sharding-column: user_id
@@ -164,6 +164,7 @@ spring:
           # 对actual-data-nodes配置的表的分布情况做分表策略
           table-strategy:
             # 指定当前表的分片策略
+            # 分库文档 https://shardingsphere.apache.org/document/legacy/4.x/document/cn/features/sharding/concept/sharding/
             inline:
               sharding-column: user_id
               # 配置分表策略， user_id对2（分表数量）进行取模，为0则使用则为user_article， 其它则增加后缀"_" + 取模后的值
@@ -173,15 +174,15 @@ spring:
       # default-database-strategy:
 
       # 配置分片之后的读写分离，分片之后的读写分离配置和只有读写分离的匹配属性是一样的，但是配置的位置是不同的，分片后读写分离配置要在sharding下
-      master-slave-rules:
-        # 对上面配置的actual-data-nodes的库配置读写分离策略
-        master:
-          # 从库负载均衡算法
-          load-balance-algorithm-type: round_robin
-          # 主库数据源名称， 从上面配置的数据源中选择
-          master-data-source-name: master
-          # 从库数据源名称列表， 从上面配置的数据源中选择
-          slave-data-source-names: slave0,slave1
+#      master-slave-rules:
+#        # 对上面配置的actual-data-nodes的库配置读写分离策略
+#        master:
+#          # 从库负载均衡算法
+#          load-balance-algorithm-type: round_robin
+#          # 主库数据源名称， 从上面配置的数据源中选择
+#          master-data-source-name: master
+#          # 从库数据源名称列表， 从上面配置的数据源中选择
+#          slave-data-source-names: slave0,slave1
     props:
       #  显示sql具体信息
       sql.show: true

@@ -12,6 +12,8 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * $
  *
@@ -31,8 +33,7 @@ public class UserArticleController {
     public Boolean createArticle(@RequestBody UserArticle userArticle) {
         LambdaQueryWrapper<UserArticle> articleQuery = Wrappers.lambdaQuery();
         articleQuery.eq(UserArticle::getUserId, userArticle.getUserId());
-        userArticleService.list(articleQuery);
-
+        List<UserArticle> list = userArticleService.list(articleQuery);
         userArticle.setId(IdsUtil.getNextLongId());
         return userArticleService.save(userArticle);
     }

@@ -36,7 +36,7 @@ public class UserArticleDatabasePreciseShardingAlgorithm implements PreciseShard
             if (i == index) {
                 return availableTargetName;
             }
-             i ++;
+            i ++;
         }
         return null;
     }

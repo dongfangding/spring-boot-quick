@@ -42,5 +42,5 @@ public final class YamlTableRuleConfiguration implements YamlConfiguration {
      * added by dongFang.Ding 2020-09-05
      * 如果配置了读写分离当前逻辑表是否使用读写分离配置的master数据源
      */
-    private boolean userMasterSlaveRulesDatasourceNameIfExist = true;
+    private boolean useMasterSlaveRulesDatasourceNameIfExist = true;
 }
