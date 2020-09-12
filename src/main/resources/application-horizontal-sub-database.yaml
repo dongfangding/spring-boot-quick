@@ -133,7 +133,8 @@ spring:
         # 逻辑表名， 即原表名比如有auth_user，现在以这个为依据分为实际的auth_user_1, auth_user_2, auth_user即为逻辑表名
         auth_user:
           # 配置数据表分布情况，哪个表在哪个数据源里,有哪些表，只要分配要写的表即可，这个因为要做读写分离和水平分表，所以只配了master的auth_user表分配情况
-          actual-data-nodes: master.auth_user,master.auth_user_1
+          # 如果这里要应用master-slave-rule的规则，则需要和那里配置的key相同，然后就会应用对应的master-slave-rule的规则。如果不相应应用，保持原始数据源名称即可
+          actual-data-nodes: master_slave_rule_master.auth_user,master_slave_rule_master.auth_user_1
           table-strategy:
             # 指定当前表的分片策略
             inline:
@@ -174,15 +175,15 @@ spring:
       # default-database-strategy:
 
       # 配置分片之后的读写分离，分片之后的读写分离配置和只有读写分离的匹配属性是一样的，但是配置的位置是不同的，分片后读写分离配置要在sharding下
-#      master-slave-rules:
-#        # 对上面配置的actual-data-nodes的库配置读写分离策略
-#        master:
-#          # 从库负载均衡算法
-#          load-balance-algorithm-type: round_robin
-#          # 主库数据源名称， 从上面配置的数据源中选择
-#          master-data-source-name: master
-#          # 从库数据源名称列表， 从上面配置的数据源中选择
-#          slave-data-source-names: slave0,slave1
+      master-slave-rules:
+        # 定义一个读写分离的规则，可以在actual-data-nodes对应中引用
+        master_slave_rule_master:
+          # 从库负载均衡算法
+          load-balance-algorithm-type: round_robin
+          # 主库数据源名称， 从上面配置的数据源中选择
+          master-data-source-name: master
+          # 从库数据源名称列表， 从上面配置的数据源中选择
+          slave-data-source-names: slave0,slave1
     props:
       #  显示sql具体信息
       sql.show: true
