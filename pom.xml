@@ -19,7 +19,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <elasic-job.version>3.0.0-alpha</elasic-job.version>
-        <curator.version>5.1.0</curator.version>
     </properties>
 
     <repositories>
@@ -35,28 +34,6 @@
             <groupId>org.apache.shardingsphere.elasticjob</groupId>
             <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
             <version>${elasic-job.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-framework</artifactId>
-            <version>${curator.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-client</artifactId>
-            <version>${curator.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-recipes</artifactId>
-            <version>${curator.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.curator</groupId>
-            <artifactId>curator-test</artifactId>
-            <version>${curator.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -95,6 +72,11 @@
             <version>${parent.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-distributed-lock</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>ch.qos.logback</groupId>

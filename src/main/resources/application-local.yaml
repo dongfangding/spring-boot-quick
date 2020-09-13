@@ -143,7 +143,7 @@ elasticjob:
       monitorExecution: true
       # 任务开发的bean class
       elasticJobClass: com.ddf.boot.quick.elasticjob.TimeReportJob
-      cron: 0/5 * * * * ?
+      cron: 0 0/1 * * * ?
       # 分片总数， 分片总数如果大于1将会尽量平均分配给多个服务节点（如果存在），然后任务触发的时候多个节点都会执行代码，但如果自己的任务
       # 只希望同一时刻只有一个节点执行，则要配置为1.否则就是类似于多个服务节点平均分配分片然后来瓜分任务的意思，可以理解为fork-join框架的思想
       # 所以分片数如果大于1，一定是为了利用服务器的资源然后各自执行不同数据段的代码，这样分片才有意义

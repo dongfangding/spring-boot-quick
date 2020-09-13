@@ -1,11 +1,17 @@
 package com.ddf.boot.quick.controller;
 
 import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
-import lombok.AllArgsConstructor;
+import com.ddf.boot.common.lock.DistributedLock;
+import com.ddf.boot.common.lock.exception.LockingAcquireException;
+import com.ddf.boot.common.lock.exception.LockingReleaseException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 快速开始控制器，用于演示某些功能的使用方式$
@@ -15,14 +21,44 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("quick-start")
-@AllArgsConstructor(onConstructor_=@Autowired)
+@Slf4j
 public class QuickStartController {
 
-    private final SnowflakeServiceHelper snowflakeServiceHelper;
+    @Autowired
+    private SnowflakeServiceHelper snowflakeServiceHelper;
 
+    @Resource(name = "zookeeperDistributedLock")
+    private DistributedLock distributedLock;
+
+
+    /**
+     * 基于zk的雪花id的使用方式
+     * @return
+     */
     @GetMapping("getSnowflakeId")
     public Long getSnowflakeId() {
         return snowflakeServiceHelper.getLongId();
+    }
+
+
+    /**
+     * 基于zk的分布式锁的演示
+     * @return
+     * @throws LockingReleaseException
+     * @throws LockingAcquireException
+     */
+    @GetMapping("distributedLock")
+    public Boolean distributedLock() throws LockingReleaseException, LockingAcquireException {
+        distributedLock.lockWork("/distributedLock_demo", 10, TimeUnit.SECONDS, () -> {
+            try {
+                log.info("我获取到了锁，下面开始执行任务。。。。。。。。。。。。。");
+                // 通过获取锁之后的睡眠，然后将请求发给第二个实例，进行演示，看程序是否会阻塞
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        return Boolean.TRUE;
     }
 
 }
