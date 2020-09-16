@@ -3,7 +3,7 @@ package com.ddf.boot.quick.websocket.interceptor;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.net.NetUtil;
 import com.ddf.boot.common.core.util.JsonUtil;
-import com.ddf.boot.common.core.util.SecureUtil;
+import com.ddf.boot.common.core.util.SpringContextHolder;
 import com.ddf.boot.quick.websocket.constant.WebsocketConst;
 import com.ddf.boot.quick.websocket.helper.WebsocketSessionStorage;
 import com.ddf.boot.quick.websocket.model.AuthPrincipal;
@@ -13,6 +13,7 @@ import com.ddf.boot.quick.websocket.properties.WebSocketProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -42,6 +43,8 @@ public class DefaultHandshakeInterceptor implements HandshakeInterceptor {
     private final WebSocketProperties webSocketProperties;
 
     private final List<HandshakeAuth> handshakeAuthList;
+
+    private static final Map<String, EncryptProcessor> ENCRYPT_PROCESSORS = SpringContextHolder.getBeansOfType(EncryptProcessor.class);
 
     public DefaultHandshakeInterceptor(WebSocketProperties webSocketProperties, List<HandshakeAuth> handshakeAuthList) {
         this.webSocketProperties = webSocketProperties;
@@ -80,17 +83,24 @@ public class DefaultHandshakeInterceptor implements HandshakeInterceptor {
         AuthPrincipal authPrincipal = null;
 
         // fixme 如何在head中传递？？
-        String header = servletRequest.getParameter(WebsocketConst.TOKEN_PARAMETER);
+        String token = servletRequest.getParameter(WebsocketConst.TOKEN_PARAMETER);
         HandshakeParam handshakeParam = null;
-        if (StringUtils.isNotBlank(header)) {
+        if (StringUtils.isNotBlank(token)) {
             try {
-                header = SecureUtil.localPrivateDecryptFromBcd(header);
-                handshakeParam = JsonUtil.toBean(header, HandshakeParam.class);
+                // 暂时加密时一起的， 要么认证token和消息都一起加密，要么都不加密
+                if (webSocketProperties.isMessageSecret()) {
+                    EncryptProcessor encryptProcessor = ENCRYPT_PROCESSORS.get(webSocketProperties.getSecretBeanName());
+                    if (encryptProcessor == null) {
+                        throw new NoSuchBeanDefinitionException(webSocketProperties.getSecretBeanName());
+                    }
+                    token = ENCRYPT_PROCESSORS.get(webSocketProperties.getSecretBeanName()).decryptHandshakeToken(token);
+                }
+                handshakeParam = JsonUtil.toBean(token, HandshakeParam.class);
                 if (!validArgument(handshakeParam, response)) {
                     return false;
                 }
             } catch (Exception e) {
-                log.error("认证参数反序列化失败！参数为: [{}]", header, e);
+                log.error("认证参数反序列化失败！参数为: [{}]", token, e);
                 response.getBody().write("认证参数反序列化失败".getBytes(StandardCharsets.UTF_8));
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
                 return false;

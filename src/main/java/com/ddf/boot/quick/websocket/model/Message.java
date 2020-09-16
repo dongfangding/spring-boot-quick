@@ -192,14 +192,14 @@ public class Message<T> {
      * @param message
      * @return
      */
-    public static <T> TextMessage wrapperWithSign(@NotNull Message<T> message) {
+    public static <T> Message<T> wrapperWithSign(@NotNull Message<T> message) {
         if (message == null) {
             return null;
         }
         String body = JsonUtil.asString(message.getBody());
         String sign = SecureUtil.signWithHMac(body, message.getCmd().name());
         message.addExtra("sign", sign);
-        return new TextMessage(SecureUtil.privateEncryptBcd(JsonUtil.asString(message)));
+        return message;
     }
 
     /**

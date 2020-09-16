@@ -7,6 +7,7 @@ import com.ddf.boot.quick.websocket.enumu.CacheKeyEnum;
 import com.ddf.boot.quick.websocket.enumu.CmdEnum;
 import com.ddf.boot.quick.websocket.exception.ClientMessageCodeException;
 import com.ddf.boot.quick.websocket.exception.SocketSendException;
+import com.ddf.boot.quick.websocket.interceptor.EncryptProcessor;
 import com.ddf.boot.quick.websocket.model.AuthPrincipal;
 import com.ddf.boot.quick.websocket.model.Message;
 import com.ddf.boot.quick.websocket.model.MessageResponse;
@@ -15,6 +16,7 @@ import com.ddf.boot.quick.websocket.properties.WebSocketProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.core.env.Environment;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.socket.TextMessage;
@@ -24,6 +26,7 @@ import org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorato
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.text.MessageFormat;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -44,6 +47,8 @@ public class WebsocketSessionStorage {
     private static final WebSocketProperties WEB_SOCKET_PROPERTIES = SpringContextHolder.getBean(WebSocketProperties.class);
 
     private static final StringRedisTemplate REDIS_TEMPLATE = SpringContextHolder.getBean(StringRedisTemplate.class);
+
+    private static final Map<String, EncryptProcessor> ENCRYPT_PROCESSORS = SpringContextHolder.getBeansOfType(EncryptProcessor.class);
 
     /**
      * 连接对象
@@ -359,7 +364,12 @@ public class WebsocketSessionStorage {
             log.info("向[{}-{}-{}]发送数据：{}", authPrincipal.getLoginType(),authPrincipal.getAccessKeyId(),
                     authPrincipal.getAuthCode(), textMessage.getPayload());
             if (WEB_SOCKET_PROPERTIES.isMessageSecret()) {
-                TextMessage secretMessage = Message.wrapperWithSign(message);
+                // 执行加密接口
+                EncryptProcessor encryptProcessor = ENCRYPT_PROCESSORS.get(WEB_SOCKET_PROPERTIES.getSecretBeanName());
+                if (encryptProcessor == null) {
+                    throw new NoSuchBeanDefinitionException(WEB_SOCKET_PROPERTIES.getSecretBeanName());
+                }
+                TextMessage secretMessage = new TextMessage(encryptProcessor.encryptMessage(message));
                 log.info("向[{}-{}-{}]发送加密数据：{}", authPrincipal.getLoginType(), authPrincipal.getAccessKeyId(),
                         authPrincipal.getAuthCode(), secretMessage.getPayload());
                 webSocketSessionWrapper.getWebSocketSession().sendMessage(secretMessage);

@@ -3,6 +3,7 @@ package com.ddf.boot.quick.websocket.properties;
 import com.ddf.boot.quick.websocket.config.WebSocketConfig;
 import com.ddf.boot.quick.websocket.helper.WebsocketSessionStorage;
 import com.ddf.boot.quick.websocket.interceptor.DefaultHandshakeInterceptor;
+import com.ddf.boot.quick.websocket.interceptor.RSAEncryptProcessor;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
@@ -81,6 +82,29 @@ public class WebSocketProperties {
      * @see WebsocketSessionStorage#sendMessage(com.ddf.boot.quick.websocket.model.WebSocketSessionWrapper, com.ddf.boot.quick.websocket.model.Message)
      */
     private boolean messageSecret;
+
+    /**
+     * 同messageSecret参数一起使用，如果要加密的话，提供了一个接口允许实现加解密算法
+     * 提供了也给默认基于RSA的实现，也可以直接配置密钥即可， 如果要基于系统默认的RSA实现的话，私钥必须提供
+     * @see com.ddf.boot.quick.websocket.util.WsSecureUtil
+     * @see com.ddf.boot.quick.websocket.interceptor.EncryptProcessor
+     * @see RSAEncryptProcessor
+     */
+    private String rsaPrivateKey;
+
+    /**
+     * 同样也是和messageSecret配合使用的， 由于通用包默认实现了基于RSA的， 如果客户端也实现一套， 到时候服务端不知道要用哪个，所以如果
+     * 存在多个实现， 需要配置具体实现的bean的代码
+     */
+    private String secretBeanName = "RSAEncryptProcessor";
+
+    /**
+     * 同messageSecret参数一起使用，如果要加密的话，提供了一个接口允许实现加解密算法
+     * 提供了也给默认基于RSA的实现，也可以直接配置密钥即可
+     *
+     * 公钥可以不提供，这里只是为了方便调试，如果想直接使用提供的工具类进行调试，而公钥自己又有的话，可以配置进来进行调试，
+     */
+    private String rsaPublicKey;
 
     /**
      * 有时候服务端向客户端发送数据时会希望得到一些响应，而这个响应当前这个请求希望是可以同步得到的，这里提供一个默认最大阻塞时间.
