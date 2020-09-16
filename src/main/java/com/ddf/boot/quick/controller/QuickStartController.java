@@ -1,17 +1,14 @@
 package com.ddf.boot.quick.controller;
 
 import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
-import com.ddf.boot.common.lock.DistributedLock;
 import com.ddf.boot.common.lock.exception.LockingAcquireException;
 import com.ddf.boot.common.lock.exception.LockingReleaseException;
+import com.ddf.boot.quick.websocket.model.MessageRequest;
+import com.ddf.boot.quick.websocket.model.MessageResponse;
+import com.ddf.boot.quick.websocket.service.WsMessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 快速开始控制器，用于演示某些功能的使用方式$
@@ -27,8 +24,11 @@ public class QuickStartController {
     @Autowired
     private SnowflakeServiceHelper snowflakeServiceHelper;
 
-    @Resource(name = "zookeeperDistributedLock")
-    private DistributedLock distributedLock;
+    @Autowired
+    private WsMessageService wsMessageService;
+
+/*    @Resource(name = "zookeeperDistributedLock")
+    private DistributedLock distributedLock;*/
 
 
     /**
@@ -47,7 +47,7 @@ public class QuickStartController {
      * @throws LockingReleaseException
      * @throws LockingAcquireException
      */
-    @GetMapping("distributedLock")
+/*    @GetMapping("distributedLock")
     public Boolean distributedLock() throws LockingReleaseException, LockingAcquireException {
         distributedLock.lockWork("/distributedLock_demo", 10, TimeUnit.SECONDS, () -> {
             try {
@@ -59,6 +59,17 @@ public class QuickStartController {
             }
         });
         return Boolean.TRUE;
-    }
+    }*/
 
+
+    /**
+     * 给在线的客户端发送消息
+     *
+     * @param messageRequest
+     * @return
+     */
+    @PostMapping("sendWebSocketMessage")
+    public MessageResponse<?> sendWebSocketMessage(@RequestBody MessageRequest<?> messageRequest) {
+        return wsMessageService.executeCmd(messageRequest);
+    }
 }

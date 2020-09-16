@@ -107,6 +107,10 @@ spring:
         maxAttempts: 5
         initialInterval: 2000  # 第一次和第二次尝试传递消息之间的持续时间
 
+  websocket:
+    properties:
+      ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
+
 #  rabbitmq:
 #    addresses: localhost:5672
 #    username: root
