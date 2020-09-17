@@ -3,7 +3,6 @@ package com.ddf.boot.quick.websocket.helper;
 import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.common.core.util.SpringContextHolder;
 import com.ddf.boot.common.core.util.StringUtil;
-import com.ddf.boot.quick.websocket.enumu.CmdEnum;
 import com.ddf.boot.quick.websocket.exception.ClientMessageCodeException;
 import com.ddf.boot.quick.websocket.model.AuthPrincipal;
 import com.ddf.boot.quick.websocket.model.Message;
@@ -34,12 +33,12 @@ public class CmdAction implements CmdStrategy {
 
     }
 
-    public CmdAction(CmdEnum cmdEnum) {
+    public CmdAction(String cmdEnum) {
         CmdStrategy cmdStrategy;
         try {
-            cmdStrategy = (CmdStrategy) SpringContextHolder.getBean(cmdEnum.name());
+            cmdStrategy = (CmdStrategy) SpringContextHolder.getBean(cmdEnum);
         } catch (Exception e) {
-            log.warn("[{}]没有找到对应的处理类....", cmdEnum.name());
+            log.warn("[{}]没有找到对应的处理类....", cmdEnum);
             cmdStrategy = null;
         }
         this.cmdStrategy = cmdStrategy;

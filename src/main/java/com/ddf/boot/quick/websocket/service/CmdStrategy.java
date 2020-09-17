@@ -1,6 +1,5 @@
 package com.ddf.boot.quick.websocket.service;
 
-import com.ddf.boot.quick.websocket.enumu.CmdEnum;
 import com.ddf.boot.quick.websocket.model.AuthPrincipal;
 import com.ddf.boot.quick.websocket.model.Message;
 import com.ddf.boot.quick.websocket.model.WebSocketSessionWrapper;
@@ -20,12 +19,13 @@ public interface CmdStrategy {
     /**
      * 将指令下发给设备
      * @param cmd
+     * @param clientChannel
      * @param body
      * @param <T>
      * @return
      */
-    default <T> Message<T> push(CmdEnum cmd, T body) {
-        return Message.request(cmd, body);
+    default <T> Message<T> push(String cmd, String clientChannel, T body) {
+        return Message.request(cmd, clientChannel, body);
     }
 
     /**

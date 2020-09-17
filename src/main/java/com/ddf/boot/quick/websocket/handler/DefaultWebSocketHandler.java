@@ -2,6 +2,7 @@ package com.ddf.boot.quick.websocket.handler;
 
 
 import com.ddf.boot.quick.websocket.helper.WebsocketSessionStorage;
+import com.ddf.boot.quick.websocket.listeners.WebSocketHandlerListener;
 import com.ddf.boot.quick.websocket.model.AuthPrincipal;
 import com.ddf.boot.quick.websocket.model.Message;
 import lombok.extern.slf4j.Slf4j;
@@ -16,16 +17,30 @@ import org.springframework.web.socket.handler.AbstractWebSocketHandler;
  *
  * 自定义实现消息处理器以及事件的监听
  *
+ *
+ * 如果想通用， 让使用方还可以除了默认实现以外，还可以在事件上执行一些自己的逻辑，就又要暴露接口。。
+ *
+ * 这小小的代码本来就没啥含量，为了通用实在是写的一言难尽，把事情搞复杂了。
+ *
  * @author dongfang.ding
  * @date 2019/8/20 11:43
  */
 @Slf4j
-public class CustomizeWebSocketHandler extends AbstractWebSocketHandler {
+public class DefaultWebSocketHandler extends AbstractWebSocketHandler {
 
+    /**
+     * 处理文本消息的事件处理器
+     */
     private final HandlerMessageService handlerMessageService;
 
-    public CustomizeWebSocketHandler(HandlerMessageService handlerMessageService) {
+    /**
+     * 为当前实现暴露监听事件， 允许额外实现逻辑
+     */
+    private final WebSocketHandlerListener webSocketHandlerListener;
+
+    public DefaultWebSocketHandler(HandlerMessageService handlerMessageService, WebSocketHandlerListener webSocketHandlerListener) {
         this.handlerMessageService = handlerMessageService;
+        this.webSocketHandlerListener = webSocketHandlerListener;
     }
 
     @Override
@@ -34,6 +49,9 @@ public class CustomizeWebSocketHandler extends AbstractWebSocketHandler {
         log.info("[{}-{}-{}]建立连接成功.....", principal.getLoginType(), principal.getAccessKeyId(), principal.getAuthCode());
         WebsocketSessionStorage.active((AuthPrincipal) session.getPrincipal(), session);
         WebsocketSessionStorage.sendMessage((AuthPrincipal) session.getPrincipal(), Message.echo("现在开始可以和服务器通讯了"));
+        if (webSocketHandlerListener != null) {
+            webSocketHandlerListener.afterConnectionEstablished(session);
+        }
     }
 
     /**
@@ -60,6 +78,9 @@ public class CustomizeWebSocketHandler extends AbstractWebSocketHandler {
     @Override
     protected void handlePongMessage(WebSocketSession session, PongMessage message) throws Exception {
         log.info("-----------------handlePongMessage------------------");
+        if (webSocketHandlerListener != null) {
+            webSocketHandlerListener.handlePongMessage(session, message);
+        }
     }
 
     @Override
@@ -68,6 +89,9 @@ public class CustomizeWebSocketHandler extends AbstractWebSocketHandler {
         log.info("[{}-{}-{}]handleTransportError.....", principal.getLoginType(), principal.getAccessKeyId(),
                 principal.getAuthCode(), exception);
         WebsocketSessionStorage.inactive(principal, session);
+        if (webSocketHandlerListener != null) {
+            webSocketHandlerListener.handleTransportError(session, exception);
+        }
         session.close();
     }
 
@@ -77,5 +101,8 @@ public class CustomizeWebSocketHandler extends AbstractWebSocketHandler {
         log.info("[{}-{}-{}]afterConnectionClosed.....CloseStatus: {}", principal.getLoginType(),
                 principal.getAccessKeyId(), principal.getAuthCode(), status);
         WebsocketSessionStorage.inactive((AuthPrincipal) session.getPrincipal(), session);
+        if (webSocketHandlerListener != null) {
+            webSocketHandlerListener.afterConnectionClosed(session, status);
+        }
     }
 }

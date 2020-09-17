@@ -168,10 +168,6 @@ public class WsMessageServiceImpl implements WsMessageService {
         if (request.getSendMode() == null) {
             return MessageResponse.fastFailure("请传入指令的发送模式， SINGLE, BATCH, ALL!");
         }
-        if (request.getClientChannel() == null) {
-            String format = String.format("请传入需要发往的应用目标[%s]", Arrays.toString(ClientChannel.values()));
-            return MessageResponse.fastFailure(format);
-        }
         if (request.getLoginType() == null) {
             String format = String.format("请传入认证身份的登录方式[%s]", Arrays.toString(AuthPrincipal.LoginType.values()));
             return MessageResponse.fastFailure(format);
@@ -201,7 +197,7 @@ public class WsMessageServiceImpl implements WsMessageService {
     private <Q> boolean canSend(MessageRequest<Q> request, AuthPrincipal authPrincipal) {
         if (request.isCheckLastTime()) {
             // 如果需要检查上次发送时间，则必须在指定的间隔时间之后
-            List<ChannelTransfer> preLogs = channelTransferService.getTodayLog(authPrincipal.getAccessKeyId(), request.getCmd().name(), true);
+            List<ChannelTransfer> preLogs = channelTransferService.getTodayLog(authPrincipal.getAccessKeyId(), request.getCmd(), true);
             if (preLogs != null && !preLogs.isEmpty()) {
                 // 小于等于0，代表不限制；如果限制了的话，今日次数如果已大于参数，则不可以发送指令
                 if (request.getDailyMaxTimes() > 0 && preLogs.size() > request.getDailyMaxTimes()) {
@@ -243,11 +239,11 @@ public class WsMessageServiceImpl implements WsMessageService {
 
         // 校验是否可以发送指令
         if (!canSend(request, authPrincipal)) {
-            return MessageResponse.fastFailure(String.format("[%s]-[%s]指令未达到发送间隔或今日次数已超限！", accessKeyId, request.getCmd().name()));
+            return MessageResponse.fastFailure(String.format("[%s]-[%s]指令未达到发送间隔或今日次数已超限！", accessKeyId, request.getCmd()));
         }
 
         if (!request.isRedirect()) {
-            message = Message.request(request.getCmd(), request.getPayload(), request.getClientChannel());
+            message = Message.request(request.getCmd(), request.getClientChannel(), request.getPayload());
             message.setLogicPrimaryKey(request.getLogicPrimaryKey());
             messageStr = JsonUtil.asString(message);
         } else {

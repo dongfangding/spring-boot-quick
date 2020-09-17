@@ -1,6 +1,5 @@
 package com.ddf.boot.quick.websocket.model;
 
-import com.ddf.boot.quick.websocket.enumu.CmdEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -25,7 +24,7 @@ import java.io.Serializable;
 public class MessageRequest<T> implements Serializable {
 
     @ApiModelProperty(value = "命令码", required = true)
-    private CmdEnum cmd;
+    private String cmd;
 
     @ApiModelProperty(value = "客户端身份授权码", required = true)
     private String authCode;
@@ -36,8 +35,8 @@ public class MessageRequest<T> implements Serializable {
     @ApiModelProperty(value = "要连接的对象的登录方式", required = true)
     private AuthPrincipal.LoginType loginType;
 
-    @ApiModelProperty(value = "客户端渠道， 如果同一个功能有多个渠道的实现，可以用这个来区分", required = true)
-    private ClientChannel clientChannel;
+    @ApiModelProperty(value = "客户端渠道， 如果同一个功能有多个渠道的实现，可以用这个来区分", required = false)
+    private String clientChannel;
 
     @ApiModelProperty(required = true, value = "发送指令的模式，为了防止通过token和ime参数的判断来确定是群发还是单发" +
             "还是批量发的误传，因此需要参数和模式互相对应")

@@ -4,7 +4,7 @@ import com.ddf.boot.common.core.exception.GlobalCustomizeException;
 import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.common.core.util.SecureUtil;
 import com.ddf.boot.common.core.util.StringUtil;
-import com.ddf.boot.quick.websocket.enumu.CmdEnum;
+import com.ddf.boot.quick.websocket.enumu.InternalCmdEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;
@@ -61,7 +61,7 @@ public class Message<T> {
     private String requestId;
 
     @ApiModelProperty(value = "指令", allowableValues = "ECHO, RESTART, UPGRADE, SWITCH_IP, GPS, QRCODE_CREATE, UPAY_MESSAGE")
-    private CmdEnum cmd;
+    private String cmd;
 
     @ApiModelProperty("响应码")
     private Integer code = 0;
@@ -73,7 +73,7 @@ public class Message<T> {
     private String logicPrimaryKey;
 
     @ApiModelProperty("客户端应用通道")
-    private ClientChannel clientChannel;
+    private String clientChannel;
 
     /**
      * 发送方标识
@@ -95,7 +95,7 @@ public class Message<T> {
     @ApiModelProperty(value = "主体数据内容")
     private T body;
 
-    public Message(Type type, String requestId, String sendModel, CmdEnum cmd, T body, ClientChannel clientChannel) {
+    public Message(Type type, String requestId, String sendModel, String cmd, T body, String clientChannel) {
         this.type = type;
         this.requestId = requestId;
         this.sendModel = sendModel;
@@ -105,7 +105,7 @@ public class Message<T> {
         this.clientChannel = clientChannel;
     }
 
-    public Message(Type type, String requestId, String sendModel, CmdEnum cmd, T body, Integer code, ClientChannel clientChannel) {
+    public Message(Type type, String requestId, String sendModel, String cmd, T body, Integer code, String clientChannel) {
         this.type = type;
         this.requestId = requestId;
         this.sendModel = sendModel;
@@ -133,8 +133,8 @@ public class Message<T> {
      * @return
      */
     public static Message<String> echo(String payload) {
-        return new Message<>(Type.RESPONSE, StringUtil.randomString(64), SEND_MODEL_SERVER, CmdEnum.PONG,
-                payload, ClientChannel.WEB);
+        return new Message<>(Type.RESPONSE, StringUtil.randomString(64), SEND_MODEL_SERVER, InternalCmdEnum.PONG.name(),
+                payload, null);
     }
 
     /**
@@ -148,7 +148,7 @@ public class Message<T> {
         String payload = (String) message.getPayload();
         Message<?> message1 = JsonUtil.toBean(payload, Message.class);
         return new Message<>(Type.RESPONSE, message1.getRequestId(), SEND_MODEL_SERVER, message1.getCmd(), "未登录",
-                MessageResponse.SERVER_CODE_NOT_LOGIN, ClientChannel.WEB);
+                MessageResponse.SERVER_CODE_NOT_LOGIN, null);
     }
 
     /**
@@ -197,28 +197,20 @@ public class Message<T> {
             return null;
         }
         String body = JsonUtil.asString(message.getBody());
-        String sign = SecureUtil.signWithHMac(body, message.getCmd().name());
+        String sign = SecureUtil.signWithHMac(body, message.getCmd());
         message.addExtra("sign", sign);
         return message;
     }
 
-    /**
-     * 服务端请求数据
-     * @param cmd
-     * @param body
-     * @return
-     */
-    public static <T> Message<T> request(CmdEnum cmd, T body) {
-        return new Message<>(Type.REQUEST, StringUtil.randomString(64), SEND_MODEL_SERVER, cmd, body, ClientChannel.WEB);
-    }
 
     /**
      * 服务端请求数据
      * @param cmd
+     * @param clientChannel
      * @param body
      * @return
      */
-    public static <T> Message<T> request(CmdEnum cmd, T body, ClientChannel clientChannel) {
+    public static <T> Message<T> request(String cmd, String clientChannel, T body) {
         return new Message<>(Type.REQUEST, StringUtil.randomString(64), SEND_MODEL_SERVER, cmd, body, clientChannel);
     }
 
@@ -323,16 +315,13 @@ public class Message<T> {
         Message<?> message = JsonUtil.toBean(decrypt, Message.class);
         String signStr = message.getExtraMap().get("sign");
         log.debug("报文中加签值: {}", signStr);
-        String dataSign = SecureUtil.signWithHMac(JsonUtil.asString(message.getBody()), message.getCmd().name());
+        String dataSign = SecureUtil.signWithHMac(JsonUtil.asString(message.getBody()), message.getCmd());
         log.debug("对数据解密后重新加签: {}", dataSign);
         if (!Objects.equals(signStr, dataSign)) {
             log.error("验签不通过！！报文中加签值: {}, 实际加签值: {}", signStr, dataSign);
             return null;
         }
         log.debug("验签通过");
-        if (message.getClientChannel() == null) {
-            message.setClientChannel(ClientChannel.WEB);
-        }
         return message;
     }
 

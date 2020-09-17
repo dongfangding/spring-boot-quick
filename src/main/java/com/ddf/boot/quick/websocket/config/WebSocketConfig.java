@@ -3,10 +3,11 @@ package com.ddf.boot.quick.websocket.config;
 
 import cn.hutool.core.collection.CollUtil;
 import com.ddf.boot.quick.websocket.handler.CustomizeHandshakeHandler;
-import com.ddf.boot.quick.websocket.handler.CustomizeWebSocketHandler;
+import com.ddf.boot.quick.websocket.handler.DefaultWebSocketHandler;
 import com.ddf.boot.quick.websocket.handler.HandlerMessageService;
 import com.ddf.boot.quick.websocket.interceptor.DefaultHandshakeInterceptor;
 import com.ddf.boot.quick.websocket.interceptor.HandshakeAuth;
+import com.ddf.boot.quick.websocket.listeners.WebSocketHandlerListener;
 import com.ddf.boot.quick.websocket.properties.WebSocketProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -42,6 +43,8 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private List<HandshakeAuth> handshakeAuthList;
     @Autowired(required = false)
     private HandlerMessageService handlerMessageService;
+    @Autowired(required = false)
+    private WebSocketHandlerListener webSocketHandlerListener;
 
 
     /**
@@ -55,12 +58,12 @@ public class WebSocketConfig implements WebSocketConfigurer {
      */
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        WebSocketHandlerRegistration registration = registry.addHandler(new CustomizeWebSocketHandler(handlerMessageService), webSocketProperties.getEndPoint())
+        WebSocketHandlerRegistration registration = registry.addHandler(
+                new DefaultWebSocketHandler(handlerMessageService, webSocketHandlerListener), webSocketProperties.getEndPoint())
                 .setHandshakeHandler(new CustomizeHandshakeHandler())
                 .setAllowedOrigins("*");
         if (CollUtil.isNotEmpty(webSocketProperties.getHandshakeInterceptors())) {
             registration.addInterceptors(webSocketProperties.getHandshakeInterceptors().toArray(new HandshakeInterceptor[0]));
-
         } else {
             registration.addInterceptors(new DefaultHandshakeInterceptor(webSocketProperties, handshakeAuthList));
         }

@@ -77,6 +77,14 @@ public class WebSocketProperties {
      */
     private boolean ignoreAuthTimestamp;
 
+
+    /**
+     * 握手时的认证参数是否加密
+     * @see DefaultHandshakeInterceptor#beforeHandshake(org.springframework.http.server.ServerHttpRequest, org.springframework.http.server.ServerHttpResponse, org.springframework.web.socket.WebSocketHandler, java.util.Map)
+     * @see WebSocketProperties#rsaPrivateKey
+     */
+    private boolean handshakeTokenSecret;
+
     /**
      * 是否加密传输消息
      * @see WebsocketSessionStorage#sendMessage(com.ddf.boot.quick.websocket.model.WebSocketSessionWrapper, com.ddf.boot.quick.websocket.model.Message)
@@ -84,7 +92,7 @@ public class WebSocketProperties {
     private boolean messageSecret;
 
     /**
-     * 同messageSecret参数一起使用，如果要加密的话，提供了一个接口允许实现加解密算法
+     * 同messageSecret和handshakeTokenSecret参数一起使用，如果要加密的话，提供了一个接口允许实现加解密算法
      * 提供了也给默认基于RSA的实现，也可以直接配置密钥即可， 如果要基于系统默认的RSA实现的话，私钥必须提供
      * @see com.ddf.boot.quick.websocket.util.WsSecureUtil
      * @see com.ddf.boot.quick.websocket.interceptor.EncryptProcessor
@@ -93,7 +101,7 @@ public class WebSocketProperties {
     private String rsaPrivateKey;
 
     /**
-     * 同样也是和messageSecret配合使用的， 由于通用包默认实现了基于RSA的， 如果客户端也实现一套， 到时候服务端不知道要用哪个，所以如果
+     * 同样也是和messageSecret和handshakeTokenSecret配合使用的， 由于通用包默认实现了基于RSA的， 如果客户端也实现一套， 到时候服务端不知道要用哪个，所以如果
      * 存在多个实现， 需要配置具体实现的bean的代码
      */
     private String secretBeanName = "RSAEncryptProcessor";

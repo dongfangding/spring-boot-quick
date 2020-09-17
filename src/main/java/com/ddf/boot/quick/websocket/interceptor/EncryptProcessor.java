@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.websocket.interceptor;
 
+import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.quick.websocket.model.Message;
 
 /**
@@ -26,6 +27,8 @@ public interface EncryptProcessor {
      * @param <T>
      * @return
      */
-    <T> String encryptMessage(Message<T> message);
+    default <T> String encryptMessage(Message<T> message) {
+        return JsonUtil.asString(message);
+    }
 
 }

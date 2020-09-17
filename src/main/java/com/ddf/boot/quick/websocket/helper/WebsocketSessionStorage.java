@@ -4,7 +4,7 @@ import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.common.core.util.SpringContextHolder;
 import com.ddf.boot.quick.websocket.constant.WebsocketConst;
 import com.ddf.boot.quick.websocket.enumu.CacheKeyEnum;
-import com.ddf.boot.quick.websocket.enumu.CmdEnum;
+import com.ddf.boot.quick.websocket.enumu.InternalCmdEnum;
 import com.ddf.boot.quick.websocket.exception.ClientMessageCodeException;
 import com.ddf.boot.quick.websocket.exception.SocketSendException;
 import com.ddf.boot.quick.websocket.interceptor.EncryptProcessor;
@@ -215,7 +215,7 @@ public class WebsocketSessionStorage {
      * @date 2019/9/26 21:21 
      */
     public static void putDefaultResponse( @NotNull Message<?> message, @NotNull MessageResponse<?> response) {
-        if (!CmdEnum.PING.equals(message.getCmd()) && WebsocketSessionStorage.isNone(message.getRequestId())) {
+        if (!InternalCmdEnum.PING.equals(message.getCmd()) && WebsocketSessionStorage.isNone(message.getRequestId())) {
             putResponse(message.getRequestId(), response);
         }
     }

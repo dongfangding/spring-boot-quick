@@ -24,6 +24,7 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
@@ -82,13 +83,13 @@ public class DefaultHandshakeInterceptor implements HandshakeInterceptor {
 
         AuthPrincipal authPrincipal = null;
 
-        // fixme 如何在head中传递？？
-        String token = servletRequest.getParameter(WebsocketConst.TOKEN_PARAMETER);
+        // fixme 如何在head中传递？？ 先Url编解码是为了防止客户端并不希望对token参数本身进行加密， 而json默认是无法传输过来的，所以要url编码，写在最
+        // 外层可以让代码更简单一些
+        String token = URLDecoder.decode(servletRequest.getParameter(WebsocketConst.TOKEN_PARAMETER), "utf-8");
         HandshakeParam handshakeParam = null;
         if (StringUtils.isNotBlank(token)) {
             try {
-                // 暂时加密时一起的， 要么认证token和消息都一起加密，要么都不加密
-                if (webSocketProperties.isMessageSecret()) {
+                if (webSocketProperties.isHandshakeTokenSecret()) {
                     EncryptProcessor encryptProcessor = ENCRYPT_PROCESSORS.get(webSocketProperties.getSecretBeanName());
                     if (encryptProcessor == null) {
                         throw new NoSuchBeanDefinitionException(webSocketProperties.getSecretBeanName());

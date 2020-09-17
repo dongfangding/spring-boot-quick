@@ -109,8 +109,9 @@ spring:
 
   websocket:
     properties:
+      handshakeTokenSecret: true
       ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
-      messageSecret: true
+      messageSecret: false
 
 #  rabbitmq:
 #    addresses: localhost:5672

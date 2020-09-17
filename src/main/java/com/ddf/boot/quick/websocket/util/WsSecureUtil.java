@@ -7,6 +7,9 @@ import cn.hutool.crypto.digest.HmacAlgorithm;
 import com.ddf.boot.common.core.util.SpringContextHolder;
 import com.ddf.boot.quick.websocket.properties.WebSocketProperties;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
@@ -104,12 +107,23 @@ public class WsSecureUtil {
         return mac.digestHex(data);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
         String str = "{\"accessKeyId\":\"1\",\"accessKeyName\":\"ddf\",\"loginType\":\"USER\"}";
 
-        String str1 = WsSecureUtil.publicEncryptBcd(str);
 
-        System.out.println(WsSecureUtil.privateDecryptFromBcd(str1));
+        String encryptBcd = WsSecureUtil.publicEncryptBcd(str);
+
+        String token = URLEncoder.encode(encryptBcd, "utf-8");
+
+        System.out.println(token);
+
+
+
+        String decode = URLDecoder.decode(token, "utf-8");
+
+        String decryptFromBcd = WsSecureUtil.privateDecryptFromBcd(decode);
+        System.out.println(decryptFromBcd);
+
     }
 
 }
