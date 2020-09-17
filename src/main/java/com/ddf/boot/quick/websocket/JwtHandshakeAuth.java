@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.common;
+package com.ddf.boot.quick.websocket;
 
 import com.ddf.boot.common.websocket.interceptor.DefaultHandshakeInterceptor;
 import com.ddf.boot.common.websocket.interceptor.HandshakeAuth;

@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.mq.consumer;
 
-import com.ddf.boot.common.core.exception.GlobalCustomizeException;
+import com.ddf.boot.common.core.exception200.ServerErrorException;
 import com.ddf.boot.common.mq.definition.BindingConst;
 import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.common.mq.definition.QueueBuilder;
@@ -67,7 +67,7 @@ public class DemoConsumer {
             rabbitTemplateHelper.nackAndRequeue(channel, message, QueueBuilder.QueueDefinition
                     .USER_LOGIN_HISTORY_QUEUE, parse);
             // catch之后必须再把异常throw出去，否则无法捕捉到消费异常
-            throw new GlobalCustomizeException(e.getMessage());
+            throw new ServerErrorException(e.getMessage());
         }
     }
 
@@ -100,7 +100,7 @@ public class DemoConsumer {
                 log.error("拒绝失败！", e);
             }
             // catch之后必须再把异常throw出去，否则无法捕捉到消费异常
-            throw new GlobalCustomizeException(e.getMessage());
+            throw new ServerErrorException(e.getMessage());
         }
     }
 
@@ -150,7 +150,7 @@ public class DemoConsumer {
                 log.error("拒绝失败！", e);
             }
             // catch之后必须再把异常throw出去，否则无法捕捉到消费异常
-            throw new GlobalCustomizeException(e.getMessage());
+            throw new ServerErrorException(e.getMessage());
         }
     }
 }

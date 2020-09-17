@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.controller;
 
+import com.ddf.boot.common.core.exception200.BusinessException;
 import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
 import com.ddf.boot.common.lock.DistributedLock;
 import com.ddf.boot.common.lock.exception.LockingAcquireException;
@@ -33,6 +34,16 @@ public class QuickStartController {
 
     @Resource(name = "zookeeperDistributedLock")
     private DistributedLock distributedLock;
+
+
+    /**
+     * 异常演示
+     * @return
+     */
+    @GetMapping("exceptionDemo")
+    public Boolean exception() {
+        throw new BusinessException("异常演示");
+    }
 
 
     /**
