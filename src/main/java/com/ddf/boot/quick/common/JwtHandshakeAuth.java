@@ -1,9 +1,9 @@
 package com.ddf.boot.quick.common;
 
-import com.ddf.boot.quick.websocket.interceptor.DefaultHandshakeInterceptor;
-import com.ddf.boot.quick.websocket.interceptor.HandshakeAuth;
-import com.ddf.boot.quick.websocket.model.AuthPrincipal;
-import com.ddf.boot.quick.websocket.model.HandshakeParam;
+import com.ddf.boot.common.websocket.interceptor.DefaultHandshakeInterceptor;
+import com.ddf.boot.common.websocket.interceptor.HandshakeAuth;
+import com.ddf.boot.common.websocket.model.AuthPrincipal;
+import com.ddf.boot.common.websocket.model.HandshakeParam;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;

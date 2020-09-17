@@ -190,7 +190,7 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       - path: /druid/**
       - path: /csrf
       - path: /app.js
-      - path: /controller.html
+      - path: /websocket.html
       - path: /websocket.html
       - path: /js/*
       - path: /ws/*
