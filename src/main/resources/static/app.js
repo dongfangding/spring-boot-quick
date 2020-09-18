@@ -13,7 +13,7 @@ function setConnected(connected) {
 
 function connect() {
     let url = $("#url").val();
-    // ws://localhost:8080/boot-quick/ddf-ws?token={"accessKeyId":"1","loginType":"WEB","currentTimeStamp":1600227215375}
+    // ws://localhost:8080/boot-quick/ddf-ws?token=urlEncoded({"accessKeyId":"1","loginType":"WEB","currentTimeStamp":1600227215375}, "utf-8")
     ws = new WebSocket(url);
     ws.onmessage = function(evt) {
         showGreeting(evt.data);
