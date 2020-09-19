@@ -22,7 +22,7 @@ public class AuthUserVo {
     private String id;
 
 	@ApiModelProperty("姓名")
-	private String userName;
+	private String username;
 
 	@ApiModelProperty("邮箱")
 	private String email;

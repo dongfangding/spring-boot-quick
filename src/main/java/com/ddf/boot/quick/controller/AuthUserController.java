@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -39,7 +40,7 @@ public class AuthUserController {
      **/
     @PostMapping("/registry")
     @ApiOperation(value = "用户注册")
-    public AuthUserVo registry(@RequestBody @ApiParam(value = "注册请求参数", required = true) AuthUserRegistryBo authUserRegistryBo) {
+    public AuthUserVo registry(@RequestBody @Validated @ApiParam(value = "注册请求参数", required = true) AuthUserRegistryBo authUserRegistryBo) {
         return authUserService.registry(authUserRegistryBo);
     }
 
@@ -53,7 +54,7 @@ public class AuthUserController {
      **/
     @PostMapping("loginByPassword")
     @ApiOperation("用户登录")
-    public String loginByPassword(@RequestBody @ApiParam(value = "登录参数", required = true) LoginBo loginBo) {
+    public String loginByPassword(@RequestBody @Validated @ApiParam(value = "登录参数", required = true) LoginBo loginBo) {
         return authUserService.loginByPassword(loginBo);
     }
 

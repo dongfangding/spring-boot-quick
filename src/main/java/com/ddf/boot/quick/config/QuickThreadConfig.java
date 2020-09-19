@@ -2,7 +2,6 @@ package com.ddf.boot.quick.config;
 
 import com.ddf.boot.common.core.helper.ThreadBuilderHelper;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -13,9 +12,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
  * @date 2019/12/10 0010 20:11
  */
 @Configuration
-@ComponentScan(basePackages = "com.haha")
 public class QuickThreadConfig {
-
 
     /**
      * 用户登录记录线程池

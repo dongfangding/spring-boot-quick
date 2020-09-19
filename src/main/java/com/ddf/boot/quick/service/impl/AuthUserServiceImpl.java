@@ -22,10 +22,9 @@ import com.ddf.boot.quick.mapper.AuthUserMapper;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
 import com.ddf.boot.quick.model.bo.LoginBo;
-import com.ddf.boot.quick.model.dto.LogUserLoginHistoryDto;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
+import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
 import com.ddf.boot.quick.service.AuthUserService;
-import com.google.common.base.Preconditions;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,12 +53,8 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public AuthUserVo registry(AuthUserRegistryBo authUserRegistryBo) {
-		Preconditions.checkNotNull(authUserRegistryBo, "请求参数不能为空!");
-		Preconditions.checkArgument(StringUtils.isNotBlank(authUserRegistryBo.getUserName()), "用户名不能为空！");
-		Preconditions.checkArgument(StringUtils.isNotBlank(authUserRegistryBo.getPassword()), "密码不能为空！");
-
 		LambdaQueryWrapper<AuthUser> queryWrapper = Wrappers.lambdaQuery();
-		queryWrapper.eq(AuthUser::getUserName, authUserRegistryBo.getUserName());
+		queryWrapper.eq(AuthUser::getUsername, authUserRegistryBo.getUsername());
 		if (count(queryWrapper) > 0) {
 			throw new BadRequestException("用户已存在!");
 		}
@@ -86,13 +81,10 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 	@Override
 	@Transactional(rollbackFor = Exception.class)
 	public String loginByPassword(@NotNull LoginBo loginBo) {
-		Preconditions.checkNotNull(loginBo, "登录参数不能为空！");
-		String userName = loginBo.getUserName();
+		String username = loginBo.getUsername();
 		String password = loginBo.getPassword();
-		Preconditions.checkArgument(StringUtils.isNotBlank(userName), "用户名不能为空!");
-		Preconditions.checkArgument(StringUtils.isNotBlank(password), "密码不能为空!");
 
-		AuthUser existUser = findByName(userName);
+		AuthUser existUser = findByName(username);
 		if (existUser == null) {
 			throw new BusinessException(UserErrorCallbackCode.USER_NOT_EXIST);
 		}
@@ -100,7 +92,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		String userToken = existUser.getUserToken();
 
 		LambdaQueryWrapper<AuthUser> userQueryWrapper = Wrappers.lambdaQuery();
-		userQueryWrapper.eq(AuthUser::getUserName, userName);
+		userQueryWrapper.eq(AuthUser::getUsername, username);
 		userQueryWrapper.eq(AuthUser::getPassword, SecureUtil.signWithHMac(password, userToken));
 		if (count(userQueryWrapper) != 1) {
 			throw new BusinessException(UserErrorCallbackCode.PASSWORD_ERROR);
@@ -110,7 +102,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 
 		UserClaim userClaim = new UserClaim();
 		userClaim.setUserId(Convert.toStr(existUser.getId()))
-				.setUsername(existUser.getUserName())
+				.setUsername(existUser.getUsername())
 				.setLastModifyPasswordTime(existUser.getLastModifyPassword())
 				.setCredit(WebUtil.getHost())
 				// 记录用户当前登录时间
@@ -121,29 +113,31 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		existUser.setLastLoginTime(loginTime);
 		updateById(existUser);
 
-		asyncTask.logUserLoginHistory(new LogUserLoginHistoryDto()
+		// 登录日志
+		asyncTask.logUserLoginHistory(new UserLoginHistoryCollection()
 				.setUserId(existUser.getId())
+				.setUsername(existUser.getUsername())
 				.setToken(verifyToken)
 				.setLoginTime(new Date(loginTime))
 				.setLoginIp(WebUtil.getHost())
+				.setLoginAddress(WebUtil.getCurRequest().getLocale().getDisplayCountry())
 		);
-
 		return verifyToken;
 	}
 
 	/**
 	 * 根据用户名查找用户
 	 *
-	 * @param userName
+	 * @param username
 	 * @return
 	 */
 	@Override
-	public AuthUser findByName(String userName) {
-		if (StringUtils.isBlank(userName)) {
+	public AuthUser findByName(String username) {
+		if (StringUtils.isBlank(username)) {
 			return null;
 		}
 		LambdaQueryWrapper<AuthUser> queryWrapper = Wrappers.lambdaQuery();
-		queryWrapper.eq(AuthUser::getUserName, userName);
+		queryWrapper.eq(AuthUser::getUsername, username);
 		return getOne(queryWrapper);
 	}
 
@@ -157,8 +151,8 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 	@Override
 	public IPage<AuthUser> pageList(Page<AuthUser> page, AuthUserPageBo authUserPageBo) {
 		LambdaQueryWrapper<AuthUser> userQueryWrapper = Wrappers.lambdaQuery();
-		if (StringUtils.isNotBlank(authUserPageBo.getUserName())) {
-			userQueryWrapper.like(AuthUser::getUserName, authUserPageBo.getUserName());
+		if (StringUtils.isNotBlank(authUserPageBo.getUsername())) {
+			userQueryWrapper.like(AuthUser::getUsername, authUserPageBo.getUsername());
 		}
 		if (StringUtils.isNotBlank(authUserPageBo.getEmail())) {
 			userQueryWrapper.like(AuthUser::getEmail, authUserPageBo.getEmail());

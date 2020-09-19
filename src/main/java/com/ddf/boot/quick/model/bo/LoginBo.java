@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
+
 /**
  * 登录请求参数$
  *
@@ -17,8 +19,10 @@ import lombok.experimental.Accessors;
 public class LoginBo {
 
     @ApiModelProperty("用户名")
-    private String userName;
+    @NotEmpty(message = "姓名不能为空")
+    private String username;
 
     @ApiModelProperty("密码")
+    @NotEmpty(message = "密码不能为空")
     private String password;
 }

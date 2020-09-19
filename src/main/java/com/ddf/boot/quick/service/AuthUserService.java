@@ -36,10 +36,10 @@ public interface AuthUserService extends CustomizeIService<AuthUser> {
 	/**
 	 * 根据用户名查找用户
 	 *
-	 * @param userName
+	 * @param username
 	 * @return
 	 */
-	AuthUser findByName(String userName);
+	AuthUser findByName(String username);
 
 	/**
 	 * 分页查询
