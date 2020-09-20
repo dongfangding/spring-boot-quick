@@ -2,7 +2,6 @@ package com.ddf.boot.quick.controller;
 
 import com.ddf.boot.quick.model.bo.PageUserHistoryBo;
 import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
-import com.ddf.boot.quick.mongo.repository.UserLoginHistoryCollectionRepository;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,6 @@ import java.util.List;
 @Api(value = "用户登录日志控制器$", tags = {"用户登录日志控制器$"})
 public class UserLoginHistoryController {
     @Autowired
-    private UserLoginHistoryCollectionRepository userLoginHistoryCollectionRepository;
-    @Autowired
     private MongoTemplate mongoTemplate;
 
     /**
@@ -39,7 +36,7 @@ public class UserLoginHistoryController {
      * @return
      */
     @PostMapping("pageList")
-    public Page<UserLoginHistoryCollection> pageList(Pageable pageable, @RequestBody PageUserHistoryBo pageUserHistoryBo) {
+    public Page<UserLoginHistoryCollection> pageList(@RequestBody PageUserHistoryBo pageUserHistoryBo) {
         Query query = new Query();
         if (StringUtils.isNotBlank(pageUserHistoryBo.getUsername())) {
             query.addCriteria(Criteria.where("username").regex(pageUserHistoryBo.getUsername()));
@@ -49,6 +46,7 @@ public class UserLoginHistoryController {
         }
         long count = mongoTemplate.count(query, UserLoginHistoryCollection.class);
         if (count > 0) {
+            Pageable pageable = pageUserHistoryBo.ofSpringData();
             query.with(pageable);
             List<UserLoginHistoryCollection> list = mongoTemplate.find(query, UserLoginHistoryCollection.class);
             return new PageImpl<>(list, pageable, count);

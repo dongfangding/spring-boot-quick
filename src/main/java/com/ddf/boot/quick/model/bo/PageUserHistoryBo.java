@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.model.bo;
 
+import com.ddf.boot.common.core.entity.BaseQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -12,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel("用户登录日志分页查询参数$")
-public class PageUserHistoryBo {
+public class PageUserHistoryBo extends BaseQuery {
 
     @ApiModelProperty("用户id")
     private Long userId;

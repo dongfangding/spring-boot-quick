@@ -1,7 +1,6 @@
 package com.ddf.boot.quick.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
@@ -13,7 +12,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * $
@@ -61,15 +63,14 @@ public class AuthUserController {
     /**
      * 分页查询
      *
-     * @param page
      * @param authUserPageBo
      * @return com.baomidou.mybatisplus.core.metadata.IPage<com.ddf.boot.common.model.datao.quick.AuthUser>
      * @author dongfang.ding
      * @date 2019/12/9 0009 21:33
      **/
-    @GetMapping("pageList")
+    @PostMapping("pageList")
     @ApiOperation("分页查询用户列表")
-    public IPage<AuthUser> pageList(Page<AuthUser> page, @ApiParam(value = "查询对象参数") AuthUserPageBo authUserPageBo) {
-        return authUserService.pageList(page, authUserPageBo);
+    public IPage<AuthUser> pageList(@RequestBody @ApiParam(value = "查询对象参数") AuthUserPageBo authUserPageBo) {
+        return authUserService.pageList(authUserPageBo);
     }
 }

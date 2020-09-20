@@ -5,7 +5,6 @@ import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ddf.boot.common.core.exception200.BadRequestException;
 import com.ddf.boot.common.core.exception200.BusinessException;
 import com.ddf.boot.common.core.exception200.UserErrorCallbackCode;
@@ -144,12 +143,11 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 	/**
 	 * 分页查询
 	 *
-	 * @param page
 	 * @param authUserPageBo
 	 * @return
 	 */
 	@Override
-	public IPage<AuthUser> pageList(Page<AuthUser> page, AuthUserPageBo authUserPageBo) {
+	public IPage<AuthUser> pageList(AuthUserPageBo authUserPageBo) {
 		LambdaQueryWrapper<AuthUser> userQueryWrapper = Wrappers.lambdaQuery();
 		if (StringUtils.isNotBlank(authUserPageBo.getUsername())) {
 			userQueryWrapper.like(AuthUser::getUsername, authUserPageBo.getUsername());
@@ -157,6 +155,6 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		if (StringUtils.isNotBlank(authUserPageBo.getEmail())) {
 			userQueryWrapper.like(AuthUser::getEmail, authUserPageBo.getEmail());
 		}
-		return page(page, userQueryWrapper);
+		return page(authUserPageBo.ofMybatis(), userQueryWrapper);
 	}
 }
