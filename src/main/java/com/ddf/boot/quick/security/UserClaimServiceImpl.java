@@ -56,7 +56,7 @@ public class UserClaimServiceImpl implements UserClaimService {
         AuthUser dbUser = authUserService.getById(userClaim.getUserId());
         // 将当前token对应的用户查询出来返回，给调用方用户将数据库数据和token进行比较
         dbUserClaim.setUserId(Convert.toStr(dbUser.getId()))
-                .setUsername(dbUser.getUserName())
+                .setUsername(dbUser.getUsername())
                 .setLastLoginTime(dbUser.getLastLoginTime())
                 .setLastModifyPasswordTime(dbUser.getLastModifyPassword());
         return dbUserClaim;
