@@ -1,12 +1,12 @@
 package com.ddf.boot.quick.controller;
 
+import com.ddf.boot.common.core.entity.PageResult;
 import com.ddf.boot.mongo.helper.MongoTemplateHelper;
 import com.ddf.boot.quick.model.bo.PageUserHistoryBo;
 import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,7 +32,7 @@ public class UserLoginHistoryController {
      * @return
      */
     @PostMapping("pageList")
-    public Page<UserLoginHistoryCollection> pageList(@RequestBody PageUserHistoryBo pageUserHistoryBo) {
+    public PageResult<UserLoginHistoryCollection> pageList(@RequestBody PageUserHistoryBo pageUserHistoryBo) {
         Query query = new Query();
         if (StringUtils.isNotBlank(pageUserHistoryBo.getUsername())) {
             query.addCriteria(Criteria.where("username").regex(pageUserHistoryBo.getUsername()));
@@ -40,6 +40,6 @@ public class UserLoginHistoryController {
         if (pageUserHistoryBo.getUserId() != null) {
             query.addCriteria(Criteria.where("userId").is(pageUserHistoryBo.getUserId()));
         }
-        return mongoTemplateHelper.handlerPage(pageUserHistoryBo, query, UserLoginHistoryCollection.class);
+        return mongoTemplateHelper.handlerPageResult(pageUserHistoryBo, query, UserLoginHistoryCollection.class);
     }
 }

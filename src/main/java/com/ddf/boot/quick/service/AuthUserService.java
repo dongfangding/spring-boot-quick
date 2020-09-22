@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ddf.boot.common.core.entity.PageResult;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.common.mybatis.service.CustomizeIService;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
@@ -46,6 +46,6 @@ public interface AuthUserService extends CustomizeIService<AuthUser> {
 	 * @param authUserPageBo
 	 * @return
 	 */
-	IPage<AuthUser> pageList(AuthUserPageBo authUserPageBo);
+	PageResult<AuthUser> pageList(AuthUserPageBo authUserPageBo);
 
 }

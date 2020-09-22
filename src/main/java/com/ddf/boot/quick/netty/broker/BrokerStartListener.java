@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.netty.broker;
 
+import cn.hutool.core.thread.ThreadUtil;
 import com.ddf.boot.netty.broker.server.BrokerServer;
 import com.ddf.boot.netty.broker.server.properties.BrokerProperties;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,9 @@ public class BrokerStartListener implements ApplicationListener<ContextRefreshed
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        BrokerServer brokerServer = new BrokerServer(brokerProperties);
-        brokerServer.start();
+        ThreadUtil.newSingleExecutor().execute(() -> {
+            BrokerServer brokerServer = new BrokerServer(brokerProperties);
+            brokerServer.start();
+        });
     }
 }

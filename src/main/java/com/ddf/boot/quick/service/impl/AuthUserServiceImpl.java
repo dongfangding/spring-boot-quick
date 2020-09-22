@@ -3,8 +3,8 @@ package com.ddf.boot.quick.service.impl;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.convert.Convert;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ddf.boot.common.core.entity.PageResult;
 import com.ddf.boot.common.core.exception200.BadRequestException;
 import com.ddf.boot.common.core.exception200.BusinessException;
 import com.ddf.boot.common.core.exception200.UserErrorCallbackCode;
@@ -147,7 +147,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 	 * @return
 	 */
 	@Override
-	public IPage<AuthUser> pageList(AuthUserPageBo authUserPageBo) {
+	public PageResult<AuthUser> pageList(AuthUserPageBo authUserPageBo) {
 		LambdaQueryWrapper<AuthUser> userQueryWrapper = Wrappers.lambdaQuery();
 		if (StringUtils.isNotBlank(authUserPageBo.getUsername())) {
 			userQueryWrapper.like(AuthUser::getUsername, authUserPageBo.getUsername());
@@ -155,6 +155,6 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		if (StringUtils.isNotBlank(authUserPageBo.getEmail())) {
 			userQueryWrapper.like(AuthUser::getEmail, authUserPageBo.getEmail());
 		}
-		return page(authUserPageBo.ofMybatis(), userQueryWrapper);
+		return PageResult.ofMybatis(page(authUserPageBo.toMybatis(), userQueryWrapper));
 	}
 }

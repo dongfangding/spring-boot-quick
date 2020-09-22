@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.controller;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.ddf.boot.common.core.entity.PageResult;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
@@ -70,7 +70,7 @@ public class AuthUserController {
      **/
     @PostMapping("pageList")
     @ApiOperation("分页查询用户列表")
-    public IPage<AuthUser> pageList(@RequestBody @ApiParam(value = "查询对象参数") AuthUserPageBo authUserPageBo) {
+    public PageResult<AuthUser> pageList(@RequestBody @ApiParam(value = "查询对象参数") AuthUserPageBo authUserPageBo) {
         return authUserService.pageList(authUserPageBo);
     }
 }

@@ -1,7 +1,7 @@
 package com.ddf.boot.quick.mongo.repository;
 
 import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  * Mongo 用户登录日志
@@ -9,6 +9,6 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * @author dongfang.ding
  * @date 2020/9/19 0019 12:54
  */
-public interface UserLoginHistoryCollectionRepository extends PagingAndSortingRepository<UserLoginHistoryCollection, String> {
+public interface UserLoginHistoryCollectionRepository extends MongoRepository<UserLoginHistoryCollection, String> {
 
 }
