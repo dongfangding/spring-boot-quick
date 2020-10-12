@@ -29,6 +29,13 @@
     </repositories>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-third-party</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
         <!-- https://repo1.maven.org/maven2/org/apache/shardingsphere/elasticjob/elasticjob-lite-spring-boot-starter/ -->
         <dependency>
             <groupId>org.apache.shardingsphere.elasticjob</groupId>

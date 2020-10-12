@@ -180,6 +180,15 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
   message_secret: false # 是否加密传输websocket消息数据
 
+  ext:
+    oss:
+      properties:
+        - bucketName: 3305c51cdb466e4934653f9ccc0f9bcd
+          bucketEndpoint: 0e6dadc5da9af65fd835a34bdad42f5c055b0ce12fb16d6ef03e320c72852e2d
+          accessKeyId: ef07af5541e6d3a8be8475be42b5ef5d8269fcb2aa92385a4c1b91b2c6ba312d
+          accessKeySecret: 2c6070800290cc0384a3563da8f7789fe131d72d1e8715469dcb07fa7341e3c1
+          secret: true
+
   jwt:
     secret: WoshiyigefenshuajiangfenshuabenlingqiangwoyaobanaxinfangzishuadegengpiaoliangshualefangziyoushuangqiangaiyawodexiaobizibianyabianleYang
     expiredMinute: 1080  # jwt token过期时间，单位分钟
@@ -213,7 +222,6 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
     monitor:
       connectAddress: 127.0.0.1:2181
       monitors:
-        - monitorPath: /offline
         - monitorPath: /test
 
 leaf:
