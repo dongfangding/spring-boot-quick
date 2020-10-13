@@ -43,7 +43,7 @@ public class NodeEventListenerImpl implements NodeEventListener {
      */
     @Override
     public void nodeChange(CuratorFramework client, String path, ChildData oldData, ChildData data) {
-        log.info("节点【{}】数据发生改变, 改变前数据: {}, 改变后数据: {}", path, oldData.toString(), data.toString());
+        log.debug("节点【{}】数据发生改变, 改变前数据: {}, 改变后数据: {}", path, oldData.toString(), data.toString());
     }
 
     /**

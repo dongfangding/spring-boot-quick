@@ -1,10 +1,11 @@
 package com.ddf.boot.quick.oss;
 
 import com.aliyun.oss.OSS;
-import com.ddf.boot.common.core.util.SpringContextHolder;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
+import lombok.SneakyThrows;
 
 import java.io.File;
+import java.io.InputStream;
 
 /**
  * <p>description</p >
@@ -15,21 +16,19 @@ import java.io.File;
  */
 public class OssUtil {
 
-    private static final OssHelper OSS_HELPER = SpringContextHolder.getBean(OssHelper.class);
-
     /**
      * 全局私有bucket, 私有
      */
     public static final String DDF_PRIVATE_BUCKET = "ddf-private";
 
-    public static final String PIC_PATH_TEST = "/pic/boot-quick/";
+    public static final String PIC_PATH_TEST = "boot-quick/pic/";
 
     /**
      * 获取全局私有oss实例
      * @return
      */
     public static OSS getGlobalPrivateOss() {
-        return OSS_HELPER.getOss(DDF_PRIVATE_BUCKET);
+        return OssHelper.getOss(DDF_PRIVATE_BUCKET);
     }
 
     /**
@@ -48,5 +47,36 @@ public class OssUtil {
      */
     public static void globalPrivatePutObject(String key, File file) {
         getGlobalPrivateOss().putObject(DDF_PRIVATE_BUCKET, formatPicTestPath(key), file);
+    }
+
+    /**
+     * 使用全局私有 bucket上传文件
+     * @param key
+     * @param inputStream
+     */
+    public static void globalPrivatePutObject(String key, InputStream inputStream) {
+        getGlobalPrivateOss().putObject(DDF_PRIVATE_BUCKET, formatPicTestPath(key), inputStream);
+    }
+
+    /**
+     * 使用全局私有 bucket上传文件
+     * @param key
+     * @param file
+     */
+    @SneakyThrows
+    public static void globalPrivateStsPutObject(String key, File file) {
+        OssHelper.getStsOss().putObject(DDF_PRIVATE_BUCKET, formatPicTestPath(key), file);
+    }
+
+    /**
+     * 使用全局私有 bucket上传文件
+     * @param key
+     * @param inputStream
+     */
+    @SneakyThrows
+    public static void globalPrivateStsPutObject(String key, InputStream inputStream) {
+        OSS stsOss = OssHelper.getStsOss();
+        stsOss.putObject(DDF_PRIVATE_BUCKET, formatPicTestPath(key), inputStream);
+        stsOss.shutdown();
     }
 }
