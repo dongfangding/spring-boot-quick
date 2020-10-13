@@ -23,6 +23,7 @@ import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
 import com.ddf.boot.quick.model.bo.LoginBo;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
 import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
+import com.ddf.boot.quick.oss.OssUtil;
 import com.ddf.boot.quick.service.AuthUserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		String userToken = IdsUtil.getNextStrId();
 		authUser.setId(snowflakeServiceHelper.getLongId());
 		authUser.setUserToken(userToken);
+		authUser.setAvatar(OssUtil.uploadAvatar(authUser.getUsername()));
 		authUser.setPassword(SecureUtil.signWithHMac(authUserRegistryBo.getPassword(), userToken));
 		saveCheckDuplicateKey(authUser, new BadRequestException("用户已存在！"));
 		AuthUserVo authUserVo = new AuthUserVo();
@@ -157,4 +159,6 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
 		}
 		return PageResult.ofMybatis(page(authUserPageBo.toMybatis(), userQueryWrapper));
 	}
+
+
 }

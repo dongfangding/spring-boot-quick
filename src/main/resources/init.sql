@@ -13,6 +13,8 @@ CREATE TABLE auth_user
 	password VARCHAR(32) NOT NULL COMMENT '密码',
 	email VARCHAR(50) NULL DEFAULT NULL COMMENT '邮箱',
 	birthday DATE NULL DEFAULT NULL COMMENT '生日',
+	avatar varchar(256) NOT NULL DEFAULT '' COMMENT '头像地址',
+	short_avatar varchar(256) NOT NULL DEFAULT '' COMMENT '头像缩略图',
     last_modify_password bigint  COMMENT '最后一次修改密码的时间',
     last_login_time bigint COMMENT '最后一次使用密码登录的时间',
 
