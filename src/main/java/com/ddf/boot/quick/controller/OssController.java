@@ -1,16 +1,19 @@
 package com.ddf.boot.quick.controller;
 
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.model.OSSObject;
 import com.aliyuncs.exceptions.ClientException;
 import com.ddf.boot.common.ext.oss.config.StsCredentials;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.quick.oss.OssUtil;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 
 /**
  * <p>description</p >
@@ -26,12 +29,36 @@ public class OssController {
     /**
      * 本地简单上传，不需要客户端上传文件，直接上传本地文件
      */
-    @PostMapping("localSimpleUpload")
-    public void localSimpleUpload() throws IOException {
+    @PostMapping("localSimpleUploadPic")
+    public String localSimpleUpload() throws IOException {
         String key = "7dd13d37acaf2edde000d44f811001e93b0193f8.jpg";
         ClassPathResource classPathResource = new ClassPathResource("/static/img/" + key);
-        OssUtil.globalPrivatePutObject(key, classPathResource.getInputStream());
+        return OssUtil.globalPrivatePutObject(key, classPathResource.getInputStream(), OssUtil.KeyType.PIC);
     }
+
+    @PostMapping("localSimpleDownloadPic")
+    public void localSimpleDownload(@RequestParam String picPath, HttpServletResponse httpServletResponse) {
+        OSS globalPrivateOss = OssUtil.getGlobalPrivateOss();
+        OSSObject ossObject = OssUtil.globalPrivateGetObject(picPath, OssUtil.KeyType.PIC);
+
+        httpServletResponse.setContentType("multipart/form-data");
+        httpServletResponse.setHeader("Content-Disposition","attachment;fileName="+picPath);
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(ossObject.getObjectContent()));
+             PrintWriter writer = httpServletResponse.getWriter()) {
+            while (true) {
+                String line = reader.readLine();
+                if (line == null) {
+                    break;
+                }
+                writer.write(line);
+            }
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
     /**
@@ -52,4 +79,6 @@ public class OssController {
         ClassPathResource classPathResource = new ClassPathResource("/static/img/" + key);
         OssUtil.globalPrivateStsPutObject(key, classPathResource.getInputStream());
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.ddf.boot.quick.oss;
 
 import cn.hutool.core.util.RandomUtil;
 import com.aliyun.oss.OSS;
+import com.aliyun.oss.model.OSSObject;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.google.common.collect.Lists;
 import lombok.SneakyThrows;
@@ -74,6 +75,9 @@ public class OssUtil {
         }
         return finalKey;
     }
+
+
+    // ------------------------------------------------------上传
 
     /**
      * 使用全局私有 bucket上传文件
@@ -180,7 +184,38 @@ public class OssUtil {
         List<String> staticPicList = OssUtil.staticPicList;
         String randomPath = staticPicList.get(RandomUtil.randomInt(0, staticPicList.size()));
         String avatarName = username + randomPath.substring(randomPath.lastIndexOf("."));
-        String writeKey = OssUtil.globalPrivateStsPutObject(avatarName, new ClassPathResource(randomPath).getInputStream(), OssUtil.KeyType.PIC);
+        String writeKey = OssUtil.globalPrivatePutObject(avatarName, new ClassPathResource(randomPath).getInputStream(), OssUtil.KeyType.PIC);
         return writeKey;
+    }
+
+
+    // ------------------------------------------------------获取
+
+    /**
+     * 获取存储的对象
+     * @param key
+     * @return
+     */
+    public static OSSObject globalPrivateGetObject(String key) {
+        return globalPrivateGetObject(DDF_PRIVATE_BUCKET, key, null);
+    }
+
+    /**
+     * 获取存储的对象
+     * @param key
+     * @return
+     */
+    public static OSSObject globalPrivateGetObject(String key, KeyType keyType) {
+        return globalPrivateGetObject(DDF_PRIVATE_BUCKET, key, keyType);
+    }
+
+    /**
+     * 获取存储的对象
+     * @param key
+     * @return
+     */
+    public static OSSObject globalPrivateGetObject(String bucketName, String key, KeyType keyType) {
+        String writeKey = formatPath(key, keyType);
+        return getGlobalPrivateOss().getObject(bucketName, writeKey);
     }
 }
