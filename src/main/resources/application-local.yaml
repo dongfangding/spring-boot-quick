@@ -202,6 +202,7 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       accessKeySecret: 2c6070800290cc0384a3563da8f7789fe131d72d1e8715469dcb07fa7341e3c1
       sinaName: ABC商城
       templateCode: SMS_204455240
+      useRandomCode: true
 
 
   jwt:
