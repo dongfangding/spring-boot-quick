@@ -181,6 +181,7 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
   message_secret: false # 是否加密传输websocket消息数据
 
   ext:
+    ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
     oss:
       endpoint: oss-cn-shanghai.aliyuncs.com
       accessKeyId: ef07af5541e6d3a8be8475be42b5ef5d8269fcb2aa92385a4c1b91b2c6ba312d
@@ -192,6 +193,15 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       durationSeconds: 1800
       buckets:
         - bucketName: ddf-private
+    ## 短信服务配置 com.ddf.boot.common.ext.sms.config.SmsProperties
+    sms:
+      endpoint: dysmsapi.aliyuncs.com
+      protocol: HTTP
+      secretAccessKey: true
+      accessKeyId: ef07af5541e6d3a8be8475be42b5ef5d8269fcb2aa92385a4c1b91b2c6ba312d
+      accessKeySecret: 2c6070800290cc0384a3563da8f7789fe131d72d1e8715469dcb07fa7341e3c1
+      sinaName: ABC商城
+      templateCode: SMS_204455240
 
 
   jwt:
