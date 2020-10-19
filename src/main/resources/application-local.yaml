@@ -184,8 +184,8 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
     ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
     oss:
       endpoint: oss-cn-shanghai.aliyuncs.com
-      accessKeyId: ef07af5541e6d3a8be8475be42b5ef5d8269fcb2aa92385a4c1b91b2c6ba312d
-      accessKeySecret: 2c6070800290cc0384a3563da8f7789fe131d72d1e8715469dcb07fa7341e3c1
+      accessKeyId: c1dd15161616bd9b7e21766e33c930331bf9d1b34e73d97a66d2acf9a1a3e3c4
+      accessKeySecret: 988d26926d81cc14d242d2017c1a95d26fb37a0af0f84d4ecde14431be9dbbf3
       secret: true
       stsEndpoint: sts.cn-shanghai.aliyuncs.com
       roleArn: acs:ram::1863283291831992:role/ramosssts
@@ -198,8 +198,8 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       endpoint: dysmsapi.aliyuncs.com
       protocol: HTTP
       secretAccessKey: true
-      accessKeyId: ef07af5541e6d3a8be8475be42b5ef5d8269fcb2aa92385a4c1b91b2c6ba312d
-      accessKeySecret: 2c6070800290cc0384a3563da8f7789fe131d72d1e8715469dcb07fa7341e3c1
+      accessKeyId: c1dd15161616bd9b7e21766e33c930331bf9d1b34e73d97a66d2acf9a1a3e3c4
+      accessKeySecret: 988d26926d81cc14d242d2017c1a95d26fb37a0af0f84d4ecde14431be9dbbf3
       sinaName: ABC商城
       templateCode: SMS_204455240
       useRandomCode: true
