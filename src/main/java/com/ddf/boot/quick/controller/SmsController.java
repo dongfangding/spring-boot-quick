@@ -30,7 +30,7 @@ public class SmsController {
     public String sendSms(String mobile) {
         AliYunSmsRequest aliYunSmsRequest = new AliYunSmsRequest();
         aliYunSmsRequest.setPhoneNumbers(mobile);
-        aliYunSmsRequest.setUserRandomCode(true);
+        aliYunSmsRequest.setUseRandomCode(true);
         aliYunSmsHelper.sendSms(aliYunSmsRequest);
         return aliYunSmsRequest.getTemplateParam();
     }
