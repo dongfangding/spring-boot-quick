@@ -52,7 +52,7 @@ public class UserClaimServiceImpl implements UserClaimService {
      */
     @Override
     public UserClaim getStoreUserInfo(UserClaim userClaim) {
-        UserClaim<?> dbUserClaim = new UserClaim<>();
+        UserClaim dbUserClaim = new UserClaim();
         AuthUser dbUser = authUserService.getById(userClaim.getUserId());
         // 将当前token对应的用户查询出来返回，给调用方用户将数据库数据和token进行比较
         dbUserClaim.setUserId(Convert.toStr(dbUser.getId()))
