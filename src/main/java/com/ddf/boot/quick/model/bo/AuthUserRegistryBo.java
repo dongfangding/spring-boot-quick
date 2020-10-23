@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.Date;
 
 /**
@@ -18,9 +20,12 @@ import java.util.Date;
 public class AuthUserRegistryBo {
 
 	@ApiModelProperty("姓名")
-	private String userName;
+	@NotEmpty(message = "姓名不能为空")
+	private String username;
 
 	@ApiModelProperty("密码")
+	@NotEmpty(message = "密码不能为空")
+	@Size(max = 18, min = 6, message = "密码必须位于6到18个字符之间")
 	private String password;
 
 	@ApiModelProperty("邮箱")

@@ -2,7 +2,7 @@ package com.ddf.boot.quick.listener;
 
 import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.common.core.util.MailUtil;
-import com.ddf.boot.common.core.util.StringUtil;
+import com.ddf.boot.common.core.util.StringExtUtil;
 import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.common.mq.definition.QueueBuilder;
 import com.ddf.boot.common.mq.listener.MqEventListener;
@@ -67,7 +67,7 @@ public class NoticeMqEventListener implements MqEventListener {
             try {
                 mailUtil.sendMimeMail(new String[]{"1041765757@qq.com"} , String.format("mq消息[%s]发送失败提醒", messageWrapper.getMessageId()),
                         JsonUtil.asString(messageWrapper) + "<br /><br /> <font color='red'>"
-                                + StringUtil.exceptionToString(throwable) + "</font>");
+                                + StringExtUtil.exceptionToStringNoLimit(throwable) + "</font>");
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -90,7 +90,7 @@ public class NoticeMqEventListener implements MqEventListener {
             try {
                 mailUtil.sendMimeMail(new String[]{"1041765757@qq.com"}, String.format("mq消息[%s]消费失败提醒", messageWrapper.getMessageId()),
                         JsonUtil.asString(messageWrapper) + "<br /><br /> <font color='red'>"
-                                + StringUtil.exceptionToString(throwable) + "</font>");
+                                + StringExtUtil.exceptionToStringNoLimit(throwable) + "</font>");
             } catch (MessagingException e) {
                 e.printStackTrace();
             }

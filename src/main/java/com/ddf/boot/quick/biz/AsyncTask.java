@@ -1,7 +1,9 @@
 package com.ddf.boot.quick.biz;
 
+import com.ddf.boot.common.mq.definition.QueueBuilder;
+import com.ddf.boot.common.mq.exception.MqSendException;
 import com.ddf.boot.common.mq.helper.RabbitTemplateHelper;
-import com.ddf.boot.quick.model.dto.LogUserLoginHistoryDto;
+import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -22,24 +24,14 @@ public class AsyncTask {
     private RabbitTemplateHelper rabbitTemplateHelper;
 
     @Async("userLoginLogExecutor")
-    public void logUserLoginHistory(LogUserLoginHistoryDto userLoginHistoryDto) {
-        if (userLoginHistoryDto == null) {
+    public void logUserLoginHistory(UserLoginHistoryCollection userLoginHistoryCollection) {
+        if (userLoginHistoryCollection == null) {
             log.error("用户登录日志数据不全！");
         }
-/*        try {
-            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, userLoginHistoryDto);
-        } catch (MqSendException ignored) {}
-
-        try {
-            // 发送给一个死信队列
-            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.TEST_DEAD_LETTER_QUEUE, userLoginHistoryDto );
-        } catch (MqSendException ignored) {}
-
-        try {
-            // 发送给一个死信延迟队列
-            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.TEST_TTL_QUEUE, userLoginHistoryDto);
-        } catch (MqSendException ignored) {}*/
+       try {
+            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, userLoginHistoryCollection);
+        } catch (MqSendException error) {
+           log.error("用户登录日志发送失败......", error);
+       }
     }
-
-
 }

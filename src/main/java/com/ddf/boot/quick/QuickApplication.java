@@ -1,10 +1,10 @@
 package com.ddf.boot.quick;
 
 import com.ddf.boot.common.core.logaccess.EnableLogAspect;
-import com.ddf.boot.common.jwt.config.EnableJwt;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
  * @MapperScan 要保证只扫描继承到BaseMapper的类，否则正常的接口会抛出异常Invalid bound statement (not found)
@@ -14,8 +14,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan(basePackages = {"com.ddf.boot.quick.mapper"})
-@EnableJwt
+//@EnableJwt
 @EnableLogAspect(slowTime = 3000)
+@EnableMongoRepositories("com.ddf.boot.quick.mongo.repository")
 public class QuickApplication {
 
     public static void main(String[] args) {
