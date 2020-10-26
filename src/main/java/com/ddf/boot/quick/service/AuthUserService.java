@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.service;
 
-import com.ddf.boot.common.core.entity.PageResult;
+import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.common.mybatis.service.CustomizeIService;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;

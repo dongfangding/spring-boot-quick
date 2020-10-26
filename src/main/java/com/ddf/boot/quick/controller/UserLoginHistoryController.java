@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.controller;
 
-import com.ddf.boot.common.core.entity.PageResult;
+import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.mongo.helper.MongoTemplateHelper;
 import com.ddf.boot.quick.model.bo.PageUserHistoryBo;
 import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;

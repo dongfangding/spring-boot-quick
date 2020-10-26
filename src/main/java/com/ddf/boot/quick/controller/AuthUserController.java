@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.controller;
 
-import com.ddf.boot.common.core.entity.PageResult;
+import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;

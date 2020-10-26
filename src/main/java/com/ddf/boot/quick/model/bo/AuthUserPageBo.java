@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.model.bo;
 
-import com.ddf.boot.common.core.entity.BaseQuery;
+import com.ddf.boot.common.core.model.BaseQuery;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
