@@ -170,6 +170,13 @@ elasticjob:
       # 在一次运行耗时较长且间隔较长的作业场景，错过任务重执行是提升作业运行实时性的有效手段； 对于未见得关注单次作业的实时性的短间隔的作业来说，开启错过任务重执行并无必要。
       misfire: false
 
+rocketmq:
+  name-server: localhost:9876
+  producer:
+    group: producer-group
+    send-message-timeout: 10000
+    retryNextServer: true
+
 customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
   global-properties:
     snowflakeWorkerId: 1      # worker Id can't be greater than 31 or less than 0
@@ -184,8 +191,8 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
     ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
     oss:
       endpoint: oss-cn-shanghai.aliyuncs.com
-      accessKeyId: c1dd15161616bd9b7e21766e33c930331bf9d1b34e73d97a66d2acf9a1a3e3c4
-      accessKeySecret: 988d26926d81cc14d242d2017c1a95d26fb37a0af0f84d4ecde14431be9dbbf3
+      accessKeyId: d86b0b8b1c525ee7c4ab54592902baee0fdbba93e20bff5a1016608b9c41053c
+      accessKeySecret: 57a8e5c1c3280f3e72c754f4b5a2e326e663ca94414f7ec13a67c2fafd9886ff
       secret: true
       stsEndpoint: sts.cn-shanghai.aliyuncs.com
       roleArn: acs:ram::1863283291831992:role/ramosssts
@@ -198,8 +205,8 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       endpoint: dysmsapi.aliyuncs.com
       protocol: HTTP
       secretAccessKey: true
-      accessKeyId: c1dd15161616bd9b7e21766e33c930331bf9d1b34e73d97a66d2acf9a1a3e3c4
-      accessKeySecret: 988d26926d81cc14d242d2017c1a95d26fb37a0af0f84d4ecde14431be9dbbf3
+      accessKeyId: d86b0b8b1c525ee7c4ab54592902baee0fdbba93e20bff5a1016608b9c41053c
+      accessKeySecret: 57a8e5c1c3280f3e72c754f4b5a2e326e663ca94414f7ec13a67c2fafd9886ff
       sinaName: ABC商城
       templateCode: SMS_204455240
       useRandomCode: true
@@ -234,11 +241,11 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
     primaryKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIPT0VbUrdYMIX//tgHgaMh9PUtqG6R/lNOvIl9LR6Mbc5J03qjvLlu2IifHFbFonm6XguZG4LZ4H3hRkX9fC4qSaQR1vZBOvS1aNLRyvMZudISJygiag1qJOQMEwrb8JUZkP7NMpBNjYpmF344+25Il3axRnd1oVR4Hhp4tqEe1AgMBAAECgYBYv0i3BAbjitcirKuDJ+hi0K1rD8v8OkefGtAxByT7EYgEmNktMZgr9bmYvdZE0QGXwjhFfoHZVZUaEw+4h+vkJrXxv2FQHqTSL8fDeL4jggNO3YYpLFoq9bvwWeqDJ3vvVkJEbNycfoE6iXv91mUM3hb7ie1NlvWYOJtiAxf0AQJBAOzyLcea/8Au8nVnJrVstpVaItkib7pT/9w2BDAe821JTXsmUCGw47LpYHZos6G8pR9Hz8VRaj99z8Z5xa2fe2ECQQCObaUe0n67ddr3OExVF9LyFVEdGzvuOwJjQi6/URvhrQDV31kld2z9lqV6p2l6JpDpmQIwPsJTS7qbLLhjGqDVAkEAz+Gh3I/Wdiw6OFqpkV6xydLs5AfccmMkBXW2sulUtLstKTBx+T0SaHNsWDZ/8xRo4krEtN87Ej01P3KyxiM3wQJAaJirF5ycR40AtmeY3zD00KXJAOgcNhMN6NkUvZmSMUS9BVPWAwbWetEkS5QgiP1DlNmyWr3sNgG6U/UeoGFQ1QJAZief8zE0C5jCmWf7VwfAJCSd+r+BVcSCpUxskc3gnhfG6j+ImAirhXIY+ld8rArmGl4UPkQfapBphUJslWLpLg==
     publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCD09FW1K3WDCF//7YB4GjIfT1Lahukf5TTryJfS0ejG3OSdN6o7y5btiInxxWxaJ5ul4LmRuC2eB94UZF/XwuKkmkEdb2QTr0tWjS0crzGbnSEicoImoNaiTkDBMK2/CVGZD+zTKQTY2KZhd+OPtuSJd2sUZ3daFUeB4aeLahHtQIDAQAB
 
-  zookeeper:
-    monitor:
-      connectAddress: 127.0.0.1:2181
-      monitors:
-        - monitorPath: /test
+#  zookeeper:
+#    monitor:
+#      connectAddress: 127.0.0.1:2181
+#      monitors:
+#        - monitorPath: /test
 
 leaf:
   name: com.sankuai.leaf.opensource.snowflake
@@ -257,3 +264,4 @@ logging:
     com.ddf.boot.quick.mapper: debug
     com.ddf.boot.common.mq: debug
     com.ddf.boot.netty.broker: debug
+
