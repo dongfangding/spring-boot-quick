@@ -73,11 +73,11 @@
             <version>${project.parent.version}</version>
         </dependency>-->
 
-        <dependency>
+<!--        <dependency>
             <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-rocketmq</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>
+        </dependency>-->
 
         <dependency>
             <groupId>com.ddf.common</groupId>
