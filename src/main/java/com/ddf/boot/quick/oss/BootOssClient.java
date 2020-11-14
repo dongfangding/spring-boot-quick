@@ -1,16 +1,20 @@
 package com.ddf.boot.quick.oss;
 
 import cn.hutool.core.util.RandomUtil;
+import com.ddf.boot.common.core.exception200.ServerErrorException;
 import com.ddf.boot.common.ext.oss.config.StsTokenRequest;
+import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -23,6 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 @Component
 @AllArgsConstructor(onConstructor_={@Autowired})
+@Slf4j
 public class BootOssClient {
 
     private final OssHelper ossHelper;
@@ -37,6 +42,33 @@ public class BootOssClient {
             "static/img/da80babe6c81800a4e1c0156a63533fa808b47c2.jpg", "static/img/月光.9b95f8a8.jpg");
 
 
+    /**
+     * 获取当前项目的oss token属性信息
+     * @return
+     */
+    public StsTokenResponse getOssToken() {
+        StsTokenRequest request = new StsTokenRequest();
+        request.setPlatform(OSS_PLATFORM);
+        request.setIdentity(JwtUtil.getByContextNotNecessary().getUserId());
+        return ossHelper.getOssToken(request);
+    }
+
+    /**
+     * 上传对象, 并返回对象key
+     * @param inputStream
+     */
+    public String putObject(String suffix, InputStream inputStream) {
+        final StsTokenRequest stsTokenRequest = new StsTokenRequest();
+        stsTokenRequest.setPlatform(OSS_PLATFORM);
+        stsTokenRequest.setIdentity(JwtUtil.getByContextNotNecessary().getUserId());
+        AtomicReference<String> objectKey = new AtomicReference<>();
+        ossHelper.getStsOss(stsTokenRequest, (dto) -> {
+            objectKey.set(dto.getStsTokenResponse().getObjectPrefix() + "." + suffix);
+            dto.getOss().putObject(dto.getStsTokenResponse().getBucketName(), objectKey.get(),
+                    inputStream);
+        });
+        return objectKey.get();
+    }
 
 
     /**
@@ -44,7 +76,6 @@ public class BootOssClient {
      * @param username
      * @return
      */
-    @SneakyThrows
     public String uploadAvatar(String username) {
         List<String> staticPicList = BootOssClient.staticPicList;
         String randomPath = staticPicList.get(RandomUtil.randomInt(0, staticPicList.size()));
@@ -55,8 +86,15 @@ public class BootOssClient {
         AtomicReference<String> fileName = new AtomicReference<>();
         ossHelper.getStsOss(stsTokenRequest, (dto) -> {
             fileName.set(dto.getStsTokenResponse().getObjectPrefix() + "_" + avatarName);
+            InputStream inputStream;
+            try {
+                inputStream = new ClassPathResource(randomPath).getInputStream();
+            } catch (IOException ioException) {
+                log.error("获取文件失败", ioException);
+                throw new ServerErrorException("获取文件失败");
+            }
             dto.getOss().putObject(dto.getStsTokenResponse().getBucketName(), dto.getStsTokenResponse().getObjectPrefix() + "_" + avatarName,
-                    new ClassPathResource(randomPath).getInputStream());
+                    inputStream);
         });
         return fileName.get();
     }

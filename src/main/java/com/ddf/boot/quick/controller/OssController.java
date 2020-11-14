@@ -1,19 +1,16 @@
 package com.ddf.boot.quick.controller;
 
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.model.OSSObject;
-import com.aliyuncs.exceptions.ClientException;
-import com.ddf.boot.common.ext.oss.config.StsCredentials;
+import com.ddf.boot.common.ext.oss.config.StsTokenRequest;
+import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.quick.oss.BootOssClient;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 
 /**
  * <p>description</p >
@@ -24,7 +21,22 @@ import java.io.PrintWriter;
  */
 @RestController
 @RequestMapping("/oss")
+@AllArgsConstructor(onConstructor_={@Autowired})
 public class OssController {
+
+    private final BootOssClient bootOssClient;
+
+    private final OssHelper ossHelper;
+
+
+
+    /**
+     * 返回STS授权信息, 实际中使用的比较多
+     */
+    @GetMapping("responseStsCredentials")
+    public StsTokenResponse getOssToken(@RequestBody StsTokenRequest stsTokenRequest) {
+        return ossHelper.getOssToken(stsTokenRequest);
+    }
 
     /**
      * 本地简单上传，不需要客户端上传文件，直接上传本地文件
@@ -33,12 +45,13 @@ public class OssController {
     public String localSimpleUpload() throws IOException {
         String key = "7dd13d37acaf2edde000d44f811001e93b0193f8.jpg";
         ClassPathResource classPathResource = new ClassPathResource("/static/img/" + key);
-        return BootOssClient.globalPrivatePutObject(key, classPathResource.getInputStream(), BootOssClient.KeyType.PIC);
+        return bootOssClient.putObject(".jpg", classPathResource.getInputStream());
     }
 
     @PostMapping("localSimpleDownloadPic")
     public void localSimpleDownload(@RequestParam String picPath, HttpServletResponse httpServletResponse) {
-        OSS globalPrivateOss = BootOssClient.getGlobalPrivateOss();
+        // todo 获取对象授权处理
+        /*OSS globalPrivateOss = BootOssClient.getGlobalPrivateOss();
         OSSObject ossObject = BootOssClient.globalPrivateGetObject(picPath, BootOssClient.KeyType.PIC);
 
         httpServletResponse.setContentType("multipart/form-data");
@@ -56,29 +69,6 @@ public class OssController {
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
     }
-
-
-
-    /**
-     * 返回STS授权信息
-     */
-    @GetMapping("responseStsCredentials")
-    public StsCredentials responseStsCredentials() throws ClientException {
-        return OssHelper.getStsCredentials();
-    }
-
-
-    /**
-     * 使用STS上传文件
-     */
-    @PostMapping("stsSimpleUpload")
-    public void stsSimpleUpload() throws IOException {
-        String key = "8eed93dce71190ef40021a87d91b9d16fffa60c2.jpg";
-        ClassPathResource classPathResource = new ClassPathResource("/static/img/" + key);
-        BootOssClient.globalPrivateStsPutObject(key, classPathResource.getInputStream());
-    }
-
-
 }

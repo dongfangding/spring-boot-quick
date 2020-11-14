@@ -200,6 +200,8 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       durationSeconds: 1800
       buckets:
         - bucketName: ddf-private
+          bucketEndpoint: ddf-private.oss-cn-shanghai.aliyuncs.com
+          primary: true
     ## 短信服务配置 com.ddf.boot.common.ext.sms.config.SmsProperties
     sms:
       endpoint: dysmsapi.aliyuncs.com

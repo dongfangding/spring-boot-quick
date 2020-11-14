@@ -6,12 +6,12 @@
 
     <groupId>com.ddf.spring-boot</groupId>
     <artifactId>spring-boot-quick</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
 
     <parent>
         <artifactId>ddf-common</artifactId>
         <groupId>com.ddf.common</groupId>
-        <version>1.0.0</version>
+        <version>1.0.0-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -20,13 +20,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <elasic-job.version>3.0.0-alpha</elasic-job.version>
     </properties>
-
-    <repositories>
-        <repository>
-            <id>Eclipse Paho Repo</id>
-            <url>https://repo.eclipse.org/content/repositories/paho-releases/ for the official releases, or https://repo.eclipse.org/content/repositories/paho-snapshots/</url>
-        </repository>
-    </repositories>
 
     <dependencies>
 
@@ -73,11 +66,13 @@
             <version>${project.parent.version}</version>
         </dependency>-->
 
-<!--        <dependency>
+<!--
+        <dependency>
             <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-rocketmq</artifactId>
             <version>${project.parent.version}</version>
-        </dependency>-->
+        </dependency>
+-->
 
         <dependency>
             <groupId>com.ddf.common</groupId>
@@ -182,6 +177,20 @@
 
 
     </dependencies>
+
+<!--    <distributionManagement>
+        <repository>
+            &lt;!&ndash; 注意这里的id要和settings.xml中配置servers节点下的server里的id一致，因为要找到对应的账号信息 &ndash;&gt;
+            <id>nexus_release</id>
+            <name>Release Repository of nexus_release</name>
+            <url>http://106.15.10.135:8081/repository/nexus_release/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus_snapshot</id>
+            <name>Snapshot Repository of nexus_snapshot</name>
+            <url>http://106.15.10.135:8081/repository/nexus_snapshot/</url>
+        </snapshotRepository>
+    </distributionManagement>-->
 
     <build>
         <finalName>spring-boot-quick</finalName>
