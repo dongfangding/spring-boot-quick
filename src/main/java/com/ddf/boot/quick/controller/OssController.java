@@ -1,10 +1,8 @@
 package com.ddf.boot.quick.controller;
 
-import com.ddf.boot.common.ext.oss.config.StsTokenRequest;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.quick.oss.BootOssClient;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.*;
@@ -21,21 +19,21 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/oss")
-@AllArgsConstructor(onConstructor_={@Autowired})
 public class OssController {
+    @Autowired
+    private BootOssClient bootOssClient;
 
-    private final BootOssClient bootOssClient;
-
-    private final OssHelper ossHelper;
+    @Autowired
+    private OssHelper ossHelper;
 
 
 
     /**
      * 返回STS授权信息, 实际中使用的比较多
      */
-    @GetMapping("responseStsCredentials")
-    public StsTokenResponse getOssToken(@RequestBody StsTokenRequest stsTokenRequest) {
-        return ossHelper.getOssToken(stsTokenRequest);
+    @PostMapping("getOssToken")
+    public StsTokenResponse getOssToken() {
+        return bootOssClient.getOssToken();
     }
 
     /**

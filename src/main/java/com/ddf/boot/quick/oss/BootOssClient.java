@@ -7,7 +7,6 @@ import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -26,11 +25,11 @@ import java.util.concurrent.atomic.AtomicReference;
  * @date 2020/10/12 16:28
  */
 @Component
-@AllArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
 public class BootOssClient {
 
-    private final OssHelper ossHelper;
+    @Autowired
+    private OssHelper ossHelper;
 
     public static final String OSS_PLATFORM = "boot-quick";
 
