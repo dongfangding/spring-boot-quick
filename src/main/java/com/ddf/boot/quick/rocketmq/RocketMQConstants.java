@@ -8,7 +8,7 @@ package com.ddf.boot.quick.rocketmq;
  * @version 1.0
  * @date 2020/11/19 19:16
  */
-public interface RocketMqConstants {
+public interface RocketMQConstants {
 
 
     /**
@@ -26,13 +26,21 @@ public interface RocketMqConstants {
 
 
     /**
-     * 应保持Topic的通用性，使用tag来筛选数据, 这可以不用建立太多的topic
+     * 应保持Topic的通用性，使用tags来筛选数据, 这可以不用建立太多的topic
      *
      * https://github.com/apache/rocketmq/blob/master/docs/cn/best_practice.md#1--tags%E7%9A%84%E4%BD%BF%E7%94%A8
      */
-    interface Tag {
+    interface Tags {
 
+        /**
+         * string格式
+         */
         String STRING = "string";
+
+        /**
+         * 发送用户对象
+         */
+        String USER_OBJECT = "user_object";
     }
 
     /**
@@ -40,7 +48,15 @@ public interface RocketMqConstants {
      */
     interface ConsumerGroup {
 
-        String DEMO_STRING_CONSUMER_GROUP = "demo_consumer_group";
+        /**
+         * 消费组
+         */
+        String DEMO_STRING_CONSUMER_GROUP = Topic.DEMO + "_" + Tags.STRING;
+
+        /**
+         * 用户对象消费组
+         */
+        String DEMO_USER_CONSUMER_GROUP = Topic.DEMO + "_" + Tags.USER_OBJECT;
 
     }
 
