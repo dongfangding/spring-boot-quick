@@ -81,6 +81,17 @@ spring:
   #        min-idle: 0
   #        max-wait: 800ms
   #    timeout: 1000ms
+  redis:
+    database: 0
+    jedis:
+      pool:
+        max-active: 100
+        max-idle: 10
+        min-idle: 0
+        max-wait: 800ms
+    timeout: 1000ms
+    host: ${redis.host}
+    port: ${redis.port}
 
 
   mail:
