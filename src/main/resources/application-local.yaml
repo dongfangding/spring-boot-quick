@@ -3,7 +3,8 @@ redis.host: 127.0.0.1
 redis.port: 6379
 
 # zookeeper地址,host:port, 多个用,隔开
-zk.addr: localhost:2181
+zk.addr: 106.15.10.135:2181,106.15.10.135:2182,106.15.10.135:2183
+#zk.addr: localhost:2181
 
 # mysql
 mysql.host: localhost
@@ -153,6 +154,12 @@ rocketmq:
     send-message-timeout: 10000
     retryNextServer: true
 
+distributed:
+  lock:
+    zookeeper:
+      root: /distributed_lock
+      connectString: ${zk.addr}
+
 elasticjob:
   reg-center:
     server-lists: ${zk.addr}
@@ -197,6 +204,11 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
   message_secret: false # 是否加密传输websocket消息数据
+
+  zookeeper:
+    monitor:
+      connectAddress: ${zk.addr}
+
 
   ext:
     ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
@@ -254,11 +266,6 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
     primaryKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIPT0VbUrdYMIX//tgHgaMh9PUtqG6R/lNOvIl9LR6Mbc5J03qjvLlu2IifHFbFonm6XguZG4LZ4H3hRkX9fC4qSaQR1vZBOvS1aNLRyvMZudISJygiag1qJOQMEwrb8JUZkP7NMpBNjYpmF344+25Il3axRnd1oVR4Hhp4tqEe1AgMBAAECgYBYv0i3BAbjitcirKuDJ+hi0K1rD8v8OkefGtAxByT7EYgEmNktMZgr9bmYvdZE0QGXwjhFfoHZVZUaEw+4h+vkJrXxv2FQHqTSL8fDeL4jggNO3YYpLFoq9bvwWeqDJ3vvVkJEbNycfoE6iXv91mUM3hb7ie1NlvWYOJtiAxf0AQJBAOzyLcea/8Au8nVnJrVstpVaItkib7pT/9w2BDAe821JTXsmUCGw47LpYHZos6G8pR9Hz8VRaj99z8Z5xa2fe2ECQQCObaUe0n67ddr3OExVF9LyFVEdGzvuOwJjQi6/URvhrQDV31kld2z9lqV6p2l6JpDpmQIwPsJTS7qbLLhjGqDVAkEAz+Gh3I/Wdiw6OFqpkV6xydLs5AfccmMkBXW2sulUtLstKTBx+T0SaHNsWDZ/8xRo4krEtN87Ej01P3KyxiM3wQJAaJirF5ycR40AtmeY3zD00KXJAOgcNhMN6NkUvZmSMUS9BVPWAwbWetEkS5QgiP1DlNmyWr3sNgG6U/UeoGFQ1QJAZief8zE0C5jCmWf7VwfAJCSd+r+BVcSCpUxskc3gnhfG6j+ImAirhXIY+ld8rArmGl4UPkQfapBphUJslWLpLg==
     publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCD09FW1K3WDCF//7YB4GjIfT1Lahukf5TTryJfS0ejG3OSdN6o7y5btiInxxWxaJ5ul4LmRuC2eB94UZF/XwuKkmkEdb2QTr0tWjS0crzGbnSEicoImoNaiTkDBMK2/CVGZD+zTKQTY2KZhd+OPtuSJd2sUZ3daFUeB4aeLahHtQIDAQAB
 
-#  zookeeper:
-#    monitor:
-#      connectAddress: 127.0.0.1:2181
-#      monitors:
-#        - monitorPath: /test
 
 leaf:
   name: com.sankuai.leaf.opensource.snowflake

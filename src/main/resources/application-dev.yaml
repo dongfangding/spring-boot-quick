@@ -154,6 +154,12 @@ rocketmq:
     send-message-timeout: 10000
     retryNextServer: true
 
+distributed:
+  lock:
+    zookeeper:
+      root: /distributed_lock
+      connectString: ${zk.addr}
+
 elasticjob:
   reg-center:
     server-lists: ${zk.addr}
@@ -198,6 +204,10 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
   message_secret: false # 是否加密传输websocket消息数据
+
+  zookeeper:
+    monitor:
+      connectAddress: ${zk.addr}
 
   ext:
     ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
