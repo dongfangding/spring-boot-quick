@@ -48,6 +48,10 @@ public class LogMqListenerController {
     private LogMqListenerMapper logMqListenerMapper;
 
 
+    /**
+     * 列表查询
+     * @return
+     */
     @GetMapping("/list")
     public List<LogMqListener> list() {
         LambdaQueryWrapper<LogMqListener> query = Wrappers.lambdaQuery();

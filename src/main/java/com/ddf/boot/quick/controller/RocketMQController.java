@@ -32,6 +32,10 @@ public class RocketMQController {
 
     private final AuthUserService authUserService;
 
+
+    /**
+     * 触发rocketmq 的常用发送操作
+     */
     @PostMapping("sendDemo")
     public void sendDemo() {
         // 发送最简单的string消息
