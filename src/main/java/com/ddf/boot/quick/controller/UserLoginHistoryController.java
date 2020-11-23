@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 用户登录日志控制器$
  *
+ * @menu 用户登录日志
  * @author dongfang.ding
  * @date 2020/9/19 0019 14:42
  */

@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * 快速开始控制器，用于演示某些功能的使用方式$
  *
+ * @menu 项目快速开始演示类
  * @author dongfang.ding
  * @date 2020/8/15 0015 17:30
  */

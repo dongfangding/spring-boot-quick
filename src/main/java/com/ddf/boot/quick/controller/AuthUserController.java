@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * $
+ *
+ * @menu 系统用户
  *
  * @author dongfang.ding
  * @date 2019/12/9 0009 13:36

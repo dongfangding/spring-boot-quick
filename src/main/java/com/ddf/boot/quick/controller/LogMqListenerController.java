@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ *
  * mq消息消费日志记录$
  * <p>
  * <p>
@@ -36,6 +37,7 @@ import java.util.List;
  * .............................................
  * 佛曰：bug泛滥，我已瘫痪！
  *
+ * @menu mq消息消费日志记录
  * @author dongfang.ding
  * @date 2019/12/21 0021 15:00
  */

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * <p>description</p >
  *
+ * @menu RocketMQ相关
  * @author Snowball
  * @version 1.0
  * @date 2020/11/20 13:13

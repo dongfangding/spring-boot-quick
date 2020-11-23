@@ -5,7 +5,10 @@ import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.quick.oss.BootOssClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,6 +16,7 @@ import java.io.IOException;
 /**
  * <p>description</p >
  *
+ * @menu 阿里云OSS相关
  * @author Snowball
  * @version 1.0
  * @date 2020/10/13 11:44
