@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * <p>description</p >
  *
+ * https://github.com/apache/rocketmq-spring/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98
+ *
  * @menu RocketMQ相关
  * @author Snowball
  * @version 1.0

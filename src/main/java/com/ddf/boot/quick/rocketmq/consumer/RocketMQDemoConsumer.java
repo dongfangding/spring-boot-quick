@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 /**
  * <p>description</p >
  *
+ * https://github.com/apache/rocketmq-spring/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98
+ *
  * @author Snowball
  * @version 1.0
  * @date 2020/11/20 13:18
