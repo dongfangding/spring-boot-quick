@@ -279,7 +279,7 @@ logging:
   level:
     root: info
     com.ddf.boot.common.log.AccessLogAspect: debug
-    com.ddf.boot.quick.mapper: debug
+    #    com.ddf.boot.quick.mapper: debug   因为用了sql插件，这里可以先注释掉
     com.ddf.boot.common.mq: debug
     com.ddf.boot.netty.broker: debug
 
