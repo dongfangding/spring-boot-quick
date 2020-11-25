@@ -3,8 +3,7 @@ redis.host: 127.0.0.1
 redis.port: 6379
 
 # zookeeper地址,host:port, 多个用,隔开
-zk.addr: 106.15.10.135:2181,106.15.10.135:2182,106.15.10.135:2183
-#zk.addr: localhost:2181
+zk.addr: localhost:2181
 
 # mysql
 mysql.host: localhost
