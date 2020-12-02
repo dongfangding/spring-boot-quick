@@ -1,6 +1,6 @@
 # redis相关
 redis.host: 127.0.0.1
-redis.port: port
+redis.port: 9999
 redis.password: password
 
 # zookeeper地址,host:port, 多个用,隔开
@@ -8,7 +8,7 @@ zk.addr: localhost:2181,localhost:2182,localhost:2183
 
 # mysql
 mysql.host: localhost
-mysql.port: port
+mysql.port: 9999
 mysql.db: boot-quick
 mysql.username: username
 mysql.password: password
