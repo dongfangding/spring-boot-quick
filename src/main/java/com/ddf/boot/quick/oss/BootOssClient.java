@@ -3,8 +3,8 @@ package com.ddf.boot.quick.oss;
 import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.util.RandomUtil;
+import com.ddf.boot.common.core.exception200.BusinessException;
 import com.ddf.boot.common.core.exception200.ServerErrorException;
-import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.common.ext.oss.config.StsTokenRequest;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
@@ -54,6 +54,10 @@ public class BootOssClient {
         ipApiTotalMap.schedulePrune(TimeUnit.MINUTES.toMillis(10));
     }
 
+    /**
+     * 暂时单机版限制
+     * @return
+     */
     public StsTokenResponse getOssTokenWithApiLimit() {
         final String host = WebUtil.getHost();
         AtomicInteger currCount;
@@ -64,7 +68,10 @@ public class BootOssClient {
             } else {
                 currCount.getAndIncrement();
             }
-            PreconditionUtil.checkArgument(currCount.get() <= maxIpTotalPerDay, "24小时内同一ip调用次数超限");
+            if (currCount.get() > maxIpTotalPerDay) {
+                log.error("当前ip[{}]调用次数[{}]超限", host, maxIpTotalPerDay);
+                throw new BusinessException("24小时内同一ip调用次数超限");
+            }
             ipApiTotalMap.put(host, currCount);
         }
         final StsTokenResponse token = getOssToken();
