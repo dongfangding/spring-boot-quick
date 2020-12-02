@@ -1,4 +1,3 @@
-
 #!/bin/bash
 # service running script.
 echo "开始执行部署脚本>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
