@@ -1,7 +1,7 @@
   <component name="yapi">
-    <option name="projectToken">952e7f9ef36ecf715034fea7b25fb38aca8c25b039f5d61e926daccf8d59100a</option>
-    <option name="projectId">6</option>
-    <option name="yapiUrl">http://106.15.10.135:3000/</option>
+    <option name="projectToken">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</option>
+    <option name="projectId">14</option>
+    <option name="yapiUrl">http://106.15.10.135:8803/</option>
     <option name="projectType">api</option>
     <option name="attachUploadUrl" />
     <option name="returnClass">com.ddf.boot.common.core.response.ResponseData</option>

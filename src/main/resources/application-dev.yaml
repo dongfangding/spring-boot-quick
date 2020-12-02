@@ -1,29 +1,29 @@
 # redis相关
-redis.host: 127.0.0.1
-redis.port: 9999
-redis.password: password
+redis_host: 127.0_0.1
+redis_port: 9999
+redis_password: password
 
 # zookeeper地址,host:port, 多个用,隔开
-zk.addr: localhost:2181,localhost:2182,localhost:2183
+zk_addr: localhost:2181,localhost:2182,localhost:2183
 
 # mysql
-mysql.host: localhost
-mysql.port: 9999
-mysql.db: boot-quick
-mysql.username: username
-mysql.password: password
+mysql_host: localhost
+mysql_port: 9999
+mysql_db: boot-quick
+mysql_username: username
+mysql_password: password
 
 # rabbitmq相关
-rabbit.address: localhost:5672
-rabbit.username: username
-rabbit.password: password
+rabbit_address: localhost:5672
+rabbit_username: username
+rabbit_password: password
 
 
 # rocket name-server地址
-rocketmq.name.server: localhost:9876
+rocketmq_name_server: localhost:9876
 
 
-mongodb.url: mongodb://user:pass@localhost:port/boot-quick?authSource=admin
+mongodb_url: mongodb://user:pass@localhost:port/boot-quick?authSource=admin
 
 spring:
   datasource:
@@ -31,9 +31,9 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       driver-class-name: com.p6spy.engine.spy.P6SpyDriver  # 优化sql显示插件，对性能有一定影响
-      url: jdbc:p6spy:mysql://${mysql.host}:${mysql.port}/${mysql.db}?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
-      username: ${mysql.username}
-      password: ${mysql.password} # https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter可以配置生数据库加密
+      url: jdbc:p6spy:mysql://${mysql_host}:${mysql_port}/${mysql_db}?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
+      username: ${mysql_username}
+      password: ${mysql_password} # https://github.com/alibaba/druid/wiki/%E4%BD%BF%E7%94%A8ConfigFilter可以配置生数据库加密
       initial-size: 5
       asyncInit: true
       max-active: 30
@@ -93,9 +93,9 @@ spring:
         min-idle: 0
         max-wait: 800ms
     timeout: 1000ms
-    host: ${redis.host}
-    port: ${redis.port}
-    password: ${redis.password}
+    host: ${redis_host}
+    port: ${redis_port}
+    password: ${redis_password}
 
   mail:
     username: 1041765757@qq.com                # 用来验证授权的邮件用户名
@@ -104,9 +104,9 @@ spring:
     properties.mail.smtp.ssl.enable: true # 用以支持授权码登陆
 
   rabbitmq:
-    addresses: ${rabbit.address}
-    username: ${rabbit.username}
-    password: ${rabbit.password}
+    addresses: ${rabbit_address}
+    username: ${rabbit_username}
+    password: ${rabbit_password}
     virtualHost: /
     cache:
       channel:
@@ -122,7 +122,7 @@ spring:
         initialInterval: 2000  # 第一次和第二次尝试传递消息之间的持续时间
   data:
     mongodb:
-      uri: ${mongodb.url}
+      uri: ${mongodb_url}
 
   websocket:
     properties:
@@ -148,7 +148,7 @@ spring:
 #        default-requeue-rejected: false
 
 rocketmq:
-  name-server: ${rocketmq.name.server}
+  name-server: ${rocketmq_name_server}
   producer:
     group: boot-quick-producer-group
     send-message-timeout: 10000
@@ -158,11 +158,11 @@ distributed:
   lock:
     zookeeper:
       root: /distributed_lock
-      connectString: ${zk.addr}
+      connectString: ${zk_addr}
 
 elasticjob:
   reg-center:
-    server-lists: ${zk.addr}
+    server-lists: ${zk_addr}
   tracing:
     type: RDB # 事件追踪配置,需要配合数据库数据源
   dump:
@@ -207,7 +207,7 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
 
   zookeeper:
     monitor:
-      connectAddress: ${zk.addr}
+      connectAddress: ${zk_addr}
 
   ext:
     ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
@@ -272,7 +272,7 @@ leaf:
     enable: false
   snowflake:
     enable: true
-    address: ${zk.addr}
+    address: ${zk_addr}
 
 
 logging:
