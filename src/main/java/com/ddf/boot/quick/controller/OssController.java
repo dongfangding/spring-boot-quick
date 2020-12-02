@@ -36,14 +36,13 @@ public class OssController {
     public static RateLimiter ossRateLimiter = RateLimiter.create(1, 5, TimeUnit.SECONDS);
 
 
-
     /**
      * 返回STS授权信息, 实际中使用的比较多
      */
     @PostMapping("getOssToken")
     public StsTokenResponse getOssToken() {
         PreconditionUtil.checkArgument(ossRateLimiter.tryAcquire(), GlobalCallbackCode.RATE_LIMIT);
-        return bootOssClient.getOssToken();
+        return bootOssClient.getOssTokenWithApiLimit();
     }
 
     /**
