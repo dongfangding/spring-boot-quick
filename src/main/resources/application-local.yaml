@@ -19,7 +19,7 @@ rabbit.password: guest
 
 
 # rocket name-server地址
-rocketmq.name.server: 106.15.10.135:9876
+rocketmq.name.server: localhost:9876
 
 
 spring:

@@ -1,27 +1,29 @@
 # redis相关
 redis.host: 127.0.0.1
-redis.port: 6379
-redis.password: 123456
+redis.port: port
+redis.password: password
 
 # zookeeper地址,host:port, 多个用,隔开
 zk.addr: localhost:2181,localhost:2182,localhost:2183
 
 # mysql
 mysql.host: localhost
-mysql.port: 3306
+mysql.port: port
 mysql.db: boot-quick
-mysql.username: develop
-mysql.password: 12345678
+mysql.username: username
+mysql.password: password
 
 # rabbitmq相关
 rabbit.address: localhost:5672
-rabbit.username: guest
-rabbit.password: guest
+rabbit.username: username
+rabbit.password: password
 
 
 # rocket name-server地址
 rocketmq.name.server: localhost:9876
 
+
+mongodb.url: mongodb://user:pass@localhost:port/boot-quick?authSource=admin
 
 spring:
   datasource:
@@ -120,9 +122,7 @@ spring:
         initialInterval: 2000  # 第一次和第二次尝试传递消息之间的持续时间
   data:
     mongodb:
-      database: boot-quick
-      host: localhost
-      port: 27017
+      uri: ${mongodb.url}
 
   websocket:
     properties:
