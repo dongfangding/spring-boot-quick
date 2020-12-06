@@ -103,6 +103,12 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-sentinel</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
         </dependency>
