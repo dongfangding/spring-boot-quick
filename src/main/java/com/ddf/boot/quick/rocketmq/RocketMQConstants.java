@@ -41,6 +41,12 @@ public interface RocketMQConstants {
          * 发送用户对象
          */
         String USER_OBJECT = "user_object";
+
+
+        /**
+         * 演示消费端可以获取除了payload意外的其它rocketmq的原生属性
+         */
+        String CONSUMER_MESSAGE_EXT = "consumer_message_ext";
     }
 
     /**
@@ -57,6 +63,11 @@ public interface RocketMQConstants {
          * 用户对象消费组
          */
         String DEMO_USER_CONSUMER_GROUP = Topic.DEMO + "_" + Tags.USER_OBJECT;
+
+        /**
+         * 用户对象消费组
+         */
+        String CONSUMER_MESSAGE_EXT_CONSUMER_GROUP = Topic.DEMO + "_" + Tags.CONSUMER_MESSAGE_EXT;
 
     }
 

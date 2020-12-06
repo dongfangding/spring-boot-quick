@@ -1,17 +1,20 @@
 package com.ddf.boot.quick.controller;
 
+import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
+import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.quick.oss.BootOssClient;
+import com.google.common.util.concurrent.RateLimiter;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * <p>description</p >
@@ -29,7 +32,8 @@ public class OssController {
 
     @Autowired
     private OssHelper ossHelper;
-
+    
+    public static RateLimiter ossRateLimiter = RateLimiter.create(1, 5, TimeUnit.SECONDS);
 
 
     /**
@@ -37,7 +41,8 @@ public class OssController {
      */
     @PostMapping("getOssToken")
     public StsTokenResponse getOssToken() {
-        return bootOssClient.getOssToken();
+        PreconditionUtil.checkArgument(ossRateLimiter.tryAcquire(), GlobalCallbackCode.RATE_LIMIT);
+        return bootOssClient.getOssTokenWithApiLimit();
     }
 
     /**

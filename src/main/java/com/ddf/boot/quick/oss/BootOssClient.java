@@ -1,21 +1,26 @@
 package com.ddf.boot.quick.oss;
 
+import cn.hutool.cache.CacheUtil;
+import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.util.RandomUtil;
+import com.ddf.boot.common.core.exception200.BusinessException;
 import com.ddf.boot.common.core.exception200.ServerErrorException;
+import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.common.ext.oss.config.StsTokenRequest;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.google.common.collect.Lists;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * <p>description</p >
@@ -39,6 +44,40 @@ public class BootOssClient {
             "static/img/76c6a41a0ef41bd58428c8ad46da81cb38db3d4c.jpg", "static/img/449256a5462309f7004b8d4b650e0cf3d6cad698.jpg",
             "static/img/a8140ad88d1001e91ec69c57af0e7bec56e797cd.jpg", "static/img/bdd84cf23a87e950a85cf3f31c385343faf2b43b.jpg",
             "static/img/da80babe6c81800a4e1c0156a63533fa808b47c2.jpg", "static/img/月光.9b95f8a8.jpg");
+
+
+    public static TimedCache<String, AtomicInteger> ipApiTotalMap = CacheUtil.newTimedCache(TimeUnit.DAYS.toHours(24));
+
+    public static Integer maxIpTotalPerDay = 20;
+
+    static {
+        ipApiTotalMap.schedulePrune(TimeUnit.MINUTES.toMillis(10));
+    }
+
+    /**
+     * 暂时单机版限制
+     * @return
+     */
+    public StsTokenResponse getOssTokenWithApiLimit() {
+        final String host = WebUtil.getHost();
+        AtomicInteger currCount;
+        synchronized (host.intern()) {
+            currCount = ipApiTotalMap.get(host, false);
+            if (currCount == null) {
+                currCount = new AtomicInteger(1);
+            } else {
+                currCount.getAndIncrement();
+            }
+            if (currCount.get() > maxIpTotalPerDay) {
+                log.error("当前ip[{}]调用次数[{}]超限", host, maxIpTotalPerDay);
+                throw new BusinessException("24小时内同一ip调用次数超限");
+            }
+            ipApiTotalMap.put(host, currCount);
+        }
+        final StsTokenResponse token = getOssToken();
+        ipApiTotalMap.put(host, currCount);
+        return token;
+    }
 
 
     /**

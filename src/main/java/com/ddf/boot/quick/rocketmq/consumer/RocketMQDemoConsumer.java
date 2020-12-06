@@ -3,6 +3,7 @@ package com.ddf.boot.quick.rocketmq.consumer;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.quick.rocketmq.RocketMQConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.ConsumeMode;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -10,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * <p>description</p >
+ *
+ * https://github.com/apache/rocketmq-spring/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98
  *
  * @author Snowball
  * @version 1.0
@@ -26,7 +29,8 @@ public class RocketMQDemoConsumer {
      */
     @Component
     @RocketMQMessageListener(topic = RocketMQConstants.Topic.DEMO, consumeMode = ConsumeMode.CONCURRENTLY,
-            consumerGroup = RocketMQConstants.ConsumerGroup.DEMO_STRING_CONSUMER_GROUP, selectorExpression = RocketMQConstants.Tags.STRING)
+        consumerGroup = RocketMQConstants.ConsumerGroup.DEMO_STRING_CONSUMER_GROUP,
+        selectorExpression = RocketMQConstants.Tags.STRING)
     public static class DemoStringConsumer implements RocketMQListener<String> {
         @Override
         public void onMessage(String message) {
@@ -34,18 +38,35 @@ public class RocketMQDemoConsumer {
         }
     }
 
+    /**
+     * 发送用户对象消息
+     */
+    @Component
+    @RocketMQMessageListener(topic = RocketMQConstants.Topic.DEMO, consumeMode = ConsumeMode.CONCURRENTLY,
+        consumerGroup = RocketMQConstants.ConsumerGroup.DEMO_USER_CONSUMER_GROUP,
+        selectorExpression = RocketMQConstants.Tags.USER_OBJECT)
+    public static class DemoUserObjectConsumer implements RocketMQListener<AuthUser> {
+
+        @Override
+        public void onMessage(AuthUser message) {
+            log.info("{}接收到消息内容: {}", RocketMQConstants.ConsumerGroup.DEMO_USER_CONSUMER_GROUP, message);
+        }
+    }
 
     /**
      * 发送用户对象消息
      */
     @Component
     @RocketMQMessageListener(topic = RocketMQConstants.Topic.DEMO, consumeMode = ConsumeMode.CONCURRENTLY,
-            consumerGroup = RocketMQConstants.ConsumerGroup.DEMO_USER_CONSUMER_GROUP, selectorExpression = RocketMQConstants.Tags.USER_OBJECT)
-    public static class DemoUserObjectConsumer implements RocketMQListener<AuthUser> {
+        consumerGroup = RocketMQConstants.ConsumerGroup.CONSUMER_MESSAGE_EXT_CONSUMER_GROUP,
+        selectorExpression = RocketMQConstants.Tags.CONSUMER_MESSAGE_EXT)
+    public static class DemoConsumerMessageExt implements RocketMQListener<MessageExt> {
 
         @Override
-        public void onMessage(AuthUser message) {
-            log.info("{}接收到消息内容: {}", RocketMQConstants.ConsumerGroup.DEMO_USER_CONSUMER_GROUP, message);
+        public void onMessage(MessageExt message) {
+            log.info("{}接收到消息, msgId: {}, tags: {}, keys: {}, 内容: {}", RocketMQConstants.ConsumerGroup.CONSUMER_MESSAGE_EXT_CONSUMER_GROUP,
+                message.getMsgId(), message.getTags(), message.getKeys(),
+                new String(message.getBody()));
         }
     }
 }
