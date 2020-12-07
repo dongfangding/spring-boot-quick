@@ -61,4 +61,11 @@
             <appender-ref ref="ERROR" />
         </root>
     </springProfile>
+
+    <springProfile name="local">
+        <root>
+            <level value="INFO" />
+            <appender-ref ref="STDOUT" />
+        </root>
+    </springProfile>
 </configuration>
