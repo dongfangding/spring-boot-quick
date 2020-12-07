@@ -46,9 +46,9 @@ public class BootOssClient {
             "static/img/da80babe6c81800a4e1c0156a63533fa808b47c2.jpg", "static/img/月光.9b95f8a8.jpg");
 
 
-    public static TimedCache<String, AtomicInteger> ipApiTotalMap = CacheUtil.newTimedCache(TimeUnit.DAYS.toHours(24));
+    public static TimedCache<String, AtomicInteger> ipApiTotalMap = CacheUtil.newTimedCache(TimeUnit.DAYS.toHours(1));
 
-    public static Integer maxIpTotalPerDay = 20;
+    public static Integer maxIpTotalPerDay = 10;
 
     static {
         ipApiTotalMap.schedulePrune(TimeUnit.MINUTES.toMillis(10));
@@ -60,9 +60,11 @@ public class BootOssClient {
      */
     public StsTokenResponse getOssTokenWithApiLimit() {
         final String host = WebUtil.getHost();
+        log.info("host: {} >>>>>>>>>>>>>>>>>>>", host);
         AtomicInteger currCount;
         synchronized (host.intern()) {
             currCount = ipApiTotalMap.get(host, false);
+            log.info("当前{}调用次数: {}", host, currCount);
             if (currCount == null) {
                 currCount = new AtomicInteger(1);
             } else {
@@ -72,7 +74,7 @@ public class BootOssClient {
                 log.error("当前ip[{}]调用次数[{}]超限", host, maxIpTotalPerDay);
                 throw new BusinessException("24小时内同一ip调用次数超限");
             }
-            ipApiTotalMap.put(host, currCount);
+            log.info("当前{}增加后调用次数: {}", host, currCount);
         }
         final StsTokenResponse token = getOssToken();
         ipApiTotalMap.put(host, currCount);
