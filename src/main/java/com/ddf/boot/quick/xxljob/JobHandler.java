@@ -31,7 +31,7 @@ public class JobHandler {
      * @return
      */
     @XxlJob(value = "对世界说你好")
-    public ReturnT<String> helloUser(String param) {
+    public ReturnT<String> helloUser(String param) throws Exception {
         final AuthUserPageBo bo = new AuthUserPageBo();
         final PageResult<AuthUser> result = authUserService.pageList(bo);
         if (CollectionUtil.isEmpty(result.getContent())) {
