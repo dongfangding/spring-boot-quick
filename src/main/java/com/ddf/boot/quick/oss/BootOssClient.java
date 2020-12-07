@@ -46,7 +46,7 @@ public class BootOssClient {
             "static/img/da80babe6c81800a4e1c0156a63533fa808b47c2.jpg", "static/img/月光.9b95f8a8.jpg");
 
 
-    public static TimedCache<String, AtomicInteger> ipApiTotalMap = CacheUtil.newTimedCache(TimeUnit.DAYS.toHours(1));
+    public static TimedCache<String, AtomicInteger> ipApiTotalMap = CacheUtil.newTimedCache(TimeUnit.DAYS.toMillis(1));
 
     public static Integer maxIpTotalPerDay = 10;
 
