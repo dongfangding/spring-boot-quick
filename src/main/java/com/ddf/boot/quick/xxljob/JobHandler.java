@@ -30,7 +30,7 @@ public class JobHandler {
      * 简单bean任务
      * @return
      */
-    @XxlJob(value = "对世界说你好")
+    @XxlJob(value = "helloUser")
     public ReturnT<String> helloUser(String param) throws Exception {
         final AuthUserPageBo bo = new AuthUserPageBo();
         final PageResult<AuthUser> result = authUserService.pageList(bo);

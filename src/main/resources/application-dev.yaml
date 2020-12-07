@@ -22,8 +22,11 @@ rabbit_password: password
 # rocket name-server地址
 rocketmq_name_server: localhost:9876
 
-
+# mongo
 mongodb_url: mongodb://user:pass@localhost:port/boot-quick?authSource=admin
+
+# xxl-job
+xxl_admin_addresses: http://127.0.0.1:8805
 
 spring:
   datasource:
@@ -196,7 +199,7 @@ elasticjob:
       misfire: false
 
 xxl-job:
-  adminAddresses: http://127.0.0.1:8805
+  adminAddresses: ${xxl_admin_addresses}
   accessToken: xxl_develop # 访问token, 需要和xxl-job-admin里的配置一致
   appName: auto # 以spring.application.name
   port: 0 # 自动获取
