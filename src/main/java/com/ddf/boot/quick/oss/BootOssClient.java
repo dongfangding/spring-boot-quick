@@ -3,6 +3,7 @@ package com.ddf.boot.quick.oss;
 import cn.hutool.cache.CacheUtil;
 import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.util.RandomUtil;
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.ddf.boot.common.core.exception200.BusinessException;
 import com.ddf.boot.common.core.exception200.ServerErrorException;
 import com.ddf.boot.common.core.util.WebUtil;
@@ -48,7 +49,7 @@ public class BootOssClient {
 
     public static TimedCache<String, AtomicInteger> ipApiTotalMap = CacheUtil.newTimedCache(TimeUnit.DAYS.toMillis(1));
 
-    public static Integer maxIpTotalPerDay = 10;
+    public static Integer maxIpTotalPerDay = 24;
 
     static {
         ipApiTotalMap.schedulePrune(TimeUnit.MINUTES.toMillis(10));
@@ -58,6 +59,7 @@ public class BootOssClient {
      * 暂时单机版限制
      * @return
      */
+    @SentinelResource(value = "getOssTokenWithApiLimit")
     public StsTokenResponse getOssTokenWithApiLimit() {
         final String host = WebUtil.getHost();
         log.info("host: {} >>>>>>>>>>>>>>>>>>>", host);
