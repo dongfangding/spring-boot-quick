@@ -5,12 +5,16 @@ import cn.hutool.cache.impl.TimedCache;
 import cn.hutool.core.util.RandomUtil;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.ddf.boot.common.core.exception200.BusinessException;
+import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
 import com.ddf.boot.common.core.exception200.ServerErrorException;
+import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.common.ext.oss.config.StsTokenRequest;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.common.jwt.util.JwtUtil;
+import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
+import com.ddf.boot.quick.common.redis.RedisRequestDefinition;
 import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -32,10 +37,11 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor(onConstructor_={@Autowired})
 public class BootOssClient {
 
-    @Autowired
-    private OssHelper ossHelper;
+    private final OssHelper ossHelper;
+    private final RedisTemplateHelper redisTemplateHelper;
 
     public static final String OSS_PLATFORM = "boot-quick";
 
@@ -61,6 +67,7 @@ public class BootOssClient {
      */
     @SentinelResource(value = "getOssTokenWithApiLimit")
     public StsTokenResponse getOssTokenWithApiLimit() {
+        PreconditionUtil.checkArgument(redisTemplateHelper.rateLimitAcquire(RedisRequestDefinition.ossRateLimit), GlobalCallbackCode.RATE_LIMIT);
         final String host = WebUtil.getHost();
         log.info("host: {} >>>>>>>>>>>>>>>>>>>", host);
         AtomicInteger currCount;

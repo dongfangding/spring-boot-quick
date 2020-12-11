@@ -1,13 +1,9 @@
 package com.ddf.boot.quick.controller;
 
-import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
-import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
 import com.ddf.boot.quick.oss.BootOssClient;
-import com.google.common.util.concurrent.RateLimiter;
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -33,15 +29,11 @@ public class OssController {
     @Autowired
     private OssHelper ossHelper;
     
-    public static RateLimiter ossRateLimiter = RateLimiter.create(1, 5, TimeUnit.SECONDS);
-
-
     /**
      * 返回STS授权信息, 实际中使用的比较多
      */
     @PostMapping("getOssToken")
     public StsTokenResponse getOssToken() {
-        PreconditionUtil.checkArgument(ossRateLimiter.tryAcquire(), GlobalCallbackCode.RATE_LIMIT);
         return bootOssClient.getOssTokenWithApiLimit();
     }
 
