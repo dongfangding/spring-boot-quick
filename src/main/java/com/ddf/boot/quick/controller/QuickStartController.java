@@ -1,19 +1,27 @@
 package com.ddf.boot.quick.controller;
 
 import com.ddf.boot.common.core.exception200.BusinessException;
+import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
+import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
 import com.ddf.boot.common.lock.DistributedLock;
 import com.ddf.boot.common.lock.exception.LockingAcquireException;
 import com.ddf.boot.common.lock.exception.LockingReleaseException;
+import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
 import com.ddf.boot.common.websocket.model.MessageRequest;
 import com.ddf.boot.common.websocket.model.MessageResponse;
 import com.ddf.boot.common.websocket.service.WsMessageService;
+import com.ddf.boot.quick.common.redis.RedisRequestDefinition;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 快速开始控制器，用于演示某些功能的使用方式$
@@ -25,13 +33,14 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("quick-start")
 @Slf4j
+@RequiredArgsConstructor(onConstructor_={@Autowired})
 public class QuickStartController {
 
-    @Autowired
-    private SnowflakeServiceHelper snowflakeServiceHelper;
+    private final SnowflakeServiceHelper snowflakeServiceHelper;
 
-    @Autowired
-    private WsMessageService wsMessageService;
+    private final WsMessageService wsMessageService;
+
+    private final RedisTemplateHelper redisTemplateHelper;
 
     @Resource(name = "zookeeperDistributedLock")
     private DistributedLock distributedLock;
@@ -87,5 +96,29 @@ public class QuickStartController {
     @PostMapping("sendWebSocketMessage")
     public MessageResponse<?> sendWebSocketMessage(@RequestBody MessageRequest<?> messageRequest) {
         return wsMessageService.executeCmd(messageRequest);
+    }
+
+
+    // 两个可以一起压测，可以看到redis中的数据结构是如何处理这一块的
+
+    /**
+     * 测试基于redis的分布式限流
+     * @return
+     */
+    @PostMapping("testRedisRateLimitA")
+    public Boolean testRedisRateLimitA() {
+        PreconditionUtil.checkArgument(redisTemplateHelper.rateLimitAcquire(RedisRequestDefinition.testRateLimitA), GlobalCallbackCode.RATE_LIMIT);
+        return Boolean.TRUE;
+    }
+
+
+    /**
+     * 测试基于redis的分布式限流
+     * @return
+     */
+    @PostMapping("testRedisRateLimitB")
+    public Boolean testRedisRateLimitB() {
+        PreconditionUtil.checkArgument(redisTemplateHelper.rateLimitAcquire(RedisRequestDefinition.testRateLimitB), GlobalCallbackCode.RATE_LIMIT);
+        return Boolean.TRUE;
     }
 }
