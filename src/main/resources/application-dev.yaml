@@ -1,7 +1,9 @@
-# redis相关
+# redis单机
 redis_host: 127.0_0.1
 redis_port: 9999
 redis_password: password
+# redis集群
+redis_node: localhost:6171,localhost:6172,localhost:6173,localhost:6174,localhost:6175,localhost:6176
 
 # zookeeper地址,host:port, 多个用,隔开
 zk_addr: localhost:2181,localhost:2182,localhost:2183
@@ -75,19 +77,11 @@ spring:
     basename: exception/exception
     use-code-as-default-message: false
 
-  #  redis:
-  #    cluster:
-  #      max-redirects: 3
-  #      nodes: localhost:6601,localhost:6602,localhost:6603
-  #    database: 0
-  #    jedis:
-  #      pool:
-  #        max-active: 100
-  #        max-idle: 10
-  #        min-idle: 0
-  #        max-wait: 800ms
-  #    timeout: 1000ms
   redis:
+    cluster:
+      max-redirects: 3
+      nodes: ${redis_node}
+    password: ${redis_password}
     database: 0
     jedis:
       pool:
@@ -96,9 +90,18 @@ spring:
         min-idle: 0
         max-wait: 800ms
     timeout: 1000ms
-    host: ${redis_host}
-    port: ${redis_port}
-    password: ${redis_password}
+#  redis:
+#    database: 0
+#    jedis:
+#      pool:
+#        max-active: 100
+#        max-idle: 10
+#        min-idle: 0
+#        max-wait: 800ms
+#    timeout: 1000ms
+#    host: ${redis_host}
+#    port: ${redis_port}
+#    password: ${redis_password}
 
   mail:
     username: 1041765757@qq.com                # 用来验证授权的邮件用户名
