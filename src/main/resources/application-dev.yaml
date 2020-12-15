@@ -77,20 +77,11 @@ spring:
     basename: exception/exception
     use-code-as-default-message: false
 
-#  redis:
-#    cluster:
-#      max-redirects: 3
-#      nodes: ${redis_node}
-#    password: ${redis_password}
-#    database: 0
-#    jedis:
-#      pool:
-#        max-active: 100
-#        max-idle: 10
-#        min-idle: 0
-#        max-wait: 800ms
-#    timeout: 1000ms
   redis:
+    cluster:
+      max-redirects: 3
+      nodes: ${redis_node}
+    password: ${redis_password}
     database: 0
     jedis:
       pool:
@@ -99,9 +90,18 @@ spring:
         min-idle: 0
         max-wait: 1000ms
     timeout: 3000ms
-    host: ${redis_host}
-    port: ${redis_port}
-    password: ${redis_password}
+#  redis:
+#    database: 0
+#    jedis:
+#      pool:
+#        max-active: 100
+#        max-idle: 10
+#        min-idle: 0
+#        max-wait: 1000ms
+#    timeout: 3000ms
+#    host: ${redis_host}
+#    port: ${redis_port}
+#    password: ${redis_password}
 
   mail:
     username: 1041765757@qq.com                # 用来验证授权的邮件用户名
