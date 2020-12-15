@@ -12,16 +12,14 @@ import com.ddf.boot.common.websocket.model.MessageRequest;
 import com.ddf.boot.common.websocket.model.MessageResponse;
 import com.ddf.boot.common.websocket.service.WsMessageService;
 import com.ddf.boot.quick.common.redis.RedisRequestDefinition;
-import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 快速开始控制器，用于演示某些功能的使用方式$
@@ -41,6 +39,8 @@ public class QuickStartController {
     private final WsMessageService wsMessageService;
 
     private final RedisTemplateHelper redisTemplateHelper;
+
+    private final StringRedisTemplate stringRedisTemplate;
 
     @Resource(name = "zookeeperDistributedLock")
     private DistributedLock distributedLock;
@@ -119,6 +119,19 @@ public class QuickStartController {
     @PostMapping("testRedisRateLimitB")
     public Boolean testRedisRateLimitB() {
         PreconditionUtil.checkArgument(redisTemplateHelper.rateLimitAcquire(RedisRequestDefinition.testRateLimitB), GlobalCallbackCode.RATE_LIMIT);
+        return Boolean.TRUE;
+    }
+
+
+    /**
+     * 测试redis_cluster
+     * @return
+     */
+    @PostMapping("testRedisCluster")
+    public Boolean testRedisCluster() {
+        stringRedisTemplate.opsForValue().set("string_testRedisCluster", System.currentTimeMillis() + "");
+        stringRedisTemplate.opsForZSet().add("zset_testRedisCluster", "testRedisCluster", System.currentTimeMillis());
+        stringRedisTemplate.opsForSet().add("set_testRedisCluster", "testRedisCluster");
         return Boolean.TRUE;
     }
 }
