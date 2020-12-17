@@ -97,7 +97,32 @@ spring:
     timeout: 1000ms
     host: ${redis_host}
     port: ${redis_port}
-
+    # org.redisson.spring.starter.RedissonProperties
+    redisson:
+      # org.redisson.config.Config
+      config:
+        # org.redisson.config.SingleServerConfig
+        singleServerConfig:
+          address: localhost:6379
+          # org.redisson.config.BaseConfig
+          password: 123456
+          idleConnectionTimeout: 10000
+          connectTimeout: 10000
+          timeout: 3000
+          retryAttempts: 3
+          retryInterval: 1500
+          subscriptionsPerConnection: 5
+          clientName: null
+          keepAlive: false
+          tcpNoDelay: false
+          # org.redisson.config.SingleServerConfig
+          subscriptionConnectionMinimumIdleSize: 1
+          subscriptionConnectionPoolSize: 50
+          pingConnectionInterval: 0
+        threads: 16
+        nettyThreads: 32
+        codec: org.redisson.codec.FstCodec
+        transportMode: "NIO"
 
   mail:
     username: 1041765757@qq.com                # 用来验证授权的邮件用户名
