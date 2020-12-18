@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.common.redis;
 
+import com.ddf.boot.common.redis.request.LeakyBucketRateLimitRequest;
 import com.ddf.boot.common.redis.request.RateLimitRequest;
 
 /**
@@ -27,5 +28,12 @@ public class RedisRequestDefinition {
      * 演示基于redis的限流测试B
      */
     public static RateLimitRequest testRateLimitB = RateLimitRequest.builder().key("testB").max(10).rate(5).build();
+
+
+    /**
+     * 演示基于漏桶算法的限流
+     */
+    public static LeakyBucketRateLimitRequest testLeakyBucketRateLimitA = LeakyBucketRateLimitRequest.builder().
+            key("testLeakyBucketRateLimitA").rate(5).rateIntervalSeconds(1).permits(1).build();
 
 }
