@@ -24,7 +24,11 @@
       </value>
     </option>
   </JavaCodeStyleSettings>
+  <MySQLCodeStyleSettings version="2">
+    <option name="EXPR_BINARY_OP_ALIGN" value="false" />
+  </MySQLCodeStyleSettings>
   <XML>
+    <option name="XML_KEEP_LINE_BREAKS_IN_TEXT" value="false" />
     <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
   </XML>
   <ADDITIONAL_INDENT_OPTIONS fileType="haml">
@@ -109,11 +113,6 @@
       <option name="INDENT_SIZE" value="4" />
       <option name="CONTINUATION_INDENT_SIZE" value="4" />
       <option name="TAB_SIZE" value="4" />
-    </indentOptions>
-  </codeStyleSettings>
-  <codeStyleSettings language="XML">
-    <indentOptions>
-      <option name="CONTINUATION_INDENT_SIZE" value="4" />
     </indentOptions>
   </codeStyleSettings>
 </code_scheme>
