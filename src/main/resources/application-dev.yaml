@@ -93,53 +93,53 @@ spring:
     # org.redisson.spring.starter.RedissonProperties
     redisson:
       # org.redisson.config.Config
-        clusterServersConfig:
-          idleConnectionTimeout: 10000
-          connectTimeout: 10000
-          timeout: 3000
-          retryAttempts: 3
-          retryInterval: 1500
-          failedSlaveReconnectionInterval: 3000
-          failedSlaveCheckInterval: 60000
-          password: null
-          subscriptionsPerConnection: 5
-          clientName: null
-          loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> {}
-          subscriptionConnectionMinimumIdleSize: 1
-          subscriptionConnectionPoolSize: 50
-          slaveConnectionMinimumIdleSize: 24
-          slaveConnectionPoolSize: 64
-          masterConnectionMinimumIdleSize: 24
-          masterConnectionPoolSize: 64
-          readMode: "SLAVE"
-          subscriptionMode: "SLAVE"
-          nodeAddresses:
+      clusterServersConfig:
+        idleConnectionTimeout: 10000
+        connectTimeout: 10000
+        timeout: 3000
+        retryAttempts: 3
+        retryInterval: 1500
+        failedSlaveReconnectionInterval: 3000
+        failedSlaveCheckInterval: 60000
+        password: null
+        subscriptionsPerConnection: 5
+        clientName: null
+        loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> { }
+        subscriptionConnectionMinimumIdleSize: 1
+        subscriptionConnectionPoolSize: 50
+        slaveConnectionMinimumIdleSize: 24
+        slaveConnectionPoolSize: 64
+        masterConnectionMinimumIdleSize: 24
+        masterConnectionPoolSize: 64
+        readMode: "SLAVE"
+        subscriptionMode: "SLAVE"
+        nodeAddresses:
           - "redis://127.0.0.1:7004"
           - "redis://127.0.0.1:7001"
           - "redis://127.0.0.1:7000"
-          scanInterval: 1000
-          pingConnectionInterval: 0
-          keepAlive: false
-          tcpNoDelay: false
-        threads: 16
-        nettyThreads: 32
-        codec: !<org.redisson.codec.MarshallingCodec> {}
-        transportMode: "NIO"
+        scanInterval: 1000
+        pingConnectionInterval: 0
+        keepAlive: false
+        tcpNoDelay: false
+      threads: 16
+      nettyThreads: 32
+      codec: !<org.redisson.codec.MarshallingCodec> { }
+      transportMode: "NIO"
 
 
 
-#  redis:
-#    database: 0
-#    jedis:
-#      pool:
-#        max-active: 100
-#        max-idle: 10
-#        min-idle: 0
-#        max-wait: 1000ms
-#    timeout: 3000ms
-#    host: ${redis_host}
-#    port: ${redis_port}
-#    password: ${redis_password}
+  #  redis:
+  #    database: 0
+  #    jedis:
+  #      pool:
+  #        max-active: 100
+  #        max-idle: 10
+  #        min-idle: 0
+  #        max-wait: 1000ms
+  #    timeout: 3000ms
+  #    host: ${redis_host}
+  #    port: ${redis_port}
+  #    password: ${redis_password}
 
   mail:
     username: 1041765757@qq.com                # 用来验证授权的邮件用户名
@@ -247,11 +247,11 @@ xxl-job:
   logPath: /opt/services/xxl-job/logs/jobhandler # 日志目录
   logRetentionDays: 14 # 日志保留天数
 
-customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
+customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   global-properties:
     snowflakeWorkerId: 1      # worker Id can't be greater than 31 or less than 0
     snowflakeDataCenterId: 1  # dataCenterId Id can't be greater than 31 or less than 0
-    ignoreErrorTraceProfile:  # 过滤将异常堆栈信息输出打前端接口返回值的环境
+    ignoreErrorTraceProfile: # 过滤将异常堆栈信息输出打前端接口返回值的环境
       - pre
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
@@ -292,7 +292,7 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
     secret: WoshiyigefenshuajiangfenshuabenlingqiangwoyaobanaxinfangzishuadegengpiaoliangshualefangziyoushuangqiangaiyawodexiaobizibianyabianleYang
     expiredMinute: 1080  # jwt token过期时间，单位分钟
     refreshTokenMinute: 10  # 在jwt token有效时间剩余达到了这个时间（分钟），如果用户在线（即调用了任意接口）则服务端主动刷新用户token并返回，需要前端配合处理重新替换用户token
-    ignores:  ## 接口用户认证请求拦截忽略路径
+    ignores: ## 接口用户认证请求拦截忽略路径
       - path: /quick-start/**
       - path: /v2/*
       - path: /swagger-ui.html

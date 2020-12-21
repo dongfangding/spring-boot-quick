@@ -58,17 +58,13 @@ public class RocketMQController {
             rocketMQHelper.syncSend(RocketMQDestination.builder()
                     .topic(RocketMQConstants.Topic.DEMO)
                     .tags(RocketMQConstants.Tags.USER_OBJECT)
-                    .build(), authUserPageResult.getContent()
-                    .get(0));
+                    .build(), authUserPageResult.getContent().get(0));
         }
 
         // 还是发送对象信息，但是是为了演示消费端可以获取rocketmq其它原生属性信息
         final UserLoginHistoryCollection collection = new UserLoginHistoryCollection();
-        collection.setId(IdUtil.objectId())
-                .setUsername("test")
-                .setLoginIp(NetUtil.getLocalhostStr())
-                .setLoginTime(new Date())
-                .setUserId(IdsUtil.getNextLongId());
+        collection.setId(IdUtil.objectId()).setUsername("test").setLoginIp(NetUtil.getLocalhostStr()).setLoginTime(
+                new Date()).setUserId(IdsUtil.getNextLongId());
         rocketMQHelper.syncSend(RocketMQDestination.builder()
                 .topic(RocketMQConstants.Topic.DEMO)
                 .tags(RocketMQConstants.Tags.CONSUMER_MESSAGE_EXT)

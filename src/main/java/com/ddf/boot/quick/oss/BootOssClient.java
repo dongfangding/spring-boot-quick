@@ -108,8 +108,7 @@ public class BootOssClient {
     public StsTokenResponse getOssToken() {
         StsTokenRequest request = new StsTokenRequest();
         request.setPlatform(OSS_PLATFORM);
-        request.setIdentity(JwtUtil.getByContextNotNecessary()
-                .getUserId());
+        request.setIdentity(JwtUtil.getByContextNotNecessary().getUserId());
         return ossHelper.getOssToken(request);
     }
 
@@ -121,15 +120,11 @@ public class BootOssClient {
     public String putObject(String suffix, InputStream inputStream) {
         final StsTokenRequest stsTokenRequest = new StsTokenRequest();
         stsTokenRequest.setPlatform(OSS_PLATFORM);
-        stsTokenRequest.setIdentity(JwtUtil.getByContextNotNecessary()
-                .getUserId());
+        stsTokenRequest.setIdentity(JwtUtil.getByContextNotNecessary().getUserId());
         AtomicReference<String> objectKey = new AtomicReference<>();
         ossHelper.getStsOss(stsTokenRequest, (dto) -> {
-            objectKey.set(dto.getStsTokenResponse()
-                    .getObjectPrefix() + "." + suffix);
-            dto.getOss()
-                    .putObject(dto.getStsTokenResponse()
-                            .getBucketName(), objectKey.get(), inputStream);
+            objectKey.set(dto.getStsTokenResponse().getObjectPrefix() + "." + suffix);
+            dto.getOss().putObject(dto.getStsTokenResponse().getBucketName(), objectKey.get(), inputStream);
         });
         return objectKey.get();
     }
@@ -147,12 +142,10 @@ public class BootOssClient {
         String avatarName = username + randomPath.substring(randomPath.lastIndexOf("."));
         final StsTokenRequest stsTokenRequest = new StsTokenRequest();
         stsTokenRequest.setPlatform(OSS_PLATFORM);
-        stsTokenRequest.setIdentity(JwtUtil.getByContextNotNecessary()
-                .getUserId());
+        stsTokenRequest.setIdentity(JwtUtil.getByContextNotNecessary().getUserId());
         AtomicReference<String> fileName = new AtomicReference<>();
         ossHelper.getStsOss(stsTokenRequest, (dto) -> {
-            fileName.set(dto.getStsTokenResponse()
-                    .getObjectPrefix() + "_" + avatarName);
+            fileName.set(dto.getStsTokenResponse().getObjectPrefix() + "_" + avatarName);
             InputStream inputStream;
             try {
                 inputStream = new ClassPathResource(randomPath).getInputStream();
@@ -160,11 +153,10 @@ public class BootOssClient {
                 log.error("获取文件失败", ioException);
                 throw new ServerErrorException("获取文件失败");
             }
-            dto.getOss()
-                    .putObject(
-                            dto.getStsTokenResponse()
-                                    .getBucketName(), dto.getStsTokenResponse()
-                                    .getObjectPrefix() + "_" + avatarName, inputStream);
+            dto.getOss().putObject(
+                    dto.getStsTokenResponse().getBucketName(),
+                    dto.getStsTokenResponse().getObjectPrefix() + "_" + avatarName, inputStream
+            );
         });
         return fileName.get();
     }

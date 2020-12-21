@@ -49,8 +49,7 @@ public class MqAuditorAwareImpl implements MqAuditorAware {
     @Override
     public Optional<String> getAuditor() {
         try {
-            return Optional.of(JwtUtil.getByContext()
-                    .getUsername());
+            return Optional.of(JwtUtil.getByContext().getUsername());
         } catch (UserClaimMissionException e) {
             return Optional.empty();
         }

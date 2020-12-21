@@ -15,13 +15,13 @@ function connect() {
     let url = $("#url").val();
     // ws://localhost:8080/boot-quick/ddf-ws?token=urlEncoded({"accessKeyId":"1","loginType":"WEB","currentTimeStamp":1600227215375}, "utf-8")
     ws = new WebSocket(url);
-    ws.onmessage = function(evt) {
+    ws.onmessage = function (evt) {
         showGreeting(evt.data);
     };
 
-    ws.onopen = function(evt) {
+    ws.onopen = function (evt) {
         setConnected(true);
-        setInterval(function() {
+        setInterval(function () {
             ws.send("PING")
         }, 30000);
     }

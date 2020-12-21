@@ -57,8 +57,7 @@ public class UserLoginHistoryConsumer {
             parse = mqMessageHelper.parse(message, UserLoginHistoryCollection.class);
             log.info("消费到消息内容: {}", parse);
             userLoginHistoryCollectionRepository.save(parse.getBody());
-            channel.basicAck(message.getMessageProperties()
-                    .getDeliveryTag(), false);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
             log.error("消息消费异常！ {}", parse, e);
             rabbitTemplateHelper.nackAndRequeue(

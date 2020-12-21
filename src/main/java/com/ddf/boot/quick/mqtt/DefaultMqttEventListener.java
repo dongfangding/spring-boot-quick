@@ -58,8 +58,7 @@ public class DefaultMqttEventListener implements MqttEventListener {
             List<MqttProperties.SubscribeDetail> subscribeDetails = mqttProperties.getSubscribeDetails();
             if (subscribeDetails != null && !subscribeDetails.isEmpty()) {
                 for (MqttProperties.SubscribeDetail subscribeDetail : subscribeDetails) {
-                    defaultMqtt5Client.subscribe(
-                            subscribeDetail.getTopic(), subscribeDetail.getQos(),
+                    defaultMqtt5Client.subscribe(subscribeDetail.getTopic(), subscribeDetail.getQos(),
                             MqttUserPropertiesImpl.NO_USER_PROPERTIES
                     );
                 }

@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class BootRedissonClientTest extends QuickApplicationTest {
 
     @Autowired
-    private  BootRedissonClient bootRedissonClient;
+    private BootRedissonClient bootRedissonClient;
     @Autowired
     private RedissonClient redissonClient;
 

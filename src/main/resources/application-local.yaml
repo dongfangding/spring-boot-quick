@@ -230,11 +230,11 @@ xxl-job:
   logPath: /opt/services/xxl-job/logs/jobhandler # 日志目录
   logRetentionDays: 14 # 日志保留天数
 
-customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
+customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   global-properties:
     snowflakeWorkerId: 1      # worker Id can't be greater than 31 or less than 0
     snowflakeDataCenterId: 1  # dataCenterId Id can't be greater than 31 or less than 0
-    ignoreErrorTraceProfile:  # 过滤将异常堆栈信息输出打前端接口返回值的环境
+    ignoreErrorTraceProfile: # 过滤将异常堆栈信息输出打前端接口返回值的环境
       - pre
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
@@ -276,7 +276,7 @@ customs:  # 自定义的属性最好都写在custom前缀下，方便辨认
     secret: WoshiyigefenshuajiangfenshuabenlingqiangwoyaobanaxinfangzishuadegengpiaoliangshualefangziyoushuangqiangaiyawodexiaobizibianyabianleYang
     expiredMinute: 1080  # jwt token过期时间，单位分钟
     refreshTokenMinute: 10  # 在jwt token有效时间剩余达到了这个时间（分钟），如果用户在线（即调用了任意接口）则服务端主动刷新用户token并返回，需要前端配合处理重新替换用户token
-    ignores:  ## 接口用户认证请求拦截忽略路径
+    ignores: ## 接口用户认证请求拦截忽略路径
       - path: /quick-start/**
       - path: /v2/*
       - path: /swagger-ui.html

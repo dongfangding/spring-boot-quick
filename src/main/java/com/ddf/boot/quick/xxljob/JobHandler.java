@@ -47,8 +47,7 @@ public class JobHandler {
             XxlJobLogger.log("天不时，地不利，任务无法执行!");
             return ReturnT.FAIL;
         }
-        XxlJobLogger.log("{}: hello world!", result.getContent()
-                .get(0));
+        XxlJobLogger.log("{}: hello world!", result.getContent().get(0));
         return ReturnT.SUCCESS;
     }
 }

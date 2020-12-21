@@ -21,10 +21,9 @@ public class BrokerStartListener implements ApplicationListener<ContextRefreshed
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        ThreadUtil.newSingleExecutor()
-                .execute(() -> {
-                    BrokerServer brokerServer = new BrokerServer(brokerProperties);
-                    brokerServer.start();
-                });
+        ThreadUtil.newSingleExecutor().execute(() -> {
+            BrokerServer brokerServer = new BrokerServer(brokerProperties);
+            brokerServer.start();
+        });
     }
 }

@@ -37,12 +37,10 @@ public class UserLoginHistoryController {
     public PageResult<UserLoginHistoryCollection> pageList(@RequestBody PageUserHistoryBo pageUserHistoryBo) {
         Query query = new Query();
         if (StringUtils.isNotBlank(pageUserHistoryBo.getUsername())) {
-            query.addCriteria(Criteria.where("username")
-                    .regex(pageUserHistoryBo.getUsername()));
+            query.addCriteria(Criteria.where("username").regex(pageUserHistoryBo.getUsername()));
         }
         if (pageUserHistoryBo.getUserId() != null) {
-            query.addCriteria(Criteria.where("userId")
-                    .is(pageUserHistoryBo.getUserId()));
+            query.addCriteria(Criteria.where("userId").is(pageUserHistoryBo.getUserId()));
         }
         return mongoTemplateHelper.handlerPageResult(pageUserHistoryBo, query, UserLoginHistoryCollection.class);
     }

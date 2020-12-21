@@ -48,12 +48,10 @@ public class DemoConsumer {
             if (true) {
                 throw new RuntimeException("消费失败！");
             }
-            channel.basicAck(message.getMessageProperties()
-                    .getDeliveryTag(), false);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
             try {
-                channel.basicNack(message.getMessageProperties()
-                        .getDeliveryTag(), false, false);
+                channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
             } catch (IOException ex) {
                 log.error("拒绝失败！", e);
             }
@@ -99,12 +97,10 @@ public class DemoConsumer {
     public void consumerTtlReceiveQueue(Channel channel, Message message) {
         log.info("开始消费[{}]延迟队列消息>>>>", BindingConst.QueueName.TEST_TTL_RECEIVE_QUEUE);
         try {
-            channel.basicAck(message.getMessageProperties()
-                    .getDeliveryTag(), false);
+            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
         } catch (Exception e) {
             try {
-                channel.basicNack(message.getMessageProperties()
-                        .getDeliveryTag(), false, false);
+                channel.basicNack(message.getMessageProperties().getDeliveryTag(), false, false);
             } catch (IOException ex) {
                 log.error("拒绝失败！", e);
             }

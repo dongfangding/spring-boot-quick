@@ -144,12 +144,9 @@ public class QuickStartController {
      */
     @PostMapping("testRedisCluster")
     public Boolean testRedisCluster() {
-        stringRedisTemplate.opsForValue()
-                .set("string_testRedisCluster", System.currentTimeMillis() + "");
-        stringRedisTemplate.opsForZSet()
-                .add("zset_testRedisCluster", "testRedisCluster", System.currentTimeMillis());
-        stringRedisTemplate.opsForSet()
-                .add("set_testRedisCluster", "testRedisCluster");
+        stringRedisTemplate.opsForValue().set("string_testRedisCluster", System.currentTimeMillis() + "");
+        stringRedisTemplate.opsForZSet().add("zset_testRedisCluster", "testRedisCluster", System.currentTimeMillis());
+        stringRedisTemplate.opsForSet().add("set_testRedisCluster", "testRedisCluster");
         return Boolean.TRUE;
     }
 }

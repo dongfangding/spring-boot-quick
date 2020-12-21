@@ -121,9 +121,7 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
                 .setToken(verifyToken)
                 .setLoginTime(new Date(loginTime))
                 .setLoginIp(WebUtil.getHost())
-                .setLoginAddress(WebUtil.getCurRequest()
-                        .getLocale()
-                        .getDisplayCountry()));
+                .setLoginAddress(WebUtil.getCurRequest().getLocale().getDisplayCountry()));
         return verifyToken;
     }
 
