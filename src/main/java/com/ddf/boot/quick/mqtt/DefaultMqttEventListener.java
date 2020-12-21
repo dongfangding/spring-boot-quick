@@ -4,10 +4,9 @@ import com.hivemq.client.internal.mqtt.datatypes.MqttUserPropertiesImpl;
 import com.hivemq.client.mqtt.lifecycle.MqttClientConnectedContext;
 import com.hivemq.client.mqtt.lifecycle.MqttClientDisconnectedContext;
 import com.hivemq.client.mqtt.mqtt5.message.connect.connack.Mqtt5ConnAck;
-import lombok.extern.slf4j.Slf4j;
-
-import javax.validation.constraints.NotNull;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 默认实现$
@@ -51,14 +50,18 @@ public class DefaultMqttEventListener implements MqttEventListener {
      * @date 2019/12/25 0025 15:19
      **/
     @Override
-    public void connected(MqttClientConnectedContext mqttClientConnectedContext, @NotNull DefaultMqtt5Client defaultMqtt5Client) {
+    public void connected(MqttClientConnectedContext mqttClientConnectedContext,
+            @NotNull DefaultMqtt5Client defaultMqtt5Client) {
         MqttProperties mqttProperties = defaultMqtt5Client.getMqttProperties();
         if (mqttProperties != null) {
             // 初始化所有的订阅主题
             List<MqttProperties.SubscribeDetail> subscribeDetails = mqttProperties.getSubscribeDetails();
             if (subscribeDetails != null && !subscribeDetails.isEmpty()) {
                 for (MqttProperties.SubscribeDetail subscribeDetail : subscribeDetails) {
-                    defaultMqtt5Client.subscribe(subscribeDetail.getTopic(), subscribeDetail.getQos(), MqttUserPropertiesImpl.NO_USER_PROPERTIES);
+                    defaultMqtt5Client.subscribe(
+                            subscribeDetail.getTopic(), subscribeDetail.getQos(),
+                            MqttUserPropertiesImpl.NO_USER_PROPERTIES
+                    );
                 }
             }
         }
@@ -76,7 +79,8 @@ public class DefaultMqttEventListener implements MqttEventListener {
      * @date 2019/12/25 0025 15:25
      **/
     @Override
-    public void disconnected(MqttClientDisconnectedContext mqttClientDisconnectedContext, DefaultMqtt5Client defaultMqtt5Client) {
+    public void disconnected(MqttClientDisconnectedContext mqttClientDisconnectedContext,
+            DefaultMqtt5Client defaultMqtt5Client) {
 
     }
 

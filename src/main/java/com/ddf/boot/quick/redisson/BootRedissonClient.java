@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2020/12/17 0017 23:16
  */
 @Component
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class BootRedissonClient {
 
     private final RedissonClient redissonClient;

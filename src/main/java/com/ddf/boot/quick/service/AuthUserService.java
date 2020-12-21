@@ -14,38 +14,38 @@ import com.ddf.boot.quick.model.vo.AuthUserVo;
 public interface AuthUserService extends CustomizeIService<AuthUser> {
 
 
-	/**
-	 * 用户注册
-	 *
-	 * @param authUserRegistryBo
-	 * @return
-	 */
-	AuthUserVo registry(AuthUserRegistryBo authUserRegistryBo);
+    /**
+     * 用户注册
+     *
+     * @param authUserRegistryBo
+     * @return
+     */
+    AuthUserVo registry(AuthUserRegistryBo authUserRegistryBo);
 
 
-	/**
-	 * 登录
-	 *
-	 * @param loginBo
-	 * @return
-	 */
-	String loginByPassword(LoginBo loginBo);
+    /**
+     * 登录
+     *
+     * @param loginBo
+     * @return
+     */
+    String loginByPassword(LoginBo loginBo);
 
 
-	/**
-	 * 根据用户名查找用户
-	 *
-	 * @param username
-	 * @return
-	 */
-	AuthUser findByName(String username);
+    /**
+     * 根据用户名查找用户
+     *
+     * @param username
+     * @return
+     */
+    AuthUser findByName(String username);
 
-	/**
-	 * 分页查询
-	 *
-	 * @param authUserPageBo
-	 * @return
-	 */
-	PageResult<AuthUser> pageList(AuthUserPageBo authUserPageBo);
+    /**
+     * 分页查询
+     *
+     * @param authUserPageBo
+     * @return
+     */
+    PageResult<AuthUser> pageList(AuthUserPageBo authUserPageBo);
 
 }

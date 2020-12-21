@@ -36,11 +36,11 @@ public class UserLoginHistoryConsumer {
     private UserLoginHistoryCollectionRepository userLoginHistoryCollectionRepository;
 
     /**
-     *
      * 演示手动ack模式，消费成功后确认消息，消费失败后，拒绝消息，拒绝成功后然后执行自实现的消息简易消息重投
-     *
-     * 该种模式下，要消费的队列，不要配置死信队列；其实问题不是出在不能配置，而是配置后如果有消费的话，每次失败重投消息都会转发到
-     * 另外一个接收队列中，导致消息重复！详见{@link RabbitTemplateHelper#requeue(com.ddf.boot.common.mq.definition.QueueBuilder.QueueDefinition, com.ddf.boot.common.mq.definition.MqMessageWrapper, java.util.function.Consumer)}
+     * <p>
+     * 该种模式下，要消费的队列，不要配置死信队列；其实问题不是出在不能配置，而是配置后如果有消费的话，每次失败重投消息都会转发到 另外一个接收队列中，导致消息重复！详见{@link
+     * RabbitTemplateHelper#requeue(com.ddf.boot.common.mq.definition.QueueBuilder.QueueDefinition,
+     * com.ddf.boot.common.mq.definition.MqMessageWrapper, java.util.function.Consumer)}
      *
      * @param channel
      * @param message
@@ -57,11 +57,12 @@ public class UserLoginHistoryConsumer {
             parse = mqMessageHelper.parse(message, UserLoginHistoryCollection.class);
             log.info("消费到消息内容: {}", parse);
             userLoginHistoryCollectionRepository.save(parse.getBody());
-            channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+            channel.basicAck(message.getMessageProperties()
+                    .getDeliveryTag(), false);
         } catch (Exception e) {
             log.error("消息消费异常！ {}", parse, e);
-            rabbitTemplateHelper.nackAndRequeue(channel, message, QueueBuilder.QueueDefinition
-                    .USER_LOGIN_HISTORY_QUEUE, parse);
+            rabbitTemplateHelper.nackAndRequeue(
+                    channel, message, QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, parse);
             // catch之后必须再把异常throw出去，否则无法捕捉到消费异常
             throw new ServerErrorException(e.getMessage());
         }

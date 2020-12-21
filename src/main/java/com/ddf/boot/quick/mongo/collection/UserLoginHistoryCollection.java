@@ -1,12 +1,11 @@
 package com.ddf.boot.quick.mongo.collection;
 
+import java.util.Date;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.util.Date;
 
 /**
  * Mongo 用户登录日志

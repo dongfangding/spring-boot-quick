@@ -72,5 +72,6 @@ public interface MqttPublishSubscribeEvent {
      * @author dongfang.ding
      * @date 2019/12/26 0026 10:43
      **/
-    void onSubscribeComplete(DefaultMqtt5Client defaultMqtt5Client, MqttSubscribe mqttSubscribe, Mqtt5SubAck mqtt5SubAck, Throwable throwable);
+    void onSubscribeComplete(DefaultMqtt5Client defaultMqtt5Client, MqttSubscribe mqttSubscribe,
+            Mqtt5SubAck mqtt5SubAck, Throwable throwable);
 }

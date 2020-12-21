@@ -28,10 +28,11 @@ public class AsyncTask {
         if (userLoginHistoryCollection == null) {
             log.error("用户登录日志数据不全！");
         }
-       try {
-            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, userLoginHistoryCollection);
+        try {
+            rabbitTemplateHelper.wrapperAndSend(
+                    QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, userLoginHistoryCollection);
         } catch (MqSendException error) {
-           log.error("用户登录日志发送失败......", error);
-       }
+            log.error("用户登录日志发送失败......", error);
+        }
     }
 }

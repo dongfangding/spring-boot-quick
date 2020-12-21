@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * <p>description</p >
  *
- * @menu 阿里云OSS相关
  * @author Snowball
  * @version 1.0
+ * @menu 阿里云OSS相关
  * @date 2020/10/13 11:44
  */
 @RestController
@@ -28,7 +28,7 @@ public class OssController {
 
     @Autowired
     private OssHelper ossHelper;
-    
+
     /**
      * 返回STS授权信息, 实际中使用的比较多
      */

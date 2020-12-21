@@ -1,11 +1,10 @@
 package com.ddf.boot.quick.mqtt;
 
 import com.hivemq.client.mqtt.datatypes.MqttQos;
-import lombok.Data;
-import lombok.experimental.Accessors;
-
 import java.util.ArrayList;
 import java.util.List;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 属性类$

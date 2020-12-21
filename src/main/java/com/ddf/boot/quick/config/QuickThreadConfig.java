@@ -26,6 +26,7 @@ public class QuickThreadConfig {
 
     /**
      * 邮件发送
+     *
      * @return
      */
     @Bean

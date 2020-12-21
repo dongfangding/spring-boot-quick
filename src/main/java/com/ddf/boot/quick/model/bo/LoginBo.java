@@ -2,10 +2,9 @@ package com.ddf.boot.quick.model.bo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 import lombok.experimental.Accessors;
-
-import javax.validation.constraints.NotEmpty;
 
 /**
  * 登录请求参数$

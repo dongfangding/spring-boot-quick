@@ -3,7 +3,6 @@ package com.ddf.boot.quick.rocketmq;
 /**
  * <p>用来存储RocketMQ使用期间需要定义的常量</p >
  *
- *
  * @author Snowball
  * @version 1.0
  * @date 2020/11/19 19:16
@@ -27,7 +26,7 @@ public interface RocketMQConstants {
 
     /**
      * 应保持Topic的通用性，使用tags来筛选数据, 这可以不用建立太多的topic
-     *
+     * <p>
      * https://github.com/apache/rocketmq/blob/master/docs/cn/best_practice.md#1--tags%E7%9A%84%E4%BD%BF%E7%94%A8
      */
     interface Tags {
@@ -48,6 +47,7 @@ public interface RocketMQConstants {
          */
         String CONSUMER_MESSAGE_EXT = "consumer_message_ext";
     }
+
 
     /**
      * 消费组

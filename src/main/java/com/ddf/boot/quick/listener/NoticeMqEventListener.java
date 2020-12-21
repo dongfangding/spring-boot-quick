@@ -6,13 +6,12 @@ import com.ddf.boot.common.core.util.StringExtUtil;
 import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.common.mq.definition.QueueBuilder;
 import com.ddf.boot.common.mq.listener.MqEventListener;
+import javax.mail.MessagingException;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
-
-import javax.mail.MessagingException;
 
 /**
  * 用于提醒的mq消费事件$
@@ -62,12 +61,16 @@ public class NoticeMqEventListener implements MqEventListener {
      * @date 2019/12/16 0016 17:50
      **/
     @Override
-    public <T> void sendFailure(QueueBuilder.QueueDefinition queueDefinition, MqMessageWrapper<T> messageWrapper, Throwable throwable) {
+    public <T> void sendFailure(QueueBuilder.QueueDefinition queueDefinition, MqMessageWrapper<T> messageWrapper,
+            Throwable throwable) {
         mailSendExecutor.execute(() -> {
             try {
-                mailUtil.sendMimeMail(new String[]{"1041765757@qq.com"} , String.format("mq消息[%s]发送失败提醒", messageWrapper.getMessageId()),
+                mailUtil.sendMimeMail(
+                        new String[] {"1041765757@qq.com"},
+                        String.format("mq消息[%s]发送失败提醒", messageWrapper.getMessageId()),
                         JsonUtil.asString(messageWrapper) + "<br /><br /> <font color='red'>"
-                                + StringExtUtil.exceptionToStringNoLimit(throwable) + "</font>");
+                                + StringExtUtil.exceptionToStringNoLimit(throwable) + "</font>"
+                );
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
@@ -85,12 +88,16 @@ public class NoticeMqEventListener implements MqEventListener {
      * @date 2019/12/16 0016 17:50
      **/
     @Override
-    public <T> void consumerFailure(RabbitListener rabbitListener, MqMessageWrapper<T> messageWrapper, Throwable throwable) {
+    public <T> void consumerFailure(RabbitListener rabbitListener, MqMessageWrapper<T> messageWrapper,
+            Throwable throwable) {
         mailSendExecutor.execute(() -> {
             try {
-                mailUtil.sendMimeMail(new String[]{"1041765757@qq.com"}, String.format("mq消息[%s]消费失败提醒", messageWrapper.getMessageId()),
+                mailUtil.sendMimeMail(
+                        new String[] {"1041765757@qq.com"},
+                        String.format("mq消息[%s]消费失败提醒", messageWrapper.getMessageId()),
                         JsonUtil.asString(messageWrapper) + "<br /><br /> <font color='red'>"
-                                + StringExtUtil.exceptionToStringNoLimit(throwable) + "</font>");
+                                + StringExtUtil.exceptionToStringNoLimit(throwable) + "</font>"
+                );
             } catch (MessagingException e) {
                 e.printStackTrace();
             }

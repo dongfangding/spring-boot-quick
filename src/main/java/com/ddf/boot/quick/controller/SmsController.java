@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * <p>短信服务基本演示</p >
  *
- * @menu 阿里云短信平台相关
  * @author Snowball
  * @version 1.0
+ * @menu 阿里云短信平台相关
  * @date 2020/10/19 09:53
  */
 @RestController
@@ -24,6 +24,7 @@ public class SmsController {
 
     /**
      * 发送短信验证码
+     *
      * @param mobile
      * @return
      */

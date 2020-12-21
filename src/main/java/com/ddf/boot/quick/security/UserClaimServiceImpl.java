@@ -5,11 +5,10 @@ import com.ddf.boot.common.jwt.interfaces.UserClaimService;
 import com.ddf.boot.common.jwt.model.UserClaim;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.quick.service.AuthUserService;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 获取数据库最新用户信息$
@@ -27,8 +26,7 @@ public class UserClaimServiceImpl implements UserClaimService {
 
     /**
      * 正常环境下能够获取到HttpServletRequest，但如果有些项目使用了RPC框架，请求被转发到另一个服务后，HttpServletRequest
-     * 则无法正常获取，这里提供一个接口，使用者可以自行将对象放在一些上下文中；如RpcContext，则自己在对应的服务中按照自己
-     * 存入的方式再获取到
+     * 则无法正常获取，这里提供一个接口，使用者可以自行将对象放在一些上下文中；如RpcContext，则自己在对应的服务中按照自己 存入的方式再获取到
      *
      * @param request
      * @param host    客户端请求ip
@@ -45,10 +43,9 @@ public class UserClaimServiceImpl implements UserClaimService {
     /**
      * Jwt将token中的用户信息，传递给调用方，需要调用方实现这个接口来将数据库中的最新用户数据返回过来
      *
-     * @see com.ddf.boot.common.jwt.filter.JwtAuthorizationTokenFilter
-     *
      * @param userClaim
      * @return
+     * @see com.ddf.boot.common.jwt.filter.JwtAuthorizationTokenFilter
      */
     @Override
     public UserClaim getStoreUserInfo(UserClaim userClaim) {
@@ -65,6 +62,7 @@ public class UserClaimServiceImpl implements UserClaimService {
 
     /**
      * 验证通过后蒋用户信息放到spring-security上下文中
+     *
      * @param userClaim
      * @return void
      * @author dongfang.ding

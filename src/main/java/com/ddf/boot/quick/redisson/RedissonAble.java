@@ -1,9 +1,8 @@
 package com.ddf.boot.quick.redisson;
 
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * $

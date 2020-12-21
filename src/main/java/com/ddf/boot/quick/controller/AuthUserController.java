@@ -18,10 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
- * @menu 系统用户
- *
  * @author dongfang.ding
+ * @menu 系统用户
  * @date 2019/12/9 0009 13:36
  */
 @RestController
@@ -43,7 +41,8 @@ public class AuthUserController {
      **/
     @PostMapping("/registry")
     @ApiOperation(value = "用户注册")
-    public AuthUserVo registry(@RequestBody @Validated @ApiParam(value = "注册请求参数", required = true) AuthUserRegistryBo authUserRegistryBo) {
+    public AuthUserVo registry(@RequestBody @Validated @ApiParam(value = "注册请求参数", required = true)
+            AuthUserRegistryBo authUserRegistryBo) {
         return authUserService.registry(authUserRegistryBo);
     }
 

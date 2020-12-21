@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 用户登录日志控制器$
  *
- * @menu 用户登录日志
  * @author dongfang.ding
+ * @menu 用户登录日志
  * @date 2020/9/19 0019 14:42
  */
 @RestController
@@ -30,16 +30,19 @@ public class UserLoginHistoryController {
 
     /**
      * 分页查询用户登录日志
+     *
      * @return
      */
     @PostMapping("pageList")
     public PageResult<UserLoginHistoryCollection> pageList(@RequestBody PageUserHistoryBo pageUserHistoryBo) {
         Query query = new Query();
         if (StringUtils.isNotBlank(pageUserHistoryBo.getUsername())) {
-            query.addCriteria(Criteria.where("username").regex(pageUserHistoryBo.getUsername()));
+            query.addCriteria(Criteria.where("username")
+                    .regex(pageUserHistoryBo.getUsername()));
         }
         if (pageUserHistoryBo.getUserId() != null) {
-            query.addCriteria(Criteria.where("userId").is(pageUserHistoryBo.getUserId()));
+            query.addCriteria(Criteria.where("userId")
+                    .is(pageUserHistoryBo.getUserId()));
         }
         return mongoTemplateHelper.handlerPageResult(pageUserHistoryBo, query, UserLoginHistoryCollection.class);
     }

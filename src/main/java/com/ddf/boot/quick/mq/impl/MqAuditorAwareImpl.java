@@ -4,9 +4,8 @@ import com.ddf.boot.common.jwt.exception.UserClaimMissionException;
 import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.common.mq.helper.MqMessageHelper;
 import com.ddf.boot.common.mq.interfaces.MqAuditorAware;
-import org.springframework.stereotype.Component;
-
 import java.util.Optional;
+import org.springframework.stereotype.Component;
 
 /**
  * 设置当前用户信息给mq工具类使用$
@@ -42,15 +41,16 @@ public class MqAuditorAwareImpl implements MqAuditorAware {
     /**
      * 获取当前用户信息，在持久化消息的时候保存进去，但如果时异步发送的话，这里就会获取不到
      *
-     * @see MqMessageHelper#getCurrentAuditor()
      * @return java.util.Optional<java.lang.String>
      * @author dongfang.ding
      * @date 2019/12/21 0021 14:08
+     * @see MqMessageHelper#getCurrentAuditor()
      **/
     @Override
     public Optional<String> getAuditor() {
         try {
-            return Optional.of(JwtUtil.getByContext().getUsername());
+            return Optional.of(JwtUtil.getByContext()
+                    .getUsername());
         } catch (UserClaimMissionException e) {
             return Optional.empty();
         }

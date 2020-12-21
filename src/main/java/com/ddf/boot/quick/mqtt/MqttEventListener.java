@@ -54,7 +54,8 @@ public interface MqttEventListener {
      * @author dongfang.ding
      * @date 2019/12/25 0025 15:25
      **/
-    void disconnected(MqttClientDisconnectedContext mqttClientDisconnectedContext, DefaultMqtt5Client defaultMqtt5Client);
+    void disconnected(MqttClientDisconnectedContext mqttClientDisconnectedContext,
+            DefaultMqtt5Client defaultMqtt5Client);
 
 
     /**

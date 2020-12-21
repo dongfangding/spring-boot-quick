@@ -4,15 +4,13 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.common.mq.entity.LogMqListener;
 import com.ddf.boot.common.mq.mapper.LogMqListenerMapper;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
- *
  * mq消息消费日志记录$
  * <p>
  * <p>
@@ -37,8 +35,8 @@ import java.util.List;
  * .............................................
  * 佛曰：bug泛滥，我已瘫痪！
  *
- * @menu mq消息消费日志记录
  * @author dongfang.ding
+ * @menu mq消息消费日志记录
  * @date 2019/12/21 0021 15:00
  */
 @RestController
@@ -50,6 +48,7 @@ public class LogMqListenerController {
 
     /**
      * 列表查询
+     *
      * @return
      */
     @GetMapping("/list")

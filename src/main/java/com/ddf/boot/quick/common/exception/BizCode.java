@@ -13,9 +13,7 @@ public enum BizCode implements BaseCallbackCode {
     /**
      * OSS异常
      */
-    OSS_ERROR("10000", "OSS异常")
-
-    ;
+    OSS_ERROR("10000", "OSS异常");
 
 
     BizCode(String code, String description) {

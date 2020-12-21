@@ -4,12 +4,11 @@ import com.ddf.boot.common.websocket.interceptor.DefaultHandshakeInterceptor;
 import com.ddf.boot.common.websocket.interceptor.HandshakeAuth;
 import com.ddf.boot.common.websocket.model.AuthPrincipal;
 import com.ddf.boot.common.websocket.model.HandshakeParam;
+import java.util.Map;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.socket.WebSocketHandler;
-
-import java.util.Map;
 
 /**
  * <p>基于jwt的参数认证</p >
@@ -32,9 +31,11 @@ public class JwtHandshakeAuth implements HandshakeAuth {
      * @see DefaultHandshakeInterceptor
      */
     @Override
-    public AuthPrincipal validPrincipal(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler
-            , Map<String, Object> attributes, HandshakeParam handshakeParam) {
-        return new AuthPrincipal(handshakeParam.getAccessKeyId(), handshakeParam.getAccessKeyName(), handshakeParam.getAuthCode(),
-                handshakeParam.getLoginType(), handshakeParam.getVersion(), handshakeParam.getCurrentTimeStamp());
+    public AuthPrincipal validPrincipal(ServerHttpRequest request, ServerHttpResponse response,
+            WebSocketHandler wsHandler, Map<String, Object> attributes, HandshakeParam handshakeParam) {
+        return new AuthPrincipal(handshakeParam.getAccessKeyId(), handshakeParam.getAccessKeyName(),
+                handshakeParam.getAuthCode(), handshakeParam.getLoginType(), handshakeParam.getVersion(),
+                handshakeParam.getCurrentTimeStamp()
+        );
     }
 }

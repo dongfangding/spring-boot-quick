@@ -21,13 +21,14 @@ import org.springframework.stereotype.Component;
  * @date 2020/12/07 17:22
  */
 @Component
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class JobHandler {
 
     private final AuthUserService authUserService;
 
     /**
      * 简单bean任务
+     *
      * @return
      */
     @XxlJob(value = "helloUser")
@@ -46,7 +47,8 @@ public class JobHandler {
             XxlJobLogger.log("天不时，地不利，任务无法执行!");
             return ReturnT.FAIL;
         }
-        XxlJobLogger.log("{}: hello world!", result.getContent().get(0));
+        XxlJobLogger.log("{}: hello world!", result.getContent()
+                .get(0));
         return ReturnT.SUCCESS;
     }
 }
