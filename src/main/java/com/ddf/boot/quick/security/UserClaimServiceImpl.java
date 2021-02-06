@@ -1,8 +1,8 @@
 package com.ddf.boot.quick.security;
 
 import cn.hutool.core.convert.Convert;
+import com.ddf.boot.common.core.model.UserClaim;
 import com.ddf.boot.common.jwt.interfaces.UserClaimService;
-import com.ddf.boot.common.jwt.model.UserClaim;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.quick.service.AuthUserService;
 import javax.servlet.http.HttpServletRequest;
