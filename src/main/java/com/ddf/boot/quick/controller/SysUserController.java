@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2021-01-27
  */
 @RestController
-@RequestMapping("/sys-user")
+@RequestMapping("/sysUser")
 @RequiredArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
 public class SysUserController {

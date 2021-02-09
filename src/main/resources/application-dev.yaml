@@ -167,6 +167,7 @@ spring:
   data:
     mongodb:
       uri: ${mongodb_url}
+      autoIndexCreation: true
 
   websocket:
     properties:

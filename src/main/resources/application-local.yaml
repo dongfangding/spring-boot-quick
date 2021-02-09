@@ -1,31 +1,31 @@
 # redis相关
-redis_host: 127.0.0.1
+redis_host: www.snowball.fans
 redis_port: 6379
+redis_password: 123456
 
 # zookeeper地址,host:port, 多个用,隔开
-zk_addr: localhost:2181
+zk_addr: www.snowball.fans:2181,www.snowball.fans:2182,www.snowball.fans:2183
 
 # mysql
-mysql_host: localhost
+mysql_host: www.snowball.fans
 mysql_port: 3306
 mysql_db: boot-quick
-mysql_username: root
-mysql_password: 123456
+mysql_username: develop
+mysql_password: 12345678
 
 # rabbitmq相关
-rabbit_address: localhost:5672
+rabbit_address: www.snowball.fans:5672
 rabbit_username: guest
 rabbit_password: guest
 
-
 # rocket name-server地址
-rocketmq_name_server: 106.15.10.135:9876
+rocketmq_name_server: www.snowball.fans:9876
 
 # mongo
-mongodb_url: mongodb://localhost:27017/boot-quick
+mongodb_url: mongodb://develop:Dongfang.ding_mongo@www.snowball.fans:27017/boot-quick?authSource=admin
 
 # xxl-job
-xxl_admin_addresses: http://106.15.10.135:8805
+xxl_admin_addresses: http://www.snowball.fans:8805
 
 spring:
   datasource:
@@ -97,13 +97,14 @@ spring:
     timeout: 1000ms
     host: ${redis_host}
     port: ${redis_port}
+    password: ${redis_password}
     # org.redisson.spring.starter.RedissonProperties
     redisson:
       # org.redisson.config.Config
       config:
         # org.redisson.config.SingleServerConfig
         singleServerConfig:
-          address: localhost:6379
+          address: www.snowball.fans:6379
           # org.redisson.config.BaseConfig
           password: 123456
           idleConnectionTimeout: 10000
@@ -150,6 +151,7 @@ spring:
   data:
     mongodb:
       uri: ${mongodb_url}
+      autoIndexCreation: true
 
   websocket:
     properties:
@@ -226,9 +228,8 @@ xxl-job:
   adminAddresses: ${xxl_admin_addresses}
   accessToken: xxl_develop # 访问token, 需要和xxl-job-admin里的配置一致
   appName: auto # 以spring.application.name
-  port: 8808 # 自动获取
   logPath: /opt/services/xxl-job/logs/jobhandler # 日志目录
-  logRetentionDays: 14 # 日志保留天数
+  logRetentionDays: 7 # 日志保留天数
 
 customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   global-properties:
