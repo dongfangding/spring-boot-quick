@@ -4,7 +4,7 @@ import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
-import com.ddf.boot.quick.model.bo.LoginBo;
+import com.ddf.boot.quick.model.bo.LoginRequest;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
 import com.ddf.boot.quick.service.AuthUserService;
 import io.swagger.annotations.Api;
@@ -49,15 +49,16 @@ public class AuthUserController {
     /**
      * 用户登录
      *
-     * @param loginBo
+     * @param loginRequest
      * @return java.lang.String
      * @author dongfang.ding
      * @date 2019/12/9 0009 20:09
      **/
     @PostMapping("loginByPassword")
     @ApiOperation("用户登录")
-    public String loginByPassword(@RequestBody @Validated @ApiParam(value = "登录参数", required = true) LoginBo loginBo) {
-        return authUserService.loginByPassword(loginBo);
+    public String loginByPassword(@RequestBody @Validated @ApiParam(value = "登录参数", required = true)
+            LoginRequest loginRequest) {
+        return authUserService.loginByPassword(loginRequest);
     }
 
     /**

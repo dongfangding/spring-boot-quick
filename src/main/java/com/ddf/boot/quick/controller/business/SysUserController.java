@@ -1,11 +1,13 @@
 package com.ddf.boot.quick.controller.business;
 
-import com.ddf.boot.quick.biz.CommonBizService;
+import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.model.bo.CaptchaRequest;
 import com.ddf.boot.quick.model.vo.CaptchaResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class SysUserController {
 
-    private final CommonBizService commonBizService;
+    private final ICommonBizService commonBizService;
 
 
     /**
@@ -34,7 +36,7 @@ public class SysUserController {
      * @return
      */
     @RequestMapping("generateCaptcha")
-    public CaptchaResponse generateCaptcha(CaptchaRequest request) {
+    public CaptchaResponse generateCaptcha(@RequestBody @Validated CaptchaRequest request) {
         return commonBizService.generateCaptcha(request);
     }
 

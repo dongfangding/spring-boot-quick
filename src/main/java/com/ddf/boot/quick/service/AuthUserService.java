@@ -5,7 +5,7 @@ import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.common.mybatis.service.CustomizeIService;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
-import com.ddf.boot.quick.model.bo.LoginBo;
+import com.ddf.boot.quick.model.bo.LoginRequest;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
 
 /**
@@ -26,10 +26,10 @@ public interface AuthUserService extends CustomizeIService<AuthUser> {
     /**
      * 登录
      *
-     * @param loginBo
+     * @param loginRequest
      * @return
      */
-    String loginByPassword(LoginBo loginBo);
+    String loginByPassword(LoginRequest loginRequest);
 
 
     /**

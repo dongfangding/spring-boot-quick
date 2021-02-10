@@ -9,7 +9,7 @@ import com.ddf.boot.quick.model.vo.CaptchaResponse;
  * @author dongfang.ding
  * @date 2021/2/10 0010 12:08
  */
-public interface CommonBizService {
+public interface ICommonBizService {
 
     /**
      * 生成验证码

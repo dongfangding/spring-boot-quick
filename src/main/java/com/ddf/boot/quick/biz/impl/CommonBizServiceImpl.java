@@ -2,7 +2,7 @@ package com.ddf.boot.quick.biz.impl;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
-import com.ddf.boot.quick.biz.CommonBizService;
+import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.common.redis.CacheKeys;
 import com.ddf.boot.quick.model.bo.CaptchaRequest;
 import com.ddf.boot.quick.model.vo.CaptchaResponse;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
-public class CommonBizServiceImpl implements CommonBizService {
+public class CommonBizServiceImpl implements ICommonBizService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
