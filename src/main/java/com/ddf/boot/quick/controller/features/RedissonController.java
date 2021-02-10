@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.controller;
+package com.ddf.boot.quick.controller.features;
 
 import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;

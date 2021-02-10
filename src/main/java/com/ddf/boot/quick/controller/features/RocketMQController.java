@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.controller;
+package com.ddf.boot.quick.controller.features;
 
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.IdUtil;

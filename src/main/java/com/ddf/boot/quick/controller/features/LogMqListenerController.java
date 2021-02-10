@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.controller;
+package com.ddf.boot.quick.controller.features;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
