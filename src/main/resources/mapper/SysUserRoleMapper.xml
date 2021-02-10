@@ -27,4 +27,14 @@
         version,
         user_id, role_id
     </sql>
+
+    <insert id="batchRelativeUser" parameterType="com.ddf.boot.quick.model.bo.BatchInsertSysUserRoleRequest">
+        insert into sys_user_role(user_id, role_id)
+            values
+        <foreach item="item" index="index" collection="request.roleIdList" separator=",">
+            (
+                #{request.userId}, #{item}
+            )
+        </foreach>
+    </insert>
 </mapper>

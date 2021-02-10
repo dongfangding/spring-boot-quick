@@ -56,6 +56,11 @@ public class SysUser extends BaseDomain {
     private String lastLoginIp;
 
     /**
+     * 最后活跃时间
+     */
+    private LocalDateTime lastActiveTime;
+
+    /**
      * 最后登陆时间
      */
     private LocalDateTime lastLoginTime;

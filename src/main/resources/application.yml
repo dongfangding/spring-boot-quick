@@ -31,11 +31,18 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - prod
 
 mybatis-plus:
+  global-config:
+    db-config:
+      logic-not-delete-value: 0
+      logic-delete-value: null
+      logic-delete-field: is_del
   configuration:
     map-underscore-to-camel-case: true
-    cache-enabled: false
+    cache-enabled: true
+    # https://mp.baomidou.com/config/#localcachescope
+    localCacheScope: STATEMENT
   ## mapper.xml文件所在路径
-  mapper-locations: classpath:com/ddf/boot/quick/mapper/*.xml
+  mapper-locations: classpath:mapper/*.xml
 
 logging:
   level:

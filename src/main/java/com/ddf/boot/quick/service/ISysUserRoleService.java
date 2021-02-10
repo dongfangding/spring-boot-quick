@@ -1,6 +1,7 @@
 package com.ddf.boot.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ddf.boot.quick.model.bo.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.model.entity.SysUserRole;
 
 /**
@@ -13,4 +14,11 @@ import com.ddf.boot.quick.model.entity.SysUserRole;
  */
 public interface ISysUserRoleService extends IService<SysUserRole> {
 
+    /**
+     * 批量关联用户角色
+     *
+     * @param request
+     * @return
+     */
+    int batchRelativeUser(BatchInsertSysUserRoleRequest request);
 }

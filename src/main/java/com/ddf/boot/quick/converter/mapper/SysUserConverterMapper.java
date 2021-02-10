@@ -1,8 +1,10 @@
 package com.ddf.boot.quick.converter.mapper;
 
+import com.ddf.boot.quick.model.bo.CreateSysUserRequest;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.model.vo.CreateSysUserResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 /**
@@ -22,6 +24,16 @@ public interface SysUserConverterMapper {
      * @param sysUser
      * @return
      */
+    @Mappings({})
     CreateSysUserResponse convert(SysUser sysUser);
 
+    /**
+     *
+     * 创建系统用户请求对象转换为系统用户实体对象
+     *
+     * @param request
+     * @return
+     */
+    @Mappings({})
+    SysUser requestConvert(CreateSysUserRequest request);
 }
