@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.model.bo;
 
+import javax.validation.constraints.NotEmpty;
 import lombok.Data;
 
 /**
@@ -14,5 +15,6 @@ public class CaptchaRequest {
     /**
      * 一个随机值，用来标识一个form表单请求， 返回的验证码会和这个表单值对应起来，后续会作为验证使用
      */
+    @NotEmpty(message = "表单id不能为空")
     private String formId;
 }

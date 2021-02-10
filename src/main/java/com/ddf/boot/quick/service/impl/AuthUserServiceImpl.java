@@ -20,7 +20,7 @@ import com.ddf.boot.quick.biz.AsyncTask;
 import com.ddf.boot.quick.mapper.AuthUserMapper;
 import com.ddf.boot.quick.model.bo.AuthUserPageBo;
 import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
-import com.ddf.boot.quick.model.bo.LoginBo;
+import com.ddf.boot.quick.model.bo.LoginRequest;
 import com.ddf.boot.quick.model.vo.AuthUserVo;
 import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
 import com.ddf.boot.quick.oss.BootOssClient;
@@ -77,14 +77,14 @@ public class AuthUserServiceImpl extends CusomizeIServiceImpl<AuthUserMapper, Au
     /**
      * 登录
      *
-     * @param loginBo
+     * @param loginRequest
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public String loginByPassword(@NotNull LoginBo loginBo) {
-        String username = loginBo.getUsername();
-        String password = loginBo.getPassword();
+    public String loginByPassword(@NotNull LoginRequest loginRequest) {
+        String username = loginRequest.getLoginName();
+        String password = loginRequest.getPassword();
 
         AuthUser existUser = findByName(username);
         if (existUser == null) {
