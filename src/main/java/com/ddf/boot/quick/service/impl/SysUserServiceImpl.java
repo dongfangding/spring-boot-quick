@@ -58,4 +58,37 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public SysUser getByLoginNameAndPassword(String loginName, String password) {
         return sysUserDao.getByLoginNameAndPassword(loginName, password);
     }
+
+    /**
+     * 根据登录名获取用户
+     *
+     * @param loginName
+     * @return
+     */
+    @Override
+    public SysUser getByLoginName(String loginName) {
+        return sysUserDao.getByLoginName(loginName);
+    }
+
+    /**
+     * 根据手机号获取用户
+     *
+     * @param mobile
+     * @return
+     */
+    @Override
+    public SysUser getByMobile(String mobile) {
+        return sysUserDao.getByMobile(mobile);
+    }
+
+    /**
+     * 根据昵称获取用户
+     *
+     * @param nickname
+     * @return
+     */
+    @Override
+    public SysUser getByNickname(String nickname) {
+        return sysUserDao.getByNickname(nickname);
+    }
 }

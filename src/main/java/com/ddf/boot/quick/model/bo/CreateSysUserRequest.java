@@ -1,8 +1,10 @@
 package com.ddf.boot.quick.model.bo;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 /**
  * 创建系统用户请求类
@@ -11,6 +13,7 @@ import lombok.Data;
  * @date 2021/2/10 0010 13:40
  */
 @Data
+@Accessors(chain = true)
 public class CreateSysUserRequest {
 
     /**
@@ -30,6 +33,11 @@ public class CreateSysUserRequest {
      */
     @NotEmpty(message = "密码不能为空")
     private String password;
+
+    /**
+     * 角色id集合
+     */
+    private Set<String> roleIdList;
 
     /**
      * 邮箱

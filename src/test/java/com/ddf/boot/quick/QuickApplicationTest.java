@@ -1,14 +1,11 @@
 package com.ddf.boot.quick;
 
-import com.ddf.boot.common.websocket.config.WebSocketConfig;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -25,10 +22,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @author dongfang.ding
  * @date 2019/12/9 0009 12:02
  */
-@SpringBootTest
-@ComponentScan(value = "com.ddf.boot.quick", excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-        WebSocketConfig.class
-}))
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @RunWith(SpringJUnit4ClassRunner.class)
 public class QuickApplicationTest {
 

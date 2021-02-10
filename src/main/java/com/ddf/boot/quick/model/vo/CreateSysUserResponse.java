@@ -11,6 +11,8 @@ import lombok.Data;
  */
 @Data
 public class CreateSysUserResponse {
+    
+    private Long id;
 
     /**
      * 用户id, 系统内部关联使用

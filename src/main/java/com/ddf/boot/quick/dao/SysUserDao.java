@@ -56,4 +56,44 @@ public class SysUserDao {
                 .eq(SysUser::getPassword, password);
         return sysUserMapper.selectOne(wrapper);
     }
+
+
+    /**
+     * 根据登录名获取用户
+     *
+     * @param loginName
+     * @return
+     */
+    public SysUser getByLoginName(String loginName) {
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getLoginName, loginName);
+        return sysUserMapper.selectOne(wrapper);
+    }
+
+    /**
+     * 根据手机号获取用户
+     *
+     * @param mobile
+     * @return
+     */
+    public SysUser getByMobile(String mobile) {
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getMobile, mobile);
+        return sysUserMapper.selectOne(wrapper);
+    }
+
+
+    /**
+     * 根据昵称获取用户
+     *
+     * @param nickname
+     * @return
+     */
+    public SysUser getByNickname(String nickname) {
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getNickname, nickname);
+        return sysUserMapper.selectOne(wrapper);
+    }
+
+
 }

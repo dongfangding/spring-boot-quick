@@ -1,9 +1,12 @@
 package com.ddf.boot.quick;
 
 import com.ddf.boot.common.core.logaccess.EnableLogAspect;
+import com.ddf.boot.common.websocket.config.WebSocketConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
@@ -12,6 +15,9 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * @date 2019/12/7 0007 23:28
  */
 @SpringBootApplication
+@ComponentScan(value = "com.ddf.boot", excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+        WebSocketConfig.class
+}))
 @MapperScan(basePackages = {"com.ddf.boot.quick.mapper"})
 //@EnableJwt
 @EnableLogAspect(slowTime = 3000)
