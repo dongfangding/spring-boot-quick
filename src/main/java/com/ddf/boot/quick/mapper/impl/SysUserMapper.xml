@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.quick.mapper.SysUserMapper">
+
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ddf.boot.quick.model.entity.SysUser">
+        <result column="id" property="id" />
+        <result column="create_by" property="createBy" />
+        <result column="create_time" property="createTime" />
+        <result column="modify_by" property="modifyBy" />
+        <result column="modify_time" property="modifyTime" />
+        <result column="is_del" property="isDel" />
+        <result column="version" property="version" />
+        <result column="user_id" property="userId" />
+        <result column="login_name" property="loginName" />
+        <result column="nickname" property="nickname" />
+        <result column="password" property="password" />
+        <result column="status" property="status" />
+        <result column="last_login_ip" property="lastLoginIp" />
+        <result column="last_login_time" property="lastLoginTime" />
+        <result column="last_pwd_reset_time" property="lastPwdResetTime" />
+        <result column="email" property="email" />
+        <result column="mobile" property="mobile" />
+        <result column="sex" property="sex" />
+        <result column="avatar_url" property="avatarUrl" />
+        <result column="avatar_short_url" property="avatarShortUrl" />
+        <result column="birthday" property="birthday" />
+        <result column="height" property="height" />
+        <result column="weight" property="weight" />
+        <result column="wei_xin" property="weiXin" />
+        <result column="qq" property="qq" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_by,
+        create_time,
+        modify_by,
+        modify_time,
+        is_del,
+        version,
+        user_id, login_name, nickname, password, status, last_login_ip, last_login_time, last_pwd_reset_time, email, mobile, sex, avatar_url, avatar_short_url, birthday, height, weight, wei_xin, qq
+    </sql>
+</mapper>

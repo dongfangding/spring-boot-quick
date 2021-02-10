@@ -1,29 +1,27 @@
-package com.ddf.boot.quick.service.impl;
+package com.ddf.boot.quick.dao;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ddf.boot.quick.dao.SysUserDao;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.quick.mapper.SysUserMapper;
 import com.ddf.boot.quick.model.entity.SysUser;
-import com.ddf.boot.quick.service.ISysUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
 /**
- * <p>
- * 系统用户表 服务实现类
- * </p>
+ * 系统用户DAO
  *
- * @author mybatis-plus-generator
- * @since 2021-02-10
+ * @author dongfang.ding
+ * @date 2021/2/10 0010 11:40
  */
-@Service
+@Repository
 @RequiredArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
-public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
+public class SysUserDao {
 
-    private final SysUserDao sysUserDao;
+    private final SysUserMapper sysUserMapper;
 
     /**
      * 新增记录
@@ -31,20 +29,18 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param sysUser
      * @return
      */
-    @Override
     public int insert(SysUser sysUser) {
-        return sysUserDao.insert(sysUser);
+        return sysUserMapper.insert(sysUser);
     }
+
 
     /**
      * 更新记录
-     *
      * @param sysUser
      * @return
      */
-    @Override
     public int update(SysUser sysUser) {
-        return sysUserDao.update(sysUser);
+        return sysUserMapper.updateById(sysUser);
     }
 
     /**
@@ -54,8 +50,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @param password
      * @return
      */
-    @Override
     public SysUser getByLoginNameAndPassword(String loginName, String password) {
-        return sysUserDao.getByLoginNameAndPassword(loginName, password);
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getLoginName, loginName)
+                .eq(SysUser::getPassword, password);
+        return sysUserMapper.selectOne(wrapper);
     }
 }

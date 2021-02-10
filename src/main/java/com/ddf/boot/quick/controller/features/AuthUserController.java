@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.controller;
+package com.ddf.boot.quick.controller.features;
 
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.model.datao.quick.AuthUser;

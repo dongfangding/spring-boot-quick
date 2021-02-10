@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.controller;
+package com.ddf.boot.quick.controller.business;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,17 +8,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- * 系统用户表 前端控制器
+ * 角色与菜单关联表 前端控制器
  * </p>
  *
  * @author mybatis-plus-generator
- * @since 2021-01-27
+ * @since 2021-02-10
  */
 @RestController
-@RequestMapping("/sysUser")
+@RequestMapping("/sysRoleMenu")
 @RequiredArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
-public class SysUserController {
+public class SysRoleMenuController {
 
 }
 

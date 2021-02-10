@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.controller;
+package com.ddf.boot.quick.controller.features;
 
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
