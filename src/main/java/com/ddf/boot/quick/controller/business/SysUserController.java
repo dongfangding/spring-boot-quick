@@ -33,6 +33,7 @@ public class SysUserController {
      * @param request
      * @return
      */
+    @RequestMapping("generateCaptcha")
     public CaptchaResponse generateCaptcha(CaptchaRequest request) {
         return commonBizService.generateCaptcha(request);
     }

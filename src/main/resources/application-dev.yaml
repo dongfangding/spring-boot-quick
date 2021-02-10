@@ -104,7 +104,7 @@ spring:
         password: null
         subscriptionsPerConnection: 5
         clientName: null
-        loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> { }
+#        loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> { }
         subscriptionConnectionMinimumIdleSize: 1
         subscriptionConnectionPoolSize: 50
         slaveConnectionMinimumIdleSize: 24
