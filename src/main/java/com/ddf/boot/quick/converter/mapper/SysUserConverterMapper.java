@@ -4,6 +4,7 @@ import com.ddf.boot.quick.model.bo.CreateSysUserRequest;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.model.vo.CreateSysUserResponse;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
@@ -24,7 +25,9 @@ public interface SysUserConverterMapper {
      * @param sysUser
      * @return
      */
-    @Mappings({})
+    @Mappings({
+        @Mapping(target = "statusName", expression = "java(com.ddf.boot.quick.constants.enumration.SysUserStatusEnum.instanceOfCodeDefaultUnknown(sysUser.getStatus()).getDesc())")
+    })
     CreateSysUserResponse convert(SysUser sysUser);
 
     /**
