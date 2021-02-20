@@ -23,6 +23,7 @@ public enum BizCode implements BaseCallbackCode {
     VERIFY_CODE_NOT_MAPPING("10005", "验证码错误"),
     LOGIN_NAME_NOT_EXIST("10006", "登录名不存在"),
     LOGIN_PASSWORD_ERROR("10007", "登录密码错误"),
+    ROLE_NAME_EXIST("10008", "角色名称已经存在"),
 
 
     ;

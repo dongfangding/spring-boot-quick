@@ -2,11 +2,11 @@ package com.ddf.boot.quick.controller.business;
 
 import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.biz.ISysUserBizService;
+import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CaptchaRequest;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
-import com.ddf.boot.quick.model.response.CreateSysUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +55,7 @@ public class SysUserController {
      * @return
      */
     @PostMapping("create")
-    public CreateSysUserResponse create(@RequestBody @Validated CreateSysUserRequest request) {
+    public SysUserDTO create(@RequestBody @Validated CreateSysUserRequest request) {
         return sysUserBizService.create(request);
     }
 

@@ -2,6 +2,8 @@ package com.ddf.boot.quick.biz.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
+import com.ddf.boot.common.core.config.GlobalProperties;
+import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.model.UserClaim;
 import com.ddf.boot.common.core.util.DateUtils;
 import com.ddf.boot.common.core.util.PreconditionUtil;
@@ -13,20 +15,25 @@ import com.ddf.boot.quick.biz.ISysUserBizService;
 import com.ddf.boot.quick.common.exception.BizCode;
 import com.ddf.boot.quick.common.redis.CacheKeys;
 import com.ddf.boot.quick.converter.mapper.SysUserConverterMapper;
+import com.ddf.boot.quick.event.SysUserLoginEvent;
+import com.ddf.boot.quick.model.dto.SysUserDTO;
+import com.ddf.boot.quick.model.dto.UserLoginHistoryDTO;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
-import com.ddf.boot.quick.model.response.CreateSysUserResponse;
+import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
 import groovy.util.logging.Slf4j;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,7 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @date 2021/2/10 0010 14:45
  */
 @Service
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
 public class SysUserBizServiceImpl implements ISysUserBizService {
 
@@ -50,6 +57,10 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
+    private final GlobalProperties globalProperties;
+
+    private final ApplicationContext applicationContext;
+
     /**
      * 创建系统用户
      *
@@ -58,14 +69,14 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public CreateSysUserResponse create(CreateSysUserRequest request) {
+    public SysUserDTO create(CreateSysUserRequest request) {
         // 重复性判断
         PreconditionUtil.checkArgument(Objects.isNull(sysUserService.getByLoginName(request.getLoginName())),
-                BizCode.LOGIN_NAME_REPEAT);
+            BizCode.LOGIN_NAME_REPEAT);
         PreconditionUtil.checkArgument(Objects.isNull(sysUserService.getByNickname(request.getNickname())),
-                BizCode.NICK_NAME_REPEAT);
+            BizCode.NICK_NAME_REPEAT);
         PreconditionUtil.checkArgument(Objects.isNull(sysUserService.getByMobile(request.getMobile())),
-                BizCode.MOBILE_REPEAT);
+            BizCode.MOBILE_REPEAT);
 
         String userId = snowflakeServiceHelper.getStringId();
         SysUser sysUser = SysUserConverterMapper.INSTANCE.requestConvert(request);
@@ -76,9 +87,9 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         Set<String> roleIdList = request.getRoleIdList();
         if (CollectionUtil.isNotEmpty(roleIdList)) {
             BatchInsertSysUserRoleRequest batchInsertSysUserRoleRequest = BatchInsertSysUserRoleRequest.builder()
-                    .userId(userId)
-                    .roleIdList(roleIdList)
-                    .build();
+                .userId(userId)
+                .roleIdList(roleIdList)
+                .build();
             sysUserRoleService.batchRelativeUser(batchInsertSysUserRoleRequest);
         }
         sysUserService.save(sysUser);
@@ -94,10 +105,13 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public LoginResponse loginByPassword(LoginRequest request) {
-        // 获取随机数对应的验证码
-        final String verifyCode = stringRedisTemplate.opsForValue().get(CacheKeys.getCaptchaKey(request.getTokenId()));
-        PreconditionUtil.checkArgument(Objects.nonNull(verifyCode), BizCode.VERIFY_CODE_EXPIRED);
-        PreconditionUtil.checkArgument(Objects.equals(verifyCode, request.getVerifyCode()), BizCode.VERIFY_CODE_NOT_MAPPING);
+        final List<String> blankLoginNameList = globalProperties.getBlankLoginNameList();
+        if (CollectionUtil.isNotEmpty(blankLoginNameList) && !blankLoginNameList.contains(request.getLoginName())) {
+            // 获取随机数对应的验证码
+            final String verifyCode = stringRedisTemplate.opsForValue().get(CacheKeys.getCaptchaKey(request.getTokenId()));
+            PreconditionUtil.checkArgument(Objects.nonNull(verifyCode), BizCode.VERIFY_CODE_EXPIRED);
+            PreconditionUtil.checkArgument(Objects.equals(verifyCode, request.getVerifyCode()), BizCode.VERIFY_CODE_NOT_MAPPING);
+        }
 
         final String loginName = request.getLoginName();
         SysUser sysUser = sysUserService.getByLoginName(loginName);
@@ -126,7 +140,28 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         sysUser.setLastLoginTime(loginTime);
         sysUserService.update(sysUser);
 
+        // 处理登录事件
+        final UserLoginHistoryDTO userLoginHistoryDTO = UserLoginHistoryDTO.builder()
+                .userId(sysUser.getUserId())
+                .loginName(sysUser.getLoginName())
+                .token(jwtToken)
+                .loginTime(loginTime)
+                .loginIp(WebUtil.getHost())
+                .loginAddress(WebUtil.getCurRequest().getLocale().getDisplayCountry())
+                .build();
+        applicationContext.publishEvent(new SysUserLoginEvent(this, userLoginHistoryDTO));
+
         final LoginResponse response = new LoginResponse();
         return response.setToken(jwtToken);
+    }
+
+    /**
+     * 系统用户分页查询
+     *
+     * @param request
+     * @return
+     */
+    @Override public PageResult<SysUserDTO> pageList(SysUserPageRequest request) {
+        return null;
     }
 }
