@@ -4,7 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
-import com.ddf.boot.quick.model.bo.AuthUserPageBo;
+import com.ddf.boot.quick.model.request.AuthUserPageBo;
 import com.ddf.boot.quick.service.AuthUserService;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;

@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.model.vo;
+package com.ddf.boot.quick.model.response;
 
 import java.time.LocalDateTime;
 import lombok.Data;

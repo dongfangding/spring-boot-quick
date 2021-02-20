@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.model.vo;
+package com.ddf.boot.quick.model.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,6 +13,9 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class LoginResponse {
 
+    /**
+     * 登录身份token
+     */
     private String token;
 
 }

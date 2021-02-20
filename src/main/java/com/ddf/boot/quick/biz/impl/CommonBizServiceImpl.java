@@ -2,10 +2,11 @@ package com.ddf.boot.quick.biz.impl;
 
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
+import com.ddf.boot.common.core.util.IdsUtil;
 import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.common.redis.CacheKeys;
-import com.ddf.boot.quick.model.bo.CaptchaRequest;
-import com.ddf.boot.quick.model.vo.CaptchaResponse;
+import com.ddf.boot.quick.model.request.CaptchaRequest;
+import com.ddf.boot.quick.model.response.CaptchaResponse;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,9 @@ public class CommonBizServiceImpl implements ICommonBizService {
     public CaptchaResponse generateCaptcha(CaptchaRequest request) {
         // data:image/jpeg;base64,
         CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(200, 80, 4, 200);
+        final String tokenId = IdsUtil.getNextStrId();
         // 设置有效期
-        stringRedisTemplate.opsForValue().set(CacheKeys.getCaptchaKey(request.getFormId()), captcha.getCode(),
-                Duration.ofMinutes(2));
-        return new CaptchaResponse().setWidth(200).setHeight(80).setBase64(captcha.getImageBase64());
+        stringRedisTemplate.opsForValue().set(CacheKeys.getCaptchaKey(tokenId), captcha.getCode(), Duration.ofMinutes(2));
+        return new CaptchaResponse().setWidth(200).setHeight(80).setBase64(captcha.getImageBase64()).setTokenId(tokenId);
     }
 }

@@ -1,12 +1,12 @@
 package com.ddf.boot.quick.biz;
-import com.ddf.boot.common.core.util.JsonUtil;
-import com.ddf.boot.quick.model.vo.CreateSysUserResponse;
-import java.time.LocalDateTime;
-import com.google.common.collect.Sets;
 
+import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.quick.QuickApplicationTest;
-import com.ddf.boot.quick.model.bo.CreateSysUserRequest;
+import com.ddf.boot.quick.model.request.CreateSysUserRequest;
+import com.ddf.boot.quick.model.response.CreateSysUserResponse;
 import com.ddf.boot.quick.service.ISysUserService;
+import com.google.common.collect.Sets;
+import java.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 

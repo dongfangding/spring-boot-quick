@@ -1,8 +1,8 @@
 package com.ddf.boot.quick.dao;
 
 import com.ddf.boot.quick.mapper.SysUserRoleMapper;
-import com.ddf.boot.quick.model.bo.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.model.entity.SysUserRole;
+import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

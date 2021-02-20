@@ -2,10 +2,10 @@ package com.ddf.boot.quick.controller.features;
 
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
-import com.ddf.boot.quick.model.bo.AuthUserPageBo;
-import com.ddf.boot.quick.model.bo.AuthUserRegistryBo;
-import com.ddf.boot.quick.model.bo.LoginRequest;
-import com.ddf.boot.quick.model.vo.AuthUserVo;
+import com.ddf.boot.quick.model.request.AuthUserPageBo;
+import com.ddf.boot.quick.model.request.AuthUserRegistryBo;
+import com.ddf.boot.quick.model.request.LoginRequest;
+import com.ddf.boot.quick.model.response.AuthUserVo;
 import com.ddf.boot.quick.service.AuthUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

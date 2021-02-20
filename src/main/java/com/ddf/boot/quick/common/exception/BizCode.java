@@ -19,6 +19,10 @@ public enum BizCode implements BaseCallbackCode {
     LOGIN_NAME_REPEAT("10001", "登录名已存在"),
     NICK_NAME_REPEAT("10002", "昵称已存在"),
     MOBILE_REPEAT("10003", "手机号已存在"),
+    VERIFY_CODE_EXPIRED("10004", "验证码已过期"),
+    VERIFY_CODE_NOT_MAPPING("10005", "验证码错误"),
+    LOGIN_NAME_NOT_EXIST("10006", "登录名不存在"),
+    LOGIN_PASSWORD_ERROR("10007", "登录密码错误"),
 
 
     ;

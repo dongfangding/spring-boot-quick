@@ -1,8 +1,8 @@
 package com.ddf.boot.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.ddf.boot.quick.model.bo.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.model.entity.SysUserRole;
+import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
 
 /**
  * <p>
