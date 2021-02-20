@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @date 2021/2/10 0010 12:11
  */
 @Service
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
 public class CommonBizServiceImpl implements ICommonBizService {
 
@@ -36,10 +36,10 @@ public class CommonBizServiceImpl implements ICommonBizService {
     @Override
     public CaptchaResponse generateCaptcha(CaptchaRequest request) {
         // data:image/jpeg;base64,
-        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(200, 80, 4, 200);
+        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(request.getWidth(), request.getHeight(), 4, 200);
         final String tokenId = IdsUtil.getNextStrId();
         // 设置有效期
         stringRedisTemplate.opsForValue().set(CacheKeys.getCaptchaKey(tokenId), captcha.getCode(), Duration.ofMinutes(2));
-        return new CaptchaResponse().setWidth(200).setHeight(80).setBase64(captcha.getImageBase64()).setTokenId(tokenId);
+        return new CaptchaResponse().setWidth(request.getWidth()).setHeight(request.getHeight()).setBase64(captcha.getImageBase64()).setTokenId(tokenId);
     }
 }

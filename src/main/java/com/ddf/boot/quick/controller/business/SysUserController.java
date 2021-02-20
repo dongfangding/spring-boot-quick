@@ -4,8 +4,10 @@ import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.biz.ISysUserBizService;
 import com.ddf.boot.quick.model.request.CaptchaRequest;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
+import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
 import com.ddf.boot.quick.model.response.CreateSysUserResponse;
+import com.ddf.boot.quick.model.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +57,17 @@ public class SysUserController {
     @PostMapping("create")
     public CreateSysUserResponse create(@RequestBody @Validated CreateSysUserRequest request) {
         return sysUserBizService.create(request);
+    }
+
+    /**
+     * 使用密码登录
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("loginByPassword")
+    public LoginResponse loginByPassword(@RequestBody @Validated LoginRequest request) {
+        return sysUserBizService.loginByPassword(request);
     }
 
 
