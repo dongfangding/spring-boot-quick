@@ -1,7 +1,7 @@
 package com.ddf.boot.quick.biz;
 
-import com.ddf.boot.quick.model.bo.CaptchaRequest;
-import com.ddf.boot.quick.model.vo.CaptchaResponse;
+import com.ddf.boot.quick.model.request.CaptchaRequest;
+import com.ddf.boot.quick.model.response.CaptchaResponse;
 
 /**
  * 通用业务服务类

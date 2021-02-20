@@ -1,8 +1,8 @@
 package com.ddf.boot.quick.converter.mapper;
 
-import com.ddf.boot.quick.model.bo.CreateSysUserRequest;
 import com.ddf.boot.quick.model.entity.SysUser;
-import com.ddf.boot.quick.model.vo.CreateSysUserResponse;
+import com.ddf.boot.quick.model.request.CreateSysUserRequest;
+import com.ddf.boot.quick.model.response.CreateSysUserResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;

@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.model.bo;
+package com.ddf.boot.quick.model.request;
 
 import java.time.LocalDateTime;
 import java.util.Set;

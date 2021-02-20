@@ -1,8 +1,8 @@
 package com.ddf.boot.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ddf.boot.quick.model.bo.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.model.entity.SysUserRole;
+import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

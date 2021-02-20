@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.model.vo;
+package com.ddf.boot.quick.model.response;
 
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -16,12 +16,17 @@ public class CaptchaResponse {
     /**
      * 图片的宽度
      */
-    private int width;
+    private Integer width;
 
     /**
      * 图片的高度
      */
-    private int height;
+    private Integer height;
+
+    /**
+     * 跟随验证码一起返回的唯一标识符， 在对应表单数据提交时需要带上这个唯一标识符
+     */
+    private String tokenId;
 
     /**
      * 图片的base64编码

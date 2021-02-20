@@ -1,12 +1,16 @@
 package com.ddf.boot.quick.controller.business;
 
 import com.ddf.boot.quick.biz.ICommonBizService;
-import com.ddf.boot.quick.model.bo.CaptchaRequest;
-import com.ddf.boot.quick.model.vo.CaptchaResponse;
+import com.ddf.boot.quick.biz.ISysUserBizService;
+import com.ddf.boot.quick.model.request.CaptchaRequest;
+import com.ddf.boot.quick.model.request.CreateSysUserRequest;
+import com.ddf.boot.quick.model.response.CaptchaResponse;
+import com.ddf.boot.quick.model.response.CreateSysUserResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +32,8 @@ public class SysUserController {
 
     private final ICommonBizService commonBizService;
 
+    private final ISysUserBizService sysUserBizService;
+
 
     /**
      * 生成验证码
@@ -35,10 +41,22 @@ public class SysUserController {
      * @param request
      * @return
      */
-    @RequestMapping("generateCaptcha")
+    @PostMapping("generateCaptcha")
     public CaptchaResponse generateCaptcha(@RequestBody @Validated CaptchaRequest request) {
         return commonBizService.generateCaptcha(request);
     }
+
+    /**
+     * 创建系统用户
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("create")
+    public CreateSysUserResponse create(@RequestBody @Validated CreateSysUserRequest request) {
+        return sysUserBizService.create(request);
+    }
+
 
 }
 

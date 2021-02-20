@@ -1,7 +1,9 @@
 package com.ddf.boot.quick.biz;
 
-import com.ddf.boot.quick.model.bo.CreateSysUserRequest;
-import com.ddf.boot.quick.model.vo.CreateSysUserResponse;
+import com.ddf.boot.quick.model.request.CreateSysUserRequest;
+import com.ddf.boot.quick.model.request.LoginRequest;
+import com.ddf.boot.quick.model.response.CreateSysUserResponse;
+import com.ddf.boot.quick.model.response.LoginResponse;
 
 /**
  * 系统用户业务处理类
@@ -18,4 +20,12 @@ public interface ISysUserBizService {
      * @return
      */
     CreateSysUserResponse create(CreateSysUserRequest request);
+
+    /**
+     * 系统用户登录
+     *
+     * @param request
+     * @return
+     */
+    LoginResponse loginByPassword(LoginRequest request);
 }

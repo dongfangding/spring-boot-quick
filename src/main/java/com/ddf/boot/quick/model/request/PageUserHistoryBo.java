@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.model.bo;
+package com.ddf.boot.quick.model.request;
 
 import com.ddf.boot.common.core.model.BaseQuery;
 import io.swagger.annotations.ApiModel;

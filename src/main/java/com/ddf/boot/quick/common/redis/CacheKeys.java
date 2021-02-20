@@ -14,10 +14,10 @@ public interface CacheKeys {
     /**
      * 获取验证码缓存key
      *
-     * @param formId 标识当前的一次form请求
+     * @param tokenId 标识当前的一次form请求
      * @return
      */
-    static String getCaptchaKey(String formId) {
-        return ApplicationNamedKeyGenerator.genKey("captcha", formId);
+    static String getCaptchaKey(String tokenId) {
+        return ApplicationNamedKeyGenerator.genKey("captcha", tokenId);
     }
 }

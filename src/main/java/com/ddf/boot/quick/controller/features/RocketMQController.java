@@ -7,7 +7,7 @@ import com.ddf.boot.common.core.util.IdsUtil;
 import com.ddf.boot.common.model.datao.quick.AuthUser;
 import com.ddf.boot.common.rocketmq.dto.RocketMQDestination;
 import com.ddf.boot.common.rocketmq.helper.RocketMQHelper;
-import com.ddf.boot.quick.model.bo.AuthUserPageBo;
+import com.ddf.boot.quick.model.request.AuthUserPageBo;
 import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
 import com.ddf.boot.quick.rocketmq.RocketMQConstants;
 import com.ddf.boot.quick.service.AuthUserService;

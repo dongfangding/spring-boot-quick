@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.model.bo;
+package com.ddf.boot.quick.model.request;
 
 import javax.validation.constraints.NotEmpty;
 import lombok.Data;
@@ -25,6 +25,12 @@ public class LoginRequest {
      */
     @NotEmpty(message = "密码不能为空")
     private String password;
+
+    /**
+     * 验证码接口返回的tokenId
+     */
+    @NotEmpty(message = "验证码随机数不能为空")
+    private String tokenId;
 
     /**
      * 验证码
