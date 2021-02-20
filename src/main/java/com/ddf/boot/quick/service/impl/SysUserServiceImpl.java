@@ -5,6 +5,7 @@ import com.ddf.boot.quick.dao.SysUserDao;
 import com.ddf.boot.quick.mapper.SysUserMapper;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.service.ISysUserService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,28 @@ import org.springframework.stereotype.Service;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     private final SysUserDao sysUserDao;
+
+    /**
+     * 根据userId获取记录
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public SysUser getByUserId(String userId) {
+        return sysUserDao.getByUserId(userId);
+    }
+
+    /**
+     * 根据userId集合获取用户信息
+     *
+     * @param userIds
+     * @return
+     */
+    @Override
+    public List<SysUser> getByUserIds(List<String> userIds) {
+        return sysUserDao.getByUserIds(userIds);
+    }
 
     /**
      * 新增记录

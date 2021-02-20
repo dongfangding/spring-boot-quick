@@ -2,9 +2,10 @@ package com.ddf.boot.quick.security;
 
 import cn.hutool.core.convert.Convert;
 import com.ddf.boot.common.core.model.UserClaim;
+import com.ddf.boot.common.core.util.DateUtils;
 import com.ddf.boot.common.jwt.interfaces.UserClaimService;
-import com.ddf.boot.common.model.datao.quick.AuthUser;
-import com.ddf.boot.quick.service.AuthUserService;
+import com.ddf.boot.quick.model.entity.SysUser;
+import com.ddf.boot.quick.service.ISysUserService;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,8 +22,7 @@ import org.springframework.stereotype.Service;
 public class UserClaimServiceImpl implements UserClaimService {
 
     @Autowired
-    private AuthUserService authUserService;
-
+    private ISysUserService sysUserService;
 
     /**
      * 正常环境下能够获取到HttpServletRequest，但如果有些项目使用了RPC框架，请求被转发到另一个服务后，HttpServletRequest
@@ -50,13 +50,12 @@ public class UserClaimServiceImpl implements UserClaimService {
     @Override
     public UserClaim getStoreUserInfo(UserClaim userClaim) {
         UserClaim dbUserClaim = new UserClaim();
-        AuthUser dbUser = authUserService.getById(userClaim.getUserId());
+        SysUser dbUser = sysUserService.getByUserId(userClaim.getUserId());
         // 将当前token对应的用户查询出来返回，给调用方用户将数据库数据和token进行比较
-        dbUserClaim.setUserId(Convert.toStr(dbUser.getId())).setUsername(dbUser.getUsername()).setLastLoginTime(
-                dbUser.getLastLoginTime()).setLastModifyPasswordTime(dbUser.getLastModifyPassword());
+        dbUserClaim.setUserId(Convert.toStr(dbUser.getId())).setUsername(dbUser.getLoginName()).setLastLoginTime(
+            DateUtils.toDefaultMills(dbUser.getLastLoginTime())).setLastModifyPasswordTime(DateUtils.toDefaultMills(dbUser.getLastPwdResetTime()));
         return dbUserClaim;
     }
-
 
     /**
      * 验证通过后蒋用户信息放到spring-security上下文中

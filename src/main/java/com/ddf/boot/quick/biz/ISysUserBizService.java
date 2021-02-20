@@ -1,8 +1,10 @@
 package com.ddf.boot.quick.biz;
 
+import com.ddf.boot.common.core.model.PageResult;
+import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
-import com.ddf.boot.quick.model.response.CreateSysUserResponse;
+import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
 
 /**
@@ -19,7 +21,7 @@ public interface ISysUserBizService {
      * @param request
      * @return
      */
-    CreateSysUserResponse create(CreateSysUserRequest request);
+    SysUserDTO create(CreateSysUserRequest request);
 
     /**
      * 系统用户登录
@@ -28,4 +30,12 @@ public interface ISysUserBizService {
      * @return
      */
     LoginResponse loginByPassword(LoginRequest request);
+
+    /**
+     * 系统用户分页查询
+     *
+     * @param request
+     * @return
+     */
+    PageResult<SysUserDTO> pageList(SysUserPageRequest request);
 }

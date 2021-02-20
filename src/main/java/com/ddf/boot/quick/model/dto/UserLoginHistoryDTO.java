@@ -1,31 +1,26 @@
-package com.ddf.boot.quick.mongo.collection;
+package com.ddf.boot.quick.model.dto;
 
 import java.time.LocalDateTime;
+import lombok.Builder;
 import lombok.Data;
-import lombok.experimental.Accessors;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * Mongo 用户登录日志
+ * 用户登录数据类
  *
  * @author dongfang.ding
  * @date 2020/9/18 0018 22:55
  */
-@Document
 @Data
-@Accessors(chain = true)
-public class UserLoginHistoryCollection {
+@Builder
+public class UserLoginHistoryDTO {
 
-    @Id
-    private String id;
-
-    @Indexed(unique = false)
+    /**
+     * 用户id
+     */
     private String userId;
 
     /**
-     * 用户名
+     * 登录名
      */
     private String loginName;
 

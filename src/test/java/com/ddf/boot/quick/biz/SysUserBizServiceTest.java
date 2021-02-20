@@ -2,8 +2,8 @@ package com.ddf.boot.quick.biz;
 
 import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.quick.QuickApplicationTest;
+import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
-import com.ddf.boot.quick.model.response.CreateSysUserResponse;
 import com.ddf.boot.quick.service.ISysUserService;
 import com.google.common.collect.Sets;
 import java.time.LocalDateTime;
@@ -38,7 +38,7 @@ public class SysUserBizServiceTest extends QuickApplicationTest {
         request.setWeight(0);
         request.setWeiXin("");
         request.setQq("");
-        CreateSysUserResponse response = sysUserBizService.create(request);
+        SysUserDTO response = sysUserBizService.create(request);
         System.out.println(JsonUtil.asString(response));
     }
 

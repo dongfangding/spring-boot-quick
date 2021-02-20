@@ -1,6 +1,7 @@
-package com.ddf.boot.quick.model.response;
+package com.ddf.boot.quick.model.dto;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import lombok.Data;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Data;
  * @date 2021/2/10 0010 13:44
  */
 @Data
-public class CreateSysUserResponse {
+public class SysUserDTO {
     
     private Long id;
 
@@ -93,4 +94,44 @@ public class CreateSysUserResponse {
      * QQ号
      */
     private String qq;
+
+    /**
+     * 创建人id
+     */
+    private String createBy;
+
+    /**
+     * 创建人名称
+     */
+    private String createByName;
+
+    /**
+     * 创建时间
+     */
+    private Date createTime;
+
+    /**
+     * 修改人id
+     */
+    private String modifyBy;
+
+    /**
+     * 修改人名称
+     */
+    private String modifyByName;
+
+    /**
+     * 修改时间
+     */
+    private Date modifyTime;
+
+    /**
+     * 是否删除
+     */
+    private Integer isDel;
+
+    /**
+     * 版本号
+     */
+    private Integer version;
 }

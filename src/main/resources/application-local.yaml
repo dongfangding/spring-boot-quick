@@ -239,12 +239,13 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - pre
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
+    blankLoginNameList: # 登录名白名单列表，不进行验证码校验
+      - admin
   message_secret: false # 是否加密传输websocket消息数据
 
   zookeeper:
     monitor:
       connectAddress: ${zk_addr}
-
 
   ext:
     ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties

@@ -1,5 +1,8 @@
 package com.ddf.boot.quick.dao;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ddf.boot.common.core.enumration.CommonLogic;
 import com.ddf.boot.quick.mapper.SysRoleMapper;
 import com.ddf.boot.quick.model.entity.SysRole;
 import lombok.RequiredArgsConstructor;
@@ -39,5 +42,18 @@ public class SysRoleDao {
      */
     public int update(SysRole sysRole) {
         return sysRoleMapper.updateById(sysRole);
+    }
+
+    /**
+     * 根据角色名字查询记录， 包含未激活的
+     *
+     * @param roleName
+     * @return
+     */
+    public SysRole getByName(String roleName) {
+        final LambdaQueryWrapper<SysRole> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysRole::getRoleName, roleName)
+            .eq(SysRole::getIsDel, CommonLogic.TRUE.getLogic());
+        return sysRoleMapper.selectOne(wrapper);
     }
 }

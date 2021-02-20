@@ -2,6 +2,7 @@ package com.ddf.boot.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddf.boot.quick.model.entity.SysUser;
+import java.util.List;
 
 /**
  * <p>
@@ -12,6 +13,23 @@ import com.ddf.boot.quick.model.entity.SysUser;
  * @since 2021-02-10
  */
 public interface ISysUserService extends IService<SysUser> {
+
+    /**
+     * 根据userId获取记录
+     *
+     * @param userId
+     * @return
+     */
+    SysUser getByUserId(String userId);
+
+
+    /**
+     * 根据userId集合获取用户信息
+     *
+     * @param userIds
+     * @return
+     */
+    List<SysUser> getByUserIds(List<String> userIds);
 
     /**
      * 新增记录

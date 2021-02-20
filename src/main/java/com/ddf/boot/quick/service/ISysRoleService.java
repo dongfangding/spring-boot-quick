@@ -13,4 +13,27 @@ import com.ddf.boot.quick.model.entity.SysRole;
  */
 public interface ISysRoleService extends IService<SysRole> {
 
+    /**
+     * 新增记录
+     *
+     * @param sysRole
+     * @return
+     */
+    int insert(SysRole sysRole);
+
+
+    /**
+     * 更新记录
+     * @param sysRole
+     * @return
+     */
+    int update(SysRole sysRole);
+
+    /**
+     * 根据角色名字查询记录， 包含未激活的
+     *
+     * @param roleName
+     * @return
+     */
+    SysRole getByName(String roleName);
 }

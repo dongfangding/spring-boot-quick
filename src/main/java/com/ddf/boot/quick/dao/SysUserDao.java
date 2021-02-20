@@ -1,10 +1,11 @@
 package com.ddf.boot.quick.dao;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ddf.boot.common.core.enumration.CommonLogic;
 import com.ddf.boot.quick.mapper.SysUserMapper;
 import com.ddf.boot.quick.model.entity.SysUser;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,32 @@ import org.springframework.stereotype.Repository;
 public class SysUserDao {
 
     private final SysUserMapper sysUserMapper;
+
+    /**
+     * 根据userId获取记录
+     *
+     * @param userId
+     * @return
+     */
+    public SysUser getByUserId(String userId) {
+        final LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getUserId, userId)
+            .eq(SysUser::getIsDel, CommonLogic.TRUE.getLogic());
+        return sysUserMapper.selectOne(wrapper);
+    }
+
+    /**
+     * 根据userId集合获取用户信息
+     *
+     * @param userIds
+     * @return
+     */
+    public List<SysUser> getByUserIds(List<String> userIds) {
+        final LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.in(SysUser::getUserId, userIds)
+            .eq(SysUser::getIsDel, CommonLogic.TRUE.getLogic());
+        return sysUserMapper.selectList(wrapper);
+    }
 
     /**
      * 新增记录
@@ -53,7 +80,8 @@ public class SysUserDao {
     public SysUser getByLoginNameAndPassword(String loginName, String password) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(SysUser::getLoginName, loginName)
-                .eq(SysUser::getPassword, password);
+                .eq(SysUser::getPassword, password)
+                .eq(SysUser::getIsDel, CommonLogic.TRUE.getLogic());
         return sysUserMapper.selectOne(wrapper);
     }
 
@@ -66,7 +94,8 @@ public class SysUserDao {
      */
     public SysUser getByLoginName(String loginName) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(SysUser::getLoginName, loginName);
+        wrapper.eq(SysUser::getLoginName, loginName)
+            .eq(SysUser::getIsDel, CommonLogic.TRUE.getLogic());
         return sysUserMapper.selectOne(wrapper);
     }
 
@@ -78,7 +107,8 @@ public class SysUserDao {
      */
     public SysUser getByMobile(String mobile) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(SysUser::getMobile, mobile);
+        wrapper.eq(SysUser::getMobile, mobile)
+            .eq(SysUser::getIsDel, CommonLogic.TRUE.getLogic());
         return sysUserMapper.selectOne(wrapper);
     }
 
@@ -91,7 +121,8 @@ public class SysUserDao {
      */
     public SysUser getByNickname(String nickname) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(SysUser::getNickname, nickname);
+        wrapper.eq(SysUser::getNickname, nickname)
+            .eq(SysUser::getIsDel, CommonLogic.TRUE.getLogic());
         return sysUserMapper.selectOne(wrapper);
     }
 
