@@ -26,12 +26,11 @@ public interface SysUserConverterMapper {
      * @return
      */
     @Mappings({
-        @Mapping(target = "statusName", expression = "java(com.ddf.boot.quick.constants.enumration.SysUserStatusEnum.instanceOfCodeDefaultUnknown(sysUser.getStatus()).getDesc())")
+            @Mapping(target = "statusName", expression = "java(com.ddf.boot.quick.constants.enumration.SysUserStatusEnum.instanceOfCodeDefaultUnknown(sysUser.getStatus()).getDesc())")
     })
     SysUserDTO convert(SysUser sysUser);
 
     /**
-     *
      * 创建系统用户请求对象转换为系统用户实体对象
      *
      * @param request

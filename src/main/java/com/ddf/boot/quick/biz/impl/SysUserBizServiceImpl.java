@@ -72,11 +72,14 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     public SysUserDTO create(CreateSysUserRequest request) {
         // 重复性判断
         PreconditionUtil.checkArgument(Objects.isNull(sysUserService.getByLoginName(request.getLoginName())),
-            BizCode.LOGIN_NAME_REPEAT);
+                BizCode.LOGIN_NAME_REPEAT
+        );
         PreconditionUtil.checkArgument(Objects.isNull(sysUserService.getByNickname(request.getNickname())),
-            BizCode.NICK_NAME_REPEAT);
+                BizCode.NICK_NAME_REPEAT
+        );
         PreconditionUtil.checkArgument(Objects.isNull(sysUserService.getByMobile(request.getMobile())),
-            BizCode.MOBILE_REPEAT);
+                BizCode.MOBILE_REPEAT
+        );
 
         String userId = snowflakeServiceHelper.getStringId();
         SysUser sysUser = SysUserConverterMapper.INSTANCE.requestConvert(request);
@@ -87,9 +90,9 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         Set<String> roleIdList = request.getRoleIdList();
         if (CollectionUtil.isNotEmpty(roleIdList)) {
             BatchInsertSysUserRoleRequest batchInsertSysUserRoleRequest = BatchInsertSysUserRoleRequest.builder()
-                .userId(userId)
-                .roleIdList(roleIdList)
-                .build();
+                    .userId(userId)
+                    .roleIdList(roleIdList)
+                    .build();
             sysUserRoleService.batchRelativeUser(batchInsertSysUserRoleRequest);
         }
         sysUserService.save(sysUser);
@@ -108,9 +111,11 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         final List<String> blankLoginNameList = globalProperties.getBlankLoginNameList();
         if (CollectionUtil.isNotEmpty(blankLoginNameList) && !blankLoginNameList.contains(request.getLoginName())) {
             // 获取随机数对应的验证码
-            final String verifyCode = stringRedisTemplate.opsForValue().get(CacheKeys.getCaptchaKey(request.getTokenId()));
+            final String verifyCode = stringRedisTemplate.opsForValue()
+                    .get(CacheKeys.getCaptchaKey(request.getTokenId()));
             PreconditionUtil.checkArgument(Objects.nonNull(verifyCode), BizCode.VERIFY_CODE_EXPIRED);
-            PreconditionUtil.checkArgument(Objects.equals(verifyCode, request.getVerifyCode()), BizCode.VERIFY_CODE_NOT_MAPPING);
+            PreconditionUtil.checkArgument(
+                    Objects.equals(verifyCode, request.getVerifyCode()), BizCode.VERIFY_CODE_NOT_MAPPING);
         }
 
         final String loginName = request.getLoginName();
@@ -128,10 +133,10 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
         UserClaim userClaim = new UserClaim();
         userClaim.setUserId(Convert.toStr(sysUser.getId()))
-            .setUsername(sysUser.getLoginName())
-            .setCredit(WebUtil.getHost())
-            // 记录用户当前登录时间
-            .setLastLoginTime(loginTimeMillis);
+                .setUsername(sysUser.getLoginName())
+                .setCredit(WebUtil.getHost())
+                // 记录用户当前登录时间
+                .setLastLoginTime(loginTimeMillis);
         if (Objects.nonNull(sysUser.getLastPwdResetTime())) {
             userClaim.setLastModifyPasswordTime(loginTimeMillis);
         }
@@ -147,7 +152,9 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
                 .token(jwtToken)
                 .loginTime(loginTime)
                 .loginIp(WebUtil.getHost())
-                .loginAddress(WebUtil.getCurRequest().getLocale().getDisplayCountry())
+                .loginAddress(WebUtil.getCurRequest()
+                        .getLocale()
+                        .getDisplayCountry())
                 .build();
         applicationContext.publishEvent(new SysUserLoginEvent(this, userLoginHistoryDTO));
 
@@ -161,7 +168,8 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      * @param request
      * @return
      */
-    @Override public PageResult<SysUserDTO> pageList(SysUserPageRequest request) {
+    @Override
+    public PageResult<SysUserDTO> pageList(SysUserPageRequest request) {
         return null;
     }
 }
