@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.model.request;
 
+import com.ddf.boot.common.core.model.PageRequest;
 import lombok.Data;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Data;
  * @date 2021/02/20 15:11
  */
 @Data
-public class SysRolePageRequest {
+public class SysRolePageRequest  implements PageRequest {
 
     /**
      * 页数, 从1开始

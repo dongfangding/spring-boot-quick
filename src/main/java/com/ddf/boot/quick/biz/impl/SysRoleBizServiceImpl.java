@@ -48,7 +48,7 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
      * @return
      */
     @Override
-    public SysRoleDTO createRole(CreateSysRoleRequest request) {
+    public SysRoleDTO saveOrUpdate(CreateSysRoleRequest request) {
         final String roleName = request.getRoleName();
         SysRole sysRole = new SysRole();
         sysRole.setRoleName(roleName);
@@ -59,7 +59,8 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
             PreconditionUtil.checkArgument(Objects.isNull(existSysRole), BizCode.ROLE_NAME_EXIST);
             sysRoleService.insert(sysRole);
         } else {
-            PreconditionUtil.checkArgument(Objects.equals(existSysRole.getId(), request.getId()), BizCode.ROLE_NAME_EXIST);
+            PreconditionUtil.checkArgument(
+                    Objects.equals(existSysRole.getId(), request.getId()), BizCode.ROLE_NAME_EXIST);
             sysRoleService.update(sysRole);
         }
         Set<String> operatorIdSet = new HashSet<>();
@@ -72,13 +73,16 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
         final SysRoleDTO response = SysRoleConvertMapper.INSTANCE.convert(sysRole);
         if (CollectionUtil.isNotEmpty(operatorIdSet)) {
             final List<SysUser> sysUserList = sysUserService.getByUserIds(new ArrayList<>(operatorIdSet));
-            final Map<String, SysUser> collect = sysUserList.stream().collect(Collectors.toMap(SysUser::getUserId, val -> val));
+            final Map<String, SysUser> collect = sysUserList.stream()
+                    .collect(Collectors.toMap(SysUser::getUserId, val -> val));
             if (CollectionUtil.isNotEmpty(collect)) {
                 if (collect.containsKey(response.getCreateBy())) {
-                    response.setCreateByName(collect.get(response.getCreateBy()).getLoginName());
+                    response.setCreateByName(collect.get(response.getCreateBy())
+                            .getLoginName());
                 }
                 if (collect.containsKey(response.getModifyBy())) {
-                    response.setModifyByName(collect.get(response.getModifyBy()).getLoginName());
+                    response.setModifyByName(collect.get(response.getModifyBy())
+                            .getLoginName());
                 }
             }
         }
@@ -93,7 +97,6 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
      */
     @Override
     public PageResult<SysRoleDTO> pageList(SysRolePageRequest request) {
-
 
 
 

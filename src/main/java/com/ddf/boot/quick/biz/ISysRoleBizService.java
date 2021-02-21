@@ -20,7 +20,7 @@ public interface ISysRoleBizService {
      * @param request
      * @return
      */
-    SysRoleDTO createRole(CreateSysRoleRequest request);
+    SysRoleDTO saveOrUpdate(CreateSysRoleRequest request);
 
     /**
      * 系统角色分页查询

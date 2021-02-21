@@ -39,7 +39,11 @@ public class CommonBizServiceImpl implements ICommonBizService {
         CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(request.getWidth(), request.getHeight(), 4, 200);
         final String tokenId = IdsUtil.getNextStrId();
         // 设置有效期
-        stringRedisTemplate.opsForValue().set(CacheKeys.getCaptchaKey(tokenId), captcha.getCode(), Duration.ofMinutes(2));
-        return new CaptchaResponse().setWidth(request.getWidth()).setHeight(request.getHeight()).setBase64(captcha.getImageBase64()).setTokenId(tokenId);
+        stringRedisTemplate.opsForValue()
+                .set(CacheKeys.getCaptchaKey(tokenId), captcha.getCode(), Duration.ofMinutes(2));
+        return new CaptchaResponse().setWidth(request.getWidth())
+                .setHeight(request.getHeight())
+                .setBase64(captcha.getImageBase64())
+                .setTokenId(tokenId);
     }
 }
