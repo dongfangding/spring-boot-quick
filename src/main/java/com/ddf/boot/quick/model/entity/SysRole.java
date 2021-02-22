@@ -35,9 +35,14 @@ public class SysRole extends BaseDomain {
     private Integer sort;
 
     /**
+     * 是否超管，超管拥有全部权限，但不能通过系统创建 0 否 1是
+     *
+     */
+    private Integer isAdmin;
+
+    /**
      * 是否激活 0 否 1 是
      */
     private Integer isActive;
-
 
 }
