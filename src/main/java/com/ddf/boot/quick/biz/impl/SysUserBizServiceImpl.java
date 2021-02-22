@@ -96,7 +96,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
         // 处理用户关联角色
         relativeUserRole(userId, request.getRoleIdList());
-        return SysUserConverterMapper.INSTANCE.convert(sysUser);
+        return SysUserConverterMapper.INSTANCE.convert(sysUserService.getById(sysUser.getId()));
     }
 
     /**
@@ -126,7 +126,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
         // 处理用户关联角色
         relativeUserRole(sysUser.getUserId(), request.getRoleIdList());
-        return SysUserConverterMapper.INSTANCE.convert(sysUser);
+        return SysUserConverterMapper.INSTANCE.convert(sysUserService.getById(request.getId()));
     }
 
 
