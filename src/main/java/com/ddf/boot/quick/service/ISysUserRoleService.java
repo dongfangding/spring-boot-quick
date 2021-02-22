@@ -32,6 +32,14 @@ public interface ISysUserRoleService extends IService<SysUserRole> {
     boolean update(SysUserRole sysUserRole);
 
     /**
+     * 删除用户的角色列表
+     *
+     * @param userId
+     * @return
+     */
+    int deleteUserRole(String userId);
+
+    /**
      * 批量关联用户角色
      *
      * @param request

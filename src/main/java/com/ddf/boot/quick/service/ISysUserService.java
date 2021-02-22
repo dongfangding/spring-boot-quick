@@ -17,6 +17,14 @@ import java.util.List;
 public interface ISysUserService extends IService<SysUser> {
 
     /**
+     * 根据id获取记录
+     *
+     * @param id
+     * @return
+     */
+    SysUser getById(Long id);
+
+    /**
      * 根据userId获取记录
      *
      * @param userId

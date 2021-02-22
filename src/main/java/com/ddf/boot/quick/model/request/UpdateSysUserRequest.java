@@ -1,5 +1,8 @@
 package com.ddf.boot.quick.model.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
@@ -39,7 +42,7 @@ public class UpdateSysUserRequest {
     /**
      * 角色id集合
      */
-    private Set<String> roleIdList;
+    private Set<Long> roleIdList;
 
     /**
      * 邮箱
@@ -64,6 +67,8 @@ public class UpdateSysUserRequest {
     /**
      * 出生日期
      */
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime birthday;
 
     /**

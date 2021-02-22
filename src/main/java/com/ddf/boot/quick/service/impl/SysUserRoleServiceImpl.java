@@ -1,5 +1,7 @@
 package com.ddf.boot.quick.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddf.boot.quick.mapper.SysUserRoleMapper;
 import com.ddf.boot.quick.model.entity.SysUserRole;
@@ -45,6 +47,19 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     @Override
     public boolean update(SysUserRole sysUserRole) {
         return super.updateById(sysUserRole);
+    }
+
+    /**
+     * 删除用户的角色列表
+     *
+     * @param userId
+     * @return 删除条数
+     */
+    @Override
+    public int deleteUserRole(String userId) {
+        final LambdaQueryWrapper<SysUserRole> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUserRole::getUserId, userId);
+        return baseMapper.delete(wrapper);
     }
 
     /**

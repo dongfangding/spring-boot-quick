@@ -59,7 +59,7 @@ public class SysUserHelper {
         final List<String> collect = ids.stream()
                 .filter(StrUtil::isNotBlank)
                 .collect(Collectors.toList());
-        if (CollectionUtil.isEmpty(ids)) {
+        if (CollectionUtil.isEmpty(collect)) {
             return Collections.emptyMap();
         }
         final List<SysUser> userList = sysUserService.getByUserIds(collect);
