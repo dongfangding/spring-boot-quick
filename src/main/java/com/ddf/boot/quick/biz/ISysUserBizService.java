@@ -25,7 +25,7 @@ public interface ISysUserBizService {
     SysUserDTO create(CreateSysUserRequest request);
 
     /**
-     * 创建系统用户
+     * 更新系统用户
      *
      * @param request
      * @return

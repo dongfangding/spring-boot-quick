@@ -31,6 +31,17 @@ import org.springframework.stereotype.Service;
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
     /**
+     * 根据id获取记录
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public SysUser getById(Long id) {
+        return super.getById(id);
+    }
+
+    /**
      * 根据userId获取记录
      *
      * @param userId

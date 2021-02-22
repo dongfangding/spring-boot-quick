@@ -2,6 +2,7 @@ package com.ddf.boot.quick.biz.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
+import cn.hutool.core.util.StrUtil;
 import com.ddf.boot.common.core.config.GlobalProperties;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.model.UserClaim;
@@ -91,30 +92,64 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         SysUser sysUser = SysUserConverterMapper.INSTANCE.requestConvert(request);
         sysUser.setUserId(userId);
         sysUser.setPassword(SecureUtil.signWithHMac(request.getPassword(), userId));
+        sysUserService.save(sysUser);
 
         // 处理用户关联角色
-        Set<String> roleIdList = request.getRoleIdList();
-        if (CollectionUtil.isNotEmpty(roleIdList)) {
-            BatchInsertSysUserRoleRequest batchInsertSysUserRoleRequest = BatchInsertSysUserRoleRequest.builder()
-                    .userId(userId)
-                    .roleIdList(roleIdList)
-                    .build();
-            sysUserRoleService.batchRelativeUser(batchInsertSysUserRoleRequest);
-        }
-        sysUserService.save(sysUser);
+        relativeUserRole(userId, request.getRoleIdList());
         return SysUserConverterMapper.INSTANCE.convert(sysUser);
     }
 
     /**
-     * 创建系统用户
+     * 更新系统用户
      *
      * @param request
      * @return
      */
     @Override
     public SysUserDTO update(UpdateSysUserRequest request) {
-        return null;
+        SysUser sysUser = sysUserService.getById(request.getId());
+        PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
+        SysUser searchSysUser = sysUserService.getByLoginName(request.getLoginName());
+        if (Objects.nonNull(searchSysUser)) {
+            PreconditionUtil.checkArgument(Objects.equals(searchSysUser.getId(), request.getId()), BizCode.LOGIN_NAME_REPEAT);
+        }
+        searchSysUser = sysUserService.getByNickname(request.getNickname());
+        if (Objects.nonNull(searchSysUser)) {
+            PreconditionUtil.checkArgument(Objects.equals(searchSysUser.getId(), request.getId()), BizCode.NICK_NAME_REPEAT);
+        }
+        searchSysUser = sysUserService.getByMobile(request.getMobile());
+        if (Objects.nonNull(searchSysUser)) {
+            PreconditionUtil.checkArgument(Objects.equals(searchSysUser.getId(), request.getId()), BizCode.MOBILE_REPEAT);
+        }
+        sysUser = SysUserConverterMapper.INSTANCE.updateConvert(request);
+        sysUserService.update(sysUser);
+
+        // 处理用户关联角色
+        relativeUserRole(sysUser.getUserId(), request.getRoleIdList());
+        return SysUserConverterMapper.INSTANCE.convert(sysUser);
     }
+
+
+    /**
+     * 关联用户角色
+     *
+     * @param userId
+     * @param roleIdList
+     */
+    private void relativeUserRole(String userId, Set<Long> roleIdList) {
+        if (CollectionUtil.isEmpty(roleIdList) || StrUtil.isBlank(userId)) {
+            return;
+        }
+        // 清除旧的关联数据
+        sysUserRoleService.deleteUserRole(userId);
+        // 重新关联
+        BatchInsertSysUserRoleRequest batchInsertSysUserRoleRequest = BatchInsertSysUserRoleRequest.builder()
+                .userId(userId)
+                .roleIdList(roleIdList)
+                .build();
+        sysUserRoleService.batchRelativeUser(batchInsertSysUserRoleRequest);
+    }
+
 
     /**
      * 系统用户登录

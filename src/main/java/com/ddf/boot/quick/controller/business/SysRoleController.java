@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 角色表 前端控制器
  * </p>
  *
+ * @menu 权限管理
  * @author mybatis-plus-generator
  * @since 2021-02-10
  */

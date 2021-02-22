@@ -23,6 +23,6 @@ public class BatchInsertSysUserRoleRequest {
     /**
      * 角色集合
      */
-    private Set<String> roleIdList;
+    private Set<Long> roleIdList;
 
 }

@@ -8,6 +8,7 @@ import com.ddf.boot.quick.model.request.CaptchaRequest;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
+import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * 系统用户表 前端控制器
  * </p>
  *
- * @menu 系统用户控制器
+ * @menu 权限管理
  * @author mybatis-plus-generator
  * @since 2021-02-10
  */
@@ -84,5 +85,15 @@ public class SysUserController {
         return sysUserBizService.pageList(request);
     }
 
+    /**
+     * 更新系统用户信息
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("update")
+    public SysUserDTO update(@RequestBody @Validated UpdateSysUserRequest request) {
+        return sysUserBizService.update(request);
+    }
 }
 

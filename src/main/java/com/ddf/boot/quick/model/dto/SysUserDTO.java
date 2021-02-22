@@ -1,6 +1,9 @@
 package com.ddf.boot.quick.model.dto;
 
 import com.ddf.boot.common.core.constant.IUserIdCollection;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.google.common.collect.Sets;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -75,6 +78,8 @@ public class SysUserDTO implements IUserIdCollection {
     /**
      * 出生日期
      */
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime birthday;
 
     /**
@@ -110,6 +115,8 @@ public class SysUserDTO implements IUserIdCollection {
     /**
      * 创建时间
      */
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createTime;
 
     /**
@@ -125,6 +132,8 @@ public class SysUserDTO implements IUserIdCollection {
     /**
      * 修改时间
      */
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime modifyTime;
 
     /**
