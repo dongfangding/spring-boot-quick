@@ -51,6 +51,7 @@ public class SysUserBizServiceTest extends QuickApplicationTest {
         updateSysUserRequest.setLoginName("修改" + response.getLoginName());
         updateSysUserRequest.setNickname("修改" + request.getNickname());
         updateSysUserRequest.setMobile("修改" + request.getMobile());
+        updateSysUserRequest.setRoleIdList(Sets.newHashSet(1L, 3L, 5L));
         final SysUserDTO update = sysUserBizService.update(updateSysUserRequest);
         System.out.println("修改接口返回值: " + JsonUtil.asString(update));
 
