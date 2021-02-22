@@ -80,7 +80,7 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
         if (Objects.nonNull(sysRole.getModifyBy())) {
             operatorIdSet.add(sysRole.getCreateBy());
         }
-        final SysRoleDTO response = SysRoleConvertMapper.INSTANCE.convert(sysRole);
+        final SysRoleDTO response = SysRoleConvertMapper.INSTANCE.convert(sysRoleService.getById(sysRole.getId()));
         if (CollectionUtil.isNotEmpty(operatorIdSet)) {
             final List<SysUser> sysUserList = sysUserService.getByUserIds(new ArrayList<>(operatorIdSet));
             final Map<String, SysUser> collect = sysUserList.stream()

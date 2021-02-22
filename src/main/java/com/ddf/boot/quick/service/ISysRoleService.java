@@ -16,6 +16,14 @@ import com.ddf.boot.quick.model.request.SysRolePageRequest;
 public interface ISysRoleService extends IService<SysRole> {
 
     /**
+     * 根据主键获取记录
+     *
+     * @param id
+     * @return
+     */
+    SysRole getById(Long id);
+
+    /**
      * 新增记录
      *
      * @param sysRole
