@@ -107,7 +107,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      */
     @Override
     public SysUserDTO update(UpdateSysUserRequest request) {
-        SysUser sysUser = sysUserService.getById(request.getId());
+        final SysUser sysUser = sysUserService.getById(request.getId());
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
         SysUser searchSysUser = sysUserService.getByLoginName(request.getLoginName());
         if (Objects.nonNull(searchSysUser)) {
@@ -121,8 +121,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         if (Objects.nonNull(searchSysUser)) {
             PreconditionUtil.checkArgument(Objects.equals(searchSysUser.getId(), request.getId()), BizCode.MOBILE_REPEAT);
         }
-        sysUser = SysUserConverterMapper.INSTANCE.updateConvert(request);
-        sysUserService.update(sysUser);
+        sysUserService.update(SysUserConverterMapper.INSTANCE.updateConvert(request));
 
         // 处理用户关联角色
         relativeUserRole(sysUser.getUserId(), request.getRoleIdList());
