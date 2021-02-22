@@ -30,6 +30,12 @@ public class SysRoleDTO implements IUserIdCollection {
     private String roleName;
 
     /**
+     * 是否超管，超管拥有全部权限，但不能通过系统创建 0 否 1是
+     *
+     */
+    private Integer isAdmin;
+
+    /**
      * 排序
      */
     private Integer sort;
