@@ -1,11 +1,13 @@
 package com.ddf.boot.quick.controller.business;
 
+import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.biz.ISysUserBizService;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CaptchaRequest;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
+import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
@@ -70,6 +72,17 @@ public class SysUserController {
         return sysUserBizService.loginByPassword(request);
     }
 
+
+    /**
+     * 系统用户分页查询
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("pageList")
+    public PageResult<SysUserDTO> pageList(@RequestBody @Validated SysUserPageRequest request) {
+        return sysUserBizService.pageList(request);
+    }
 
 }
 

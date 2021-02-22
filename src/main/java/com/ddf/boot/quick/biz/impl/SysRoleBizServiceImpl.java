@@ -2,10 +2,12 @@ package com.ddf.boot.quick.biz.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ddf.boot.common.core.model.PageResult;
+import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.quick.biz.ISysRoleBizService;
 import com.ddf.boot.quick.common.exception.BizCode;
 import com.ddf.boot.quick.converter.mapper.SysRoleConvertMapper;
+import com.ddf.boot.quick.helper.SysUserHelper;
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
 import com.ddf.boot.quick.model.entity.SysRole;
 import com.ddf.boot.quick.model.entity.SysUser;
@@ -41,6 +43,8 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
 
     private final ISysUserService sysUserService;
 
+    private final SysUserHelper sysUserHelper;
+
     /**
      * 创建系统角色
      *
@@ -59,8 +63,14 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
             PreconditionUtil.checkArgument(Objects.isNull(existSysRole), BizCode.ROLE_NAME_EXIST);
             sysRoleService.insert(sysRole);
         } else {
-            PreconditionUtil.checkArgument(
-                    Objects.equals(existSysRole.getId(), request.getId()), BizCode.ROLE_NAME_EXIST);
+            final SysRole oldSysRole = sysRoleService.getById(request.getId());
+            PreconditionUtil.checkArgument(Objects.nonNull(oldSysRole), BizCode.ROLE_RECORD_NOT_EXIST);
+            if (Objects.nonNull(existSysRole)) {
+                PreconditionUtil.checkArgument(
+                        Objects.equals(existSysRole.getId(), request.getId()), BizCode.ROLE_NAME_EXIST);
+            }
+            sysRole.setId(request.getId());
+            sysRole.setVersion(oldSysRole.getVersion());
             sysRoleService.update(sysRole);
         }
         Set<String> operatorIdSet = new HashSet<>();
@@ -97,10 +107,26 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
      */
     @Override
     public PageResult<SysRoleDTO> pageList(SysRolePageRequest request) {
+        final PageResult<SysRole> result = sysRoleService.pageList(request);
+        if (result.isEmpty()) {
+            return PageUtil.empty();
+        }
+        final PageResult<SysRoleDTO> responsePageResult = PageUtil.convertPageResult(
+                result, SysRoleConvertMapper.INSTANCE::convert);
+        final List<SysRoleDTO> content = responsePageResult.getContent();
+        final Map<String, SysUser> sysUserMap = sysUserHelper.getUserMap(content);
 
-
-
-
-        return null;
+        SysUser sysUser;
+        for (SysRoleDTO dto : content) {
+            sysUser = sysUserMap.get(dto.getCreateBy());
+            if (Objects.nonNull(sysUser)) {
+                dto.setCreateByName(sysUser.getLoginName());
+            }
+            sysUser = sysUserMap.get(dto.getModifyBy());
+            if (Objects.nonNull(sysUser)) {
+                dto.setModifyByName(sysUser.getLoginName());
+            }
+        }
+        return responsePageResult;
     }
 }

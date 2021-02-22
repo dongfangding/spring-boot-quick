@@ -1,12 +1,14 @@
 package com.ddf.boot.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.quick.model.entity.SysUser;
+import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import java.util.List;
 
 /**
  * <p>
- * 系统用户表 服务类
+ * 系统用户表 服务类, 由于plus功能的封装， 该service用来替代dao的作用，禁止在该类中也业务代码， 建议另外用bizService承载业务
  * </p>
  *
  * @author mybatis-plus-generator
@@ -37,7 +39,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param sysUser
      * @return
      */
-    int insert(SysUser sysUser);
+    boolean insert(SysUser sysUser);
 
 
     /**
@@ -45,7 +47,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param sysUser
      * @return
      */
-    int update(SysUser sysUser);
+    boolean update(SysUser sysUser);
 
     /**
      * 根据登录账号和密码获取用户信息
@@ -81,5 +83,13 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     SysUser getByNickname(String nickname);
+
+    /**
+     * 系统用户分页查询
+     *
+     * @param request
+     * @return
+     */
+    PageResult<SysUser> pageList(SysUserPageRequest request);
 
 }

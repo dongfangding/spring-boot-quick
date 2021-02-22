@@ -2,6 +2,7 @@ package com.ddf.boot.quick.converter.mapper;
 
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
 import com.ddf.boot.quick.model.entity.SysRole;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -17,6 +18,16 @@ import org.mapstruct.factory.Mappers;
 public interface SysRoleConvertMapper {
 
     SysRoleConvertMapper INSTANCE = Mappers.getMapper(SysRoleConvertMapper.class);
+
+
+    /**
+     * 角色转换
+     *
+     * @param sysRole
+     * @return
+     */
+    @Mappings({})
+    List<SysRoleDTO> convert(List<SysRole> sysRole);
 
     /**
      * 角色转换
