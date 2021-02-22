@@ -1,9 +1,15 @@
 package com.ddf.boot.quick.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ddf.boot.quick.dao.SysUserDao;
+import com.ddf.boot.common.core.enumration.CommonLogic;
+import com.ddf.boot.common.core.model.PageResult;
+import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.quick.mapper.SysUserMapper;
 import com.ddf.boot.quick.model.entity.SysUser;
+import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.service.ISysUserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * 系统用户表 服务实现类
+ * 系统用户表 服务实现类, 由于plus功能的封装， 该service用来替代dao的作用，禁止在该类中也业务代码， 建议另外用bizService承载业务
  * </p>
  *
  * @author mybatis-plus-generator
@@ -24,8 +30,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
-    private final SysUserDao sysUserDao;
-
     /**
      * 根据userId获取记录
      *
@@ -34,7 +38,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser getByUserId(String userId) {
-        return sysUserDao.getByUserId(userId);
+        final LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getUserId, userId)
+                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+        return super.getOne(wrapper);
     }
 
     /**
@@ -45,7 +52,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public List<SysUser> getByUserIds(List<String> userIds) {
-        return sysUserDao.getByUserIds(userIds);
+        final LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.in(SysUser::getUserId, userIds)
+                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+        return super.list(wrapper);
     }
 
     /**
@@ -55,8 +65,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public int insert(SysUser sysUser) {
-        return sysUserDao.insert(sysUser);
+    public boolean insert(SysUser sysUser) {
+        return super.save(sysUser);
     }
 
     /**
@@ -66,8 +76,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      * @return
      */
     @Override
-    public int update(SysUser sysUser) {
-        return sysUserDao.update(sysUser);
+    public boolean update(SysUser sysUser) {
+        return super.updateById(sysUser);
     }
 
     /**
@@ -79,7 +89,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser getByLoginNameAndPassword(String loginName, String password) {
-        return sysUserDao.getByLoginNameAndPassword(loginName, password);
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getLoginName, loginName)
+                .eq(SysUser::getPassword, password)
+                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+        return super.getOne(wrapper);
     }
 
     /**
@@ -90,7 +104,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser getByLoginName(String loginName) {
-        return sysUserDao.getByLoginName(loginName);
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getLoginName, loginName)
+                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+        return super.getOne(wrapper);
     }
 
     /**
@@ -101,7 +118,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser getByMobile(String mobile) {
-        return sysUserDao.getByMobile(mobile);
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getMobile, mobile)
+                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+        return super.getOne(wrapper);
     }
 
     /**
@@ -112,6 +132,29 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
      */
     @Override
     public SysUser getByNickname(String nickname) {
-        return sysUserDao.getByNickname(nickname);
+        LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysUser::getNickname, nickname)
+                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+        return super.getOne(wrapper);
+    }
+
+    /**
+     * 系统用户分页查询
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public PageResult<SysUser> pageList(SysUserPageRequest request) {
+        final LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
+        if (StrUtil.isNotBlank(request.getLoginName())) {
+            wrapper.likeRight(SysUser::getLoginName, request.getLoginName());
+        }
+        if (StrUtil.isNotBlank(request.getNickname())) {
+            wrapper.likeRight(SysUser::getNickname, request.getNickname());
+        }
+        wrapper.eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+        wrapper.orderByDesc(SysUser::getCreateTime);
+        return PageUtil.ofMybatis(super.page(PageUtil.toMybatis(request), wrapper));
     }
 }

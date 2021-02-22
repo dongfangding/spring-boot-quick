@@ -5,6 +5,7 @@ import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
+import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
 
 /**
@@ -22,6 +23,14 @@ public interface ISysUserBizService {
      * @return
      */
     SysUserDTO create(CreateSysUserRequest request);
+
+    /**
+     * 创建系统用户
+     *
+     * @param request
+     * @return
+     */
+    SysUserDTO update(UpdateSysUserRequest request);
 
     /**
      * 系统用户登录

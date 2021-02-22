@@ -1,9 +1,15 @@
 package com.ddf.boot.quick.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ddf.boot.quick.dao.SysRoleDao;
+import com.ddf.boot.common.core.enumration.CommonLogic;
+import com.ddf.boot.common.core.model.PageResult;
+import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.quick.mapper.SysRoleMapper;
 import com.ddf.boot.quick.model.entity.SysRole;
+import com.ddf.boot.quick.model.request.SysRolePageRequest;
 import com.ddf.boot.quick.service.ISysRoleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +18,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * <p>
- * 角色表 服务实现类
+ * 角色表 服务实现类, 由于plus功能的封装， 该service用来替代dao的作用，禁止在该类中也业务代码， 建议另外用bizService承载业务
  * </p>
  *
  * @author mybatis-plus-generator
@@ -23,8 +29,6 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
-    private final SysRoleDao sysRoleDao;
-
     /**
      * 新增记录
      *
@@ -32,8 +36,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return
      */
     @Override
-    public int insert(SysRole sysRole) {
-        return sysRoleDao.insert(sysRole);
+    public boolean insert(SysRole sysRole) {
+        return super.save(sysRole);
     }
 
     /**
@@ -43,8 +47,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      * @return
      */
     @Override
-    public int update(SysRole sysRole) {
-        return sysRoleDao.update(sysRole);
+    public boolean update(SysRole sysRole) {
+        return super.updateById(sysRole);
     }
 
     /**
@@ -55,6 +59,26 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
      */
     @Override
     public SysRole getByName(String roleName) {
-        return sysRoleDao.getByName(roleName);
+        final LambdaQueryWrapper<SysRole> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysRole::getRoleName, roleName)
+                .eq(SysRole::getIsDel, CommonLogic.FALSE.getLogic());
+        return super.getOne(wrapper);
+    }
+
+    /**
+     * 角色分页查询
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public PageResult<SysRole> pageList(SysRolePageRequest request) {
+        final LambdaQueryWrapper<SysRole> wrapper = Wrappers.lambdaQuery();
+        if (StrUtil.isNotBlank(request.getRoleName())) {
+            wrapper.likeRight(SysRole::getRoleName, request.getRoleName());
+        }
+        wrapper.eq(SysRole::getIsDel, CommonLogic.FALSE.getLogic());
+        wrapper.orderByDesc(SysRole::getCreateTime);
+        return PageUtil.ofMybatis(super.page(PageUtil.toMybatis(request), wrapper));
     }
 }

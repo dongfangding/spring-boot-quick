@@ -6,6 +6,7 @@ import com.ddf.boot.common.core.config.GlobalProperties;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.model.UserClaim;
 import com.ddf.boot.common.core.util.DateUtils;
+import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.core.util.SecureUtil;
 import com.ddf.boot.common.core.util.WebUtil;
@@ -16,6 +17,7 @@ import com.ddf.boot.quick.common.exception.BizCode;
 import com.ddf.boot.quick.common.redis.CacheKeys;
 import com.ddf.boot.quick.converter.mapper.SysUserConverterMapper;
 import com.ddf.boot.quick.event.SysUserLoginEvent;
+import com.ddf.boot.quick.helper.SysUserHelper;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.dto.UserLoginHistoryDTO;
 import com.ddf.boot.quick.model.entity.SysUser;
@@ -23,12 +25,14 @@ import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
+import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
 import groovy.util.logging.Slf4j;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -60,6 +64,8 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     private final GlobalProperties globalProperties;
 
     private final ApplicationContext applicationContext;
+
+    private final SysUserHelper sysUserHelper;
 
     /**
      * 创建系统用户
@@ -97,6 +103,17 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         }
         sysUserService.save(sysUser);
         return SysUserConverterMapper.INSTANCE.convert(sysUser);
+    }
+
+    /**
+     * 创建系统用户
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public SysUserDTO update(UpdateSysUserRequest request) {
+        return null;
     }
 
     /**
@@ -170,6 +187,26 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      */
     @Override
     public PageResult<SysUserDTO> pageList(SysUserPageRequest request) {
-        return null;
+        final PageResult<SysUser> result = sysUserService.pageList(request);
+        if (result.isEmpty()) {
+            return PageUtil.empty();
+        }
+        final PageResult<SysUserDTO> responsePageResult = PageUtil.convertPageResult(
+                result, SysUserConverterMapper.INSTANCE::convert);
+        final List<SysUserDTO> content = responsePageResult.getContent();
+        final Map<String, SysUser> sysUserMap = sysUserHelper.getUserMap(content);
+
+        SysUser sysUser;
+        for (SysUserDTO dto : content) {
+            sysUser = sysUserMap.get(dto.getCreateBy());
+            if (Objects.nonNull(sysUser)) {
+                dto.setCreateByName(sysUser.getLoginName());
+            }
+            sysUser = sysUserMap.get(dto.getModifyBy());
+            if (Objects.nonNull(sysUser)) {
+                dto.setModifyByName(sysUser.getLoginName());
+            }
+        }
+        return responsePageResult;
     }
 }

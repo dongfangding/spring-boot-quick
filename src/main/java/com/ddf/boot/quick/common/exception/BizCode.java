@@ -24,6 +24,7 @@ public enum BizCode implements BaseCallbackCode {
     LOGIN_NAME_NOT_EXIST("10006", "登录名不存在"),
     LOGIN_PASSWORD_ERROR("10007", "登录密码错误"),
     ROLE_NAME_EXIST("10008", "角色名称已经存在"),
+    ROLE_RECORD_NOT_EXIST("10008", "角色记录不存在"),
 
 
     ;

@@ -1,7 +1,9 @@
 package com.ddf.boot.quick.model.dto;
 
+import com.ddf.boot.common.core.constant.IUserIdCollection;
+import com.google.common.collect.Sets;
 import java.time.LocalDateTime;
-import java.util.Date;
+import java.util.Set;
 import lombok.Data;
 
 /**
@@ -11,7 +13,7 @@ import lombok.Data;
  * @date 2021/2/10 0010 13:44
  */
 @Data
-public class SysUserDTO {
+public class SysUserDTO implements IUserIdCollection {
     
     private Long id;
 
@@ -108,7 +110,7 @@ public class SysUserDTO {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 修改人id
@@ -123,7 +125,7 @@ public class SysUserDTO {
     /**
      * 修改时间
      */
-    private Date modifyTime;
+    private LocalDateTime modifyTime;
 
     /**
      * 是否删除
@@ -134,4 +136,10 @@ public class SysUserDTO {
      * 版本号
      */
     private Integer version;
+
+    @Override
+    public Set<String> getUserIds() {
+        return Sets.newHashSet(createBy, modifyBy);
+    }
+
 }
