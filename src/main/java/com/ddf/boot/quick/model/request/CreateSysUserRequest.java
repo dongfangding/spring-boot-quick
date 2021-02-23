@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
 import java.util.Set;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -35,6 +36,7 @@ public class CreateSysUserRequest {
      * 密码
      */
     @NotEmpty(message = "密码不能为空")
+    @Size(max = 18, min = 6, message = "密码必须位于6到18个字符之间")
     private String password;
 
     /**

@@ -3,7 +3,7 @@ package com.ddf.boot.quick.biz.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.ddf.boot.common.core.config.GlobalProperties;
+import com.ddf.boot.common.core.config.AuthenticationProperties;
 import com.ddf.boot.common.core.enumration.CommonLogic;
 import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
@@ -28,18 +28,20 @@ import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
+import com.ddf.boot.quick.model.request.ResetPasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
-import groovy.util.logging.Slf4j;
+import com.google.common.base.Preconditions;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -65,11 +67,11 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    private final GlobalProperties globalProperties;
-
     private final ApplicationContext applicationContext;
 
     private final SysUserHelper sysUserHelper;
+
+    private final AuthenticationProperties authenticationProperties;
 
     /**
      * 创建系统用户
@@ -162,8 +164,9 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public LoginResponse loginByPassword(LoginRequest request) {
-        final List<String> blankLoginNameList = globalProperties.getBlankLoginNameList();
-        if (CollectionUtil.isEmpty(blankLoginNameList) || !blankLoginNameList.contains(request.getLoginName())) {
+        // 验证码白名单
+        final List<String> whiteLoginNameList = authenticationProperties.getWhiteLoginNameList();
+        if (CollectionUtil.isEmpty(whiteLoginNameList) || !whiteLoginNameList.contains(request.getLoginName())) {
             // 获取随机数对应的验证码
             final String verifyCode = stringRedisTemplate.opsForValue()
                     .get(CacheKeys.getCaptchaKey(request.getTokenId()));
@@ -269,6 +272,22 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         }
 
         sysUser.setStatus(targetStatus.getCode());
+        return sysUserService.update(sysUser);
+    }
+
+    /**
+     * 重置系统用户密码
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public Boolean resetPassword(ResetPasswordRequest request) {
+        final SysUser sysUser = sysUserService.getByPrimaryKey(request.getId());
+        Preconditions.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
+        Preconditions.checkArgument(sysUserHelper.isAdmin(), BizCode.NOT_SUPER_ADMIN);
+        sysUser.setPassword(SecureUtil.signWithHMac(authenticationProperties.getResetPassword(), sysUser.getUserId()));
+        log.info("重置用户[{}]密码为[{}]", sysUser.getUserId(), authenticationProperties.getResetPassword());
         return sysUserService.update(sysUser);
     }
 }

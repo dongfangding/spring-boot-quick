@@ -3,13 +3,17 @@ package com.ddf.boot.quick.helper;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ddf.boot.common.core.constant.IUserIdCollection;
+import com.ddf.boot.common.core.enumration.CommonLogic;
+import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.quick.model.entity.SysUser;
+import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
 import groovy.util.logging.Slf4j;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +35,8 @@ import org.springframework.stereotype.Service;
 public class SysUserHelper {
 
     private final ISysUserService sysUserService;
+
+    private final ISysUserRoleService sysUserRoleService;
 
     /**
      * 根据用户标记信息收集系统用户
@@ -63,6 +69,28 @@ public class SysUserHelper {
             return Collections.emptyMap();
         }
         final List<SysUser> userList = sysUserService.getByUserIds(collect);
-        return userList.stream().collect(Collectors.toMap(SysUser::getUserId, val -> val));
+        return userList.stream()
+                .collect(Collectors.toMap(SysUser::getUserId, val -> val));
+    }
+
+    /**
+     * 获取当前用户类信息
+     *
+     * @return
+     */
+    public SysUser getCurrentSysUser() {
+        return sysUserService.getByUserId(UserContextUtil.getUserId());
+    }
+
+    /**
+     * 当前用户是否是超级管理员
+     *
+     * @return
+     */
+    public boolean isAdmin() {
+        return Objects.nonNull(getCurrentSysUser()) && sysUserRoleService.getUserActiveRoleList(
+                UserContextUtil.getUserId())
+                .stream()
+                .anyMatch(val -> Objects.equals(val.getIsAdmin(), CommonLogic.TRUE.getLogic()));
     }
 }

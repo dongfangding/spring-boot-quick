@@ -4,7 +4,7 @@ import com.ddf.boot.common.core.model.PageRequest;
 import lombok.Data;
 
 /**
- * <p>description</p >
+ * <p>系统用户分页查询</p >
  *
  * @author Snowball
  * @version 1.0

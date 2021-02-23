@@ -7,6 +7,7 @@ import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CaptchaRequest;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
+import com.ddf.boot.quick.model.request.ResetPasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
@@ -94,6 +95,17 @@ public class SysUserController {
     @PostMapping("update")
     public SysUserDTO update(@RequestBody @Validated UpdateSysUserRequest request) {
         return sysUserBizService.update(request);
+    }
+
+    /**
+     * 重置系统用户密码
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("resetPassword")
+    public Boolean resetPassword(@RequestBody @Validated ResetPasswordRequest request) {
+        return sysUserBizService.resetPassword(request);
     }
 }
 

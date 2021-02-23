@@ -1,6 +1,7 @@
 package com.ddf.boot.quick;
 
 import com.ddf.boot.common.core.logaccess.EnableLogAspect;
+import com.ddf.boot.common.jwt.config.EnableJwt;
 import com.ddf.boot.common.websocket.config.WebSocketConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +20,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
         WebSocketConfig.class
 }))
 @MapperScan(basePackages = {"com.ddf.boot.quick.mapper"})
-//@EnableJwt
+@EnableJwt
 @EnableLogAspect(slowTime = 3000)
 @EnableMongoRepositories("com.ddf.boot.quick.mongo.repository")
 public class QuickApplication {

@@ -2,9 +2,11 @@ package com.ddf.boot.quick.service.proxy;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddf.boot.quick.mapper.SysUserRoleMapper;
+import com.ddf.boot.quick.model.dto.SysUserRoleDTO;
 import com.ddf.boot.quick.model.entity.SysUserRole;
 import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.service.ISysUserRoleService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,5 +74,16 @@ public class SysUserRoleServiceProxyImpl extends ServiceImpl<SysUserRoleMapper, 
     @Override
     public int batchRelativeUser(BatchInsertSysUserRoleRequest request) {
         return sysUserRoleServiceImpl.batchRelativeUser(request);
+    }
+
+    /**
+     * 获取用户有效的角色列表
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<SysUserRoleDTO> getUserActiveRoleList(String userId) {
+        return sysUserRoleServiceImpl.getUserActiveRoleList(userId);
     }
 }
