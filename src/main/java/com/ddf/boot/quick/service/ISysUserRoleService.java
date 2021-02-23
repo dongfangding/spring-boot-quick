@@ -1,8 +1,10 @@
 package com.ddf.boot.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ddf.boot.quick.model.dto.SysUserRoleDTO;
 import com.ddf.boot.quick.model.entity.SysUserRole;
 import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -46,4 +48,12 @@ public interface ISysUserRoleService extends IService<SysUserRole> {
      * @return
      */
     int batchRelativeUser(BatchInsertSysUserRoleRequest request);
+
+    /**
+     * 获取用户有效的角色列表
+     *
+     * @param userId
+     * @return
+     */
+    List<SysUserRoleDTO> getUserActiveRoleList(String userId);
 }

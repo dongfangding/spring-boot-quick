@@ -5,6 +5,7 @@ import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
+import com.ddf.boot.quick.model.request.ResetPasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
@@ -56,4 +57,12 @@ public interface ISysUserBizService {
      * @return
      */
     Boolean activeSwitch(CommonSwitchRequest request);
+
+    /**
+     * 重置系统用户密码
+     *
+     * @param request
+     * @return
+     */
+    Boolean resetPassword(ResetPasswordRequest request);
 }

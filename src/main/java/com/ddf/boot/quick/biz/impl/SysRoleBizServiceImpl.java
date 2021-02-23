@@ -16,7 +16,6 @@ import com.ddf.boot.quick.model.request.CreateSysRoleRequest;
 import com.ddf.boot.quick.model.request.SysRolePageRequest;
 import com.ddf.boot.quick.service.ISysRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
-import groovy.util.logging.Slf4j;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -25,6 +24,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

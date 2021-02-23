@@ -4,9 +4,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddf.boot.quick.mapper.SysUserRoleMapper;
+import com.ddf.boot.quick.model.dto.SysUserRoleDTO;
 import com.ddf.boot.quick.model.entity.SysUserRole;
 import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
 import com.ddf.boot.quick.service.ISysUserRoleService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,5 +73,16 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     @Override
     public int batchRelativeUser(BatchInsertSysUserRoleRequest request) {
         return sysUserRoleMapper.batchRelativeUser(request);
+    }
+
+    /**
+     * 获取用户有效的角色列表
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<SysUserRoleDTO> getUserActiveRoleList(String userId) {
+        return sysUserRoleMapper.getUserActiveRoleList(userId);
     }
 }
