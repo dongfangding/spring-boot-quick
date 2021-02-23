@@ -34,7 +34,6 @@ import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
-import com.google.common.base.Preconditions;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -284,8 +283,8 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     @Override
     public Boolean resetPassword(ResetPasswordRequest request) {
         final SysUser sysUser = sysUserService.getByPrimaryKey(request.getId());
-        Preconditions.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
-        Preconditions.checkArgument(sysUserHelper.isAdmin(), BizCode.NOT_SUPER_ADMIN);
+        PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
+        PreconditionUtil.checkArgument(sysUserHelper.isAdmin(), BizCode.NOT_SUPER_ADMIN);
         sysUser.setPassword(SecureUtil.signWithHMac(authenticationProperties.getResetPassword(), sysUser.getUserId()));
         log.info("重置用户[{}]密码为[{}]", sysUser.getUserId(), authenticationProperties.getResetPassword());
         return sysUserService.update(sysUser);
