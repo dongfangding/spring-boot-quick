@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.biz;
 
+import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CreateSysUserRequest;
@@ -47,4 +48,12 @@ public interface ISysUserBizService {
      * @return
      */
     PageResult<SysUserDTO> pageList(SysUserPageRequest request);
+
+    /**
+     * 启用禁用状态切换开关
+     *
+     * @param request
+     * @return
+     */
+    Boolean activeSwitch(CommonSwitchRequest request);
 }

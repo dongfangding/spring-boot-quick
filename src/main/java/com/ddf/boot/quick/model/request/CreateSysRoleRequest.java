@@ -29,4 +29,10 @@ public class CreateSysRoleRequest {
      */
     private Integer sort;
 
+    /**
+     *
+     * 是否激活 0 否 1 是
+     */
+    private Integer isActive;
+
 }

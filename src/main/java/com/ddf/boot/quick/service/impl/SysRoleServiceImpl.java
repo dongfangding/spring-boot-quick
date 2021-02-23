@@ -30,17 +30,6 @@ import org.springframework.stereotype.Service;
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
 
     /**
-     * 根据主键获取记录
-     *
-     * @param id
-     * @return
-     */
-    @Override
-    public SysRole getById(Long id) {
-        return super.getById(id);
-    }
-
-    /**
      * 新增记录
      *
      * @param sysRole

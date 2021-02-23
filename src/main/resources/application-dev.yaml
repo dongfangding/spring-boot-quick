@@ -256,6 +256,10 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - pre
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
+  authentication:
+    white-login-name-list: # 登录名白名单列表，不进行验证码校验
+      - admin
+    reset-password: 123456
   message_secret: false # 是否加密传输websocket消息数据
 
   zookeeper:

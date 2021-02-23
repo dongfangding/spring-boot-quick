@@ -22,7 +22,9 @@ public interface ISysUserService extends IService<SysUser> {
      * @param id
      * @return
      */
-    SysUser getById(Long id);
+    default SysUser getByPrimaryKey(Long id) {
+        return getById(id);
+    }
 
     /**
      * 根据userId获取记录
