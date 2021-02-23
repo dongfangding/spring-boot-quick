@@ -21,7 +21,9 @@ public interface ISysRoleService extends IService<SysRole> {
      * @param id
      * @return
      */
-    SysRole getById(Long id);
+    default SysRole getByPrimaryKey(Long id) {
+        return getById(id);
+    }
 
     /**
      * 新增记录

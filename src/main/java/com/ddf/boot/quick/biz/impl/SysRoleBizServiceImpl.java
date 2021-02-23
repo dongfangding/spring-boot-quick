@@ -1,6 +1,7 @@
 package com.ddf.boot.quick.biz.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
@@ -57,13 +58,14 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
         SysRole sysRole = new SysRole();
         sysRole.setRoleName(roleName);
         sysRole.setSort(request.getSort());
+        sysRole.setIsActive(request.getIsActive());
 
         final SysRole existSysRole = sysRoleService.getByName(roleName);
         if (Objects.isNull(request.getId())) {
             PreconditionUtil.checkArgument(Objects.isNull(existSysRole), BizCode.ROLE_NAME_EXIST);
             sysRoleService.insert(sysRole);
         } else {
-            final SysRole oldSysRole = sysRoleService.getById(request.getId());
+            final SysRole oldSysRole = sysRoleService.getByPrimaryKey(request.getId());
             PreconditionUtil.checkArgument(Objects.nonNull(oldSysRole), BizCode.ROLE_RECORD_NOT_EXIST);
             if (Objects.nonNull(existSysRole)) {
                 PreconditionUtil.checkArgument(
@@ -80,7 +82,7 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
         if (Objects.nonNull(sysRole.getModifyBy())) {
             operatorIdSet.add(sysRole.getCreateBy());
         }
-        final SysRoleDTO response = SysRoleConvertMapper.INSTANCE.convert(sysRoleService.getById(sysRole.getId()));
+        final SysRoleDTO response = SysRoleConvertMapper.INSTANCE.convert(sysRoleService.getByPrimaryKey(sysRole.getId()));
         if (CollectionUtil.isNotEmpty(operatorIdSet)) {
             final List<SysUser> sysUserList = sysUserService.getByUserIds(new ArrayList<>(operatorIdSet));
             final Map<String, SysUser> collect = sysUserList.stream()
@@ -128,5 +130,26 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
             }
         }
         return responsePageResult;
+    }
+
+    /**
+     * 启用禁用状态切换开关
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public Boolean activeSwitch(CommonSwitchRequest request) {
+        final SysRole sysRole = sysRoleService.getByPrimaryKey(request.getId());
+        PreconditionUtil.checkArgument(Objects.nonNull(sysRole), BizCode.ROLE_RECORD_NOT_EXIST);
+
+        // 要更新的状态
+        Integer targetLogic = request.getSwitchFlag();
+        if (Objects.equals(targetLogic, sysRole.getIsActive())) {
+            return Boolean.TRUE;
+        }
+
+        sysRole.setIsActive(targetLogic);
+        return sysRoleService.update(sysRole);
     }
 }

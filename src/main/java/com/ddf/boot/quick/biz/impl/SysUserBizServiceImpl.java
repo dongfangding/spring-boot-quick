@@ -4,6 +4,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
 import com.ddf.boot.common.core.config.GlobalProperties;
+import com.ddf.boot.common.core.enumration.CommonLogic;
+import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.model.UserClaim;
 import com.ddf.boot.common.core.util.DateUtils;
@@ -16,6 +18,7 @@ import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.quick.biz.ISysUserBizService;
 import com.ddf.boot.quick.common.exception.BizCode;
 import com.ddf.boot.quick.common.redis.CacheKeys;
+import com.ddf.boot.quick.constants.enumration.SysUserStatusEnum;
 import com.ddf.boot.quick.converter.mapper.SysUserConverterMapper;
 import com.ddf.boot.quick.event.SysUserLoginEvent;
 import com.ddf.boot.quick.helper.SysUserHelper;
@@ -96,7 +99,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
         // 处理用户关联角色
         relativeUserRole(userId, request.getRoleIdList());
-        return SysUserConverterMapper.INSTANCE.convert(sysUserService.getById(sysUser.getId()));
+        return SysUserConverterMapper.INSTANCE.convert(sysUserService.getByPrimaryKey(sysUser.getId()));
     }
 
     /**
@@ -107,7 +110,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      */
     @Override
     public SysUserDTO update(UpdateSysUserRequest request) {
-        final SysUser sysUser = sysUserService.getById(request.getId());
+        final SysUser sysUser = sysUserService.getByPrimaryKey(request.getId());
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
         SysUser searchSysUser = sysUserService.getByLoginName(request.getLoginName());
         if (Objects.nonNull(searchSysUser)) {
@@ -125,7 +128,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
         // 处理用户关联角色
         relativeUserRole(sysUser.getUserId(), request.getRoleIdList());
-        return SysUserConverterMapper.INSTANCE.convert(sysUserService.getById(request.getId()));
+        return SysUserConverterMapper.INSTANCE.convert(sysUserService.getByPrimaryKey(request.getId()));
     }
 
 
@@ -160,7 +163,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     @Transactional(rollbackFor = Exception.class)
     public LoginResponse loginByPassword(LoginRequest request) {
         final List<String> blankLoginNameList = globalProperties.getBlankLoginNameList();
-        if (CollectionUtil.isNotEmpty(blankLoginNameList) && !blankLoginNameList.contains(request.getLoginName())) {
+        if (CollectionUtil.isEmpty(blankLoginNameList) || !blankLoginNameList.contains(request.getLoginName())) {
             // 获取随机数对应的验证码
             final String verifyCode = stringRedisTemplate.opsForValue()
                     .get(CacheKeys.getCaptchaKey(request.getTokenId()));
@@ -242,5 +245,30 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
             }
         }
         return responsePageResult;
+    }
+
+
+    /**
+     * 启用禁用状态切换开关
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public Boolean activeSwitch(CommonSwitchRequest request) {
+        final SysUser sysUser = sysUserService.getByPrimaryKey(request.getId());
+        PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.ROLE_RECORD_NOT_EXIST);
+
+        // 要更新的状态
+        SysUserStatusEnum targetStatus = SysUserStatusEnum.instanceOfCodeConsistency(sysUser.getStatus());
+        if (Objects.equals(CommonLogic.TRUE.getLogic(), request.getSwitchFlag())) {
+            targetStatus = SysUserStatusEnum.ACTIVE;
+        }
+        if (Objects.equals(targetStatus.getCode(), sysUser.getStatus())) {
+            return Boolean.TRUE;
+        }
+
+        sysUser.setStatus(targetStatus.getCode());
+        return sysUserService.update(sysUser);
     }
 }
