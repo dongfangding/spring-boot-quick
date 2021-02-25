@@ -115,7 +115,7 @@ public class QuickStartController {
     @PostMapping("testRedisRateLimitA")
     public Boolean testRedisRateLimitA() {
         PreconditionUtil.checkArgument(
-                redisTemplateHelper.rateLimitAcquire(RedisRequestDefinition.testRateLimitA),
+                redisTemplateHelper.tokenBucketRateLimitAcquire(RedisRequestDefinition.testRateLimitA),
                 GlobalCallbackCode.RATE_LIMIT
         );
         return Boolean.TRUE;
@@ -130,7 +130,7 @@ public class QuickStartController {
     @PostMapping("testRedisRateLimitB")
     public Boolean testRedisRateLimitB() {
         PreconditionUtil.checkArgument(
-                redisTemplateHelper.rateLimitAcquire(RedisRequestDefinition.testRateLimitB),
+                redisTemplateHelper.tokenBucketRateLimitAcquire(RedisRequestDefinition.testRateLimitB),
                 GlobalCallbackCode.RATE_LIMIT
         );
         return Boolean.TRUE;

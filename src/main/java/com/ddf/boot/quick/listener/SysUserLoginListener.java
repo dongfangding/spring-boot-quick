@@ -1,9 +1,9 @@
 package com.ddf.boot.quick.listener;
 
 import com.ddf.boot.quick.event.SysUserLoginEvent;
+import com.ddf.boot.quick.features.mongo.collection.UserLoginHistoryCollection;
+import com.ddf.boot.quick.features.mongo.repository.UserLoginHistoryCollectionRepository;
 import com.ddf.boot.quick.model.dto.UserLoginHistoryDTO;
-import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
-import com.ddf.boot.quick.mongo.repository.UserLoginHistoryCollectionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;

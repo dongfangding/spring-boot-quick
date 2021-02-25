@@ -2,8 +2,8 @@ package com.ddf.boot.quick.controller.features;
 
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.mongo.helper.MongoTemplateHelper;
+import com.ddf.boot.quick.features.mongo.collection.UserLoginHistoryCollection;
 import com.ddf.boot.quick.model.request.PageUserHistoryBo;
-import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
 import io.swagger.annotations.Api;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
