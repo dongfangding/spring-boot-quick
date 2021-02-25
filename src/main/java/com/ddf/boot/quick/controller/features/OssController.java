@@ -2,7 +2,7 @@ package com.ddf.boot.quick.controller.features;
 
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
-import com.ddf.boot.quick.oss.BootOssClient;
+import com.ddf.boot.quick.features.oss.BootOssClient;
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
