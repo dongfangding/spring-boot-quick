@@ -3,7 +3,7 @@ package com.ddf.boot.quick.biz;
 import com.ddf.boot.common.mq.definition.QueueBuilder;
 import com.ddf.boot.common.mq.exception.MqSendException;
 import com.ddf.boot.common.mq.helper.RabbitTemplateHelper;
-import com.ddf.boot.quick.mongo.collection.UserLoginHistoryCollection;
+import com.ddf.boot.quick.features.mongo.collection.UserLoginHistoryCollection;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -28,10 +28,11 @@ public class AsyncTask {
         if (userLoginHistoryCollection == null) {
             log.error("用户登录日志数据不全！");
         }
-       try {
-            rabbitTemplateHelper.wrapperAndSend(QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, userLoginHistoryCollection);
+        try {
+            rabbitTemplateHelper.wrapperAndSend(
+                    QueueBuilder.QueueDefinition.USER_LOGIN_HISTORY_QUEUE, userLoginHistoryCollection);
         } catch (MqSendException error) {
-           log.error("用户登录日志发送失败......", error);
-       }
+            log.error("用户登录日志发送失败......", error);
+        }
     }
 }
