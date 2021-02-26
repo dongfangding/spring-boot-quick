@@ -2,9 +2,11 @@ package com.ddf.boot.quick.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddf.boot.common.core.enumration.CommonLogic;
+import com.ddf.boot.common.core.model.BaseDomain;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.quick.mapper.SysUserMapper;
@@ -29,6 +31,19 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
+
+    /**
+     * 根据主键删除记录
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean deleteByPrimaryKey(Long id) {
+        final LambdaUpdateWrapper<SysUser> wrapper = Wrappers.lambdaUpdate();
+        wrapper.set(SysUser::getIsDel, BaseDomain.IS_DEL_LOGIC_DELETE_VALUE);
+        return false;
+    }
 
     /**
      * 根据userId获取记录

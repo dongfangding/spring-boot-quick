@@ -55,7 +55,7 @@ CREATE TABLE `sys_menu`
     `menu_name`   varchar(64) COLLATE utf8mb4_general_ci NOT NULL COMMENT '菜单名称',
     `sort`        int                                    NOT NULL              DEFAULT '0' COMMENT '排序',
     `route_url`   varchar(64) COLLATE utf8mb4_general_ci NOT NULL COMMENT '路由地址',
-    `menu_type`   int                                    NOT NULL              DEFAULT '0' COMMENT '0 菜单 1 按钮',
+    `menu_type`   int                                    NOT NULL              DEFAULT '0' COMMENT '0 目录 1 菜单 2 按钮',
     `icon`        varchar(255) COLLATE utf8mb4_general_ci                      DEFAULT NULL COMMENT '图标',
     `permission`  varchar(255) COLLATE utf8mb4_general_ci                      DEFAULT NULL COMMENT '权限标识，设计之初是使用目标方法的path进行映射， 如一个菜单下有多个接口地址，可以使用逗号分隔，如果分属一个控制器下，可以使用通配符；如/menu/**,',
     `is_active`   int                                    NOT NULL              DEFAULT '1' COMMENT '是否激活 0 否 1 是',

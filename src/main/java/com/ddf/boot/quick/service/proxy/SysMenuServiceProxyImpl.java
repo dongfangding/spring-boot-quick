@@ -58,4 +58,15 @@ public class SysMenuServiceProxyImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     public boolean update(SysMenu sysMenu) {
         return sysMenuServiceImpl.update(sysMenu);
     }
+
+    /**
+     * 根据菜单名称查询记录
+     *
+     * @param menuName
+     * @return
+     */
+    @Override
+    public SysMenu getByMenuName(String menuName) {
+        return sysMenuServiceImpl.getByMenuName(menuName);
+    }
 }

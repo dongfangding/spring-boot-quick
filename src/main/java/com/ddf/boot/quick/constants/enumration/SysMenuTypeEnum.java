@@ -22,8 +22,9 @@ public enum SysMenuTypeEnum {
      * 状态
      */
     UNKNOWN(-1, "未知"),
-    MENU(0, "菜单"),
-    BUTTON(1, "按钮"),
+    DIRECTION(0, "目录"),
+    MENU(1, "菜单"),
+    BUTTON(2, "按钮"),
     ;
 
     private static final Map<Integer, SysMenuTypeEnum> MAPPINGS;

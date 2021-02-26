@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
+import lombok.Data;
 
 /**
  * <p>系统菜单DTO</p >
@@ -16,6 +17,7 @@ import java.util.Set;
  * @version 1.0
  * @date 2021/02/26 10:25
  */
+@Data
 public class SysMenuDTO implements IUserIdCollection, Serializable {
 
     /**

@@ -2,6 +2,7 @@ package com.ddf.boot.quick.biz;
 
 import com.ddf.boot.quick.model.dto.SysMenuDTO;
 import com.ddf.boot.quick.model.request.SysMenuCreateRequest;
+import com.ddf.boot.quick.model.request.SysMenuUpdateRequest;
 
 /**
  * <p>系统菜单业务类</p >
@@ -19,4 +20,12 @@ public interface ISysMenuBizService {
      * @return
      */
     SysMenuDTO create(SysMenuCreateRequest request);
+
+    /**
+     * 更新菜单
+     *
+     * @param request
+     * @return
+     */
+    SysMenuDTO update(SysMenuUpdateRequest request);
 }

@@ -26,7 +26,9 @@ public enum BizCode implements BaseCallbackCode {
     ROLE_NAME_EXIST("10008", "角色名称已经存在"),
     ROLE_RECORD_NOT_EXIST("10008", "角色记录不存在"),
     SYS_USER_RECORD_NOT_EXIST("10008", "系统用户记录不存在"),
-    NOT_SUPER_ADMIN("10009", "非超级管理员不可执行操作")
+    NOT_SUPER_ADMIN("10009", "非超级管理员不可执行操作"),
+    MENU_NAME_REPEAT("10010", "菜单名称已存在"),
+    MENU_RECORD_NOT_EXIST("10011", "菜单记录不存在"),
 
 
     ;

@@ -1,6 +1,9 @@
 package com.ddf.boot.quick.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ddf.boot.common.core.enumration.CommonLogic;
 import com.ddf.boot.quick.mapper.SysMenuMapper;
 import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.service.ISysMenuService;
@@ -42,5 +45,19 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public boolean update(SysMenu sysMenu) {
         return super.updateById(sysMenu);
+    }
+
+    /**
+     * 根据菜单名称查询记录
+     *
+     * @param menuName
+     * @return
+     */
+    @Override
+    public SysMenu getByMenuName(String menuName) {
+        final LambdaQueryWrapper<SysMenu> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysMenu::getMenuName, menuName)
+                .eq(SysMenu::getIsDel, CommonLogic.FALSE.getLogic());
+        return getOne(wrapper);
     }
 }

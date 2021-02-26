@@ -45,7 +45,7 @@ public class SysMenu extends BaseDomain {
     private String routeUrl;
 
     /**
-     * 0 菜单 1 按钮
+     * 0 目录 1 菜单 2 按钮
      */
     private Integer menuType;
 

@@ -27,6 +27,14 @@ public interface ISysUserService extends IService<SysUser> {
     }
 
     /**
+     * 根据主键删除记录
+     *
+     * @param id
+     * @return
+     */
+    boolean deleteByPrimaryKey(Long id);
+
+    /**
      * 根据userId获取记录
      *
      * @param userId

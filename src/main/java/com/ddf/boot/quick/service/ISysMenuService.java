@@ -39,4 +39,12 @@ public interface ISysMenuService extends IService<SysMenu> {
      */
     boolean update(SysMenu sysMenu);
 
+    /**
+     * 根据菜单名称查询记录
+     *
+     * @param menuName
+     * @return
+     */
+    SysMenu getByMenuName(String menuName);
+
 }

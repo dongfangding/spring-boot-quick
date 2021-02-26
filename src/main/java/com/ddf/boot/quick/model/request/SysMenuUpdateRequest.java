@@ -14,7 +14,12 @@ import lombok.Data;
 * @date 2021/02/26 10:12
 */
 @Data
-public class SysMenuCreateRequest {
+public class SysMenuUpdateRequest {
+
+    /**
+     * 记录id
+     */
+    private Long id;
 
     /**
      * 父级菜单id, 0为目录
@@ -41,13 +46,6 @@ public class SysMenuCreateRequest {
     private String routeUrl;
 
     /**
-     * 0 目录 1 菜单 2 按钮
-     */
-    @NotNull(message = "菜单类型不能为空")
-    @LogicValueValidator(values = {0, 1, 2}, message = "菜单类型有效值错误")
-    private Integer menuType;
-
-    /**
      * 图标
      */
     private String icon;
@@ -56,5 +54,12 @@ public class SysMenuCreateRequest {
      * 权限标识，设计之初是使用目标方法的path进行映射， 如一个菜单下有多个接口地址，可以使用逗号分隔，如果分属一个控制器下，可以使用通配符；如/menu/**,
      */
     private String permission;
+
+    /**
+     * 是否激活 0 否  1 是
+     *
+     */
+    @LogicValueValidator
+    private Integer isActive;
 
 }
