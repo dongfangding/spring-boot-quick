@@ -2,8 +2,8 @@ package com.ddf.boot.quick.converter.mapper;
 
 import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.entity.SysUser;
-import com.ddf.boot.quick.model.request.CreateSysUserRequest;
-import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
+import com.ddf.boot.quick.model.request.SysUserCreateRequest;
+import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -39,7 +39,7 @@ public interface SysUserConverterMapper {
      * @return
      */
     @Mappings({})
-    SysUser requestConvert(CreateSysUserRequest request);
+    SysUser requestConvert(SysUserCreateRequest request);
 
     /**
      * 更新系统用户请求对象转换为系统用户实体对象
@@ -48,7 +48,7 @@ public interface SysUserConverterMapper {
      * @return
      */
     @Mappings({})
-    SysUser updateConvert(UpdateSysUserRequest request);
+    SysUser updateConvert(SysUserUpdateRequest request);
 
     /**
      * 将用户信息转换为创建用户时的新增对象属性返回

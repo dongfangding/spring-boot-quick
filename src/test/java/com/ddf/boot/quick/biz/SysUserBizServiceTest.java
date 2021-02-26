@@ -6,9 +6,9 @@ import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.quick.QuickApplicationTest;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
-import com.ddf.boot.quick.model.request.CreateSysUserRequest;
+import com.ddf.boot.quick.model.request.SysUserCreateRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
-import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
+import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.service.ISysUserService;
 import com.google.common.collect.Sets;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ public class SysUserBizServiceTest extends QuickApplicationTest {
 
     @Test
     public void test() {
-        CreateSysUserRequest request = new CreateSysUserRequest();
+        SysUserCreateRequest request = new SysUserCreateRequest();
         request.setLoginName("chen" + RandomUtil.randomString(6));
         request.setNickname("村里还没通网" + RandomUtil.randomString(6));
         request.setPassword("123456");
@@ -46,17 +46,17 @@ public class SysUserBizServiceTest extends QuickApplicationTest {
         SysUserDTO response = sysUserBizService.create(request);
         System.out.println("保存接口返回值: " + JsonUtil.asString(response));
 
-        final UpdateSysUserRequest updateSysUserRequest = new UpdateSysUserRequest();
-        updateSysUserRequest.setId(response.getId());
-        updateSysUserRequest.setLoginName("修改" + response.getLoginName());
-        updateSysUserRequest.setNickname("修改" + request.getNickname());
-        updateSysUserRequest.setMobile("修改" + request.getMobile());
-        updateSysUserRequest.setRoleIdList(Sets.newHashSet(1L, 3L, 5L));
-        final SysUserDTO update = sysUserBizService.update(updateSysUserRequest);
+        final SysUserUpdateRequest sysUserUpdateRequest = new SysUserUpdateRequest();
+        sysUserUpdateRequest.setId(response.getId());
+        sysUserUpdateRequest.setLoginName("修改" + response.getLoginName());
+        sysUserUpdateRequest.setNickname("修改" + request.getNickname());
+        sysUserUpdateRequest.setMobile("修改" + request.getMobile());
+        sysUserUpdateRequest.setRoleIdList(Sets.newHashSet(1L, 3L, 5L));
+        final SysUserDTO update = sysUserBizService.update(sysUserUpdateRequest);
         System.out.println("修改接口返回值: " + JsonUtil.asString(update));
 
         final SysUserPageRequest pageRequest = new SysUserPageRequest();
-        pageRequest.setPage(PageRequest.DEFAULT_PAGE_NUM);
+        pageRequest.setPageNum(PageRequest.DEFAULT_PAGE_NUM);
         pageRequest.setPageSize(PageRequest.DEFAULT_PAGE_SIZE);
         pageRequest.setLoginName("修改");
         pageRequest.setNickname("修改");

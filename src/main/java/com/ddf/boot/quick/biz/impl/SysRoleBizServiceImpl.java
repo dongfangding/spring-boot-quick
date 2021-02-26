@@ -12,7 +12,7 @@ import com.ddf.boot.quick.helper.SysUserHelper;
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
 import com.ddf.boot.quick.model.entity.SysRole;
 import com.ddf.boot.quick.model.entity.SysUser;
-import com.ddf.boot.quick.model.request.CreateSysRoleRequest;
+import com.ddf.boot.quick.model.request.SysRoleCreateRequest;
 import com.ddf.boot.quick.model.request.SysRolePageRequest;
 import com.ddf.boot.quick.service.ISysRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
@@ -53,7 +53,7 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
      * @return
      */
     @Override
-    public SysRoleDTO saveOrUpdate(CreateSysRoleRequest request) {
+    public SysRoleDTO saveOrUpdate(SysRoleCreateRequest request) {
         final String roleName = request.getRoleName();
         SysRole sysRole = new SysRole();
         sysRole.setRoleName(roleName);

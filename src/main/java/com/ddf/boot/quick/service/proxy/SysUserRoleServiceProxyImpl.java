@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddf.boot.quick.mapper.SysUserRoleMapper;
 import com.ddf.boot.quick.model.dto.SysUserRoleDTO;
 import com.ddf.boot.quick.model.entity.SysUserRole;
-import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
+import com.ddf.boot.quick.model.request.SysUserRoleBatchInsertRequest;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -72,7 +72,7 @@ public class SysUserRoleServiceProxyImpl extends ServiceImpl<SysUserRoleMapper, 
      * @return
      */
     @Override
-    public int batchRelativeUser(BatchInsertSysUserRoleRequest request) {
+    public int batchRelativeUser(SysUserRoleBatchInsertRequest request) {
         return sysUserRoleServiceImpl.batchRelativeUser(request);
     }
 

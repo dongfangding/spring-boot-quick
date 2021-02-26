@@ -1,10 +1,13 @@
 package com.ddf.boot.quick.model.request;
 
+import com.ddf.boot.common.core.validator.constraint.LogicValueValidator;
+import com.ddf.boot.common.core.validator.constraint.Mobile;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
 import java.util.Set;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import lombok.Data;
@@ -18,18 +21,20 @@ import lombok.experimental.Accessors;
  */
 @Data
 @Accessors(chain = true)
-public class CreateSysUserRequest {
+public class SysUserCreateRequest {
 
     /**
      * 登陆名
      */
     @NotEmpty(message = "登录名不能为空")
+    @Size(min = 1, max = 32, message = "登录名长度必须位于1到32个字符之间")
     private String loginName;
 
     /**
      * 昵称
      */
     @NotEmpty(message = "昵称不能为空")
+    @Size(min = 1, max = 32, message = "昵称长度必须位于1到32个字符之间")
     private String nickname;
 
     /**
@@ -47,16 +52,19 @@ public class CreateSysUserRequest {
     /**
      * 邮箱
      */
+    @Email
     private String email;
 
     /**
      * 手机号
      */
+    @Mobile
     private String mobile;
 
     /**
      * 性别 0 未知  1 男性 2 女性
      */
+    @LogicValueValidator(values = {1, 2}, message = "性别有效值有误")
     private Integer sex;
 
     /**

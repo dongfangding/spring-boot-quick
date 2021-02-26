@@ -8,7 +8,7 @@ import com.ddf.boot.common.core.util.JsonUtil;
 import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.quick.QuickApplicationTest;
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
-import com.ddf.boot.quick.model.request.CreateSysRoleRequest;
+import com.ddf.boot.quick.model.request.SysRoleCreateRequest;
 import com.ddf.boot.quick.model.request.SysRolePageRequest;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class SysRoleBizServiceTest extends QuickApplicationTest {
         UserContextUtil.setUserClaim(new UserClaim("1", "chen"));
 
         // 保存
-        final CreateSysRoleRequest request = new CreateSysRoleRequest();
+        final SysRoleCreateRequest request = new SysRoleCreateRequest();
         request.setRoleName("角色名称" + RandomUtil.randomString(5));
         request.setSort(10);
         SysRoleDTO dto = sysRoleBizService.saveOrUpdate(request);
@@ -44,7 +44,7 @@ public class SysRoleBizServiceTest extends QuickApplicationTest {
 
         // 分页查询
         final SysRolePageRequest pageRequest = new SysRolePageRequest();
-        pageRequest.setPage(PageRequest.DEFAULT_PAGE_NUM);
+        pageRequest.setPageNum(PageRequest.DEFAULT_PAGE_NUM);
         pageRequest.setPageSize(PageRequest.DEFAULT_PAGE_SIZE);
         pageRequest.setRoleName("修改角色名称");
         final PageResult<SysRoleDTO> result = sysRoleBizService.pageList(pageRequest);

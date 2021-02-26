@@ -3,7 +3,7 @@ package com.ddf.boot.quick.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ddf.boot.quick.model.dto.SysUserRoleDTO;
 import com.ddf.boot.quick.model.entity.SysUserRole;
-import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
+import com.ddf.boot.quick.model.request.SysUserRoleBatchInsertRequest;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -25,7 +25,7 @@ public interface SysUserRoleMapper extends BaseMapper<SysUserRole> {
      * @param request
      * @return
      */
-    int batchRelativeUser(@Param("request") BatchInsertSysUserRoleRequest request);
+    int batchRelativeUser(@Param("request") SysUserRoleBatchInsertRequest request);
 
     /**
      * 获取用户有效的角色列表

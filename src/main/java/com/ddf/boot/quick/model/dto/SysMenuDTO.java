@@ -8,100 +8,60 @@ import com.google.common.collect.Sets;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
-import lombok.Data;
 
 /**
- * 创建用户返回类
+ * <p>系统菜单DTO</p >
  *
- * @author dongfang.ding
- * @date 2021/2/10 0010 13:44
+ * @author Snowball
+ * @version 1.0
+ * @date 2021/02/26 10:25
  */
-@Data
-public class SysUserDTO implements IUserIdCollection, Serializable {
-    
+public class SysMenuDTO implements IUserIdCollection, Serializable {
+
+    /**
+     * id
+     */
     private Long id;
 
     /**
-     * 用户id, 系统内部关联使用
+     * 父级菜单id, 0为一级菜单
      */
-    private String userId;
+    private Long parentId;
 
     /**
-     * 登陆名
+     * 菜单名称
      */
-    private String loginName;
+    private String menuName;
 
     /**
-     * 昵称
+     * 排序
      */
-    private String nickname;
+    private Integer sort;
 
     /**
-     * 用户状态 0 正常 1 停用
+     * 路由地址
      */
-    private Integer status;
+    private String routeUrl;
 
     /**
-     * 用户状态渲染值
+     * 0 菜单 1 按钮
      */
-    private String statusName;
+    private Integer menuType;
 
     /**
-     * 邮箱
+     * 图标
      */
-    private String email;
+    private String icon;
 
     /**
-     * 手机号
+     * 权限标识，设计之初是使用目标方法的path进行映射， 如一个菜单下有多个接口地址，可以使用逗号分隔，如果分属一个控制器下，可以使用通配符；如/menu/**,
      */
-    private String mobile;
+    private String permission;
 
     /**
-     * 性别 0 未知  1 男性 2 女性
+     * 是否激活 0 否 1 是
      */
-    private Integer sex;
-
-    /**
-     * 性别渲染值
-     */
-    private String sexName;
-
-    /**
-     * 头像地址
-     */
-    private String avatarUrl;
-
-    /**
-     * 头像缩略图
-     */
-    private String avatarShortUrl;
-
-    /**
-     * 出生日期
-     */
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime birthday;
-
-    /**
-     * 身高，单位cm
-     */
-    private Integer height;
-
-    /**
-     * 体重，单位kg
-     */
-    private Integer weight;
-
-    /**
-     * 微信号
-     */
-    private String weiXin;
-
-    /**
-     * QQ号
-     */
-    private String qq;
+    private Integer isActive;
 
     /**
      * 创建人id
@@ -151,5 +111,4 @@ public class SysUserDTO implements IUserIdCollection, Serializable {
     public Set<String> getUserIds() {
         return Sets.newHashSet(createBy, modifyBy);
     }
-
 }

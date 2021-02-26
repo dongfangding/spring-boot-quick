@@ -5,11 +5,11 @@ import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.biz.ISysUserBizService;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.CaptchaRequest;
-import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.ResetPasswordRequest;
+import com.ddf.boot.quick.model.request.SysUserCreateRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
-import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
+import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +59,7 @@ public class SysUserController {
      * @return
      */
     @PostMapping("create")
-    public SysUserDTO create(@RequestBody @Validated CreateSysUserRequest request) {
+    public SysUserDTO create(@RequestBody @Validated SysUserCreateRequest request) {
         return sysUserBizService.create(request);
     }
 
@@ -93,7 +93,7 @@ public class SysUserController {
      * @return
      */
     @PostMapping("update")
-    public SysUserDTO update(@RequestBody @Validated UpdateSysUserRequest request) {
+    public SysUserDTO update(@RequestBody @Validated SysUserUpdateRequest request) {
         return sysUserBizService.update(request);
     }
 

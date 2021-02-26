@@ -25,12 +25,12 @@ import com.ddf.boot.quick.helper.SysUserHelper;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.dto.UserLoginHistoryDTO;
 import com.ddf.boot.quick.model.entity.SysUser;
-import com.ddf.boot.quick.model.request.BatchInsertSysUserRoleRequest;
-import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.ResetPasswordRequest;
+import com.ddf.boot.quick.model.request.SysUserCreateRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
-import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
+import com.ddf.boot.quick.model.request.SysUserRoleBatchInsertRequest;
+import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
@@ -80,7 +80,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public SysUserDTO create(CreateSysUserRequest request) {
+    public SysUserDTO create(SysUserCreateRequest request) {
         // 重复性判断
         PreconditionUtil.checkArgument(Objects.isNull(sysUserService.getByLoginName(request.getLoginName())),
                 BizCode.LOGIN_NAME_REPEAT
@@ -110,7 +110,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      * @return
      */
     @Override
-    public SysUserDTO update(UpdateSysUserRequest request) {
+    public SysUserDTO update(SysUserUpdateRequest request) {
         final SysUser sysUser = sysUserService.getByPrimaryKey(request.getId());
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
         SysUser searchSysUser = sysUserService.getByLoginName(request.getLoginName());
@@ -146,11 +146,11 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         // 清除旧的关联数据
         sysUserRoleService.deleteUserRole(userId);
         // 重新关联
-        BatchInsertSysUserRoleRequest batchInsertSysUserRoleRequest = BatchInsertSysUserRoleRequest.builder()
+        SysUserRoleBatchInsertRequest sysUserRoleBatchInsertRequest = SysUserRoleBatchInsertRequest.builder()
                 .userId(userId)
                 .roleIdList(roleIdList)
                 .build();
-        sysUserRoleService.batchRelativeUser(batchInsertSysUserRoleRequest);
+        sysUserRoleService.batchRelativeUser(sysUserRoleBatchInsertRequest);
     }
 
 

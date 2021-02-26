@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.google.common.collect.Sets;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.Data;
@@ -17,7 +18,7 @@ import lombok.Data;
  * @date 2021/02/20 15:02
  */
 @Data
-public class SysRoleDTO implements IUserIdCollection {
+public class SysRoleDTO implements IUserIdCollection, Serializable {
 
     /**
      * id

@@ -3,7 +3,7 @@ package com.ddf.boot.quick.biz;
 import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
-import com.ddf.boot.quick.model.request.CreateSysRoleRequest;
+import com.ddf.boot.quick.model.request.SysRoleCreateRequest;
 import com.ddf.boot.quick.model.request.SysRolePageRequest;
 
 /**
@@ -21,7 +21,7 @@ public interface ISysRoleBizService {
      * @param request
      * @return
      */
-    SysRoleDTO saveOrUpdate(CreateSysRoleRequest request);
+    SysRoleDTO saveOrUpdate(SysRoleCreateRequest request);
 
     /**
      * 系统角色分页查询

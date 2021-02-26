@@ -3,11 +3,11 @@ package com.ddf.boot.quick.biz;
 import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
-import com.ddf.boot.quick.model.request.CreateSysUserRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.ResetPasswordRequest;
+import com.ddf.boot.quick.model.request.SysUserCreateRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
-import com.ddf.boot.quick.model.request.UpdateSysUserRequest;
+import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.response.LoginResponse;
 
 /**
@@ -24,7 +24,7 @@ public interface ISysUserBizService {
      * @param request
      * @return
      */
-    SysUserDTO create(CreateSysUserRequest request);
+    SysUserDTO create(SysUserCreateRequest request);
 
     /**
      * 更新系统用户
@@ -32,7 +32,7 @@ public interface ISysUserBizService {
      * @param request
      * @return
      */
-    SysUserDTO update(UpdateSysUserRequest request);
+    SysUserDTO update(SysUserUpdateRequest request);
 
     /**
      * 系统用户登录

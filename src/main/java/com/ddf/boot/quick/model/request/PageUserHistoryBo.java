@@ -2,7 +2,7 @@ package com.ddf.boot.quick.model.request;
 
 import com.ddf.boot.common.core.model.PageRequest;
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import javax.validation.constraints.Min;
 import lombok.Data;
 
 /**
@@ -18,16 +18,22 @@ public class PageUserHistoryBo implements PageRequest {
     /**
      * 页数, 从1开始
      */
-    private Integer page;
+    @Min(value = 1, message = "页码不能小于1")
+    private Integer pageNum;
 
     /**
      * 每页显示条数
      */
+    @Min(value = 1, message = "每页显示条数不能小于1")
     private Integer pageSize;
 
-    @ApiModelProperty("用户id")
+    /**
+     * 用户id
+     */
     private Long userId;
 
-    @ApiModelProperty("用户名")
+    /**
+     * 用户名
+     */
     private String username;
 }

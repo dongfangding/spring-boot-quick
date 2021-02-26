@@ -3,6 +3,7 @@ package com.ddf.boot.quick.model.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
@@ -15,7 +16,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class UserLoginHistoryDTO {
+public class UserLoginHistoryDTO implements Serializable {
 
     /**
      * 用户id

@@ -39,7 +39,7 @@ public class SysUserServiceProxyImpl extends ServiceImpl<SysUserMapper, SysUser>
      */
     @Override
     public SysUser getByPrimaryKey(Long id) {
-        return super.getById(id);
+        return sysUserServiceImpl.getByPrimaryKey(id);
     }
 
     /**

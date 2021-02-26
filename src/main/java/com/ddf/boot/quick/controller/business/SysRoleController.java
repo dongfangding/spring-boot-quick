@@ -3,7 +3,7 @@ package com.ddf.boot.quick.controller.business;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.quick.biz.ISysRoleBizService;
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
-import com.ddf.boot.quick.model.request.CreateSysRoleRequest;
+import com.ddf.boot.quick.model.request.SysRoleCreateRequest;
 import com.ddf.boot.quick.model.request.SysRolePageRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class SysRoleController {
      * @return
      */
     @PostMapping("saveOrUpdate")
-    public SysRoleDTO saveOrUpdate(@RequestBody @Validated CreateSysRoleRequest request) {
+    public SysRoleDTO saveOrUpdate(@RequestBody @Validated SysRoleCreateRequest request) {
         return sysRoleBizService.saveOrUpdate(request);
     }
 

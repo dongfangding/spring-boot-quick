@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.model.dto;
 
+import java.io.Serializable;
 import lombok.Data;
 
 /**
@@ -10,7 +11,7 @@ import lombok.Data;
  * @date 2021/02/23 22:11
  */
 @Data
-public class SysUserRoleDTO {
+public class SysUserRoleDTO implements Serializable {
 
     /**
      * 用户Id

@@ -13,4 +13,30 @@ import com.ddf.boot.quick.model.entity.SysMenu;
  */
 public interface ISysMenuService extends IService<SysMenu> {
 
+    /**
+     * 根据主键获取记录
+     *
+     * @param id
+     * @return
+     */
+    default SysMenu getByPrimaryKey(Long id) {
+        return getById(id);
+    }
+
+    /**
+     * 新增记录
+     *
+     * @param sysMenu
+     * @return
+     */
+    boolean insert(SysMenu sysMenu);
+
+
+    /**
+     * 更新记录
+     * @param sysMenu
+     * @return
+     */
+    boolean update(SysMenu sysMenu);
+
 }

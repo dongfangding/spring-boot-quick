@@ -38,7 +38,7 @@ public class SysRoleServiceProxyImpl extends ServiceImpl<SysRoleMapper, SysRole>
      */
     @Override
     public SysRole getByPrimaryKey(Long id) {
-        return super.getById(id);
+        return sysRoleServiceImpl.getByPrimaryKey(id);
     }
 
     /**
