@@ -2,6 +2,7 @@ package com.ddf.boot.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddf.boot.quick.model.entity.SysMenu;
+import java.util.List;
 
 /**
  * <p>
@@ -46,5 +47,12 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @return
      */
     SysMenu getByMenuName(String menuName);
+
+    /**
+     * 查询全部菜单
+     *
+     * @return
+     */
+    List<SysMenu> listAll();
 
 }

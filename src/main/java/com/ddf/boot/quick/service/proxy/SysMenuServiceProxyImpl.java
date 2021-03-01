@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddf.boot.quick.mapper.SysMenuMapper;
 import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.service.ISysMenuService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,5 +69,15 @@ public class SysMenuServiceProxyImpl extends ServiceImpl<SysMenuMapper, SysMenu>
     @Override
     public SysMenu getByMenuName(String menuName) {
         return sysMenuServiceImpl.getByMenuName(menuName);
+    }
+
+    /**
+     * 查询全部菜单
+     *
+     * @return
+     */
+    @Override
+    public List<SysMenu> listAll() {
+        return sysMenuServiceImpl.listAll();
     }
 }

@@ -43,6 +43,17 @@ public class SysUserServiceProxyImpl extends ServiceImpl<SysUserMapper, SysUser>
     }
 
     /**
+     * 根据主键删除记录
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public boolean deleteByPrimaryKey(Long id) {
+        return sysUserServiceImpl.deleteByPrimaryKey(id);
+    }
+
+    /**
      * 根据userId获取记录
      *
      * @param userId

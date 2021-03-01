@@ -7,6 +7,7 @@ import com.ddf.boot.common.core.enumration.CommonLogic;
 import com.ddf.boot.quick.mapper.SysMenuMapper;
 import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.service.ISysMenuService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,5 +60,18 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         wrapper.eq(SysMenu::getMenuName, menuName)
                 .eq(SysMenu::getIsDel, CommonLogic.FALSE.getLogic());
         return getOne(wrapper);
+    }
+
+    /**
+     * 查询全部菜单
+     *
+     * @return
+     */
+    @Override
+    public List<SysMenu> listAll() {
+        final LambdaQueryWrapper<SysMenu> wrapper = Wrappers.lambdaQuery();
+        wrapper.eq(SysMenu::getIsDel, CommonLogic.FALSE.getLogic());
+        wrapper.orderByAsc(SysMenu::getSort);
+        return list(wrapper);
     }
 }

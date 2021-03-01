@@ -3,6 +3,8 @@ package com.ddf.boot.quick.biz;
 import com.ddf.boot.quick.model.dto.SysMenuDTO;
 import com.ddf.boot.quick.model.request.SysMenuCreateRequest;
 import com.ddf.boot.quick.model.request.SysMenuUpdateRequest;
+import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
+import java.util.List;
 
 /**
  * <p>系统菜单业务类</p >
@@ -28,4 +30,11 @@ public interface ISysMenuBizService {
      * @return
      */
     SysMenuDTO update(SysMenuUpdateRequest request);
+
+    /**
+     * 构建菜单树
+     *
+     * @return
+     */
+    List<SysMenuTreeResponse> buildMenuTree();
 }
