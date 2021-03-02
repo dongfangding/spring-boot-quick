@@ -80,6 +80,12 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-captcha</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-model</artifactId>
             <version>${project.parent.version}</version>
         </dependency>

@@ -1,12 +1,12 @@
 package com.ddf.boot.quick.biz.impl;
 
-import cn.hutool.captcha.CaptchaUtil;
-import cn.hutool.captcha.CircleCaptcha;
 import com.ddf.boot.common.core.util.IdsUtil;
 import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.common.redis.CacheKeys;
 import com.ddf.boot.quick.model.request.CaptchaRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
+import com.ddf.common.captcha.helper.CaptchaHelper;
+import com.ddf.common.captcha.model.CaptchaResult;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +27,8 @@ public class CommonBizServiceImpl implements ICommonBizService {
 
     private final StringRedisTemplate stringRedisTemplate;
 
+    private final CaptchaHelper captchaHelper;
+
     /**
      * 生成验证码
      *
@@ -36,14 +38,14 @@ public class CommonBizServiceImpl implements ICommonBizService {
     @Override
     public CaptchaResponse generateCaptcha(CaptchaRequest request) {
         // data:image/jpeg;base64,
-        CircleCaptcha captcha = CaptchaUtil.createCircleCaptcha(request.getWidth(), request.getHeight(), 4, 200);
+        final CaptchaResult result = captchaHelper.generateMath();
         final String tokenId = IdsUtil.getNextStrId();
         // 设置有效期
         stringRedisTemplate.opsForValue()
-                .set(CacheKeys.getCaptchaKey(tokenId), captcha.getCode(), Duration.ofMinutes(2));
-        return new CaptchaResponse().setWidth(request.getWidth())
-                .setHeight(request.getHeight())
-                .setBase64(captcha.getImageBase64())
+                .set(CacheKeys.getCaptchaKey(tokenId), result.getVerifyCode(), Duration.ofMinutes(1));
+        return new CaptchaResponse().setWidth(result.getWidth())
+                .setHeight(result.getHeight())
+                .setBase64(result.getImageBase64())
                 .setTokenId(tokenId);
     }
 }

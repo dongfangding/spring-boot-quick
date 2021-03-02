@@ -11,14 +11,5 @@ import lombok.Data;
 @Data
 public class CaptchaRequest {
 
-    /**
-     * 图片的宽度
-     */
-    private Integer width = 200;
-
-    /**
-     * 图片的高度
-     */
-    private Integer height = 80;
 
 }
