@@ -43,4 +43,10 @@ public class SysRoleMenuBizServiceTest extends QuickApplicationTest {
         request.setMenuIds(Sets.newHashSet(1L, 2L, 4L, 5L));
         System.out.println(sysRoleMenuBizService.authorization(request));
     }
+
+    @Test
+    public void testBuildUserMenuTree() {
+        System.out.println(JsonUtil.asString(sysRoleMenuBizService.buildUserMenuTree("1363788686914756639")));
+        System.out.println(JsonUtil.asString(sysRoleMenuBizService.buildUserMenuTree("1364033536494956642")));
+    }
 }

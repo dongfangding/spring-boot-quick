@@ -1,6 +1,7 @@
 package com.ddf.boot.quick.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.model.entity.SysRoleMenu;
 import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
 import java.util.List;
@@ -25,12 +26,12 @@ public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
     Integer batchInsert(@Param("request") SysRoleMenuAuthorizationRequest request);
 
     /**
-     * 获取用户已分配的菜单id集合
+     * 获取用户已分配的菜单
      *
      * @param userId
      * @return
      */
-    List<String> getUserActiveMenuIds(@Param("userId") String userId);
+    List<SysMenu> getUserActiveMenu(@Param("userId") String userId);
 
     /**
      * 查询某个角色下已授权菜单id集合

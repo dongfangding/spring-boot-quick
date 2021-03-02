@@ -2,6 +2,7 @@ package com.ddf.boot.quick.service.proxy;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddf.boot.quick.mapper.SysRoleMenuMapper;
+import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.model.entity.SysRoleMenu;
 import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
 import com.ddf.boot.quick.service.ISysRoleMenuService;
@@ -67,8 +68,8 @@ public class SysRoleMenuServiceProxyImpl extends ServiceImpl<SysRoleMenuMapper, 
      * @return
      */
     @Override
-    public List<String> getUserActiveMenuIds(String userId) {
-        return sysRoleMenuServiceImpl.getUserActiveMenuIds(userId);
+    public List<SysMenu> getUserActiveMenu(String userId) {
+        return sysRoleMenuServiceImpl.getUserActiveMenu(userId);
     }
 
     /**

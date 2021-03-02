@@ -15,6 +15,14 @@ import java.util.List;
 public interface ISysRoleMenuBizService {
 
     /**
+     * 构建用户的左侧菜单树，即用户有哪些菜单权限
+     *
+     * @param userId
+     * @return
+     */
+    List<SysMenuTreeResponse> buildUserMenuTree(String userId);
+
+    /**
      * 构建角色授权树， 加载全部菜单树， 已授权的会用属性标识已被授权
      *
      * @param request

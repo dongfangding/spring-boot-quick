@@ -2,12 +2,15 @@ package com.ddf.boot.quick.biz.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.ddf.boot.quick.biz.ISysRoleMenuBizService;
+import com.ddf.boot.quick.helper.SysUserHelper;
+import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
 import com.ddf.boot.quick.model.request.SysRoleMenuBuildRoleMenuRequest;
 import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
 import com.ddf.boot.quick.service.ISysMenuService;
 import com.ddf.boot.quick.service.ISysRoleMenuService;
 import com.ddf.boot.quick.util.TreeUtil;
+import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +32,26 @@ public class SysRoleMenuBizServiceImpl implements ISysRoleMenuBizService {
     private final ISysRoleMenuService sysRoleMenuService;
 
     private final ISysMenuService sysMenuService;
+
+    private final SysUserHelper sysUserHelper;
+
+    /**
+     * 构建用户的左侧菜单树，即用户有哪些菜单权限
+     *
+     * @param userId
+     * @return
+     */
+    @Override
+    public List<SysMenuTreeResponse> buildUserMenuTree(String userId) {
+        if (sysUserHelper.isAdmin(userId)) {
+            final List<SysMenu> all = sysMenuService.listAll();
+            if (CollectionUtil.isEmpty(all)) {
+                return Collections.emptyList();
+            }
+            return TreeUtil.convertMenuTree(all);
+        }
+        return TreeUtil.convertMenuTree(sysRoleMenuService.getUserActiveMenu(userId));
+    }
 
     /**
      * 构建角色授权树， 加载全部菜单树， 已授权的会用属性标识已被授权

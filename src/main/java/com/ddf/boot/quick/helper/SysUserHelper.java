@@ -88,8 +88,17 @@ public class SysUserHelper {
      * @return
      */
     public boolean isAdmin() {
-        return Objects.nonNull(getCurrentSysUser()) && sysUserRoleService.getUserActiveRoleList(
-                UserContextUtil.getUserId())
+        return isAdmin(UserContextUtil.getUserId());
+    }
+
+    /**
+     * 指定用户是否是超级管理员
+     *
+     * @return
+     */
+    public boolean isAdmin(String userId) {
+        return Objects.nonNull(userId) && sysUserRoleService.getUserActiveRoleList(
+                userId)
                 .stream()
                 .anyMatch(val -> Objects.equals(val.getIsAdmin(), CommonLogic.TRUE.getLogic()));
     }

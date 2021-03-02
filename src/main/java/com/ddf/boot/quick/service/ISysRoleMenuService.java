@@ -1,6 +1,7 @@
 package com.ddf.boot.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.model.entity.SysRoleMenu;
 import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
 import java.util.List;
@@ -52,12 +53,12 @@ public interface ISysRoleMenuService extends IService<SysRoleMenu> {
 
 
     /**
-     * 获取用户已分配的菜单id集合
+     * 获取用户已分配的菜单
      *
      * @param userId
      * @return
      */
-    List<String> getUserActiveMenuIds(@Param("userId") String userId);
+    List<SysMenu> getUserActiveMenu(@Param("userId") String userId);
 
     /**
      * 查询某个角色下已授权菜单id集合

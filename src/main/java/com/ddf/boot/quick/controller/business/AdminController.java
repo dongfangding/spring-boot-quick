@@ -1,6 +1,7 @@
 package com.ddf.boot.quick.controller.business;
 
 import com.ddf.boot.common.core.model.PageResult;
+import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.biz.ISysMenuBizService;
 import com.ddf.boot.quick.biz.ISysRoleBizService;
@@ -77,7 +78,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("sysUser/create")
-    public SysUserDTO create(@RequestBody @Validated SysUserCreateRequest request) {
+    public SysUserDTO createSysUser(@RequestBody @Validated SysUserCreateRequest request) {
         return sysUserBizService.create(request);
     }
 
@@ -100,7 +101,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("sysUser/pageList")
-    public PageResult<SysUserDTO> pageList(@RequestBody @Validated SysUserPageRequest request) {
+    public PageResult<SysUserDTO> sysUserPageList(@RequestBody @Validated SysUserPageRequest request) {
         return sysUserBizService.pageList(request);
     }
 
@@ -111,7 +112,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("sysUser/update")
-    public SysUserDTO update(@RequestBody @Validated SysUserUpdateRequest request) {
+    public SysUserDTO updateSysUser(@RequestBody @Validated SysUserUpdateRequest request) {
         return sysUserBizService.update(request);
     }
 
@@ -133,7 +134,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("sysRole/saveOrUpdate")
-    public SysRoleDTO saveOrUpdate(@RequestBody @Validated SysRoleCreateRequest request) {
+    public SysRoleDTO saveOrUpdateSysRole(@RequestBody @Validated SysRoleCreateRequest request) {
         return sysRoleBizService.saveOrUpdate(request);
     }
 
@@ -144,7 +145,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("sysRole/pageList")
-    public PageResult<SysRoleDTO> pageList(@RequestBody @Validated SysRolePageRequest request) {
+    public PageResult<SysRoleDTO> sysRolePageList(@RequestBody @Validated SysRolePageRequest request) {
         return sysRoleBizService.pageList(request);
     }
 
@@ -156,7 +157,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("/sysMenu/create")
-    public SysMenuDTO create(@RequestBody @Validated SysMenuCreateRequest request) {
+    public SysMenuDTO createSysMenu(@RequestBody @Validated SysMenuCreateRequest request) {
         return sysMenuBizService.create(request);
     }
 
@@ -167,7 +168,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("sysMenu/update")
-    public SysMenuDTO update(@RequestBody @Validated SysMenuUpdateRequest request) {
+    public SysMenuDTO updateSysMenu(@RequestBody @Validated SysMenuUpdateRequest request) {
         return sysMenuBizService.update(request);
     }
 
@@ -201,5 +202,15 @@ public class AdminController {
     @PostMapping("sysRoleMenu/authorization")
     public Integer authorization(@RequestBody @Validated SysRoleMenuAuthorizationRequest request) {
         return sysRoleMenuBizService.authorization(request);
+    }
+
+    /**
+     * 构建用户的左侧菜单树，即用户有哪些菜单权限
+     *
+     * @return
+     */
+    @PostMapping("buildUserMenuTree")
+    public List<SysMenuTreeResponse> buildUserMenuTree() {
+        return sysRoleMenuBizService.buildUserMenuTree(UserContextUtil.getUserId());
     }
 }

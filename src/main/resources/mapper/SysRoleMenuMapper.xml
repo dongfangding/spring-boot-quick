@@ -27,23 +27,31 @@
         menu_id
     </sql>
 
-    <select id="getUserActiveMenuIds" resultType="java.lang.String">
-        select distinct srm.menu_id
-        from sys_role_menu srm
-                     inner join sys_user_role sur on srm.role_id = sur.role_id
-                and sur.is_del = 0
-                     inner join sys_role sr on sur.role_id = sr.id and sr.is_active
-                = ${@com.ddf.boot.common.core.enumration.CommonLogic@TRUE.getLogic()}
-                and sr.is_del = 0
-        where sur.user_id = #{userId} and sur.is_del = 0
+    <select id="getUserActiveMenu" resultType="com.ddf.boot.quick.model.entity.SysMenu">
+        select sm.*
+        from sys_menu sm
+        where id in (
+            select distinct srm.menu_id
+            from sys_user_role sur
+                     inner join sys_role sr on sur.role_id = sr.id
+                    and sr.is_active
+                        = ${@com.ddf.boot.common.core.enumration.CommonLogic@TRUE.getLogic()}
+                    and sr.is_del = 0
+                     inner join sys_role_menu srm on sur.role_id = srm.role_id and srm.is_del = 0
+            where sur.user_id = #{userId}
+              and sur.is_del = 0
+        ) order by sort
     </select>
 
     <select id="getRoleActiveMenuIds" resultType="java.lang.Long">
-        select srm.menu_id from sys_role_menu srm inner join sys_role sr on srm.role_id = sr.id
-        and sr.is_active
-        = ${@com.ddf.boot.common.core.enumration.CommonLogic@TRUE.getLogic()}
-        and sr.is_del = 0
-        where srm.role_id = #{roleId} and srm.is_del = 0
+        select srm.menu_id
+        from sys_role_menu srm
+                 inner join sys_role sr on srm.role_id = sr.id
+                and sr.is_active
+                    = ${@com.ddf.boot.common.core.enumration.CommonLogic@TRUE.getLogic()}
+                and sr.is_del = 0
+        where srm.role_id = #{roleId}
+          and srm.is_del = 0
     </select>
 
     <insert id="batchInsert">

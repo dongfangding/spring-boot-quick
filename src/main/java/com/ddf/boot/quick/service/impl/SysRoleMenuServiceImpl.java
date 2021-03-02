@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ddf.boot.common.core.model.BaseDomain;
 import com.ddf.boot.quick.mapper.SysRoleMenuMapper;
+import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.model.entity.SysRoleMenu;
 import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
 import com.ddf.boot.quick.service.ISysRoleMenuService;
@@ -66,14 +67,14 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     /**
-     * 获取用户已分配的菜单id集合
+     * 获取用户已分配的菜单
      *
      * @param userId
      * @return
      */
     @Override
-    public List<String> getUserActiveMenuIds(String userId) {
-        return sysRoleMenuMapper.getUserActiveMenuIds(userId);
+    public List<SysMenu> getUserActiveMenu(String userId) {
+        return sysRoleMenuMapper.getUserActiveMenu(userId);
     }
 
     /**
