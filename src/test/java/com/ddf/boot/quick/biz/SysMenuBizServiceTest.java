@@ -41,7 +41,10 @@ public class SysMenuBizServiceTest extends QuickApplicationTest {
         System.out.println("修改接口返回值: " + JsonUtil.asString(update));
     }
 
-
+    /**
+     * 测试菜单树
+     *
+     */
     @Test
     public void testBuildMenuTree() {
         System.out.println(JsonUtil.asString(sysMenuBizService.buildMenuTree()));

@@ -50,4 +50,6 @@
         where ur.user_id = #{userId}
           and ur.is_del = 0
     </select>
+
+
 </mapper>

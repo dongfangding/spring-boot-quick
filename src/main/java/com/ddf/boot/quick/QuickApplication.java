@@ -30,3 +30,18 @@ public class QuickApplication {
         SpringApplication.run(QuickApplication.class, args);
     }
 }
+
+/**
+ *
+ * TODO
+ * 1. 编辑时自动填充的modifyBy和modifyTime的值是空的
+ * 2. 自定义的mapper方法，插入或更新时无法填充通用属性
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */

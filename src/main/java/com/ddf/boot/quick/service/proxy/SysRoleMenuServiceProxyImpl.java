@@ -1,9 +1,6 @@
-package com.ddf.boot.quick.service.impl;
+package com.ddf.boot.quick.service.proxy;
 
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ddf.boot.common.core.model.BaseDomain;
 import com.ddf.boot.quick.mapper.SysRoleMenuMapper;
 import com.ddf.boot.quick.model.entity.SysRoleMenu;
 import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
@@ -12,35 +9,33 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>
- * 角色与菜单关联表 服务实现类, 由于plus功能的封装， 该service用来替代dao的作用，禁止在该类中也业务代码， 建议另外用bizService承载业务
- * </p>
+ * <p>角色菜单关联查询层代理类， 用来加缓存层</p >
  *
- * @author mybatis-plus-generator
- * @since 2021-02-10
+ * @author Snowball
+ * @version 1.0
+ * @date 2021/03/02 13:28
  */
 @Service
 @RequiredArgsConstructor(onConstructor_={@Autowired})
 @Slf4j
-public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements ISysRoleMenuService {
+@Primary
+public class SysRoleMenuServiceProxyImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements ISysRoleMenuService {
 
-    private final SysRoleMenuMapper sysRoleMenuMapper;
+    private final ISysRoleMenuService sysRoleMenuServiceImpl;
 
     /**
      * 根据主键删除记录
      *
-     * @param roleId
+     * @param id
      * @return
      */
     @Override
-    public boolean deleteByRoleId(Long roleId) {
-        final LambdaUpdateWrapper<SysRoleMenu> wrapper = Wrappers.lambdaUpdate();
-        wrapper.eq(SysRoleMenu::getRoleId, roleId)
-                .eq(SysRoleMenu::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
-        return super.remove(wrapper);
+    public boolean deleteByRoleId(Long id) {
+        return sysRoleMenuServiceImpl.deleteByRoleId(id);
     }
 
     /**
@@ -51,7 +46,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      */
     @Override
     public boolean insert(SysRoleMenu sysRoleMenu) {
-        return super.save(sysRoleMenu);
+        return sysRoleMenuServiceImpl.insert(sysRoleMenu);
     }
 
     /**
@@ -62,7 +57,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      */
     @Override
     public boolean update(SysRoleMenu sysRoleMenu) {
-        return super.updateById(sysRoleMenu);
+        return sysRoleMenuServiceImpl.update(sysRoleMenu);
     }
 
     /**
@@ -73,7 +68,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      */
     @Override
     public List<String> getUserActiveMenuIds(String userId) {
-        return sysRoleMenuMapper.getUserActiveMenuIds(userId);
+        return sysRoleMenuServiceImpl.getUserActiveMenuIds(userId);
     }
 
     /**
@@ -84,7 +79,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      */
     @Override
     public List<Long> getRoleActiveMenuIds(Long roleId) {
-        return sysRoleMenuMapper.getRoleActiveMenuIds(roleId);
+        return sysRoleMenuServiceImpl.getRoleActiveMenuIds(roleId);
     }
 
     /**
@@ -95,6 +90,6 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
      */
     @Override
     public Integer batchInsert(SysRoleMenuAuthorizationRequest request) {
-        return sysRoleMenuMapper.batchInsert(request);
+        return sysRoleMenuServiceImpl.batchInsert(request);
     }
 }

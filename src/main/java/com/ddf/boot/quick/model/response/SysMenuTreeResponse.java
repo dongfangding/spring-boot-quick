@@ -64,9 +64,17 @@ public class SysMenuTreeResponse {
      */
     private Integer version;
 
+    //------------------------------------------------树结构树形--------------------
+
     /**
      * 子节点
      */
     private List<SysMenuTreeResponse> children = new ArrayList<>();
+
+    /**
+     * 是否已授权
+     *
+     */
+    private boolean selected;
 
 }

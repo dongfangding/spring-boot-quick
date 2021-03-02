@@ -42,6 +42,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public boolean deleteByPrimaryKey(Long id) {
         final LambdaUpdateWrapper<SysUser> wrapper = Wrappers.lambdaUpdate();
         wrapper.set(SysUser::getIsDel, BaseDomain.IS_DEL_LOGIC_DELETE_VALUE);
+        wrapper.eq(SysUser::getId, id);
         return false;
     }
 

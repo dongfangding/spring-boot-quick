@@ -23,18 +23,34 @@ public class TreeUtil {
 
 
     /**
-     * 菜单列表转换为菜单树
+     * 构建全部菜单树， 且不处理任何选中节点
      *
      * @param menuList
      * @return
      */
     public static List<SysMenuTreeResponse> convertMenuTree(List<SysMenu> menuList) {
+        return convertMenuTree(menuList, Collections.emptyList());
+    }
+
+
+    /**
+     * 菜单列表转换为菜单树,
+     *
+     * @param selectMenuIds 要被选中的节点id集合
+     * @param menuList      原数据
+     * @return
+     */
+    public static List<SysMenuTreeResponse> convertMenuTree(List<SysMenu> menuList, List<Long> selectMenuIds) {
         if (CollectionUtil.isEmpty(menuList)) {
             return Collections.emptyList();
         }
         Map<Long, SysMenuTreeResponse> dataMap = new LinkedHashMap<>(menuList.size());
         for (SysMenu menu : menuList) {
-            dataMap.put(menu.getId(), SysMenuConverterMapper.INSTANCE.convertTreeResponse(menu));
+            final SysMenuTreeResponse curr = SysMenuConverterMapper.INSTANCE.convertTreeResponse(menu);
+            if (CollectionUtil.isNotEmpty(selectMenuIds) && selectMenuIds.contains(curr.getId())) {
+                curr.setSelected(Boolean.TRUE);
+            }
+            dataMap.put(menu.getId(), curr);
         }
         List<SysMenuTreeResponse> responseList = new ArrayList<>();
         for (Map.Entry<Long, SysMenuTreeResponse> entry : dataMap.entrySet()) {
@@ -44,7 +60,9 @@ public class TreeUtil {
             } else {
                 if (Objects.nonNull(currentNode.getParentId())) {
                     if (Objects.nonNull(dataMap.get(currentNode.getParentId()))) {
-                        dataMap.get(currentNode.getParentId()).getChildren().add(currentNode);
+                        dataMap.get(currentNode.getParentId())
+                                .getChildren()
+                                .add(currentNode);
                     }
                 }
             }
