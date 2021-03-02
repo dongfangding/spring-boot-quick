@@ -3,6 +3,8 @@ package com.ddf.boot.quick.converter.mapper;
 import com.ddf.boot.quick.model.dto.SysMenuDTO;
 import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.model.request.SysMenuCreateRequest;
+import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
@@ -35,4 +37,22 @@ public interface SysMenuConverterMapper {
      */
     @Mappings({})
     SysMenuDTO convert(SysMenu sysMenu);
+
+    /**
+     * 转换为树形实体
+     *
+     * @param sysMenu
+     * @return
+     */
+    @Mappings({})
+    SysMenuTreeResponse convertTreeResponse(SysMenu sysMenu);
+
+    /**
+     * 转换为树形实体
+     *
+     * @param sysMenu
+     * @return
+     */
+    @Mappings({})
+    List<SysMenuTreeResponse> convertTreeResponse(List<SysMenu> sysMenu);
 }

@@ -14,12 +14,11 @@ import com.ddf.boot.quick.model.request.SysMenuCreateRequest;
 import com.ddf.boot.quick.model.request.SysMenuUpdateRequest;
 import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
 import com.ddf.boot.quick.service.ISysMenuService;
-import java.util.ArrayList;
+import com.ddf.boot.quick.util.TreeUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +49,7 @@ public class SysMenuBizServiceImpl implements ISysMenuBizService {
     @Override
     public SysMenuDTO create(SysMenuCreateRequest request) {
         PreconditionUtil.checkArgument(
-                Objects.nonNull(sysMenuService.getByMenuName(request.getMenuName())), BizCode.MENU_NAME_REPEAT);
+                Objects.isNull(sysMenuService.getByMenuName(request.getMenuName())), BizCode.MENU_NAME_REPEAT);
         if (!Objects.equals(BootConstants.MENU_ROOT_PARENT_ID, request.getParentId())) {
             PreconditionUtil.checkArgument(Objects.nonNull(sysMenuService.getByPrimaryKey(request.getParentId())),
                     BizCode.MENU_RECORD_NOT_EXIST
@@ -87,9 +86,10 @@ public class SysMenuBizServiceImpl implements ISysMenuBizService {
         final SysMenu sysMenu = sysMenuService.getByPrimaryKey(request.getId());
         PreconditionUtil.checkArgument(Objects.nonNull(sysMenu), BizCode.MENU_RECORD_NOT_EXIST);
 
-        PreconditionUtil.checkArgument(Objects.nonNull(sysMenuService.getByPrimaryKey(request.getParentId())),
-                BizCode.MENU_RECORD_NOT_EXIST
-        );
+        if (Objects.equals(BootConstants.MENU_ROOT_PARENT_ID, request.getParentId())) {
+            PreconditionUtil.checkArgument(Objects.nonNull(
+                    sysMenuService.getByPrimaryKey(request.getParentId())), BizCode.MENU_RECORD_NOT_EXIST);
+        }
 
         // 校验菜单名称不能重复
         final SysMenu menuNameMenu = sysMenuService.getByMenuName(request.getMenuName());
@@ -121,24 +121,6 @@ public class SysMenuBizServiceImpl implements ISysMenuBizService {
         if (CollectionUtil.isEmpty(all)) {
             return Collections.emptyList();
         }
-        final Map<Long, SysMenu> menuMap = all.stream()
-                .collect(Collectors.toMap(SysMenu::getId, val -> val));
-        List<SysMenuTreeResponse> res = new ArrayList<>();
-        for (SysMenu menu : all) {
-            build(res, menu, menuMap);
-        }
-        return res;
-    }
-
-    private void build(List<SysMenuTreeResponse> res, SysMenu current, Map<Long, SysMenu> menuMap) {
-        final SysMenuTreeResponse menuNode = new SysMenuTreeResponse();
-        menuNode.setCurrentNode(SysMenuConverterMapper.INSTANCE.convert(current));
-        if (Objects.isNull(current.getParentId()) || Objects.equals(BootConstants.MENU_ROOT_PARENT_ID, current.getParentId())) {
-            return;
-        }
-        if (Objects.nonNull(menuMap.get(current.getParentId()))) {
-            menuNode.getChildren().add(SysMenuConverterMapper.INSTANCE.convert(menuMap.get(current.getParentId())));
-        }
-        build(res, menuMap.get(current.getParentId()), menuMap);
+        return TreeUtil.convertMenuTree(all);
     }
 }
