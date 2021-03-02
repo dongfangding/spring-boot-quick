@@ -8,6 +8,7 @@ import com.ddf.boot.quick.model.request.ResetPasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserCreateRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
+import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 
 /**
@@ -17,6 +18,13 @@ import com.ddf.boot.quick.model.response.LoginResponse;
  * @date 2021/2/10 0010 13:42
  */
 public interface ISysUserBizService {
+
+    /**
+     * 获取当前用户详细信息
+     *
+     * @return
+     */
+    CurrentUserResponse currentUser();
 
     /**
      * 创建系统用户

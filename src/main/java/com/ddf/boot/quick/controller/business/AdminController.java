@@ -23,6 +23,7 @@ import com.ddf.boot.quick.model.request.SysUserCreateRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
+import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
 import java.util.List;
@@ -91,6 +92,16 @@ public class AdminController {
     @PostMapping("sysUser/loginByPassword")
     public LoginResponse loginByPassword(@RequestBody @Validated LoginRequest request) {
         return sysUserBizService.loginByPassword(request);
+    }
+
+    /**
+     * 获取当前用户详细信息
+     *
+     * @return
+     */
+    @PostMapping("sysUser/currentUser")
+    public CurrentUserResponse currentUser() {
+        return sysUserBizService.currentUser();
     }
 
 

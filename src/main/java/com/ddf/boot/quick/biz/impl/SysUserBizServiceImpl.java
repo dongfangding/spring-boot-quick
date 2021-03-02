@@ -31,6 +31,7 @@ import com.ddf.boot.quick.model.request.SysUserCreateRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.SysUserRoleBatchInsertRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
+import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
@@ -71,6 +72,22 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     private final SysUserHelper sysUserHelper;
 
     private final AuthenticationProperties authenticationProperties;
+
+    /**
+     * 获取当前用户详细信息
+     *
+     * @return
+     */
+    @Override
+    public CurrentUserResponse currentUser() {
+        final SysUser user = sysUserHelper.getCurrentSysUser();
+        final CurrentUserResponse response = new CurrentUserResponse();
+        if (Objects.nonNull(user)) {
+            response.setBaseInfo(SysUserConverterMapper.INSTANCE.convert(user));
+            response.setAdmin(sysUserHelper.isAdmin());
+        }
+        return response;
+    }
 
     /**
      * 创建系统用户
