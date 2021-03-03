@@ -4,6 +4,7 @@ import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.model.request.SysUserCreateRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
+import com.ddf.boot.quick.model.response.SysUserDetailResponse;
 import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -58,4 +59,12 @@ public interface SysUserConverterMapper {
      */
     @Mappings({})
     List<SysUserDTO> convert(List<SysUser> sysUser);
+
+    /**
+     * 系统用户实体转换
+     *
+     * @param sysUser
+     * @return
+     */
+    SysUserDetailResponse convertDetailResponse(SysUser sysUser);
 }

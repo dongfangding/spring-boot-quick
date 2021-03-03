@@ -20,12 +20,16 @@ import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
 import com.ddf.boot.quick.model.request.SysRoleMenuBuildRoleMenuRequest;
 import com.ddf.boot.quick.model.request.SysRolePageRequest;
 import com.ddf.boot.quick.model.request.SysUserCreateRequest;
+import com.ddf.boot.quick.model.request.SysUserDetailRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
+import com.ddf.boot.quick.model.request.SysUserUpdatePasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
+import com.ddf.boot.quick.model.request.SysUserUploadAvatarRequest;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
 import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
+import com.ddf.boot.quick.model.response.SysUserDetailResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -136,6 +140,39 @@ public class AdminController {
     @PostMapping("sysUser/resetPassword")
     public Boolean resetPassword(@RequestBody @Validated ResetPasswordRequest request) {
         return sysUserBizService.resetPassword(request);
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("sysUser/updatePassword")
+    public Boolean updatePassword(@RequestBody @Validated SysUserUpdatePasswordRequest request) {
+        return sysUserBizService.updatePassword(request);
+    }
+
+    /**
+     * 上传用户头像
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("sysUser/uploadAvatar")
+    public Boolean uploadAvatar(@RequestBody @Validated SysUserUploadAvatarRequest request) {
+        return sysUserBizService.uploadAvatar(request);
+    }
+
+    /**
+     * 查询用户详情
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("sysUser/detail")
+    public SysUserDetailResponse sysUserDetail(@RequestBody @Validated SysUserDetailRequest request) {
+        return sysUserBizService.detail(request);
     }
 
     /**

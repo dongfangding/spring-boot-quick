@@ -28,11 +28,15 @@ import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.ResetPasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserCreateRequest;
+import com.ddf.boot.quick.model.request.SysUserDetailRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.SysUserRoleBatchInsertRequest;
+import com.ddf.boot.quick.model.request.SysUserUpdatePasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
+import com.ddf.boot.quick.model.request.SysUserUploadAvatarRequest;
 import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
+import com.ddf.boot.quick.model.response.SysUserDetailResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
 import java.time.LocalDateTime;
@@ -132,15 +136,18 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
         SysUser searchSysUser = sysUserService.getByLoginName(request.getLoginName());
         if (Objects.nonNull(searchSysUser)) {
-            PreconditionUtil.checkArgument(Objects.equals(searchSysUser.getId(), request.getId()), BizCode.LOGIN_NAME_REPEAT);
+            PreconditionUtil.checkArgument(
+                    Objects.equals(searchSysUser.getId(), request.getId()), BizCode.LOGIN_NAME_REPEAT);
         }
         searchSysUser = sysUserService.getByNickname(request.getNickname());
         if (Objects.nonNull(searchSysUser)) {
-            PreconditionUtil.checkArgument(Objects.equals(searchSysUser.getId(), request.getId()), BizCode.NICK_NAME_REPEAT);
+            PreconditionUtil.checkArgument(
+                    Objects.equals(searchSysUser.getId(), request.getId()), BizCode.NICK_NAME_REPEAT);
         }
         searchSysUser = sysUserService.getByMobile(request.getMobile());
         if (Objects.nonNull(searchSysUser)) {
-            PreconditionUtil.checkArgument(Objects.equals(searchSysUser.getId(), request.getId()), BizCode.MOBILE_REPEAT);
+            PreconditionUtil.checkArgument(
+                    Objects.equals(searchSysUser.getId(), request.getId()), BizCode.MOBILE_REPEAT);
         }
         sysUserService.update(SysUserConverterMapper.INSTANCE.updateConvert(request));
 
@@ -305,5 +312,51 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         sysUser.setPassword(SecureUtil.signWithHMac(authenticationProperties.getResetPassword(), sysUser.getUserId()));
         log.info("重置用户[{}]密码为[{}]", sysUser.getUserId(), authenticationProperties.getResetPassword());
         return sysUserService.update(sysUser);
+    }
+
+
+    /**
+     * 修改密码
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public Boolean updatePassword(SysUserUpdatePasswordRequest request) {
+        final SysUser user = sysUserHelper.getCurrentSysUser();
+        PreconditionUtil.checkArgument(
+                Objects.equals(user.getPassword(), SecureUtil.signWithHMac(request.getOldPassword(), user.getUserId())),
+                BizCode.LOGIN_PASSWORD_ERROR
+        );
+        user.setPassword(SecureUtil.signWithHMac(request.getNewPassword(), user.getUserId()));
+        return sysUserService.update(user);
+    }
+
+    /**
+     * 上传用户头像
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public Boolean uploadAvatar(SysUserUploadAvatarRequest request) {
+        final SysUser user = sysUserHelper.getCurrentSysUser();
+        user.setAvatarUrl(request.getAvatarUrl());
+        return sysUserService.update(user);
+    }
+
+    /**
+     * 查询用户详情
+     *
+     * @param request
+     * @return
+     */
+    @Override
+    public SysUserDetailResponse detail(SysUserDetailRequest request) {
+        final SysUser sysUser = sysUserService.getByUserId(request.getUserId());
+        PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
+        final SysUserDetailResponse response = SysUserConverterMapper.INSTANCE.convertDetailResponse(sysUser);
+        response.setRoleList(sysUserRoleService.getUserActiveRoleList(request.getUserId()));
+        return response;
     }
 }

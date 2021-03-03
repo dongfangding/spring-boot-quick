@@ -109,5 +109,4 @@ public interface ISysUserService extends IService<SysUser> {
      * @return
      */
     PageResult<SysUser> pageList(SysUserPageRequest request);
-
 }

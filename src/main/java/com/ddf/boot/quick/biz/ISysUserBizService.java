@@ -6,10 +6,14 @@ import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.ResetPasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserCreateRequest;
+import com.ddf.boot.quick.model.request.SysUserDetailRequest;
 import com.ddf.boot.quick.model.request.SysUserPageRequest;
+import com.ddf.boot.quick.model.request.SysUserUpdatePasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
+import com.ddf.boot.quick.model.request.SysUserUploadAvatarRequest;
 import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
+import com.ddf.boot.quick.model.response.SysUserDetailResponse;
 
 /**
  * 系统用户业务处理类
@@ -73,4 +77,28 @@ public interface ISysUserBizService {
      * @return
      */
     Boolean resetPassword(ResetPasswordRequest request);
+
+    /**
+     * 修改密码
+     *
+     * @param request
+     * @return
+     */
+    Boolean updatePassword(SysUserUpdatePasswordRequest request);
+
+    /**
+     * 上传用户头像
+     *
+     * @param request
+     * @return
+     */
+    Boolean uploadAvatar(SysUserUploadAvatarRequest request);
+
+    /**
+     * 查询用户详情
+     *
+     * @param request
+     * @return
+     */
+    SysUserDetailResponse detail(SysUserDetailRequest request);
 }
