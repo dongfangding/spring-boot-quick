@@ -39,5 +39,10 @@ public class SysConfig extends BaseDomain {
      */
     private String remark;
 
+    /**
+     * 是否可修改 0 否 1 是
+     */
+    private Integer isEditable;
+
 
 }
