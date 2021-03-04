@@ -29,6 +29,8 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
     ignoreErrorTraceProfile: # 过滤将异常堆栈信息输出打前端接口返回值的环境
       - pre
       - prod
+  response:
+    package: com
 mybatis-plus:
   global-config:
     db-config:
