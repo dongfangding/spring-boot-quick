@@ -298,7 +298,8 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
     expiredMinute: 1080  # jwt token过期时间，单位分钟
     refreshTokenMinute: 10  # 在jwt token有效时间剩余达到了这个时间（分钟），如果用户在线（即调用了任意接口）则服务端主动刷新用户token并返回，需要前端配合处理重新替换用户token
     ignores: ## 接口用户认证请求拦截忽略路径
-      - path: /quick-start/**
+      - path: /sysUser/generateCaptcha
+      - path: /sysUser/loginByPassword
       - path: /v2/*
       - path: /swagger-ui.html
       - path: /swagger-ui.html/*
@@ -314,8 +315,6 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - path: /ws/*
       - path: /pay-ws/*
       - path: /heartCheck.txt
-      - path: /authUser/registry
-      - path: /authUser/loginByPassword
       - path: /index.html
       - path: /favicon.ico
   rsa:
