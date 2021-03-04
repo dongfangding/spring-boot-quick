@@ -212,7 +212,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         long loginTimeMillis = DateUtils.toDefaultMills(loginTime);
 
         UserClaim userClaim = new UserClaim();
-        userClaim.setUserId(Convert.toStr(sysUser.getId()))
+        userClaim.setUserId(Convert.toStr(sysUser.getUserId()))
                 .setUsername(sysUser.getLoginName())
                 .setCredit(WebUtil.getHost())
                 // 记录用户当前登录时间
