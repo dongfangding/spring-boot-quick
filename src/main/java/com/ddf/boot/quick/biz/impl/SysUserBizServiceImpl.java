@@ -208,29 +208,30 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         sysUser = sysUserService.getByLoginNameAndPassword(loginName, secretPassword);
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.LOGIN_PASSWORD_ERROR);
 
-        final LocalDateTime loginTime = LocalDateTime.now();
-        long loginTimeMillis = DateUtils.toDefaultMills(loginTime);
 
+
+        // 更新用户最后一次登录时间
+        sysUser.setLastLoginTime(LocalDateTime.now());
+        sysUserService.update(sysUser);
+        // 有些时间格式的数据不重新查询出来是有误差的
+        sysUser = sysUserService.getByUserId(sysUser.getUserId());
+
+        long loginTimeMillis = DateUtils.toDefaultMills(sysUser.getLastLoginTime());
         UserClaim userClaim = new UserClaim();
         userClaim.setUserId(Convert.toStr(sysUser.getUserId()))
                 .setUsername(sysUser.getLoginName())
                 .setCredit(WebUtil.getHost())
                 // 记录用户当前登录时间
-                .setLastLoginTime(loginTimeMillis);
-        if (Objects.nonNull(sysUser.getLastPwdResetTime())) {
-            userClaim.setLastModifyPasswordTime(loginTimeMillis);
-        }
+                .setLastLoginTime(loginTimeMillis)
+                .setLastModifyPasswordTime(DateUtils.toDefaultMills(sysUser.getLastPwdResetTime()));
         String jwtToken = JwtUtil.defaultJws(userClaim);
-        // 更新用户最后一次登录时间
-        sysUser.setLastLoginTime(loginTime);
-        sysUserService.update(sysUser);
 
         // 处理登录事件
         final UserLoginHistoryDTO userLoginHistoryDTO = UserLoginHistoryDTO.builder()
                 .userId(sysUser.getUserId())
                 .loginName(sysUser.getLoginName())
                 .token(jwtToken)
-                .loginTime(loginTime)
+                .loginTime(sysUser.getLastLoginTime())
                 .loginIp(WebUtil.getHost())
                 .loginAddress(WebUtil.getCurRequest()
                         .getLocale()
