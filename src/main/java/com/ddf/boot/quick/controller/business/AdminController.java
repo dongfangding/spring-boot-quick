@@ -255,7 +255,7 @@ public class AdminController {
      *
      * @return
      */
-    @PostMapping("buildUserMenuTree")
+    @PostMapping("sysRoleMenu/buildUserMenuTree")
     public List<SysMenuTreeResponse> buildUserMenuTree() {
         return sysRoleMenuBizService.buildUserMenuTree(UserContextUtil.getUserId());
     }

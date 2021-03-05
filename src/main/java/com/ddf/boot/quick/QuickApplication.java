@@ -5,6 +5,7 @@ import com.ddf.boot.common.jwt.config.EnableJwt;
 import com.ddf.boot.common.limit.ratelimit.annotation.EnableRateLimit;
 import com.ddf.boot.common.limit.repeatable.annotation.EnableRepeatable;
 import com.ddf.boot.common.limit.repeatable.validator.RedisRepeatableValidator;
+import org.apache.shardingsphere.elasticjob.lite.spring.boot.job.ElasticJobLiteAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +17,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * @MapperScan 要保证只扫描继承到BaseMapper的类，否则正常的接口会抛出异常Invalid bound statement (not found)
  * @date 2019/12/7 0007 23:28
  */
-@SpringBootApplication
+@SpringBootApplication(exclude = {ElasticJobLiteAutoConfiguration.class})
 @ComponentScan(value = "com.ddf.boot")
 @MapperScan(basePackages = {"com.ddf.boot.quick.mapper"})
 @EnableJwt
