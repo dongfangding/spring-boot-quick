@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
 import java.util.Set;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Data;
@@ -30,14 +30,14 @@ public class SysUserUpdateRequest {
     /**
      * 登陆名
      */
-    @NotEmpty(message = "登录名不能为空")
+    @NotBlank(message = "登录名不能为空")
     @Size(min = 1, max = 32, message = "登录名长度必须位于1到32个字符之间")
     private String loginName;
 
     /**
      * 昵称
      */
-    @NotEmpty(message = "昵称不能为空")
+    @NotBlank(message = "昵称不能为空")
     @Size(min = 1, max = 32, message = "昵称长度必须位于1到32个字符之间")
     private String nickname;
 

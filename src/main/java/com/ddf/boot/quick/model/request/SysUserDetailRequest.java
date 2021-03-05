@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.model.request;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -13,6 +13,6 @@ import lombok.Data;
 @Data
 public class SysUserDetailRequest {
 
-    @NotEmpty(message = "用户id不能为空")
+    @NotBlank(message = "用户id不能为空")
     private String userId;
 }

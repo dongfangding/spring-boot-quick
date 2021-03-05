@@ -13,4 +13,39 @@ import com.ddf.boot.quick.model.entity.SysConfig;
  */
 public interface ISysConfigService extends IService<SysConfig> {
 
+    /**
+     * 根据主键获取记录
+     *
+     * @param id
+     * @return
+     */
+    default SysConfig getByPrimaryKey(Long id) {
+        return getById(id);
+    }
+
+    /**
+     * 新增记录
+     *
+     * @param sysConfig
+     * @return
+     */
+    boolean insert(SysConfig sysConfig);
+
+    /**
+     * 更新记录
+     * @param sysConfig
+     * @return
+     */
+    boolean update(SysConfig sysConfig);
+
+    /**
+     * 根据配置代码获取配置
+     *
+     * @param configCode
+     * @return
+     */
+    SysConfig getConfigByCode(String configCode);
+
+
+
 }

@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.model.request;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -16,6 +16,6 @@ public class SysUserUploadAvatarRequest {
     /**
      * 头像相对地址url，不要域名前缀
      */
-    @NotEmpty(message = "头像地址不能为空")
+    @NotBlank(message = "头像地址不能为空")
     private String avatarUrl;
 }

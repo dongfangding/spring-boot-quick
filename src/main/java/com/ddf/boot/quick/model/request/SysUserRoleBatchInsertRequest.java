@@ -1,7 +1,7 @@
 package com.ddf.boot.quick.model.request;
 
 import java.util.Set;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 
@@ -19,13 +19,13 @@ public class SysUserRoleBatchInsertRequest {
     /**
      * 用户id
      */
-    @NotEmpty(message = "用户id不能为空")
+    @NotBlank(message = "用户id不能为空")
     private String userId;
 
     /**
      * 角色集合
      */
-    @NotEmpty(message = "角色集合不能为空")
+    @NotBlank(message = "角色集合不能为空")
     private Set<Long> roleIdList;
 
 }

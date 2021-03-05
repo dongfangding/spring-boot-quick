@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.model.request;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import lombok.Data;
 
 /**
@@ -17,13 +17,13 @@ public class SysUserUpdatePasswordRequest {
      * 旧密码
      *
      */
-    @NotEmpty(message = "旧密码不能为空")
+    @NotBlank(message = "旧密码不能为空")
     private String oldPassword;
 
     /**
      * 新密码
      */
-    @NotEmpty(message = "新密码不能为空")
+    @NotBlank(message = "新密码不能为空")
     private String newPassword;
 
 }
