@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.controller.business;
 
+import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.quick.biz.ICommonBizService;
@@ -25,11 +26,13 @@ import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdatePasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.request.SysUserUploadAvatarRequest;
+import com.ddf.boot.quick.model.response.ActiveSwitchResponse;
 import com.ddf.boot.quick.model.response.CaptchaResponse;
 import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
 import com.ddf.boot.quick.model.response.SysUserDetailResponse;
+import com.ddf.boot.quick.model.response.SysUserResetPasswordResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -136,7 +139,7 @@ public class AdminController {
      * @return
      */
     @PostMapping("sysUser/resetPassword")
-    public Boolean resetPassword(@RequestBody @Validated ResetPasswordRequest request) {
+    public SysUserResetPasswordResponse resetPassword(@RequestBody @Validated ResetPasswordRequest request) {
         return sysUserBizService.resetPassword(request);
     }
 
@@ -171,6 +174,17 @@ public class AdminController {
     @PostMapping("sysUser/detail")
     public SysUserDetailResponse sysUserDetail(@RequestBody @Validated SysUserDetailRequest request) {
         return sysUserBizService.detail(request);
+    }
+
+    /**
+     * 启用禁用状态切换开关
+     *
+     * @param request
+     * @return
+     */
+    @PostMapping("sysUser/activeSwitch")
+    public ActiveSwitchResponse sysUserActiveSwitch(@RequestBody @Validated CommonSwitchRequest request) {
+        return sysUserBizService.activeSwitch(request);
     }
 
     /**

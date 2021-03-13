@@ -35,9 +35,11 @@ import com.ddf.boot.quick.model.request.SysUserRoleBatchInsertRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdatePasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.request.SysUserUploadAvatarRequest;
+import com.ddf.boot.quick.model.response.ActiveSwitchResponse;
 import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.model.response.SysUserDetailResponse;
+import com.ddf.boot.quick.model.response.SysUserResetPasswordResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
 import java.time.LocalDateTime;
@@ -285,21 +287,23 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      * @return
      */
     @Override
-    public Boolean activeSwitch(CommonSwitchRequest request) {
+    public ActiveSwitchResponse activeSwitch(CommonSwitchRequest request) {
         final SysUser sysUser = sysUserService.getByPrimaryKey(request.getId());
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.ROLE_RECORD_NOT_EXIST);
 
         // 要更新的状态
-        SysUserStatusEnum targetStatus = SysUserStatusEnum.instanceOfCodeConsistency(sysUser.getStatus());
+        SysUserStatusEnum targetStatus;
         if (Objects.equals(CommonLogic.TRUE.getLogic(), request.getSwitchFlag())) {
             targetStatus = SysUserStatusEnum.ACTIVE;
+        } else {
+            targetStatus = SysUserStatusEnum.DISABLE;
         }
         if (Objects.equals(targetStatus.getCode(), sysUser.getStatus())) {
-            return Boolean.TRUE;
+            return ActiveSwitchResponse.of(targetStatus.getCode());
         }
-
         sysUser.setStatus(targetStatus.getCode());
-        return sysUserService.update(sysUser);
+        sysUserService.update(sysUser);
+        return ActiveSwitchResponse.of(targetStatus.getCode());
     }
 
     /**
@@ -309,13 +313,15 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
      * @return
      */
     @Override
-    public Boolean resetPassword(ResetPasswordRequest request) {
+    public SysUserResetPasswordResponse resetPassword(ResetPasswordRequest request) {
         final SysUser sysUser = sysUserService.getByPrimaryKey(request.getId());
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
         PreconditionUtil.checkArgument(sysUserHelper.isAdmin(), BizCode.NOT_SUPER_ADMIN);
-        sysUser.setPassword(SecureUtil.signWithHMac(authenticationProperties.getResetPassword(), sysUser.getUserId()));
-        log.info("重置用户[{}]密码为[{}]", sysUser.getUserId(), authenticationProperties.getResetPassword());
-        return sysUserService.update(sysUser);
+        final String initPassword = authenticationProperties.getResetPassword();
+        sysUser.setPassword(SecureUtil.signWithHMac(initPassword, sysUser.getUserId()));
+        log.info("重置用户[{}]密码为[{}]", sysUser.getUserId(), initPassword);
+        sysUserService.update(sysUser);
+        return SysUserResetPasswordResponse.of(initPassword);
     }
 
 

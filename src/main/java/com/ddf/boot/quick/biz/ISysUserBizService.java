@@ -11,9 +11,11 @@ import com.ddf.boot.quick.model.request.SysUserPageRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdatePasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.request.SysUserUploadAvatarRequest;
+import com.ddf.boot.quick.model.response.ActiveSwitchResponse;
 import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.model.response.SysUserDetailResponse;
+import com.ddf.boot.quick.model.response.SysUserResetPasswordResponse;
 
 /**
  * 系统用户业务处理类
@@ -68,7 +70,7 @@ public interface ISysUserBizService {
      * @param request
      * @return
      */
-    Boolean activeSwitch(CommonSwitchRequest request);
+    ActiveSwitchResponse activeSwitch(CommonSwitchRequest request);
 
     /**
      * 重置系统用户密码
@@ -76,7 +78,7 @@ public interface ISysUserBizService {
      * @param request
      * @return
      */
-    Boolean resetPassword(ResetPasswordRequest request);
+    SysUserResetPasswordResponse resetPassword(ResetPasswordRequest request);
 
     /**
      * 修改密码
