@@ -23,6 +23,7 @@ import com.ddf.boot.quick.converter.mapper.SysUserConverterMapper;
 import com.ddf.boot.quick.event.SysUserLoginEvent;
 import com.ddf.boot.quick.helper.SysUserHelper;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
+import com.ddf.boot.quick.model.dto.SysUserRoleDTO;
 import com.ddf.boot.quick.model.dto.UserLoginHistoryDTO;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.model.request.LoginRequest;
@@ -88,7 +89,9 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         final CurrentUserResponse response = new CurrentUserResponse();
         if (Objects.nonNull(user)) {
             response.setBaseInfo(SysUserConverterMapper.INSTANCE.convert(user));
-            response.setAdmin(sysUserHelper.isAdmin());
+            final List<SysUserRoleDTO> roles = sysUserRoleService.getUserActiveRoleList(user.getUserId());
+            response.setRoles(roles);
+            response.setAdmin(roles.stream().anyMatch(val -> Objects.equals(val.getIsAdmin(), CommonLogic.TRUE.getLogic())));
         }
         return response;
     }

@@ -1,6 +1,9 @@
 package com.ddf.boot.quick.model.response;
 
 import com.ddf.boot.quick.model.dto.SysUserDTO;
+import com.ddf.boot.quick.model.dto.SysUserRoleDTO;
+import java.util.Collections;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -17,6 +20,11 @@ public class CurrentUserResponse {
      * 是否是超级管理员
      */
     private boolean admin;
+
+    /**
+     * 角色集合
+     */
+    private List<SysUserRoleDTO> roles = Collections.emptyList();
 
     /**
      * 用户基本信息
