@@ -248,6 +248,7 @@
                 <configuration>
                     <fork>true</fork>
                     <classifier>exec</classifier>
+                    <mainClass>com.ddf.boot.quick.QuickApplication</mainClass>
                 </configuration>
                 <executions>
                     <execution>
