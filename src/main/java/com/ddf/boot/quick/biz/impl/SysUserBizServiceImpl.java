@@ -208,12 +208,13 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         // 这里要根据实际情况提示信息， 如果是C端应用，最好模糊提示，不要明确说明是用户不存在
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.LOGIN_NAME_NOT_EXIST);
 
+        PreconditionUtil.checkArgument(
+                Objects.equals(SysUserStatusEnum.ACTIVE.getCode(), sysUser.getStatus()), BizCode.SYS_USER_DISABLE);
+
         final String password = request.getPassword();
         String secretPassword = SecureUtil.signWithHMac(password, sysUser.getUserId());
         sysUser = sysUserService.getByLoginNameAndPassword(loginName, secretPassword);
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.LOGIN_PASSWORD_ERROR);
-
-
 
         // 更新用户最后一次登录时间
         sysUser.setLastLoginTime(LocalDateTime.now());
