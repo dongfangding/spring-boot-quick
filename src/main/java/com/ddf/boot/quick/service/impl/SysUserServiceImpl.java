@@ -70,7 +70,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public List<SysUser> getByUserIds(List<String> userIds) {
         final LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
         wrapper.in(SysUser::getUserId, userIds)
-                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+                .eq(SysUser::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         return super.list(wrapper);
     }
 
@@ -108,7 +108,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(SysUser::getLoginName, loginName)
                 .eq(SysUser::getPassword, password)
-                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+                .eq(SysUser::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         return super.getOne(wrapper);
     }
 
@@ -122,7 +122,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public SysUser getByLoginName(String loginName) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(SysUser::getLoginName, loginName)
-                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+                .eq(SysUser::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         return super.getOne(wrapper);
     }
 
@@ -136,7 +136,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public SysUser getByMobile(String mobile) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(SysUser::getMobile, mobile)
-                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+                .eq(SysUser::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         return super.getOne(wrapper);
     }
 
@@ -150,7 +150,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public SysUser getByNickname(String nickname) {
         LambdaQueryWrapper<SysUser> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(SysUser::getNickname, nickname)
-                .eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+                .eq(SysUser::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         return super.getOne(wrapper);
     }
 
@@ -169,7 +169,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         if (StrUtil.isNotBlank(request.getNickname())) {
             wrapper.likeRight(SysUser::getNickname, request.getNickname());
         }
-        wrapper.eq(SysUser::getIsDel, CommonLogic.FALSE.getLogic());
+        wrapper.eq(SysUser::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         wrapper.orderByDesc(SysUser::getCreateTime);
         return PageUtil.ofMybatis(super.page(PageUtil.toMybatis(request), wrapper));
     }

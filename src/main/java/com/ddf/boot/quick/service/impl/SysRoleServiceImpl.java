@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ddf.boot.common.core.enumration.CommonLogic;
+import com.ddf.boot.common.core.model.BaseDomain;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.quick.mapper.SysRoleMapper;
@@ -61,7 +61,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     public SysRole getByName(String roleName) {
         final LambdaQueryWrapper<SysRole> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(SysRole::getRoleName, roleName)
-                .eq(SysRole::getIsDel, CommonLogic.FALSE.getLogic());
+                .eq(SysRole::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         return super.getOne(wrapper);
     }
 
@@ -77,7 +77,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         if (StrUtil.isNotBlank(request.getRoleName())) {
             wrapper.likeRight(SysRole::getRoleName, request.getRoleName());
         }
-        wrapper.eq(SysRole::getIsDel, CommonLogic.FALSE.getLogic());
+        wrapper.eq(SysRole::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         wrapper.orderByDesc(SysRole::getCreateTime);
         return PageUtil.ofMybatis(super.page(PageUtil.toMybatis(request), wrapper));
     }

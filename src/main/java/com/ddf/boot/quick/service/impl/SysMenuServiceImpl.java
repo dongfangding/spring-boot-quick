@@ -3,7 +3,7 @@ package com.ddf.boot.quick.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.ddf.boot.common.core.enumration.CommonLogic;
+import com.ddf.boot.common.core.model.BaseDomain;
 import com.ddf.boot.quick.mapper.SysMenuMapper;
 import com.ddf.boot.quick.model.entity.SysMenu;
 import com.ddf.boot.quick.service.ISysMenuService;
@@ -58,7 +58,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     public SysMenu getByMenuName(String menuName) {
         final LambdaQueryWrapper<SysMenu> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(SysMenu::getMenuName, menuName)
-                .eq(SysMenu::getIsDel, CommonLogic.FALSE.getLogic());
+                .eq(SysMenu::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         return getOne(wrapper);
     }
 
@@ -70,7 +70,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenu> listAll() {
         final LambdaQueryWrapper<SysMenu> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(SysMenu::getIsDel, CommonLogic.FALSE.getLogic());
+        wrapper.eq(SysMenu::getIsDel, BaseDomain.IS_DEL_LOGIC_VALID_VALUE);
         wrapper.orderByAsc(SysMenu::getSort);
         return list(wrapper);
     }

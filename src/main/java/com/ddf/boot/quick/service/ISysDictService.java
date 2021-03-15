@@ -2,6 +2,7 @@ package com.ddf.boot.quick.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.ddf.boot.quick.model.entity.SysDict;
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +14,11 @@ import com.ddf.boot.quick.model.entity.SysDict;
  */
 public interface ISysDictService extends IService<SysDict> {
 
+    /**
+     * 根据字典代码获取字典明细数据
+     *
+     * @param dictCode
+     * @return
+     */
+    List<SysDict> getDictByCode(String dictCode);
 }

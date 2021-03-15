@@ -154,7 +154,9 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
             PreconditionUtil.checkArgument(
                     Objects.equals(searchSysUser.getId(), request.getId()), BizCode.MOBILE_REPEAT);
         }
-        sysUserService.update(SysUserConverterMapper.INSTANCE.updateConvert(request));
+        final SysUser updateUser = SysUserConverterMapper.INSTANCE.updateConvert(request);
+        updateUser.setVersion(sysUser.getVersion());
+        sysUserService.update(updateUser);
 
         // 处理用户关联角色
         relativeUserRole(sysUser.getUserId(), request.getRoleIdList());
