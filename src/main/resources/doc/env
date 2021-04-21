@@ -25,3 +25,6 @@ rocketmq_name_server=localhost:9876
 
 # mongo
 mongodb_url=mongodb://user:password@localhost:27017/boot-quick?authSource=admin
+
+# xxl-job
+xxl_admin_addresses: http://localhost:8805
