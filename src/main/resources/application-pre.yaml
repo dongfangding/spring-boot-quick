@@ -29,6 +29,7 @@ mongodb_url: mongodb://user:pass@localhost:port/boot-quick?authSource=admin
 
 # xxl-job
 xxl_admin_addresses: http://127.0.0.1:8805
+xxl_admin_access_token: token
 
 spring:
   datasource:
@@ -242,7 +243,7 @@ elasticjob:
 
 xxl-job:
   adminAddresses: ${xxl_admin_addresses}
-  accessToken: xxl_develop # 访问token, 需要和xxl-job-admin里的配置一致
+  accessToken: ${xxl_admin_access_token} # 访问token, 需要和xxl-job-admin里的配置一致
   appName: auto # 以spring.application.name
   port: 0 # 自动获取
   logPath: /opt/services/xxl-job/logs/jobhandler # 日志目录

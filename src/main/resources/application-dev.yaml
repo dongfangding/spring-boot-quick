@@ -26,6 +26,7 @@ mongodb_url: mongodb://develop:password@www.snowball.fans:27017/boot-quick?authS
 
 # xxl-job
 xxl_admin_addresses: http://localhost:8805
+xxl_admin_access_token: token
 
 spring:
   datasource:
@@ -226,7 +227,7 @@ elasticjob:
 
 xxl-job:
   adminAddresses: ${xxl_admin_addresses}
-  accessToken: xxl_develop # 访问token, 需要和xxl-job-admin里的配置一致
+  accessToken: ${xxl_admin_access_token} # 访问token, 需要和xxl-job-admin里的配置一致
   appName: auto # 以spring.application.name
   logPath: /opt/services/xxl-job/logs/jobhandler # 日志目录
   logRetentionDays: 7 # 日志保留天数
