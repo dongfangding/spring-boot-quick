@@ -1,31 +1,31 @@
 # redis相关
-redis_host: www.snowball.fans
+redis_host: localhost
 redis_port: 6379
-redis_password: 123456
+redis_password: password
 
 # zookeeper地址,host:port, 多个用,隔开
-zk_addr: www.snowball.fans:2181,www.snowball.fans:2182,www.snowball.fans:2183
+zk_addr: localhost:2181,localhost:2182,localhost:2183
 
 # mysql
-mysql_host: www.snowball.fans
+mysql_host: localhost
 mysql_port: 3306
 mysql_db: boot-quick
-mysql_username: develop
-mysql_password: 12345678
+mysql_username: username
+mysql_password: password
 
 # rabbitmq相关
-rabbit_address: www.snowball.fans:5672
-rabbit_username: guest
-rabbit_password: guest
+rabbit_address: localhost:5672
+rabbit_username: username
+rabbit_password: password
 
 # rocket name-server地址
-rocketmq_name_server: www.snowball.fans:9876
+rocketmq_name_server: localhost:9876
 
 # mongo
-mongodb_url: mongodb://develop:Dongfang.ding_mongo@www.snowball.fans:27017/boot-quick?authSource=admin
+mongodb_url: mongodb://develop:password@www.snowball.fans:27017/boot-quick?authSource=admin
 
 # xxl-job
-xxl_admin_addresses: http://www.snowball.fans:8805
+xxl_admin_addresses: http://localhost:8805
 
 spring:
   datasource:

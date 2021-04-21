@@ -1,14 +1,16 @@
-# redis相关
-redis_host: localhost
+# redis单机
+redis_host: 127.0_0.1
 redis_port: 6379
 redis_password: password
+# redis集群
+redis_node: localhost:6371,localhost:6372,localhost:6373,localhost:6374,localhost:6375,localhost:6376
 
 # zookeeper地址,host:port, 多个用,隔开
 zk_addr: localhost:2181,localhost:2182,localhost:2183
 
 # mysql
 mysql_host: localhost
-mysql_port: 3306
+mysql_port: 9999
 mysql_db: boot-quick
 mysql_username: username
 mysql_password: password
@@ -18,14 +20,15 @@ rabbit_address: localhost:5672
 rabbit_username: username
 rabbit_password: password
 
+
 # rocket name-server地址
 rocketmq_name_server: localhost:9876
 
 # mongo
-mongodb_url: mongodb://develop:password@www.snowball.fans:27017/boot-quick?authSource=admin
+mongodb_url: mongodb://user:pass@localhost:port/boot-quick?authSource=admin
 
 # xxl-job
-xxl_admin_addresses: http://localhost:8805
+xxl_admin_addresses: http://127.0.0.1:8805
 
 spring:
   datasource:
@@ -74,56 +77,69 @@ spring:
     basename: exception/exception
     use-code-as-default-message: false
 
-  #  redis:
-  #    cluster:
-  #      max-redirects: 3
-  #      nodes: localhost:6601,localhost:6602,localhost:6603
-  #    database: 0
-  #    jedis:
-  #      pool:
-  #        max-active: 100
-  #        max-idle: 10
-  #        min-idle: 0
-  #        max-wait: 800ms
-  #    timeout: 1000ms
   redis:
+    cluster:
+      max-redirects: 3
+      nodes: ${redis_node}
+    password: ${redis_password}
     database: 0
     jedis:
       pool:
         max-active: 100
         max-idle: 10
         min-idle: 0
-        max-wait: 800ms
-    timeout: 1000ms
-    host: ${redis_host}
-    port: ${redis_port}
-    password: ${redis_password}
+        max-wait: 1000ms
+    timeout: 3000ms
     # org.redisson.spring.starter.RedissonProperties
     redisson:
       # org.redisson.config.Config
-      config:
-        # org.redisson.config.SingleServerConfig
-        singleServerConfig:
-          address: ${redis_host}:${redis_port}
-          # org.redisson.config.BaseConfig
-          password: ${redis_password}
-          idleConnectionTimeout: 10000
-          connectTimeout: 10000
-          timeout: 3000
-          retryAttempts: 3
-          retryInterval: 1500
-          subscriptionsPerConnection: 5
-          clientName: null
-          keepAlive: false
-          tcpNoDelay: false
-          # org.redisson.config.SingleServerConfig
-          subscriptionConnectionMinimumIdleSize: 1
-          subscriptionConnectionPoolSize: 50
-          pingConnectionInterval: 0
-        threads: 16
-        nettyThreads: 32
-        codec: org.redisson.codec.FstCodec
-        transportMode: "NIO"
+      clusterServersConfig:
+        idleConnectionTimeout: 10000
+        connectTimeout: 10000
+        timeout: 3000
+        retryAttempts: 3
+        retryInterval: 1500
+        failedSlaveReconnectionInterval: 3000
+        failedSlaveCheckInterval: 60000
+        password: null
+        subscriptionsPerConnection: 5
+        clientName: null
+        loadBalancer: org.redisson.connection.balancer.RoundRobinLoadBalancer
+        subscriptionConnectionMinimumIdleSize: 1
+        subscriptionConnectionPoolSize: 50
+        slaveConnectionMinimumIdleSize: 24
+        slaveConnectionPoolSize: 64
+        masterConnectionMinimumIdleSize: 24
+        masterConnectionPoolSize: 64
+        readMode: "SLAVE"
+        subscriptionMode: "SLAVE"
+        nodeAddresses:
+          - "redis://127.0.0.1:7004"
+          - "redis://127.0.0.1:7001"
+          - "redis://127.0.0.1:7000"
+        scanInterval: 1000
+        pingConnectionInterval: 0
+        keepAlive: false
+        tcpNoDelay: false
+      threads: 16
+      nettyThreads: 32
+      codec: org.redisson.codec.MarshallingCodec
+      transportMode: "NIO"
+
+
+
+  #  redis:
+  #    database: 0
+  #    jedis:
+  #      pool:
+  #        max-active: 100
+  #        max-idle: 10
+  #        min-idle: 0
+  #        max-wait: 1000ms
+  #    timeout: 3000ms
+  #    host: ${redis_host}
+  #    port: ${redis_port}
+  #    password: ${redis_password}
 
   mail:
     username: 1041765757@qq.com                # 用来验证授权的邮件用户名
@@ -228,8 +244,9 @@ xxl-job:
   adminAddresses: ${xxl_admin_addresses}
   accessToken: xxl_develop # 访问token, 需要和xxl-job-admin里的配置一致
   appName: auto # 以spring.application.name
+  port: 0 # 自动获取
   logPath: /opt/services/xxl-job/logs/jobhandler # 日志目录
-  logRetentionDays: 7 # 日志保留天数
+  logRetentionDays: 14 # 日志保留天数
 
 customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   global-properties:
@@ -240,9 +257,9 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
   authentication:
-    reset-password: 123456
-    white-login-name-list:
+    white-login-name-list: # 登录名白名单列表，不进行验证码校验
       - admin
+    reset-password: 123456
   message_secret: false # 是否加密传输websocket消息数据
 
   zookeeper:
@@ -281,9 +298,11 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
     expiredMinute: 1080  # jwt token过期时间，单位分钟
     refreshTokenMinute: 10  # 在jwt token有效时间剩余达到了这个时间（分钟），如果用户在线（即调用了任意接口）则服务端主动刷新用户token并返回，需要前端配合处理重新替换用户token
     ignores: ## 接口用户认证请求拦截忽略路径
-      - path: /v2/**
+      - path: /sysUser/generateCaptcha
+      - path: /sysUser/loginByPassword
+      - path: /v2/*
       - path: /swagger-ui.html
-      - path: /swagger-ui.html/**
+      - path: /swagger-ui.html/*
       - path: /swagger-resources/**
       - path: /swagger/**
       - path: /webjars/**
@@ -291,14 +310,13 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - path: /csrf
       - path: /app.js
       - path: /websocket.html
-      - path: /js/**
-      - path: /ws/**
-      - path: /pay-ws/**
+      - path: /websocket.html
+      - path: /js/*
+      - path: /ws/*
+      - path: /pay-ws/*
       - path: /heartCheck.txt
       - path: /index.html
       - path: /favicon.ico
-      - path: /sysUser/generateCaptcha
-      - path: /sysUser/loginByPassword
   rsa:
     primaryKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIPT0VbUrdYMIX//tgHgaMh9PUtqG6R/lNOvIl9LR6Mbc5J03qjvLlu2IifHFbFonm6XguZG4LZ4H3hRkX9fC4qSaQR1vZBOvS1aNLRyvMZudISJygiag1qJOQMEwrb8JUZkP7NMpBNjYpmF344+25Il3axRnd1oVR4Hhp4tqEe1AgMBAAECgYBYv0i3BAbjitcirKuDJ+hi0K1rD8v8OkefGtAxByT7EYgEmNktMZgr9bmYvdZE0QGXwjhFfoHZVZUaEw+4h+vkJrXxv2FQHqTSL8fDeL4jggNO3YYpLFoq9bvwWeqDJ3vvVkJEbNycfoE6iXv91mUM3hb7ie1NlvWYOJtiAxf0AQJBAOzyLcea/8Au8nVnJrVstpVaItkib7pT/9w2BDAe821JTXsmUCGw47LpYHZos6G8pR9Hz8VRaj99z8Z5xa2fe2ECQQCObaUe0n67ddr3OExVF9LyFVEdGzvuOwJjQi6/URvhrQDV31kld2z9lqV6p2l6JpDpmQIwPsJTS7qbLLhjGqDVAkEAz+Gh3I/Wdiw6OFqpkV6xydLs5AfccmMkBXW2sulUtLstKTBx+T0SaHNsWDZ/8xRo4krEtN87Ej01P3KyxiM3wQJAaJirF5ycR40AtmeY3zD00KXJAOgcNhMN6NkUvZmSMUS9BVPWAwbWetEkS5QgiP1DlNmyWr3sNgG6U/UeoGFQ1QJAZief8zE0C5jCmWf7VwfAJCSd+r+BVcSCpUxskc3gnhfG6j+ImAirhXIY+ld8rArmGl4UPkQfapBphUJslWLpLg==
     publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCD09FW1K3WDCF//7YB4GjIfT1Lahukf5TTryJfS0ejG3OSdN6o7y5btiInxxWxaJ5ul4LmRuC2eB94UZF/XwuKkmkEdb2QTr0tWjS0crzGbnSEicoImoNaiTkDBMK2/CVGZD+zTKQTY2KZhd+OPtuSJd2sUZ3daFUeB4aeLahHtQIDAQAB
@@ -320,3 +338,4 @@ logging:
     #    com.ddf.boot.quick.mapper: debug   因为用了sql插件，这里可以先注释掉
     com.ddf.boot.common.mq: debug
     com.ddf.boot.netty.broker: debug
+
