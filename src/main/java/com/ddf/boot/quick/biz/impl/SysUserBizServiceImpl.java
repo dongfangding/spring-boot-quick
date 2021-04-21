@@ -261,7 +261,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     public PageResult<SysUserDTO> pageList(SysUserPageRequest request) {
         final PageResult<SysUser> result = sysUserService.pageList(request);
         if (result.isEmpty()) {
-            return PageUtil.empty();
+            return PageUtil.empty(request);
         }
         final PageResult<SysUserDTO> responsePageResult = PageUtil.convertPageResult(
                 result, SysUserConverterMapper.INSTANCE::convert);

@@ -111,7 +111,7 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
     public PageResult<SysRoleDTO> pageList(SysRolePageRequest request) {
         final PageResult<SysRole> result = sysRoleService.pageList(request);
         if (result.isEmpty()) {
-            return PageUtil.empty();
+            return PageUtil.empty(request);
         }
         final PageResult<SysRoleDTO> responsePageResult = PageUtil.convertPageResult(
                 result, SysRoleConvertMapper.INSTANCE::convert);
