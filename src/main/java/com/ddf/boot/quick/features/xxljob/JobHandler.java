@@ -34,6 +34,8 @@ public class JobHandler {
     @XxlJob(value = "helloUser")
     public ReturnT<String> helloUser(String param) throws Exception {
         final SysUserPageRequest request = new SysUserPageRequest();
+        request.setPageNum(1);
+        request.setPageSize(20);
         final PageResult<SysUserDTO> result = sysUserBizService.pageList(request);
         if (CollectionUtil.isEmpty(result.getContent())) {
             // 故意演示错误日志记录
