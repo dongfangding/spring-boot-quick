@@ -29,3 +29,27 @@ mongodb_url=mongodb://user:password@localhost:27017/boot-quick?authSource=admin
 # xxl-job
 xxl_admin_addresses=http://localhost:8805
 xxl_admin_access_token=token
+
+## qq邮箱服务
+mail_server_username=username
+mail_server_password=password
+
+## oss
+oss_endpoint=wait_fill
+oss_accessKeyId=wait_fill
+oss_accessKeySecret=wait_fill
+oss_secret=false
+oss_stsEndpoint=wait_fill
+oss_roleArn=wait_fill
+
+# jwt
+jwt_secret=wait_fill
+
+# 动态RSA
+rsa_primaryKey=wait_fill
+rsa_publicKey=wait_fill
+
+## druid
+druid_stat_enable=false
+druid_state_username=wait_fill
+druid_state_password=wait_fill

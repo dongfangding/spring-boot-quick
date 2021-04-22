@@ -28,6 +28,31 @@ mongodb_url: mongodb://develop:password@www.snowball.fans:27017/boot-quick?authS
 xxl_admin_addresses: http://localhost:8805
 xxl_admin_access_token: token
 
+## qq邮箱服务
+mail_server_username: username
+mail_server_password: password
+
+## oss
+oss_endpoint: wait_fill
+oss_accessKeyId: wait_fill
+oss_accessKeySecret: wait_fill
+oss_secret: false
+oss_stsEndpoint: wait_fill
+oss_roleArn: wait_fill
+
+# jwt
+jwt_secret: wait_fill
+
+# 动态RSA
+rsa_primaryKey: wait_fill
+rsa_publicKey: wait_fill
+
+## druid
+druid_stat_enable: false
+druid_state_username: wait_fill
+druid_state_password: wait_fill
+
+
 spring:
   datasource:
     initialization-mode: ALWAYS
@@ -127,8 +152,8 @@ spring:
         transportMode: "NIO"
 
   mail:
-    username: 1041765757@qq.com                # 用来验证授权的邮件用户名
-    password: gotartrfwuytbcji                # 根据QQ邮箱设置-账户里生成的第三方登陆授权码，可用来代替密码登陆
+    username: ${mail_server_username}                # 用来验证授权的邮件用户名
+    password: ${mail_server_password}               # 根据QQ邮箱设置-账户里生成的第三方登陆授权码，可用来代替密码登陆
     host: smtp.qq.com                         # 邮件服务器类型
     properties.mail.smtp.ssl.enable: true # 用以支持授权码登陆
 
@@ -253,13 +278,13 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   ext:
     ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
     oss:
-      endpoint: oss-cn-shanghai.aliyuncs.com
-      accessKeyId: d86b0b8b1c525ee7c4ab54592902baee0fdbba93e20bff5a1016608b9c41053c
-      accessKeySecret: 57a8e5c1c3280f3e72c754f4b5a2e326e663ca94414f7ec13a67c2fafd9886ff
-      secret: true
-      stsEndpoint: sts.cn-shanghai.aliyuncs.com
-      roleArn: acs:ram::1863283291831992:role/ramosssts
-      roleSessionName: boot-quick
+      endpoint: ${oss_endpoint}
+      accessKeyId: ${oss_accessKeyId}
+      accessKeySecret: ${oss_accessKeySecret}
+      secret: ${oss_secret}
+      stsEndpoint: ${oss_stsEndpoint}
+      roleArn: ${oss_roleArn}
+      roleSessionName: ${spring.application.name}
       durationSeconds: 1800
       buckets:
         - bucketName: ddf-private
@@ -269,16 +294,16 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
     sms:
       endpoint: dysmsapi.aliyuncs.com
       protocol: HTTP
-      secretAccessKey: true
-      accessKeyId: d86b0b8b1c525ee7c4ab54592902baee0fdbba93e20bff5a1016608b9c41053c
-      accessKeySecret: 57a8e5c1c3280f3e72c754f4b5a2e326e663ca94414f7ec13a67c2fafd9886ff
+      secretAccessKey: ${oss_secret}
+      accessKeyId: ${oss_accessKeyId}
+      accessKeySecret: ${oss_accessKeySecret}
       sinaName: ABC商城
       templateCode: SMS_204455240
       useRandomCode: true
 
 
   jwt:
-    secret: WoshiyigefenshuajiangfenshuabenlingqiangwoyaobanaxinfangzishuadegengpiaoliangshualefangziyoushuangqiangaiyawodexiaobizibianyabianleYang
+    secret: ${jwt_secret}
     expiredMinute: 1080  # jwt token过期时间，单位分钟
     refreshTokenMinute: 10  # 在jwt token有效时间剩余达到了这个时间（分钟），如果用户在线（即调用了任意接口）则服务端主动刷新用户token并返回，需要前端配合处理重新替换用户token
     ignores: ## 接口用户认证请求拦截忽略路径
@@ -301,9 +326,8 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - path: /sysUser/generateCaptcha
       - path: /sysUser/loginByPassword
   rsa:
-    primaryKey: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIPT0VbUrdYMIX//tgHgaMh9PUtqG6R/lNOvIl9LR6Mbc5J03qjvLlu2IifHFbFonm6XguZG4LZ4H3hRkX9fC4qSaQR1vZBOvS1aNLRyvMZudISJygiag1qJOQMEwrb8JUZkP7NMpBNjYpmF344+25Il3axRnd1oVR4Hhp4tqEe1AgMBAAECgYBYv0i3BAbjitcirKuDJ+hi0K1rD8v8OkefGtAxByT7EYgEmNktMZgr9bmYvdZE0QGXwjhFfoHZVZUaEw+4h+vkJrXxv2FQHqTSL8fDeL4jggNO3YYpLFoq9bvwWeqDJ3vvVkJEbNycfoE6iXv91mUM3hb7ie1NlvWYOJtiAxf0AQJBAOzyLcea/8Au8nVnJrVstpVaItkib7pT/9w2BDAe821JTXsmUCGw47LpYHZos6G8pR9Hz8VRaj99z8Z5xa2fe2ECQQCObaUe0n67ddr3OExVF9LyFVEdGzvuOwJjQi6/URvhrQDV31kld2z9lqV6p2l6JpDpmQIwPsJTS7qbLLhjGqDVAkEAz+Gh3I/Wdiw6OFqpkV6xydLs5AfccmMkBXW2sulUtLstKTBx+T0SaHNsWDZ/8xRo4krEtN87Ej01P3KyxiM3wQJAaJirF5ycR40AtmeY3zD00KXJAOgcNhMN6NkUvZmSMUS9BVPWAwbWetEkS5QgiP1DlNmyWr3sNgG6U/UeoGFQ1QJAZief8zE0C5jCmWf7VwfAJCSd+r+BVcSCpUxskc3gnhfG6j+ImAirhXIY+ld8rArmGl4UPkQfapBphUJslWLpLg==
-    publicKey: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCD09FW1K3WDCF//7YB4GjIfT1Lahukf5TTryJfS0ejG3OSdN6o7y5btiInxxWxaJ5ul4LmRuC2eB94UZF/XwuKkmkEdb2QTr0tWjS0crzGbnSEicoImoNaiTkDBMK2/CVGZD+zTKQTY2KZhd+OPtuSJd2sUZ3daFUeB4aeLahHtQIDAQAB
-
+    primaryKey: ${rsa_primaryKey}
+    publicKey: ${rsa_publicKey}
 
 leaf:
   name: com.sankuai.leaf.opensource.snowflake
