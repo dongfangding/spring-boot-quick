@@ -78,69 +78,17 @@ spring:
     basename: exception/exception
     use-code-as-default-message: false
 
+  # 使用RedisProperties初始化redisson客户端
   redis:
     cluster:
       max-redirects: 3
       nodes: ${redis_node}
+    timeout: 3000ms
     password: ${redis_password}
     database: 0
-    jedis:
-      pool:
-        max-active: 100
-        max-idle: 10
-        min-idle: 0
-        max-wait: 1000ms
-    timeout: 3000ms
-    # org.redisson.spring.starter.RedissonProperties
     redisson:
-      # org.redisson.config.Config
-      clusterServersConfig:
-        idleConnectionTimeout: 10000
-        connectTimeout: 10000
-        timeout: 3000
-        retryAttempts: 3
-        retryInterval: 1500
-        failedSlaveReconnectionInterval: 3000
-        failedSlaveCheckInterval: 60000
-        password: null
-        subscriptionsPerConnection: 5
-        clientName: null
-        loadBalancer: org.redisson.connection.balancer.RoundRobinLoadBalancer
-        subscriptionConnectionMinimumIdleSize: 1
-        subscriptionConnectionPoolSize: 50
-        slaveConnectionMinimumIdleSize: 24
-        slaveConnectionPoolSize: 64
-        masterConnectionMinimumIdleSize: 24
-        masterConnectionPoolSize: 64
-        readMode: "SLAVE"
-        subscriptionMode: "SLAVE"
-        nodeAddresses:
-          - "redis://127.0.0.1:7004"
-          - "redis://127.0.0.1:7001"
-          - "redis://127.0.0.1:7000"
-        scanInterval: 1000
-        pingConnectionInterval: 0
-        keepAlive: false
-        tcpNoDelay: false
-      threads: 16
-      nettyThreads: 32
-      codec: org.redisson.codec.MarshallingCodec
-      transportMode: "NIO"
-
-
-
-  #  redis:
-  #    database: 0
-  #    jedis:
-  #      pool:
-  #        max-active: 100
-  #        max-idle: 10
-  #        min-idle: 0
-  #        max-wait: 1000ms
-  #    timeout: 3000ms
-  #    host: ${redis_host}
-  #    port: ${redis_port}
-  #    password: ${redis_password}
+      # com.ddf.boot.common.redis.config.RedisCustomizeAutoConfiguration
+      codec: org.redisson.codec.JsonJacksonCodec
 
   mail:
     username: 1041765757@qq.com                # 用来验证授权的邮件用户名

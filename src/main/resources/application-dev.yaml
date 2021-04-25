@@ -99,56 +99,16 @@ spring:
     basename: exception/exception
     use-code-as-default-message: false
 
-  #  redis:
-  #    cluster:
-  #      max-redirects: 3
-  #      nodes: localhost:6601,localhost:6602,localhost:6603
-  #    database: 0
-  #    jedis:
-  #      pool:
-  #        max-active: 100
-  #        max-idle: 10
-  #        min-idle: 0
-  #        max-wait: 800ms
-  #    timeout: 1000ms
+  # 使用RedisProperties初始化redisson客户端
   redis:
     database: 0
-    jedis:
-      pool:
-        max-active: 100
-        max-idle: 10
-        min-idle: 0
-        max-wait: 800ms
-    timeout: 1000ms
+    timeout: 3000ms
     host: ${redis_host}
     port: ${redis_port}
     password: ${redis_password}
-    # org.redisson.spring.starter.RedissonProperties
     redisson:
-      # org.redisson.config.Config
-      config:
-        # org.redisson.config.SingleServerConfig
-        singleServerConfig:
-          address: ${redis_host}:${redis_port}
-          # org.redisson.config.BaseConfig
-          password: ${redis_password}
-          idleConnectionTimeout: 10000
-          connectTimeout: 10000
-          timeout: 3000
-          retryAttempts: 3
-          retryInterval: 1500
-          subscriptionsPerConnection: 5
-          clientName: null
-          keepAlive: false
-          tcpNoDelay: false
-          # org.redisson.config.SingleServerConfig
-          subscriptionConnectionMinimumIdleSize: 1
-          subscriptionConnectionPoolSize: 50
-          pingConnectionInterval: 0
-        threads: 16
-        nettyThreads: 32
-        codec: org.redisson.codec.FstCodec
-        transportMode: "NIO"
+      # com.ddf.boot.common.redis.config.RedisCustomizeAutoConfiguration
+      codec: org.redisson.codec.JsonJacksonCodec
 
   mail:
     username: 1041765757@qq.com                # 用来验证授权的邮件用户名
