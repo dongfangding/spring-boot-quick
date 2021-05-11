@@ -80,6 +80,7 @@ function start() {
 function restart() {
     stop
     start
+    healthCheck
 }
 
 # 健康检查
