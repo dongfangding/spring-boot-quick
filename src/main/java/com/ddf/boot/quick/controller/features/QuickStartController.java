@@ -50,6 +50,17 @@ public class QuickStartController {
 
 
     /**
+     * 快速测试，空接口，可以用这个接口和业务接口的压测结果对比
+     *
+     * @return
+     */
+    @GetMapping("quickTest")
+    public Boolean quickTest() {
+        return Boolean.TRUE;
+    }
+
+
+    /**
      * 异常演示
      *
      * @return

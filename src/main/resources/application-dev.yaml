@@ -284,6 +284,7 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - path: /favicon.ico
       - path: /sysUser/generateCaptcha
       - path: /sysUser/loginByPassword
+      - path: /quick-start/quickTest
   rsa:
     primaryKey: ${rsa_primaryKey}
     publicKey: ${rsa_publicKey}
