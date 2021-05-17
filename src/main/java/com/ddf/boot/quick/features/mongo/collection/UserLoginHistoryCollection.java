@@ -4,6 +4,8 @@ import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.experimental.Accessors;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,6 +18,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 @Data
 @Accessors(chain = true)
+@CompoundIndexes({
+        // name：索引名称 def：字段(1正序 -1倒序) unique：是否唯一索引
+        @CompoundIndex(name = "login_name_time", def = "{loginName:1, loginTime:-1}", unique = false)
+})
 public class UserLoginHistoryCollection {
 
     @Id
