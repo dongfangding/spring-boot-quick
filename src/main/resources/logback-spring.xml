@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration scan="true">
     <springProperty scope="context" name="projectName" source="spring.application.name"/>
-    <property name="log.directory" value="./logs/"/>
+    <property name="log.directory" value="/data/log"/>
     <property name="log.charset" value="UTF-8"/>
     <property name="log.maxHistory" value="30"/>
     <property name="log.error.log.level" value="WARN"/>

@@ -3,6 +3,7 @@ package com.ddf.boot.quick.features.forkjoin.batchinsert;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ForkJoinPool;
+import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -62,10 +63,35 @@ public class BatchInsertActionExample {
             }
         }
 
+        executeSql.parallelStream().forEach((val) -> jdbcTemplate.execute(val));
 
         ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
         final ActionDatasource task = new ActionDatasource(jdbcTemplate, executeSql);
         final BatchInsertAction action = new BatchInsertAction(task,0L, 10000, 1000);
         forkJoinPool.invoke(action);
+    }
+
+    public static void main(String[] args) {
+        List<String> list = Lists.newArrayList("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+        long start = System.currentTimeMillis();
+        for (String s : list) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("s = " + s);
+        }
+        System.out.println("传统耗时: " + (System.currentTimeMillis() - start));
+        start = System.currentTimeMillis();
+        list.parallelStream().forEach(v -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(Thread.currentThread().getName() + ":" + v);
+        });
+        System.out.println("并行耗时: " + (System.currentTimeMillis() - start));
     }
 }
