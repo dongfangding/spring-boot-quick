@@ -172,6 +172,7 @@ rocketmq:
 distributed:
   lock:
     zookeeper:
+      enable: true
       root: /distributed_lock
       connectString: ${zk_addr}
 
