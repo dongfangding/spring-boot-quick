@@ -3,7 +3,6 @@ package com.ddf.boot.quick.controller.business;
 import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
 import com.ddf.boot.common.core.util.UserContextUtil;
-import com.ddf.boot.quick.biz.ICommonBizService;
 import com.ddf.boot.quick.biz.ISysMenuBizService;
 import com.ddf.boot.quick.biz.ISysRoleBizService;
 import com.ddf.boot.quick.biz.ISysRoleMenuBizService;
@@ -11,7 +10,6 @@ import com.ddf.boot.quick.biz.ISysUserBizService;
 import com.ddf.boot.quick.model.dto.SysMenuDTO;
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
-import com.ddf.boot.quick.model.request.CaptchaRequest;
 import com.ddf.boot.quick.model.request.LoginRequest;
 import com.ddf.boot.quick.model.request.ResetPasswordRequest;
 import com.ddf.boot.quick.model.request.SysMenuCreateRequest;
@@ -27,12 +25,14 @@ import com.ddf.boot.quick.model.request.SysUserUpdatePasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.request.SysUserUploadAvatarRequest;
 import com.ddf.boot.quick.model.response.ActiveSwitchResponse;
-import com.ddf.boot.quick.model.response.CaptchaResponse;
 import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
 import com.ddf.boot.quick.model.response.SysUserDetailResponse;
 import com.ddf.boot.quick.model.response.SysUserResetPasswordResponse;
+import com.ddf.common.captcha.helper.CaptchaHelper;
+import com.ddf.common.captcha.model.CaptchaRequest;
+import com.ddf.common.captcha.model.CaptchaResult;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,12 +59,11 @@ public class AdminController {
 
     private final ISysRoleBizService sysRoleBizService;
 
-    private final ICommonBizService commonBizService;
-
     private final ISysUserBizService sysUserBizService;
 
     private final ISysRoleMenuBizService sysRoleMenuBizService;
 
+    private final CaptchaHelper captchaHelper;
 
     /**
      * 生成验证码
@@ -73,8 +72,8 @@ public class AdminController {
      * @return
      */
     @PostMapping("sysUser/generateCaptcha")
-    public CaptchaResponse generateCaptcha(@RequestBody @Validated CaptchaRequest request) {
-        return commonBizService.generateCaptcha(request);
+    public CaptchaResult generateCaptcha(@RequestBody @Validated CaptchaRequest request) {
+        return captchaHelper.generate(request);
     }
 
     /**
