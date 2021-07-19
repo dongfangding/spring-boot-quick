@@ -1,7 +1,6 @@
 package com.ddf.boot.quick;
 
 import com.ddf.boot.common.core.logaccess.EnableLogAspect;
-import com.ddf.boot.common.jwt.config.EnableJwt;
 import com.ddf.boot.common.limit.ratelimit.annotation.EnableRateLimit;
 import com.ddf.boot.common.limit.repeatable.annotation.EnableRepeatable;
 import com.ddf.boot.common.limit.repeatable.validator.RedisRepeatableValidator;
@@ -21,7 +20,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @SpringBootApplication(exclude = {ElasticJobLiteAutoConfiguration.class})
 @ComponentScan(value = "com.ddf.boot")
 @MapperScan(basePackages = {"com.ddf.boot.quick.mapper"})
-@EnableJwt
+//@EnableJwt
 @EnableLogAspect(slowTime = 3000)
 @EnableMongoRepositories("com.ddf.boot.quick.features.mongo.repository")
 @EnableRepeatable(globalValidator = RedisRepeatableValidator.BEAN_NAME)
@@ -41,6 +40,7 @@ public class QuickApplication {
  * 3. 登录的验证码验证有问题
  * 4. 考虑由服务端下发客户端唯一标识号， 然后全局管理，如果不存在， 则不处理请求
  * 5. 登录时如果密码和默认密码一致，强制修改密码，不允许登录， 而且这个要在全局拦截器里做，避免绕过登录接口请求
+ * 6. 如果一个应用里有多个中间件实例，如何处理？现在好多starter全部都无法适配了
  *
  *
  *

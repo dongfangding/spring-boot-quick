@@ -144,6 +144,15 @@ spring:
       ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
       messageSecret: false
 
+  distributed:
+    lock:
+      zookeeper:
+        enable: true
+        root: /distributed_lock
+        connectString: ${zk_addr}
+      redis:
+        enable: true
+
 #  rabbitmq:
 #    addresses: localhost:5672
 #    username: root

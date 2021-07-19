@@ -139,12 +139,6 @@ spring:
       uri: ${mongodb_url}
       autoIndexCreation: true
 
-  websocket:
-    properties:
-      handshakeTokenSecret: true
-      ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
-      messageSecret: false
-
 #  rabbitmq:
 #    addresses: localhost:5672
 #    username: root
@@ -168,13 +162,6 @@ rocketmq:
     group: boot-quick-producer-group
     send-message-timeout: 10000
     retryNextServer: true
-
-distributed:
-  lock:
-    zookeeper:
-      enable: true
-      root: /distributed_lock
-      connectString: ${zk_addr}
 
 elasticjob:
   reg-center:
@@ -262,6 +249,20 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       templateCode: SMS_204455240
       useRandomCode: true
 
+  websocket:
+    properties:
+      handshakeTokenSecret: true
+      ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
+      messageSecret: false
+
+  distributed:
+    lock:
+      zookeeper:
+        enable: true
+        root: /distributed_lock
+        connectString: ${zk_addr}
+      redis:
+        enable: true
 
   jwt:
     secret: ${jwt_secret}

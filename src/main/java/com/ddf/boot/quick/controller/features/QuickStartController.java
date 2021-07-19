@@ -7,21 +7,28 @@ import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
 import com.ddf.boot.common.lock.DistributedLock;
 import com.ddf.boot.common.lock.exception.LockingAcquireException;
 import com.ddf.boot.common.lock.exception.LockingReleaseException;
+import com.ddf.boot.common.lock.redis.impl.RedisDistributedLock;
+import com.ddf.boot.common.lock.zk.impl.ZookeeperDistributedLock;
+import com.ddf.boot.common.redis.ext.RedisBloomFilter;
+import com.ddf.boot.common.redis.ext.RedisTopic;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
 import com.ddf.boot.common.websocket.model.MessageRequest;
 import com.ddf.boot.common.websocket.model.MessageResponse;
 import com.ddf.boot.common.websocket.service.WsMessageService;
 import com.ddf.boot.quick.common.redis.RedisRequestDefinition;
+import com.ddf.boot.quick.model.dto.PublishUniqueNameDTO;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -45,8 +52,18 @@ public class QuickStartController {
 
     private final StringRedisTemplate stringRedisTemplate;
 
-    @Resource(name = "zookeeperDistributedLock")
-    private DistributedLock distributedLock;
+    private final RedisBloomFilter<String> uniqueNameBloomFilter;
+
+    private final RedisTopic addUniqueTopic;
+
+    public static Integer SHARD_INT = 0;
+
+    @Autowired(required = false)
+    @Qualifier(value = ZookeeperDistributedLock.BEAN_NAME)
+    private DistributedLock zookeeperDistributedLock;
+    @Autowired(required = false)
+    @Qualifier(value = RedisDistributedLock.BEAN_NAME)
+    private DistributedLock redisDistributedLock;
 
 
     /**
@@ -89,18 +106,50 @@ public class QuickStartController {
      * @throws LockingReleaseException
      * @throws LockingAcquireException
      */
-    @GetMapping("distributedLock")
-    public Boolean distributedLock() throws LockingReleaseException, LockingAcquireException {
-        distributedLock.lockWork("/distributedLock_demo", 10, TimeUnit.SECONDS, () -> {
+    @GetMapping("zkDistributedLock")
+    public Boolean distributedLock() throws Exception {
+        return zookeeperDistributedLock.lockWork("/zk_distributedLock_demo", 1, TimeUnit.SECONDS, () -> {
             try {
-                log.info("我获取到了锁，下面开始执行任务。。。。。。。。。。。。。");
+                log.info("我获取到了zk锁，下面开始执行任务。。。。。。。。。。。。。");
+                SHARD_INT ++;
                 // 通过获取锁之后的睡眠，然后将请求发给第二个实例，进行演示，看程序是否会阻塞
                 Thread.sleep(10000);
+                log.info("共享int变量的值 = {}", SHARD_INT);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            return Boolean.TRUE;
+        }, () -> {
+            log.error("获取zk分布式锁失败");
+            return Boolean.FALSE;
         });
-        return Boolean.TRUE;
+    }
+
+
+    /**
+     * 基于redis的分布式锁的演示
+     *
+     * @return
+     * @throws LockingReleaseException
+     * @throws LockingAcquireException
+     */
+    @GetMapping("redisDistributedLock")
+    public Boolean redisDistributedLock() throws Exception {
+        return redisDistributedLock.lockWork("/redis_distributedLock_demo", () -> {
+            try {
+                log.info("我获取到了redis锁，下面开始执行任务。。。。。。。。。。。。。");
+                SHARD_INT ++;
+                // 通过获取锁之后的睡眠，然后将请求发给第二个实例，进行演示，看程序是否会阻塞
+                Thread.sleep(35000);
+                log.info("共享int变量的值 = {}", SHARD_INT);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return Boolean.TRUE;
+        }, () -> {
+            log.error("获取zk分布式锁失败");
+            return Boolean.FALSE;
+        });
     }
 
 
@@ -159,5 +208,27 @@ public class QuickStartController {
         stringRedisTemplate.opsForZSet().add("zset_testRedisCluster", "testRedisCluster", System.currentTimeMillis());
         stringRedisTemplate.opsForSet().add("set_testRedisCluster", "testRedisCluster");
         return Boolean.TRUE;
+    }
+
+
+    /**
+     * 测试布隆过滤器
+     *
+     * @param uniqueName
+     * @return
+     */
+    @PostMapping("addUniqueName")
+    public Boolean addUniqueName(@RequestParam String uniqueName) {
+        if (!uniqueNameBloomFilter.contains(uniqueName)) {
+            final boolean add = uniqueNameBloomFilter.add(uniqueName);
+            if (add) {
+                addUniqueTopic.publish(PublishUniqueNameDTO.builder()
+                        .uniqueName(uniqueName)
+                        .bizTime(new Date())
+                        .build());
+            }
+            return add;
+        }
+        return Boolean.FALSE;
     }
 }
