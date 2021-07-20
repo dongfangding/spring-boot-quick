@@ -17,7 +17,9 @@ import com.ddf.boot.common.websocket.model.MessageResponse;
 import com.ddf.boot.common.websocket.service.WsMessageService;
 import com.ddf.boot.quick.common.redis.RedisRequestDefinition;
 import com.ddf.boot.quick.model.dto.PublishUniqueNameDTO;
+import com.ddf.common.ids.service.api.IdsApi;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -56,6 +58,8 @@ public class QuickStartController {
 
     private final RedisTopic addUniqueTopic;
 
+    private final IdsApi idsApi;
+
     public static Integer SHARD_INT = 0;
 
     @Autowired(required = false)
@@ -93,11 +97,30 @@ public class QuickStartController {
      *
      * @return
      */
-    @GetMapping("getSnowflakeId")
-    public Long getSnowflakeId() {
+    @GetMapping("getLeafSnowflakeId")
+    public Long getLeafSnowflakeId() {
         return snowflakeServiceHelper.getLongId();
     }
 
+    /**
+     * 基于zk的雪花id的使用方式
+     *
+     * @return
+     */
+    @GetMapping("getSnowflakeId")
+    public String getSnowflakeId() {
+        return idsApi.getSnowflakeId();
+    }
+
+    /**
+     * 基于zk的雪花id的使用方式
+     *
+     * @return
+     */
+    @GetMapping("getSnowflakeIds")
+    public List<String> getSnowflakeIds(@RequestParam Integer number) {
+        return idsApi.getSnowflakeIds(number);
+    }
 
     /**
      * 基于zk的分布式锁的演示

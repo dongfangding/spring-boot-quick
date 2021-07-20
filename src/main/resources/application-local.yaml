@@ -263,6 +263,10 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
         connectString: ${zk_addr}
       redis:
         enable: true
+  ids:
+    snowflake:
+      zkAddress: ${zk_addr}
+      zkPort: 2181
 
   jwt:
     secret: ${jwt_secret}
