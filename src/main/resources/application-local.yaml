@@ -264,9 +264,9 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       redis:
         enable: true
   ids:
-    snowflake:
-      zkAddress: ${zk_addr}
-      zkPort: 2181
+    zkAddress: ${zk_addr}
+    zkPort: 2181
+    segmentEnable: true
 
   jwt:
     secret: ${jwt_secret}

@@ -56,15 +56,10 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-ids</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-commom-ids-service</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
+
 
 <!--        <dependency>-->
 <!--            <groupId>com.ddf.common</groupId>-->

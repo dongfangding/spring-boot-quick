@@ -133,6 +133,11 @@ spring:
       redis:
         enable: true
 
+  ids:
+    zkAddress: ${zk_addr}
+    zkPort: 2181
+    segmentEnable: true
+
 #  rabbitmq:
 #    addresses: localhost:5672
 #    username: root

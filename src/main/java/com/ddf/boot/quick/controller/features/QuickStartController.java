@@ -3,7 +3,6 @@ package com.ddf.boot.quick.controller.features;
 import com.ddf.boot.common.core.exception200.BusinessException;
 import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
 import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
 import com.ddf.boot.common.lock.DistributedLock;
 import com.ddf.boot.common.lock.exception.LockingAcquireException;
 import com.ddf.boot.common.lock.exception.LockingReleaseException;
@@ -17,9 +16,7 @@ import com.ddf.boot.common.websocket.model.MessageResponse;
 import com.ddf.boot.common.websocket.service.WsMessageService;
 import com.ddf.boot.quick.common.redis.RedisRequestDefinition;
 import com.ddf.boot.quick.model.dto.PublishUniqueNameDTO;
-import com.ddf.common.ids.service.api.IdsApi;
 import java.util.Date;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,8 +43,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class QuickStartController {
 
-    private final SnowflakeServiceHelper snowflakeServiceHelper;
-
     private final WsMessageService wsMessageService;
 
     private final RedisTemplateHelper redisTemplateHelper;
@@ -57,8 +52,6 @@ public class QuickStartController {
     private final RedisBloomFilter<String> uniqueNameBloomFilter;
 
     private final RedisTopic addUniqueTopic;
-
-    private final IdsApi idsApi;
 
     public static Integer SHARD_INT = 0;
 
@@ -89,37 +82,6 @@ public class QuickStartController {
     @GetMapping("exceptionDemo")
     public Boolean exception() {
         throw new BusinessException("异常演示");
-    }
-
-
-    /**
-     * 基于zk的雪花id的使用方式
-     *
-     * @return
-     */
-    @GetMapping("getLeafSnowflakeId")
-    public Long getLeafSnowflakeId() {
-        return snowflakeServiceHelper.getLongId();
-    }
-
-    /**
-     * 基于zk的雪花id的使用方式
-     *
-     * @return
-     */
-    @GetMapping("getSnowflakeId")
-    public String getSnowflakeId() {
-        return idsApi.getSnowflakeId();
-    }
-
-    /**
-     * 基于zk的雪花id的使用方式
-     *
-     * @return
-     */
-    @GetMapping("getSnowflakeIds")
-    public List<String> getSnowflakeIds(@RequestParam Integer number) {
-        return idsApi.getSnowflakeIds(number);
     }
 
     /**
