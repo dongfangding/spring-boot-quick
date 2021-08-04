@@ -14,6 +14,7 @@ import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
 import com.ddf.boot.common.websocket.model.MessageRequest;
 import com.ddf.boot.common.websocket.model.MessageResponse;
 import com.ddf.boot.common.websocket.service.WsMessageService;
+import com.ddf.boot.quick.common.exception.BizCode;
 import com.ddf.boot.quick.common.redis.RedisRequestDefinition;
 import com.ddf.boot.quick.model.dto.PublishUniqueNameDTO;
 import java.util.Date;
@@ -79,9 +80,39 @@ public class QuickStartController {
      *
      * @return
      */
-    @GetMapping("exceptionDemo")
-    public Boolean exception() {
+    @GetMapping("simpleException")
+    public Boolean simpleException() {
         throw new BusinessException("异常演示");
+    }
+
+    /**
+     * 异常演示
+     *
+     * @return
+     */
+    @GetMapping("simpleBizException")
+    public Boolean simpleBizException() {
+        throw new BusinessException(BizCode.TEST_BIZ_MESSAGE);
+    }
+
+    /**
+     * 异常演示
+     *
+     * @return
+     */
+    @GetMapping("fillBizException")
+    public Boolean fillBizException() {
+        throw new BusinessException(BizCode.TEST_FILL_EXCEPTION, System.currentTimeMillis());
+    }
+
+    /**
+     * 异常演示
+     *
+     * @return
+     */
+    @GetMapping("fillBizException1")
+    public Boolean fillBizException1() {
+        throw new BusinessException(BizCode.TEST_FILL_BIZ_EXCEPTION, System.currentTimeMillis());
     }
 
     /**

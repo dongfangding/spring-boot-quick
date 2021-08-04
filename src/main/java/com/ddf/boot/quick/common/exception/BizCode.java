@@ -30,8 +30,10 @@ public enum BizCode implements BaseCallbackCode {
     MENU_NAME_REPEAT("10010", "菜单名称已存在"),
     MENU_RECORD_NOT_EXIST("10011", "菜单记录不存在"),
     CONFIG_CODE_REPEAT("10012", "配置代码已存在"),
-    SYS_USER_DISABLE("10013", "用户已被禁用")
-
+    SYS_USER_DISABLE("10013", "用户已被禁用"),
+    TEST_BIZ_MESSAGE("10014", "boot-quick演示业务异常", "啦啦啦啦，请重试"),
+    TEST_FILL_EXCEPTION("10015", "带占位符的异常演示[{0}]"),
+    TEST_FILL_BIZ_EXCEPTION("10016", "带占位符的异常演示[{0}],客户端隐藏详细信息", "报错啦")
 
     ;
 
@@ -39,6 +41,13 @@ public enum BizCode implements BaseCallbackCode {
     BizCode(String code, String description) {
         this.code = code;
         this.description = description;
+        this.bizMessage = description;
+    }
+
+    BizCode(String code, String description, String bizMessage) {
+        this.code = code;
+        this.description = description;
+        this.bizMessage = bizMessage;
     }
 
     @Getter
@@ -46,4 +55,8 @@ public enum BizCode implements BaseCallbackCode {
 
     @Getter
     private final String description;
+
+    @Getter
+    private final String bizMessage;
+
 }
