@@ -4,10 +4,12 @@ import com.ddf.boot.common.core.logaccess.EnableLogAspect;
 import com.ddf.boot.common.limit.ratelimit.annotation.EnableRateLimit;
 import com.ddf.boot.common.limit.repeatable.annotation.EnableRepeatable;
 import com.ddf.boot.common.limit.repeatable.validator.RedisRepeatableValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shardingsphere.elasticjob.lite.spring.boot.job.ElasticJobLiteAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
@@ -25,10 +27,14 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories("com.ddf.boot.quick.features.mongo.repository")
 @EnableRepeatable(globalValidator = RedisRepeatableValidator.BEAN_NAME)
 @EnableRateLimit(cloudRefresh = false, max = 10, rate = 5)
+@Slf4j
 public class QuickApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(QuickApplication.class, args);
+        new SpringApplicationBuilder(QuickApplication.class).web(WebApplicationType.SERVLET).run(args);
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            log.info("shutdown hook executing..............");
+        }));
     }
 }
 
