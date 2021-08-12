@@ -33,4 +33,14 @@ public class QuickThreadConfig {
     public ThreadPoolTaskExecutor mailSendExecutor() {
         return ThreadBuilderHelper.buildThreadExecutor("mail-send-executor-", 30, 100);
     }
+
+    /**
+     * 心跳检测类，目前是在启动时执行一段时间的任务，然后再未完成任务时对任务进行停机，演示是否可以优雅停机
+     *
+     * @return
+     */
+    @Bean
+    public ThreadPoolTaskExecutor heartBeatExecutor() {
+        return ThreadBuilderHelper.buildThreadExecutor("heart-bet-executor-", 60, 1000,1, 1);
+    }
 }
