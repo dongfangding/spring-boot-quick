@@ -90,8 +90,18 @@ public class QuickStartController {
      *
      * @return
      */
-    @GetMapping("simpleBizException")
-    public Boolean simpleBizException() {
+    @GetMapping("simpleBizException1")
+    public Boolean simpleBizException1() {
+        throw new BusinessException(BizCode.TEST_SIMPLE_BIZ_MESSAGE);
+    }
+
+    /**
+     * 异常演示
+     *
+     * @return
+     */
+    @GetMapping("simpleBizException2")
+    public Boolean simpleBizException2() {
         throw new BusinessException(BizCode.TEST_BIZ_MESSAGE);
     }
 
