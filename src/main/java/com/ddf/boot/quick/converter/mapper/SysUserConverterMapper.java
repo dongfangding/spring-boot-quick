@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.converter.mapper;
 
+import com.ddf.boot.quick.features.es.mapping.EsSysUser;
 import com.ddf.boot.quick.model.dto.SysUserDTO;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.model.request.SysUserCreateRequest;
@@ -67,4 +68,12 @@ public interface SysUserConverterMapper {
      * @return
      */
     SysUserDetailResponse convertDetailResponse(SysUser sysUser);
+
+    /**
+     * 转换为es存储对象
+     *
+     * @param sysUser
+     * @return
+     */
+    EsSysUser convertToEsUser(SysUser sysUser);
 }

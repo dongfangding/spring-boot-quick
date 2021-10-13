@@ -1,10 +1,11 @@
 package com.ddf.boot.quick.features.rocketmq.consumer;
 
 import com.ddf.boot.common.model.datao.quick.AuthUser;
-import com.ddf.boot.quick.features.rocketmq.RocketMQConstants;
+import com.ddf.boot.quick.constants.RocketMQConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.ConsumeMode;
+import org.apache.rocketmq.spring.annotation.MessageModel;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.springframework.stereotype.Component;
@@ -29,7 +30,10 @@ public class RocketMQDemoConsumer {
      * 简单string消息
      */
     @Component
-    @RocketMQMessageListener(topic = RocketMQConstants.Topic.DEMO, consumeMode = ConsumeMode.CONCURRENTLY, consumerGroup = RocketMQConstants.ConsumerGroup.DEMO_STRING_CONSUMER_GROUP, selectorExpression = RocketMQConstants.Tags.STRING)
+    @RocketMQMessageListener(topic = RocketMQConstants.Topic.DEMO, consumeMode = ConsumeMode.CONCURRENTLY,
+            consumerGroup = RocketMQConstants.ConsumerGroup.DEMO_STRING_CONSUMER_GROUP,
+            selectorExpression = RocketMQConstants.Tags.STRING,
+            messageModel = MessageModel.CLUSTERING)
     public static class DemoStringConsumer implements RocketMQListener<String> {
         @Override
         public void onMessage(String message) {

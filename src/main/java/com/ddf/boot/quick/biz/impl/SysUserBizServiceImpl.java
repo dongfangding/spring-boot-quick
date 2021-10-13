@@ -13,11 +13,13 @@ import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.core.util.SecureUtil;
 import com.ddf.boot.common.core.util.WebUtil;
-import com.ddf.boot.common.ids.helper.SnowflakeServiceHelper;
 import com.ddf.boot.common.jwt.util.JwtUtil;
+import com.ddf.boot.common.rocketmq.dto.RocketMQDestination;
+import com.ddf.boot.common.rocketmq.helper.RocketMQHelper;
 import com.ddf.boot.quick.biz.ISysUserBizService;
 import com.ddf.boot.quick.common.exception.BizCode;
 import com.ddf.boot.quick.common.redis.CacheKeys;
+import com.ddf.boot.quick.constants.RocketMQConstants;
 import com.ddf.boot.quick.constants.enumration.SysUserStatusEnum;
 import com.ddf.boot.quick.converter.mapper.SysUserConverterMapper;
 import com.ddf.boot.quick.event.SysUserLoginEvent;
@@ -42,6 +44,7 @@ import com.ddf.boot.quick.model.response.SysUserDetailResponse;
 import com.ddf.boot.quick.model.response.SysUserResetPasswordResponse;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
+import com.ddf.common.ids.service.api.IdsApi;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -68,9 +71,9 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
     private final ISysUserService sysUserService;
 
-    private final SnowflakeServiceHelper snowflakeServiceHelper;
-
     private final ISysUserRoleService sysUserRoleService;
+
+    private final IdsApi idsApi;
 
     private final StringRedisTemplate stringRedisTemplate;
 
@@ -79,6 +82,8 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     private final SysUserHelper sysUserHelper;
 
     private final AuthenticationProperties authenticationProperties;
+
+    private final RocketMQHelper rocketMQHelper;
 
     /**
      * 获取当前用户详细信息
@@ -118,7 +123,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
                 BizCode.MOBILE_REPEAT
         );
 
-        String userId = snowflakeServiceHelper.getStringId();
+        String userId = idsApi.getSnowflakeId();
         SysUser sysUser = SysUserConverterMapper.INSTANCE.requestConvert(request);
         sysUser.setUserId(userId);
         sysUser.setPassword(SecureUtil.signWithHMac(request.getPassword(), userId));
@@ -126,6 +131,13 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
         // 处理用户关联角色
         relativeUserRole(userId, request.getRoleIdList());
+
+        // 发送创建admin-user mq消息
+        rocketMQHelper.syncSend(RocketMQDestination.builder()
+                .topic(RocketMQConstants.Topic.GLOBAL_TOPIC)
+                .tags(RocketMQConstants.Tags.TAG_ADMIN_CREATE_USER)
+                .build(), SysUserConverterMapper.INSTANCE.convertToEsUser(sysUser));
+
         return SysUserConverterMapper.INSTANCE.convert(sysUserService.getByPrimaryKey(sysUser.getId()));
     }
 

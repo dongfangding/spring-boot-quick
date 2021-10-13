@@ -11,6 +11,7 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 /**
@@ -27,6 +28,7 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories("com.ddf.boot.quick.features.mongo.repository")
 @EnableRepeatable(globalValidator = RedisRepeatableValidator.BEAN_NAME)
 @EnableRateLimit(cloudRefresh = false, max = 10, rate = 5)
+@EnableElasticsearchRepositories(basePackages = {"com.ddf.boot.quick.features.es.repository"})
 @Slf4j
 public class QuickApplication {
 

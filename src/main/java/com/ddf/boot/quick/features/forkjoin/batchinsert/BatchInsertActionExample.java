@@ -2,7 +2,8 @@ package com.ddf.boot.quick.features.forkjoin.batchinsert;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import org.assertj.core.util.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -36,8 +37,8 @@ public class BatchInsertActionExample {
     private String valueSq;
 
     public void execute() {
-        String sql = "INSERT INTO `t_user`(id, name) VALUES ";
-        String varSql = "('%s', '%s')";
+        String sql = "INSERT INTO `game_account_history_202107`(uid, source, amount, balance) VALUES ";
+        String varSql = "(%d, %d, %d, %d)";
 
         StringBuilder sbl = new StringBuilder();
 
@@ -46,14 +47,14 @@ public class BatchInsertActionExample {
         // 循环结束角标规则
         int loopEndIndex = 2 * expectRecordSize;
         // 批量sql的数量，会将指定数量的sql合并成一条sql执行
-        int batchSize = 1000;
+        int batchSize = 1;
         List<String> executeSql = new ArrayList<>(expectRecordSize);
 
         for (int i = expectRecordSize + 1; i <= loopEndIndex; i++) {
             if (sbl.length() == 0) {
                 sbl.append(sql);
             }
-            sbl.append(String.format(varSql, i, "ddf" + i));
+            sbl.append(String.format(varSql, -1, -1, 0, 0));
             if (i == loopEndIndex || i % batchSize == 0) {
                 sbl.append(";");
                 executeSql.add(sbl.toString());
@@ -63,12 +64,17 @@ public class BatchInsertActionExample {
             }
         }
 
-        executeSql.parallelStream().forEach((val) -> jdbcTemplate.execute(val));
+        final ExecutorService service = Executors.newFixedThreadPool(100);
 
-        ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
-        final ActionDatasource task = new ActionDatasource(jdbcTemplate, executeSql);
-        final BatchInsertAction action = new BatchInsertAction(task,0L, 10000, 1000);
-        forkJoinPool.invoke(action);
+        for (String s : executeSql) {
+            service.execute(() -> {
+                jdbcTemplate.execute(s);
+            });
+        }
+//        ForkJoinPool forkJoinPool = new ForkJoinPool(Runtime.getRuntime().availableProcessors());
+//        final ActionDatasource task = new ActionDatasource(jdbcTemplate, executeSql);
+//        final BatchInsertAction action = new BatchInsertAction(task,0L, 10000, 1000);
+//        forkJoinPool.invoke(action);
     }
 
     public static void main(String[] args) {

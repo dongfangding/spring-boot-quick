@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.features.rocketmq;
+package com.ddf.boot.quick.constants;
 
 /**
  * <p>用来存储RocketMQ使用期间需要定义的常量</p >
@@ -20,6 +20,10 @@ public interface RocketMQConstants {
          */
         String DEMO = "demo";
 
+        /**
+         * 全局topic
+         */
+        String GLOBAL_TOPIC = "boot-quick";
 
     }
 
@@ -46,6 +50,11 @@ public interface RocketMQConstants {
          * 演示消费端可以获取除了payload意外的其它rocketmq的原生属性
          */
         String CONSUMER_MESSAGE_EXT = "consumer_message_ext";
+
+        /**
+         * 创建admin user tag
+         */
+        String TAG_ADMIN_CREATE_USER = "tag_admin_create_user";
     }
 
 
@@ -68,6 +77,11 @@ public interface RocketMQConstants {
          * 用户对象消费组
          */
         String CONSUMER_MESSAGE_EXT_CONSUMER_GROUP = Topic.DEMO + "_" + Tags.CONSUMER_MESSAGE_EXT;
+
+        /**
+         * 创建admin user消费组
+         */
+        String ADMIN_CREATE_USER_CONSUMER_GROUP = Topic.GLOBAL_TOPIC + "_" + Tags.TAG_ADMIN_CREATE_USER;
 
     }
 
