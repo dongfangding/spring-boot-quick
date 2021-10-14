@@ -52,6 +52,10 @@ druid_stat_enable: false
 druid_state_username: wait_fill
 druid_state_password: wait_fill
 
+## ES
+es_hosts: host1:9200,host2:9200,host3:9200
+es_username: username
+es_password: password
 
 spring:
   datasource:
@@ -138,6 +142,13 @@ spring:
     mongodb:
       uri: ${mongodb_url}
       autoIndexCreation: true
+
+  elasticsearch:
+    rest:
+      uris: ${es_hosts}
+      username: ${es_username}
+      password: ${es_password}
+      connectionTimeout: 3s
 
 #  rabbitmq:
 #    addresses: localhost:5672
@@ -295,15 +306,6 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   rsa:
     primaryKey: ${rsa_primaryKey}
     publicKey: ${rsa_publicKey}
-
-leaf:
-  name: com.sankuai.leaf.opensource.snowflake
-  segment:
-    enable: false
-  snowflake:
-    enable: true
-    address: ${zk_addr}
-
 
 logging:
   level:

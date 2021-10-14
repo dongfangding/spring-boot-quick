@@ -52,6 +52,11 @@ druid_stat_enable: false
 druid_state_username: wait_fill
 druid_state_password: wait_fill
 
+## ES
+es_hosts: host1:9200,host2:9200,host3:9200
+es_username: username
+es_password: password
+
 spring:
   datasource:
     initialization-mode: ALWAYS
@@ -137,26 +142,12 @@ spring:
     mongodb:
       uri: ${mongodb_url}
       autoIndexCreation: true
-
-  websocket:
-    properties:
-      handshakeTokenSecret: true
-      ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
-      messageSecret: false
-
-  distributed:
-    lock:
-      zookeeper:
-        enable: true
-        root: /distributed_lock
-        connectString: ${zk_addr}
-      redis:
-        enable: true
-
-  ids:
-    zkAddress: ${zk_addr}
-    zkPort: 2181
-    segmentEnable: true
+  elasticsearch:
+    rest:
+      uris: ${es_hosts}
+      username: ${es_username}
+      password: ${es_password}
+      connectionTimeout: 3s
 
 #  rabbitmq:
 #    addresses: localhost:5672
@@ -181,13 +172,6 @@ rocketmq:
     group: boot-quick-producer-group
     send-message-timeout: 10000
     retryNextServer: true
-
-distributed:
-  lock:
-    zookeeper:
-      enable: true
-      root: /distributed_lock
-      connectString: ${zk_addr}
 
 elasticjob:
   reg-center:
@@ -275,6 +259,24 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       templateCode: SMS_204455240
       useRandomCode: true
 
+  websocket:
+    properties:
+      handshakeTokenSecret: true
+      ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
+      messageSecret: false
+
+  distributed:
+    lock:
+      zookeeper:
+        enable: true
+        root: /distributed_lock
+        connectString: ${zk_addr}
+      redis:
+        enable: true
+  ids:
+    zkAddress: ${zk_addr}
+    zkPort: 2181
+    segmentEnable: true
 
   jwt:
     secret: ${jwt_secret}
@@ -303,15 +305,6 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   rsa:
     primaryKey: ${rsa_primaryKey}
     publicKey: ${rsa_publicKey}
-
-leaf:
-  name: com.sankuai.leaf.opensource.snowflake
-  segment:
-    enable: false
-  snowflake:
-    enable: true
-    address: ${zk_addr}
-
 
 logging:
   level:

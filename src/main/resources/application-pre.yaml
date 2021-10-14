@@ -31,6 +31,11 @@ mongodb_url: mongodb://user:pass@localhost:port/boot-quick?authSource=admin
 xxl_admin_addresses: http://127.0.0.1:8805
 xxl_admin_access_token: token
 
+## ES
+es_hosts: host1:9200,host2:9200,host3:9200
+es_username: username
+es_password: password
+
 spring:
   datasource:
     initialization-mode: ALWAYS
@@ -91,8 +96,8 @@ spring:
       codec: org.redisson.codec.JsonJacksonCodec
 
   mail:
-    username: 1041765757@qq.com                # 用来验证授权的邮件用户名
-    password: gotartrfwuytbcji                # 根据QQ邮箱设置-账户里生成的第三方登陆授权码，可用来代替密码登陆
+    username: ${mail_server_username}                # 用来验证授权的邮件用户名
+    password: ${mail_server_password}               # 根据QQ邮箱设置-账户里生成的第三方登陆授权码，可用来代替密码登陆
     host: smtp.qq.com                         # 邮件服务器类型
     properties.mail.smtp.ssl.enable: true # 用以支持授权码登陆
 
@@ -118,25 +123,12 @@ spring:
       uri: ${mongodb_url}
       autoIndexCreation: true
 
-  websocket:
-    properties:
-      handshakeTokenSecret: true
-      ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
-      messageSecret: false
-
-  distributed:
-    lock:
-      zookeeper:
-        enable: true
-        root: /distributed_lock
-        connectString: ${zk_addr}
-      redis:
-        enable: true
-
-  ids:
-    zkAddress: ${zk_addr}
-    zkPort: 2181
-    segmentEnable: true
+  elasticsearch:
+    rest:
+      uris: ${es_hosts}
+      username: ${es_username}
+      password: ${es_password}
+      connectionTimeout: 3s
 
 #  rabbitmq:
 #    addresses: localhost:5672
@@ -161,13 +153,6 @@ rocketmq:
     group: boot-quick-producer-group
     send-message-timeout: 10000
     retryNextServer: true
-
-distributed:
-  lock:
-    zookeeper:
-      enable: true
-      root: /distributed_lock
-      connectString: ${zk_addr}
 
 elasticjob:
   reg-center:
@@ -256,6 +241,24 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       templateCode: SMS_204455240
       useRandomCode: true
 
+  websocket:
+    properties:
+      handshakeTokenSecret: true
+      ignoreAuthTimestamp: true # websocket连接时忽略时间戳校验
+      messageSecret: false
+
+  distributed:
+    lock:
+      zookeeper:
+        enable: true
+        root: /distributed_lock
+        connectString: ${zk_addr}
+      redis:
+        enable: true
+  ids:
+    zkAddress: ${zk_addr}
+    zkPort: 2181
+    segmentEnable: true
 
   jwt:
     secret: ${jwt_secret}
@@ -284,15 +287,6 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   rsa:
     primaryKey: ${rsa_primaryKey}
     publicKey: ${rsa_publicKey}
-
-leaf:
-  name: com.sankuai.leaf.opensource.snowflake
-  segment:
-    enable: false
-  snowflake:
-    enable: true
-    address: ${zk_addr}
-
 
 logging:
   level:
