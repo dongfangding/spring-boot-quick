@@ -1,3 +1,24 @@
+nacos:
+  config:
+    server-addr: ${nocos_server}
+    username: ${nacos_username}
+    password: ${nacos_password}
+    auto-refresh: true
+    config-retry-time: 3000
+    namespace: dev
+    enable-remote-sync-config: false
+    type: yaml
+    data-id: config-server
+    ext-config:
+      - dataId: common-datasource
+        type: yaml
+        auto-refresh: true
+      - dataId: property-source
+        type: properties
+        auto-refresh: true
+      - dataId: config-properties
+        type: properties
+        auto-refresh: true
 
 spring:
   datasource:
@@ -58,8 +79,8 @@ spring:
       codec: org.redisson.codec.JsonJacksonCodec
 
   mail:
-    username: 1041765757@qq.com                # 用来验证授权的邮件用户名
-    password: gotartrfwuytbcji                # 根据QQ邮箱设置-账户里生成的第三方登陆授权码，可用来代替密码登陆
+    username: ${mail_server_username}                # 用来验证授权的邮件用户名
+    password: ${mail_server_password}               # 根据QQ邮箱设置-账户里生成的第三方登陆授权码，可用来代替密码登陆
     host: smtp.qq.com                         # 邮件服务器类型
     properties.mail.smtp.ssl.enable: true # 用以支持授权码登陆
 
@@ -84,6 +105,7 @@ spring:
     mongodb:
       uri: ${mongodb_url}
       autoIndexCreation: true
+
   elasticsearch:
     rest:
       uris: ${es_hosts}
@@ -256,21 +278,3 @@ logging:
     com.ddf.boot.common.mq: debug
     com.ddf.boot.netty.broker: debug
 
-nacos:
-  config:
-    server-addr: ${nocos_server}
-    username: ${nacos_username}
-    password: ${nacos_password}
-    auto-refresh: true
-    config-retry-time: 3000
-    namespace: dev
-    enable-remote-sync-config: false
-    type: yaml
-    data-id: config-server
-    ext-config:
-      - dataId: common-datasource
-        type: yaml
-        auto-refresh: true
-      - dataId: config-properties
-        type: properties
-        auto-refresh: true
