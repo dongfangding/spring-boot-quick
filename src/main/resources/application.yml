@@ -1,3 +1,66 @@
+# redis相关
+redis_host: localhost
+redis_port: 6379
+redis_password: password
+
+# zookeeper地址,host:port, 多个用,隔开
+zk_addr: localhost:2181,localhost:2182,localhost:2183
+
+# mysql
+mysql_host: localhost
+mysql_port: 3306
+mysql_db: boot-quick
+mysql_username: username
+mysql_password: password
+
+# rabbitmq相关
+rabbit_address: localhost:5672
+rabbit_username: username
+rabbit_password: password
+
+# rocket name-server地址
+rocketmq_name_server: localhost:9876
+
+# mongo
+mongodb_url: mongodb://develop:password@www.snowball.fans:27017/boot-quick?authSource=admin
+
+# xxl-job
+xxl_admin_addresses: http://localhost:8805
+xxl_admin_access_token: token
+
+## qq邮箱服务
+mail_server_username: username
+mail_server_password: password
+
+## oss
+oss_endpoint: wait_fill
+oss_accessKeyId: wait_fill
+oss_accessKeySecret: wait_fill
+oss_secret: false
+oss_stsEndpoint: wait_fill
+oss_roleArn: wait_fill
+
+# jwt
+jwt_secret: wait_fill
+
+# 动态RSA
+rsa_primaryKey: wait_fill
+rsa_publicKey: wait_fill
+
+## druid
+druid_stat_enable: false
+druid_state_username: wait_fill
+druid_state_password: wait_fill
+
+## ES
+es_hosts: host1:9200,host2:9200,host3:9200
+es_username: username
+es_password: password
+
+## nacos
+nocos_server: localhost:8848
+nacos_username: nacos
+nacos_password: nacos
 # 在spring-boot应用中（注意不是spring-cloud），开启这个可以让spring-boot应用具备在启动前就将外部配置加载到spring环境中的能力， 即可通过外部配置各种数据源了
 nacos:
   config:
