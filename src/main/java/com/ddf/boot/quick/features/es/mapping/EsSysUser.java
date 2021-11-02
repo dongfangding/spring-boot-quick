@@ -3,6 +3,7 @@ package com.ddf.boot.quick.features.es.mapping;
 import java.io.Serializable;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -13,12 +14,17 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * 启动的时候才会去创建索引和分片相关数据，如果启动过程中修改， 并且节点有过变化， 会导致分片分配有问题，
  * 所以是否要采用手动创建索引和映射的方式呢？
  *
+ * 开发步骤
+ * 1. 创建索引，设置分片和副本，创建映射
+ * 2. 可选创建索引alias，可以多个索引一个alias，查询时针对alias操作，用以支持后续如果更改mapping的情况，但是alias仅支持查询
+ *
  * @author Snowball
  * @version 1.0
  * @date 2021/10/13 14:31
  */
 @Data
 @Document(indexName = "sys_user", type = "sys_user", shards = 5, replicas = 2)
+@TypeAlias("alias_sys_user")
 public class EsSysUser implements Serializable {
 
     /**

@@ -57,6 +57,11 @@ es_hosts: host1:9200,host2:9200,host3:9200
 es_username: username
 es_password: password
 
+## nacos
+nocos_server: localhost:8848
+nacos_username: nacos
+nacos_password: nacos
+
 spring:
   datasource:
     initialization-mode: ALWAYS
@@ -314,4 +319,23 @@ logging:
     #    com.ddf.boot.quick.mapper: debug   因为用了sql插件，这里可以先注释掉
     com.ddf.boot.common.mq: debug
     com.ddf.boot.netty.broker: debug
+
+nacos:
+  config:
+    server-addr: ${nocos_server}
+    username: ${nacos_username}
+    password: ${nacos_password}
+    auto-refresh: true
+    config-retry-time: 3000
+    namespace: dev
+    enable-remote-sync-config: false
+    type: yaml
+    data-id: config-server
+    ext-config:
+      - dataId: common-datasource
+        type: yaml
+        auto-refresh: true
+      - dataId: config-properties
+        type: properties
+        auto-refresh: true
 

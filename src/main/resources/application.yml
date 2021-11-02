@@ -1,3 +1,8 @@
+# 在spring-boot应用中（注意不是spring-cloud），开启这个可以让spring-boot应用具备在启动前就将外部配置加载到spring环境中的能力， 即可通过外部配置各种数据源了
+nacos:
+  config:
+    bootstrap:
+      enable: true
 server:
   port: 8080
   tomcat:
@@ -68,6 +73,6 @@ management:
     health:
       show-details: always
     shutdown:
-      enabled: true
+      enabled: false
     jolokia:
       enabled: true
