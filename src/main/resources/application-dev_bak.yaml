@@ -47,10 +47,14 @@ spring:
 
   # 使用RedisProperties初始化redisson客户端
   redis:
-    database: 0
-    timeout: 3000ms
     host: ${redis_host}
     port: ${redis_port}
+    # 集群多节点配置
+#    cluster:
+#      max-redirects: 3
+#      nodes: ${redis_node}
+    database: 0
+    timeout: 3000ms
     password: ${redis_password}
     redisson:
       # com.ddf.boot.common.redis.config.RedisCustomizeAutoConfiguration

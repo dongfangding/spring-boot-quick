@@ -3,6 +3,9 @@ redis_host: localhost
 redis_port: 6379
 redis_password: password
 
+# redis集群
+redis_node: localhost:6371,localhost:6372,localhost:6373,localhost:6374,localhost:6375,localhost:6376
+
 # zookeeper地址,host:port, 多个用,隔开
 zk_addr: localhost:2181,localhost:2182,localhost:2183
 
