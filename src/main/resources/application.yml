@@ -9,6 +9,15 @@ nacos:
     bootstrap:
       enable: true
 
+server:
+  port: 8080
+  tomcat:
+    max-connections: 10000
+    max-threads: 200
+    min-spare-threads: 20
+  servlet:
+    context-path: /boot-quick
+
 spring:
   profiles:
     active: dev
