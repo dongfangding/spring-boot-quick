@@ -7,8 +7,8 @@ nacos:
     config-retry-time: 3000
     namespace: dev
     enable-remote-sync-config: false
-    type: yaml
-    data-id: config-server
+    type: properties
+    data-id: property-source
     ext-config:
       - namespace: common
         dataId: common-server
@@ -90,34 +90,33 @@ nacos:
         type: yaml
         auto-refresh: true
 
+      - namespace: common
+        dataId: common-distributed-lock
+        type: yaml
+        auto-refresh: true
+
+      - namespace: common
+        dataId: common-ids
+        type: yaml
+        auto-refresh: true
+
       - namespace: dev
         dataId: property-source
         type: properties
         auto-refresh: true
+
       - dataId: config-properties
         type: properties
         auto-refresh: true
 
-customs: # 自定义的属性最好都写在custom前缀下，方便辨认
+      - dataId: config-server
+        type: yaml
+        auto-refresh: true
 
+customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   zookeeper:
     monitor:
       connectAddress: ${zk_addr}
-
-  distributed:
-    lock:
-      zookeeper:
-        enable: true
-        root: /distributed_lock
-        connectString: ${zk_addr}
-      redis:
-        enable: true
-  ids:
-    zkAddress: ${zk_addr}
-    zkPort: 2181
-    segmentEnable: true
-
-
 
 logging:
   level:
