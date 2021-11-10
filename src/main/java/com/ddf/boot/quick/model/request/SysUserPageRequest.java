@@ -18,13 +18,13 @@ public class SysUserPageRequest implements PageRequest {
      * 页数, 从1开始
      */
     @Min(value = 1, message = "页码不能小于1")
-    private Integer pageNum;
+    private Integer pageNum = 1;
 
     /**
      * 每页显示条数
      */
     @Min(value = 1, message = "每页显示条数不能小于1")
-    private Integer pageSize;
+    private Integer pageSize = 20;
 
     /**
      * 登录名

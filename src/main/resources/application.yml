@@ -17,7 +17,8 @@ server:
 spring:
   profiles:
     active: dev
-
+  application:
+    name: boot-quick
 logging:
   level:
     root: info
