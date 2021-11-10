@@ -173,7 +173,6 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
     reset-password: 123456
     white-login-name-list:
       - admin
-  message_secret: false # 是否加密传输websocket消息数据
 
   zookeeper:
     monitor:
