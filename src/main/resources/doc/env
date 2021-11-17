@@ -1,3 +1,8 @@
+# nacos
+nacos_server=localhost:8848
+nacos_username=nacos
+nacos_password=password
+
 # redis
 redis_host=localhost
 redis_port=6379

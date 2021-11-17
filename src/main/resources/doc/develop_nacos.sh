@@ -16,7 +16,7 @@ HEALTH_CHECK_URL=http://127.0.0.1:8082/actuator/health/
 # heapError 存放路径
 TEMP_LOG_PATH=$BASE_PATH/logs
 # JVM 参数
-JAVA_OPS="-Dnocos_server=${nocos_server} -Dnacos_username=${nacos_username} -Dnacos_password=${nacos_password} -Xmx512m -Xms512m -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=512m -XX:SurvivorRatio=8 -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:MaxGCPauseMillis=150 -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCTimeStamps -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$TEMP_LOG_PATH -Xloggc:$TEMP_LOG_PATH/gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=30M -Duser.timezone=GMT+08"
+JAVA_OPS="-Dnacos_server=${nacos_server} -Dnacos_username=${nacos_username} -Dnacos_password=${nacos_password} -Xmx512m -Xms512m -XX:MetaspaceSize=256m -XX:MaxMetaspaceSize=512m -XX:SurvivorRatio=8 -XX:+UseG1GC -XX:G1HeapRegionSize=16m -XX:MaxGCPauseMillis=150 -XX:+PrintGCDetails -XX:+PrintTenuringDistribution -XX:+PrintGCTimeStamps -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=$TEMP_LOG_PATH -Xloggc:$TEMP_LOG_PATH/gc.log -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=30M -Duser.timezone=GMT+08"
 PROFILES_ACTIVE=dev
 
 # 备份
