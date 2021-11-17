@@ -1,8 +1,5 @@
 nacos:
   config:
-    server-addr: ${nocos_server}
-    username: ${nacos_username}
-    password: ${nacos_password}
     auto-refresh: true
     config-retry-time: 3000
     namespace: common
