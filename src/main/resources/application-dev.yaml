@@ -4,6 +4,7 @@ nacos:
     config-retry-time: 3000
     namespace: common
     group: DEFAULT_GROUP
+    # 配置拉不下来的时候可以打开这个参数看下， 这个时候会有nacos的报错信息，虽然这个参数不是做这个作用的
     enable-remote-sync-config: false
     type: yaml
     data-ids: common-server,common-mybatis-plus,common-datasource,common-redis,common-mail,common-rabbitmq,common-rocketmq,common-mongo,common-es,common-elasticjob,common-xxl-job,common-jwt,common-global-properties,common-ext-oss,common-ext-sms,common-websocket,common-distributed-lock,common-ids

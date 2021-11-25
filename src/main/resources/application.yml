@@ -2,6 +2,7 @@
 # 在spring-boot应用中（注意不是spring-cloud），开启这个可以让spring-boot应用具备在启动前就将外部配置加载到spring环境中的能力， 即可通过外部配置各种数据源了
 nacos:
   config:
+    # nacos的服务器信息可以放到启动脚本中，其它配置文件托管到配置中心
     server-addr: ${nacos_server}
     username: ${nacos_username}
     password: ${nacos_password}
