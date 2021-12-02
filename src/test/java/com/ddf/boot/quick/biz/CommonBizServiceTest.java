@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.quick.QuickApplicationTest;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.service.ISysUserService;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

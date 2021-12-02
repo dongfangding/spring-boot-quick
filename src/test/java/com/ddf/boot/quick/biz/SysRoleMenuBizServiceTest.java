@@ -5,7 +5,7 @@ import com.ddf.boot.quick.QuickApplicationTest;
 import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
 import com.ddf.boot.quick.model.request.SysRoleMenuBuildRoleMenuRequest;
 import com.google.common.collect.Sets;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

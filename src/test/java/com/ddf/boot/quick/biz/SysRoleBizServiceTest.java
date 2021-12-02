@@ -10,7 +10,7 @@ import com.ddf.boot.quick.QuickApplicationTest;
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
 import com.ddf.boot.quick.model.request.SysRoleCreateRequest;
 import com.ddf.boot.quick.model.request.SysRolePageRequest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

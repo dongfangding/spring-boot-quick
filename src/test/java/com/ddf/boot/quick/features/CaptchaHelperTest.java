@@ -12,7 +12,7 @@ import com.ddf.common.captcha.model.CaptchaRequest;
 import com.ddf.common.captcha.model.CaptchaResult;
 import java.io.IOException;
 import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

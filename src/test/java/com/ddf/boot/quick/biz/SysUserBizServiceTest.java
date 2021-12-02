@@ -12,7 +12,7 @@ import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.service.ISysUserService;
 import com.google.common.collect.Sets;
 import java.time.LocalDateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

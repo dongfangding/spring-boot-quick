@@ -2,13 +2,11 @@ package com.ddf.boot.quick;
 
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -23,7 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @date 2019/12/9 0009 12:02
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 public class QuickApplicationTest {
 
     /**
@@ -40,7 +38,8 @@ public class QuickApplicationTest {
 
     private static MockHttpServletRequestBuilder builder;
 
-    @Before
+    @BeforeEach
+//    @Before
     public void before() {
         //获取mockmvc对象实例
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();

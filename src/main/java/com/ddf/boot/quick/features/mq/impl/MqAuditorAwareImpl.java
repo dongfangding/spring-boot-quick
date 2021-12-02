@@ -1,7 +1,7 @@
 package com.ddf.boot.quick.features.mq.impl;
 
+import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.common.jwt.exception.UserClaimMissionException;
-import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.common.mq.helper.MqMessageHelper;
 import com.ddf.boot.common.mq.interfaces.MqAuditorAware;
 import java.util.Optional;
@@ -49,7 +49,7 @@ public class MqAuditorAwareImpl implements MqAuditorAware {
     @Override
     public Optional<String> getAuditor() {
         try {
-            return Optional.of(JwtUtil.getByContext().getUsername());
+            return Optional.of(UserContextUtil.getUserId());
         } catch (UserClaimMissionException e) {
             return Optional.empty();
         }

@@ -7,7 +7,7 @@ import com.ddf.boot.quick.constants.enumration.SysMenuTypeEnum;
 import com.ddf.boot.quick.model.dto.SysMenuDTO;
 import com.ddf.boot.quick.model.request.SysMenuCreateRequest;
 import com.ddf.boot.quick.model.request.SysMenuUpdateRequest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**

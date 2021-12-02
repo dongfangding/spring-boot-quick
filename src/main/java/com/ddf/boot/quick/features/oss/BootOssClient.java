@@ -8,11 +8,11 @@ import com.ddf.boot.common.core.exception200.BusinessException;
 import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
 import com.ddf.boot.common.core.exception200.ServerErrorException;
 import com.ddf.boot.common.core.util.PreconditionUtil;
+import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.common.ext.oss.config.StsTokenRequest;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.common.ext.oss.helper.OssHelper;
-import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
 import com.ddf.boot.quick.common.redis.RedisRequestDefinition;
 import com.google.common.collect.Lists;
@@ -108,7 +108,7 @@ public class BootOssClient {
     public StsTokenResponse getOssToken() {
         StsTokenRequest request = new StsTokenRequest();
         request.setPlatform(OSS_PLATFORM);
-        request.setIdentity(JwtUtil.getByContextNotNecessary().getUserId());
+        request.setIdentity(UserContextUtil.getUserId());
         return ossHelper.getOssToken(request);
     }
 
@@ -120,7 +120,7 @@ public class BootOssClient {
     public String putObject(String suffix, InputStream inputStream) {
         final StsTokenRequest stsTokenRequest = new StsTokenRequest();
         stsTokenRequest.setPlatform(OSS_PLATFORM);
-        stsTokenRequest.setIdentity(JwtUtil.getByContextNotNecessary().getUserId());
+        stsTokenRequest.setIdentity(UserContextUtil.getUserId());
         AtomicReference<String> objectKey = new AtomicReference<>();
         ossHelper.getStsOss(stsTokenRequest, (dto) -> {
             objectKey.set(dto.getStsTokenResponse().getObjectPrefix() + "." + suffix);
@@ -142,7 +142,7 @@ public class BootOssClient {
         String avatarName = username + randomPath.substring(randomPath.lastIndexOf("."));
         final StsTokenRequest stsTokenRequest = new StsTokenRequest();
         stsTokenRequest.setPlatform(OSS_PLATFORM);
-        stsTokenRequest.setIdentity(JwtUtil.getByContextNotNecessary().getUserId());
+        stsTokenRequest.setIdentity(UserContextUtil.getUserId());
         AtomicReference<String> fileName = new AtomicReference<>();
         ossHelper.getStsOss(stsTokenRequest, (dto) -> {
             fileName.set(dto.getStsTokenResponse().getObjectPrefix() + "_" + avatarName);

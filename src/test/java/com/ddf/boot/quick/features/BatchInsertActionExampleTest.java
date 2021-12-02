@@ -3,7 +3,7 @@ package com.ddf.boot.quick.features;
 import com.ddf.boot.quick.QuickApplicationTest;
 import com.ddf.boot.quick.features.forkjoin.batchinsert.BatchInsertActionExample;
 import java.io.IOException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
