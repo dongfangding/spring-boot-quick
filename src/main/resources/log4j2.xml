@@ -16,7 +16,7 @@
             <PatternLayout pattern="${sys:CONSOLE_LOG_PATTERN}"/>
         </Console>
 
-        <RollingRandomAccessFile name="INFO_FILE" fileName="${LOG_BASE_DIR}/better-together.log"
+        <RollingRandomAccessFile name="INFO_FILE" fileName="${LOG_BASE_DIR}/boot-quick.log"
                                  filePattern="${LOG_BASE_DIR}/app-%d{yyyy-MM-dd}.log">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
@@ -30,7 +30,7 @@
             <DefaultRolloverStrategy max="30"/>
         </RollingRandomAccessFile>
 
-        <RollingRandomAccessFile name="WARN_FILE" fileName="${LOG_BASE_DIR}/better-together-warn.log"
+        <RollingRandomAccessFile name="WARN_FILE" fileName="${LOG_BASE_DIR}/boot-quick-warn.log"
                                  filePattern="${LOG_BASE_DIR}/app-warn-%d{yyyy-MM-dd}.log">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
@@ -44,7 +44,7 @@
             <DefaultRolloverStrategy max="30"/>
         </RollingRandomAccessFile>
 
-        <RollingRandomAccessFile name="ERROR_FILE" fileName="${LOG_BASE_DIR}/better-together-error.log"
+        <RollingRandomAccessFile name="ERROR_FILE" fileName="${LOG_BASE_DIR}/boot-quick-error.log"
                                  filePattern="${LOG_BASE_DIR}/app-error-%d{yyyy-MM-dd}.log">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
