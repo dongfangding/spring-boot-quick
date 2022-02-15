@@ -36,8 +36,12 @@
             <version>${elasic-job.version}</version>
             <exclusions>
                 <exclusion>
-                    <artifactId>spring-boot-starter</artifactId>
-                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>logback-core</artifactId>
+                    <groupId>ch.qos.logback</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -66,12 +70,11 @@
             <version>${project.parent.version}</version>
             <exclusions>
                 <exclusion>
-                    <artifactId>curator-client</artifactId>
-                    <groupId>org.apache.curator</groupId>
+                    <artifactId>log4j</artifactId>
+                    <groupId>log4j</groupId>
                 </exclusion>
             </exclusions>
         </dependency>
-
 
 <!--        <dependency>-->
 <!--            <groupId>com.ddf.common</groupId>-->
@@ -153,14 +156,14 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-vps</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-es</artifactId>
             <version>${project.parent.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-data-elasticsearch</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -173,12 +176,6 @@
             <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-fdfs-client</artifactId>
             <version>${project.parent.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>fastdfs-client</artifactId>
-                    <groupId>com.github.tobato</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
