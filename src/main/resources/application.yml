@@ -7,7 +7,7 @@ nacos:
     username: ${nacos_username}
     password: ${nacos_password}
     bootstrap:
-      enable: true
+      enable: true # 开启配置预加载功能
 
 server:
   port: 8080

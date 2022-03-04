@@ -3,6 +3,8 @@ package com.ddf.boot.quick.features.nacos;
 import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.config.annotation.NacosValue;
+import com.ddf.boot.common.core.config.GlobalProperties;
+import com.ddf.boot.quick.common.config.GlobalPropertiesExt;
 import com.ddf.boot.quick.features.nacos.properties.DynamicProperties;
 import com.ddf.boot.quick.features.nacos.properties.DynamicPropertySource;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +28,10 @@ public class NacosController {
     private final DynamicProperties dynamicProperties;
 
     private final DynamicPropertySource dynamicPropertySource;
+
+    private final GlobalProperties globalProperties;
+
+    private final GlobalPropertiesExt globalPropertiesExt;
 
     @NacosValue(value = "${singleValue: nothing}", autoRefreshed = true)
     private String singleValue;
@@ -61,5 +67,25 @@ public class NacosController {
     @GetMapping("dynamicPropertySource")
     public DynamicPropertySource dynamicPropertySource() {
         return dynamicPropertySource;
+    }
+
+    /**
+     * 演示动态PropertySource注入
+     *
+     * @return
+     */
+    @GetMapping("globalProperties")
+    public GlobalProperties globalProperties() {
+        return globalProperties;
+    }
+
+    /**
+     * 演示动态PropertySource注入
+     *
+     * @return
+     */
+    @GetMapping("globalPropertiesExt")
+    public GlobalPropertiesExt globalPropertiesExt() {
+        return globalPropertiesExt;
     }
 }
