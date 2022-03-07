@@ -1,4 +1,4 @@
-package com.ddf.boot.quick.features.nacos;
+package com.ddf.boot.quick.controller.features;
 
 import com.alibaba.nacos.api.annotation.NacosInjected;
 import com.alibaba.nacos.api.config.ConfigService;
