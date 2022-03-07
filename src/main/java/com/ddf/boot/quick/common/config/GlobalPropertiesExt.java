@@ -5,7 +5,6 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 /**
@@ -37,8 +36,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Getter
 @Setter
-//@NacosConfigurationProperties(prefix = "customs.global-properties", dataId = "property-source", groupId = "dev", autoRefreshed = true, type = ConfigType.PROPERTIES)
-@RefreshScope
+//@NacosConfigurationProperties(prefix = "customs.global-properties", dataId = "common-global-properties", groupId = "dev", autoRefreshed = true, type = ConfigType.PROPERTIES)
 @ConfigurationProperties(prefix = "customs.global-properties")
 public class GlobalPropertiesExt implements Serializable {
 

@@ -2,116 +2,101 @@ nacos:
   config:
     auto-refresh: true
     config-retry-time: 3000
-    namespace: spring-boot-quick
+    namespace: boot-quick
     group: dev
     # 配置拉不下来的时候可以打开这个参数看下， 这个时候会有nacos的报错信息，虽然这个参数不是做这个作用的
     enable-remote-sync-config: true
     type: yaml
-    data-id: config-server
+    data-id: common-global-properties
     ext-config:
-      - namespace: spring-boot-quick
+      - namespace: boot-quick
         dataId: property-source
         group: dev
         type: properties
         auto-refresh: true
-      - namespace: spring-boot-quick
-        dataId: config-properties
-        group: dev
-        type: properties
-        auto-refresh: true
-      - namespace: spring-boot-quick
-        dataId: config-server
-        group: dev
-        type: yaml
-        auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-server
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-mybatis-plus
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-datasource
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-redis
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-mail
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-rabbitmq
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-rocketmq
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-mongo
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-es
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-elasticjob
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-xxl-job
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-jwt
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
-        dataId: common-global-properties
-        group: DEFAULT_GROUP
-        type: yaml
-        auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-ext-oss
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-ext-sms
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-websocket
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-distributed-lock
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
-      - namespace: common
+      - namespace: boot-quick
         dataId: common-ids
-        group: DEFAULT_GROUP
+        group: dev
         type: yaml
         auto-refresh: true
 
