@@ -85,7 +85,7 @@ public class NacosController {
      * @return
      */
     @GetMapping("globalPropertiesExt")
-    public GlobalPropertiesExt globalPropertiesExt() {
-        return globalPropertiesExt;
+    public String globalPropertiesExt() {
+        return globalPropertiesExt.getSignSecret();
     }
 }
