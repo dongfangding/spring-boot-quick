@@ -1,5 +1,6 @@
 package com.ddf.boot.quick.common.config;
 
+import java.io.Serializable;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -39,7 +40,9 @@ import org.springframework.stereotype.Component;
 //@NacosConfigurationProperties(prefix = "customs.global-properties", dataId = "property-source", groupId = "dev", autoRefreshed = true, type = ConfigType.PROPERTIES)
 @RefreshScope
 @ConfigurationProperties(prefix = "customs.global-properties")
-public class GlobalPropertiesExt {
+public class GlobalPropertiesExt implements Serializable {
+
+    private static final long serialVersionUID = 1516322558409231083L;
 
     /**
      * 雪花算法的workerId
