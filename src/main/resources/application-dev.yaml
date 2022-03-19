@@ -3,16 +3,26 @@ nacos:
     auto-refresh: true
     config-retry-time: 3000
     namespace: boot-quick
-    group: dev
+    group: DEFAULT_GROUP
     # 配置拉不下来的时候可以打开这个参数看下， 这个时候会有nacos的报错信息，虽然这个参数不是做这个作用的
     enable-remote-sync-config: true
     type: yaml
-    data-id: common-global-properties
+    data-id: config-server
     ext-config:
       - namespace: boot-quick
         dataId: property-source
         group: dev
         type: properties
+        auto-refresh: true
+      - namespace: boot-quick
+        dataId: common-global-properties
+        group: dev
+        type: yaml
+        auto-refresh: true
+      - namespace: common
+        dataId: common-emq
+        group: DEFAULT_GROUP
+        type: yaml
         auto-refresh: true
       - namespace: boot-quick
         dataId: common-server
