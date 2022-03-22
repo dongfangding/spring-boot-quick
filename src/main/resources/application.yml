@@ -8,6 +8,8 @@ nacos:
     password: ${nacos_password}
     bootstrap:
       enable: true # 开启配置预加载功能
+      log-enable: true
+    auto-refresh: true
 
 server:
   port: 8080
