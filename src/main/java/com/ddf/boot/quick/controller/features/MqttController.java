@@ -2,6 +2,7 @@ package com.ddf.boot.quick.controller.features;
 
 import com.ddf.common.boot.mqtt.client.MqttPublishClient;
 import com.ddf.common.boot.mqtt.model.request.MqttMessageRequest;
+import com.ddf.common.boot.mqtt.model.support.body.TextMessageBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,8 @@ public class MqttController {
 
     private final MqttPublishClient mqttPublishClient;
 
-    @PostMapping("publishMessage")
-    public <T> void publishMessage(@RequestBody MqttMessageRequest<T> request) {
-        request.getHeader().addExtra("nonce", "" + System.currentTimeMillis());
+    @PostMapping("im/c2c/publish")
+    public void publishMessage(@RequestBody MqttMessageRequest<TextMessageBody> request) {
         mqttPublishClient.publish(request);
     }
 }
