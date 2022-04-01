@@ -3,10 +3,10 @@
 <Configuration status="warn" strict="true">
     <Properties>
         <Property name="LOG_BASE_DIR">./logs/</Property>
-        <Property name="CONSOLE_LOG_PATTERN">%clr{[%d{yyyy-MM-dd HH:mm:ss.SSS}]}{faint} %clr{%level}{magenta}
+        <Property name="CONSOLE_LOG_PATTERN">[%X{traceId}#%X{uid}]%clr{[%d{yyyy-MM-dd HH:mm:ss.SSS}]}{faint} %clr{%level}{magenta}
             %clr{[%t]}{faint} %clr{%c{1.}}{cyan} %clr{-}{faint} %m%n%xwEx
         </Property>
-        <Property name="FILE_LOG_PATTERN">[%d{yyyy-MM-dd HH:mm:ss.SSS}] %level [%t] %c{1.} - %msg%n</Property>
+        <Property name="FILE_LOG_PATTERN">[%X{traceId}#%X{uid}][%d{yyyy-MM-dd HH:mm:ss.SSS}] %level [%t] %c{1.} - %msg%n</Property>
     </Properties>
 
     <Appenders>
@@ -17,7 +17,7 @@
         </Console>
 
         <RollingRandomAccessFile name="INFO_FILE" fileName="${LOG_BASE_DIR}/boot-quick.log"
-                                 filePattern="${LOG_BASE_DIR}/app-%d{yyyy-MM-dd}.log">
+                                 filePattern="${LOG_BASE_DIR}/boot-quick-%d{yyyy-MM-dd}.log">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
             <!-- 需要记录的格式 -->
@@ -31,7 +31,7 @@
         </RollingRandomAccessFile>
 
         <RollingRandomAccessFile name="WARN_FILE" fileName="${LOG_BASE_DIR}/boot-quick-warn.log"
-                                 filePattern="${LOG_BASE_DIR}/app-warn-%d{yyyy-MM-dd}.log">
+                                 filePattern="${LOG_BASE_DIR}/boot-quick-warn-%d{yyyy-MM-dd}.log">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
             <!-- 需要记录的格式 -->
@@ -45,7 +45,7 @@
         </RollingRandomAccessFile>
 
         <RollingRandomAccessFile name="ERROR_FILE" fileName="${LOG_BASE_DIR}/boot-quick-error.log"
-                                 filePattern="${LOG_BASE_DIR}/app-error-%d{yyyy-MM-dd}.log">
+                                 filePattern="${LOG_BASE_DIR}/boot-quick-error-%d{yyyy-MM-dd}.log">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
             <!-- 需要记录的格式 -->
