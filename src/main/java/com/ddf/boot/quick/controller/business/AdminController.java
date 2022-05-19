@@ -25,15 +25,11 @@ import com.ddf.boot.quick.model.request.SysUserUpdatePasswordRequest;
 import com.ddf.boot.quick.model.request.SysUserUpdateRequest;
 import com.ddf.boot.quick.model.request.SysUserUploadAvatarRequest;
 import com.ddf.boot.quick.model.response.ActiveSwitchResponse;
-import com.ddf.boot.quick.model.response.CaptchaResponse;
 import com.ddf.boot.quick.model.response.CurrentUserResponse;
 import com.ddf.boot.quick.model.response.LoginResponse;
 import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
 import com.ddf.boot.quick.model.response.SysUserDetailResponse;
 import com.ddf.boot.quick.model.response.SysUserResetPasswordResponse;
-import com.ddf.common.captcha.helper.CaptchaHelper;
-import com.ddf.common.captcha.model.CaptchaRequest;
-import com.ddf.common.captcha.model.CaptchaResult;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,26 +59,6 @@ public class AdminController {
     private final ISysUserBizService sysUserBizService;
 
     private final ISysRoleMenuBizService sysRoleMenuBizService;
-
-    private final CaptchaHelper captchaHelper;
-
-    /**
-     * 生成验证码
-     *
-     * @param request
-     * @return
-     */
-    @PostMapping("sysUser/generateCaptcha")
-    public CaptchaResponse generateCaptcha(@RequestBody @Validated CaptchaRequest request) {
-        final CaptchaResult generate = captchaHelper.generate(request);
-        final CaptchaResponse response = new CaptchaResponse();
-        response.setWidth(generate.getWidth());
-        response.setHeight(generate.getHeight());
-        response.setTokenId(generate.getToken());
-        response.setBase64(generate.getImageBase64());
-        response.setPrefix(generate.getPrefix());
-        return response;
-    }
 
     /**
      * 创建系统用户
