@@ -1,6 +1,5 @@
 package com.ddf.boot.quick.features;
 
-import com.anji.captcha.model.common.CaptchaTypeEnum;
 import com.anji.captcha.model.vo.PointVO;
 import com.anji.captcha.util.AESUtil;
 import com.ddf.boot.common.core.util.JsonUtil;
@@ -80,7 +79,7 @@ public class CaptchaHelperTest extends QuickApplicationTest {
             final List<PointVO> vos = com.anji.captcha.util.JsonUtil.parseArray(token, PointVO.class);
             final String s = AESUtil.aesEncrypt(token, vos.get(0).getSecretKey());
             checkRequest.setVerifyCode(s);
-            checkRequest.setCaptchaType(CaptchaTypeEnum.CLICKWORD.getCodeValue());
+            checkRequest.setCaptchaType(CaptchaType.CLICK_WORDS);
             System.out.println("文字点选校验: ");
             captchaHelper.check(checkRequest);
         } catch (Exception e) {
@@ -93,7 +92,7 @@ public class CaptchaHelperTest extends QuickApplicationTest {
             generate = captchaHelper.generate(request);
             System.out.println(JsonUtil.toJson(generate));
             checkRequest = new CaptchaCheckRequest();
-            checkRequest.setCaptchaType(CaptchaTypeEnum.BLOCKPUZZLE.getCodeValue());
+            checkRequest.setCaptchaType(CaptchaType.PIC_SLIDE);
             checkRequest.setToken(generate.getToken());
             final String token = captchaHelper.getVerifyCodeByToken(generate.getToken());
             final PointVO pointVO = com.anji.captcha.util.JsonUtil.parseObject(token, PointVO.class);
