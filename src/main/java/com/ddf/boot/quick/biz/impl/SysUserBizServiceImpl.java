@@ -3,17 +3,18 @@ package com.ddf.boot.quick.biz.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.StrUtil;
-import com.ddf.boot.common.core.config.AuthenticationProperties;
+import com.ddf.boot.common.authentication.config.AuthenticationProperties;
+import com.ddf.boot.common.authentication.model.AuthenticateToken;
+import com.ddf.boot.common.authentication.model.UserClaim;
+import com.ddf.boot.common.authentication.util.TokenUtil;
 import com.ddf.boot.common.core.enumration.CommonLogic;
 import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
-import com.ddf.boot.common.core.model.UserClaim;
 import com.ddf.boot.common.core.util.DateUtils;
 import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.core.util.SecureUtil;
 import com.ddf.boot.common.core.util.WebUtil;
-import com.ddf.boot.common.jwt.util.JwtUtil;
 import com.ddf.boot.common.rocketmq.dto.RocketMQDestination;
 import com.ddf.boot.common.rocketmq.helper.RocketMQHelper;
 import com.ddf.boot.quick.biz.ISysUserBizService;
@@ -207,7 +208,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     @Transactional(rollbackFor = Exception.class)
     public LoginResponse loginByPassword(LoginRequest request) {
         // 验证码白名单
-        final List<String> whiteLoginNameList = authenticationProperties.getWhiteLoginNameList();
+        final List<String> whiteLoginNameList = authenticationProperties.getBiz().getWhiteLoginNameList();
         if (CollectionUtil.isEmpty(whiteLoginNameList) || !whiteLoginNameList.contains(request.getLoginName())) {
             // 获取随机数对应的验证码
             final String verifyCode = stringRedisTemplate.opsForValue()
@@ -244,13 +245,13 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
                 // 记录用户当前登录时间
                 .setLastLoginTime(loginTimeMillis)
                 .setLastModifyPasswordTime(DateUtils.toDefaultMills(sysUser.getLastPwdResetTime()));
-        String jwtToken = JwtUtil.defaultJws(userClaim);
+        AuthenticateToken authenticateToken = TokenUtil.createToken(userClaim);
 
         // 处理登录事件
         final UserLoginHistoryDTO userLoginHistoryDTO = UserLoginHistoryDTO.builder()
                 .userId(sysUser.getUserId())
                 .loginName(sysUser.getLoginName())
-                .token(jwtToken)
+                .token(authenticateToken.getToken())
                 .loginTime(sysUser.getLastLoginTime())
                 .loginIp(WebUtil.getHost())
                 .loginAddress(WebUtil.getCurRequest()
@@ -260,7 +261,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         applicationContext.publishEvent(new SysUserLoginEvent(this, userLoginHistoryDTO));
 
         final LoginResponse response = new LoginResponse();
-        return response.setToken(jwtToken);
+        return response.setToken(authenticateToken.getToken());
     }
 
     /**
@@ -332,7 +333,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         final SysUser sysUser = sysUserService.getByPrimaryKey(request.getId());
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
         PreconditionUtil.checkArgument(sysUserHelper.isAdmin(), BizCode.NOT_SUPER_ADMIN);
-        final String initPassword = authenticationProperties.getResetPassword();
+        final String initPassword = authenticationProperties.getBiz().getResetPassword();
         sysUser.setPassword(SecureUtil.signWithHMac(initPassword, sysUser.getUserId()));
         log.info("重置用户[{}]密码为[{}]", sysUser.getUserId(), initPassword);
         sysUserService.update(sysUser);

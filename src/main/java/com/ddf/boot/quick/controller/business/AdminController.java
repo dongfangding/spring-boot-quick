@@ -1,8 +1,8 @@
 package com.ddf.boot.quick.controller.business;
 
+import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.common.core.model.CommonSwitchRequest;
 import com.ddf.boot.common.core.model.PageResult;
-import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.quick.biz.ISysMenuBizService;
 import com.ddf.boot.quick.biz.ISysRoleBizService;
 import com.ddf.boot.quick.biz.ISysRoleMenuBizService;

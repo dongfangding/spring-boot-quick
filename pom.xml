@@ -167,7 +167,7 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-jwt</artifactId>
+            <artifactId>ddf-common-authentication</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
 

@@ -1,11 +1,11 @@
 package com.ddf.boot.quick.biz;
 
 import cn.hutool.core.util.RandomUtil;
+import com.ddf.boot.common.authentication.model.UserClaim;
+import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.common.core.model.PageRequest;
 import com.ddf.boot.common.core.model.PageResult;
-import com.ddf.boot.common.core.model.UserClaim;
 import com.ddf.boot.common.core.util.JsonUtil;
-import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.quick.QuickApplicationTest;
 import com.ddf.boot.quick.model.dto.SysRoleDTO;
 import com.ddf.boot.quick.model.request.SysRoleCreateRequest;

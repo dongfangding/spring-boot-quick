@@ -1,9 +1,9 @@
 package com.ddf.boot.quick.common.security;
 
 import cn.hutool.core.convert.Convert;
-import com.ddf.boot.common.core.model.UserClaim;
+import com.ddf.boot.common.authentication.interfaces.UserClaimService;
+import com.ddf.boot.common.authentication.model.UserClaim;
 import com.ddf.boot.common.core.util.DateUtils;
-import com.ddf.boot.common.jwt.interfaces.UserClaimService;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.service.ISysUserService;
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +45,7 @@ public class UserClaimServiceImpl implements UserClaimService {
      *
      * @param userClaim
      * @return
-     * @see com.ddf.boot.common.jwt.filter.JwtAuthorizationTokenFilter
+     * @see com.ddf.boot.common.authenticate.filter.AuthenticateTokenFilter
      */
     @Override
     public UserClaim getStoreUserInfo(UserClaim userClaim) {

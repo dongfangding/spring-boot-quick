@@ -2,9 +2,9 @@ package com.ddf.boot.quick.helper;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
+import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.common.core.constant.IUserIdCollection;
 import com.ddf.boot.common.core.enumration.CommonLogic;
-import com.ddf.boot.common.core.util.UserContextUtil;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.service.ISysUserRoleService;
 import com.ddf.boot.quick.service.ISysUserService;
