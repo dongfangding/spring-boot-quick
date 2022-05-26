@@ -53,6 +53,10 @@ spring:
 #    cluster:
 #      max-redirects: 3
 #      nodes: ${redis_node}
+    # 哨兵配置
+#    sentinel:
+#      master: mymaster
+#      nodes: xxxx:26379,xxxx:26380,xxxx:26381
     database: 0
     timeout: 3000ms
     password: ${redis_password}
@@ -169,10 +173,6 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
       - pre
       - prod
     exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
-  authentication:
-    reset-password: 123456
-    white-login-name-list:
-      - admin
 
   zookeeper:
     monitor:
@@ -181,6 +181,7 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   ext:
     ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
     oss:
+      enable: ${oss_enable}
       endpoint: ${oss_endpoint}
       accessKeyId: ${oss_accessKeyId}
       accessKeySecret: ${oss_accessKeySecret}
@@ -195,14 +196,14 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
           primary: true
     ## 短信服务配置 com.ddf.boot.common.ext.sms.config.SmsProperties
     sms:
+      enable: ${sms_enable}
       endpoint: dysmsapi.aliyuncs.com
       protocol: HTTP
-      secretAccessKey: ${oss_secret}
-      accessKeyId: ${oss_accessKeyId}
-      accessKeySecret: ${oss_accessKeySecret}
-      sinaName: ABC商城
-      templateCode: SMS_204455240
-      useRandomCode: true
+      secretAccessKey: ${sms_secret}
+      accessKeyId: ${sms_accessKeyId}
+      accessKeySecret: ${sms_accessKeySecret}
+      sinaName: ${sms_sinaName}
+      templateCode: SMS_154950909
 
   websocket:
     properties:
@@ -223,30 +224,36 @@ customs: # 自定义的属性最好都写在custom前缀下，方便辨认
     zkPort: 2181
     segmentEnable: true
 
-  jwt:
-    secret: ${jwt_secret}
-    expiredMinute: 1080  # jwt token过期时间，单位分钟
-    refreshTokenMinute: 10  # 在jwt token有效时间剩余达到了这个时间（分钟），如果用户在线（即调用了任意接口）则服务端主动刷新用户token并返回，需要前端配合处理重新替换用户token
+  authentication:
+    secret: ${authentication_secret}
+    expiredMinute: 10080
     ignores: ## 接口用户认证请求拦截忽略路径
-      - path: /v2/**
-      - path: /swagger-ui.html
-      - path: /swagger-ui.html/**
-      - path: /swagger-resources/**
-      - path: /swagger/**
-      - path: /webjars/**
-      - path: /druid/**
-      - path: /csrf
-      - path: /app.js
-      - path: /websocket.html
-      - path: /js/**
-      - path: /ws/**
-      - path: /pay-ws/**
-      - path: /heartCheck.txt
-      - path: /index.html
-      - path: /favicon.ico
-      - path: /sysUser/generateCaptcha
-      - path: /sysUser/loginByPassword
-      - path: /quick-start/quickTest
+      - /v2/**
+      - /swagger-ui.html
+      - /swagger-ui.html/**
+      - /swagger-resources/**
+      - /swagger/**
+      - /webjars/**
+      - /druid/**
+      - /csrf
+      - /app.js
+      - /websocket.html
+      - /js/**
+      - /ws/**
+      - /heartCheck.txt
+      - /index.html
+      - /favicon.ico
+      - /sysUser/generateCaptcha
+      - /sysUser/loginByPassword
+      - /quick-start/quickTest
+      - /emq/**
+    mock: true
+    mockUserIdList: [1]
+    biz:
+      whiteLoginNameList:
+        - admin
+        - test
+      resetPassword: 123456789
   rsa:
     primaryKey: ${rsa_primaryKey}
     publicKey: ${rsa_publicKey}
@@ -277,4 +284,38 @@ nacos:
       - dataId: config-properties
         type: properties
         auto-refresh: true
+emq.config:
+  connectionUrls:
+    - protocol: mqtt_tcp
+      url: tcp://xxxx:1883
+  client:
+    clientIdPrefix: boot-quick
+    username: xxxx
+    password: xxx
+fdfs:
+  # tracker-server列表
+  trackerList:
+    - xxxx:22122
+  # web服务器，但是没看懂在项目中的作用
+  webServerUrl: https://xxxx
+  # 连接超时时间
+  connect-timeout: 2000
+  # 读取超时时间
+  so-timeout: 3000
+  # 缩略图配置
+  thumb-image:
+    width: 150
+    height: 150
+  # 连接池配置
+  pool:
+    # 从池中借出的对象的最大数目（配置为-1表示不限制）
+    max-total: -1
+    # 获取连接时的最大等待毫秒数(默认配置为5秒)
+    max-wait-millis: 5000
+    # 每个key最大连接数
+    max-total-per-key: 300
+    # 每个key对应的连接池最大空闲连接数
+    max-idle-per-key: 10
+    # 每个key对应的连接池最小空闲连接数
+    min-idle-per-key: 5
 

@@ -34,6 +34,11 @@ spring:
     active: dev
   application:
     name: boot-quick
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
 logging:
   level:
     root: info
