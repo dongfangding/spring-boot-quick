@@ -2,9 +2,8 @@ package com.ddf.boot.quick.controller.features;
 
 import com.ddf.boot.quick.helper.CommonHelper;
 import com.ddf.boot.quick.model.request.SendSmsCodeRequest;
-import com.ddf.boot.quick.model.response.CaptchaResponse;
-import com.ddf.common.captcha.model.CaptchaRequest;
-import com.ddf.common.captcha.model.CaptchaResult;
+import com.ddf.common.captcha.model.request.CaptchaRequest;
+import com.ddf.common.captcha.model.response.ApplicationCaptchaResult;
 import comm.ddf.common.vps.dto.UploadResponse;
 import comm.ddf.common.vps.helper.VpsClient;
 import java.util.List;
@@ -42,15 +41,8 @@ public class CommonController {
      * @return
      */
     @PostMapping("sysUser/generateCaptcha")
-    public CaptchaResponse generateCaptcha(@RequestBody @Validated CaptchaRequest request) {
-        final CaptchaResult generate = commonHelper.generateCaptcha(request);
-        final CaptchaResponse response = new CaptchaResponse();
-        response.setWidth(generate.getWidth());
-        response.setHeight(generate.getHeight());
-        response.setTokenId(generate.getToken());
-        response.setBase64(generate.getImageBase64());
-        response.setPrefix(generate.getPrefix());
-        return response;
+    public ApplicationCaptchaResult generateCaptcha(@RequestBody @Validated CaptchaRequest request) {
+        return commonHelper.generateCaptcha(request);
     }
 
     /**

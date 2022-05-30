@@ -6,8 +6,8 @@ import com.ddf.boot.common.ext.sms.model.SmsSendRequest;
 import com.ddf.boot.common.ext.sms.model.SmsSendResponse;
 import com.ddf.boot.quick.model.request.SendSmsCodeRequest;
 import com.ddf.common.captcha.helper.CaptchaHelper;
-import com.ddf.common.captcha.model.CaptchaRequest;
-import com.ddf.common.captcha.model.CaptchaResult;
+import com.ddf.common.captcha.model.request.CaptchaRequest;
+import com.ddf.common.captcha.model.response.ApplicationCaptchaResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -32,8 +32,8 @@ public class CommonHelper {
      * @param request
      * @return
      */
-    public CaptchaResult generateCaptcha(CaptchaRequest request) {
-        return captchaHelper.generate(request);
+    public ApplicationCaptchaResult generateCaptcha(CaptchaRequest request) {
+        return ApplicationCaptchaResult.fromCaptchaResult(captchaHelper.generate(request));
     }
 
     /**
