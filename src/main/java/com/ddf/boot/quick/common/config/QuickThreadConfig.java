@@ -41,6 +41,6 @@ public class QuickThreadConfig {
      */
     @Bean
     public ThreadPoolTaskExecutor heartBeatExecutor() {
-        return ThreadBuilderHelper.buildThreadExecutor("heart-bet-executor-", 60, 1000,1, 1);
+        return ThreadBuilderHelper.buildThreadExecutor("heart-bet-executor-", 60, 1000,1, 1, true);
     }
 }

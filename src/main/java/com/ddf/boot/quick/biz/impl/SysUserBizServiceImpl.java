@@ -242,8 +242,6 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         userClaim.setUserId(Convert.toStr(sysUser.getUserId()))
                 .setUsername(sysUser.getLoginName())
                 .setCredit(WebUtil.getHost())
-                // 记录用户当前登录时间
-                .setLastLoginTime(loginTimeMillis)
                 .setLastModifyPasswordTime(DateUtils.toDefaultMills(sysUser.getLastPwdResetTime()));
         AuthenticateToken authenticateToken = TokenUtil.createToken(userClaim);
 

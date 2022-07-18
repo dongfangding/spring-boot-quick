@@ -1,6 +1,6 @@
 package com.ddf.boot.quick.controller.features;
 
-import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
+import com.ddf.boot.common.limit.exception.LimitExceptionCode;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
 import com.google.common.base.Preconditions;
 import javax.annotation.PostConstruct;
@@ -48,7 +48,7 @@ public class RedissonController {
     public Boolean testLeakyBucketRateLimitA() {
         //        Preconditions.checkArgument(redisTemplateHelper.leakyBucketRateLimitAcquire(RedisRequestDefinition.testLeakyBucketRateLimitA),
         //                GlobalCallbackCode.RATE_LIMIT);
-        Preconditions.checkArgument(limiter.tryAcquire(1), GlobalCallbackCode.RATE_LIMIT);
+        Preconditions.checkArgument(limiter.tryAcquire(1), LimitExceptionCode.RATE_LIMIT);
         return Boolean.TRUE;
     }
 

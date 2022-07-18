@@ -1,8 +1,8 @@
 package com.ddf.boot.quick.controller.features;
 
 import com.ddf.boot.common.core.exception200.BusinessException;
-import com.ddf.boot.common.core.exception200.GlobalCallbackCode;
 import com.ddf.boot.common.core.util.PreconditionUtil;
+import com.ddf.boot.common.limit.exception.LimitExceptionCode;
 import com.ddf.boot.common.lock.DistributedLock;
 import com.ddf.boot.common.lock.exception.LockingAcquireException;
 import com.ddf.boot.common.lock.exception.LockingReleaseException;
@@ -202,7 +202,7 @@ public class QuickStartController {
     public Boolean testRedisRateLimitA() {
         PreconditionUtil.checkArgument(
                 redisTemplateHelper.tokenBucketRateLimitAcquire(RedisRequestDefinition.testRateLimitA),
-                GlobalCallbackCode.RATE_LIMIT
+                LimitExceptionCode.RATE_LIMIT
         );
         return Boolean.TRUE;
     }
@@ -217,7 +217,7 @@ public class QuickStartController {
     public Boolean testRedisRateLimitB() {
         PreconditionUtil.checkArgument(
                 redisTemplateHelper.tokenBucketRateLimitAcquire(RedisRequestDefinition.testRateLimitB),
-                GlobalCallbackCode.RATE_LIMIT
+                LimitExceptionCode.RATE_LIMIT
         );
         return Boolean.TRUE;
     }

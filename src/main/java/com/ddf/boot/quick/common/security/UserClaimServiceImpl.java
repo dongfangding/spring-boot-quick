@@ -3,7 +3,6 @@ package com.ddf.boot.quick.common.security;
 import cn.hutool.core.convert.Convert;
 import com.ddf.boot.common.authentication.interfaces.UserClaimService;
 import com.ddf.boot.common.authentication.model.UserClaim;
-import com.ddf.boot.common.core.util.DateUtils;
 import com.ddf.boot.quick.model.entity.SysUser;
 import com.ddf.boot.quick.service.ISysUserService;
 import javax.servlet.http.HttpServletRequest;
@@ -52,8 +51,7 @@ public class UserClaimServiceImpl implements UserClaimService {
         UserClaim dbUserClaim = new UserClaim();
         SysUser dbUser = sysUserService.getByUserId(userClaim.getUserId());
         // 将当前token对应的用户查询出来返回，给调用方用户将数据库数据和token进行比较
-        dbUserClaim.setUserId(Convert.toStr(dbUser.getUserId())).setUsername(dbUser.getLoginName()).setLastLoginTime(
-            DateUtils.toDefaultMills(dbUser.getLastLoginTime())).setLastModifyPasswordTime(DateUtils.toDefaultMills(dbUser.getLastPwdResetTime()));
+        dbUserClaim.setUserId(Convert.toStr(dbUser.getUserId())).setUsername(dbUser.getLoginName());
         return dbUserClaim;
     }
 
