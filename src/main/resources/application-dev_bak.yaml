@@ -17,12 +17,16 @@ spring:
       # 回收连接相关
       time-between-eviction-runs-millis: 60000
       min-evictable-idle-time-millis: 600000
-      validation-query: SELECT 1
+      validation-query: SELECT x
+      # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
       test-while-idle: true
-      test-on-borrow: true
+      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
       test-on-return: false
+      # 其实就是ps cache , oracle数据库时使用，mysql要关闭
       poolPreparedStatements: false
-      max-open-prepared-statements: 20
+      max-open-prepared-statements: 100
       filter:
         stat:
           enabled: true
