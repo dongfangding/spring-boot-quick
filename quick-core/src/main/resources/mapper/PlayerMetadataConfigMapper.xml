@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.quickstart.core.mapper.PlayerMetadataConfigMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.quickstart.core.entity.UserMetadataConfig">
+    <!--@mbg.generated-->
+    <!--@Table player_metadata_config-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="player_id" jdbcType="BIGINT" property="playerId" />
+    <result column="config_code" jdbcType="VARCHAR" property="configCode" />
+    <result column="config_value" jdbcType="LONGVARCHAR" property="configValue" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, player_id, config_code, config_value
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from player_metadata_config
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from player_metadata_config
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into player_metadata_config (player_id, config_code, config_value
+      )
+    values (#{playerId,jdbcType=BIGINT}, #{configCode,jdbcType=VARCHAR}, #{configValue,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into player_metadata_config
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="playerId != null">
+        player_id,
+      </if>
+      <if test="configCode != null and configCode != ''">
+        config_code,
+      </if>
+      <if test="configValue != null and configValue != ''">
+        config_value,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="playerId != null">
+        #{playerId,jdbcType=BIGINT},
+      </if>
+      <if test="configCode != null and configCode != ''">
+        #{configCode,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null and configValue != ''">
+        #{configValue,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig">
+    <!--@mbg.generated-->
+    update player_metadata_config
+    <set>
+      <if test="playerId != null">
+        player_id = #{playerId,jdbcType=BIGINT},
+      </if>
+      <if test="configCode != null and configCode != ''">
+        config_code = #{configCode,jdbcType=VARCHAR},
+      </if>
+      <if test="configValue != null and configValue != ''">
+        config_value = #{configValue,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig">
+    <!--@mbg.generated-->
+    update player_metadata_config
+    set player_id = #{playerId,jdbcType=BIGINT},
+      config_code = #{configCode,jdbcType=VARCHAR},
+      config_value = #{configValue,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

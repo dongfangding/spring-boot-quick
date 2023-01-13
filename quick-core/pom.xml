@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>spring-boot-quick</artifactId>
+        <groupId>com.ddf.spring-boot</groupId>
+        <version>1.0.0-quickstart-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>quick-core</artifactId>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <disruptor.version>3.4.4</disruptor.version>
+        <log4j2.version>2.17.1</log4j2.version>
+        <ddf-common-core.version>1.0.2-SNAPSHOT</ddf-common-core.version>
+        <ddf-common-authentication.version>1.0.2-SNAPSHOT</ddf-common-authentication.version>
+        <ddf-common-mybatis-plus.version>1.0.2-SNAPSHOT</ddf-common-mybatis-plus.version>
+        <ddf-common-limit.version>1.0.2-SNAPSHOT</ddf-common-limit.version>
+        <ddf-common-redis.version>1.0.2-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-captcha.version>1.0.2-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-captcha.version>1.0.2-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-third-party.version>1.0.2-SNAPSHOT</ddf-common-third-party.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.ddf.spring-boot</groupId>
+            <artifactId>quick-api</artifactId>
+            <version>1.0.0-quickstart-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-core</artifactId>
+            <version>${ddf-common-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-authentication</artifactId>
+            <version>${ddf-common-authentication.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-mybatis-plus</artifactId>
+            <version>${ddf-common-mybatis-plus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-limit</artifactId>
+            <version>${ddf-common-limit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-redis</artifactId>
+            <version>${ddf-common-redis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-captcha</artifactId>
+            <version>${ddf-common-captcha.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 日志组件 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-slf4j-impl</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j-core</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j-jul</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <version>${log4j2.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j-core</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>slf4j-api</artifactId>
+                    <groupId>org.slf4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <artifactId>log4j-api</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <version>${log4j2.version}</version>
+        </dependency>
+        <dependency>
+            <artifactId>log4j-core</artifactId>
+            <groupId>org.apache.logging.log4j</groupId>
+            <version>${log4j2.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 日志组件依赖，异步打印日志 -->
+        <dependency>
+            <groupId>com.lmax</groupId>
+            <artifactId>disruptor</artifactId>
+            <version>${disruptor.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-third-party</artifactId>
+            <version>${ddf-common-third-party.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>spring-boot-quick</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <fork>true</fork>
+                    <classifier>exec</classifier>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                            <goal>build-info</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <!--<phase>verify</phase>-->
+                        <phase>install</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgument>-parameters</compilerArgument>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <skip>true</skip>
+                    </includes>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <tagNameFormat>v@{project.version}</tagNameFormat>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-archetype-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <phase>deploy</phase>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

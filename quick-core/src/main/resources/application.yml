@@ -1,0 +1,63 @@
+# redis
+redis_host: localhost
+redis_port: 6379
+redis_password: redis_password
+redis_database: redis_database
+
+
+# mysql
+mysql_host: localhost
+mysql_port: 3306
+mysql_db: boot-quick
+mysql_username: mysql_username
+mysql_password: mysql_password
+
+# 动态RSA
+rsa_primaryKey: wait_fill
+rsa_publicKey: wait_fill
+
+## druid
+druid_stat_enable: false
+druid_state_username: wait_fill
+druid_state_password: wait_fill
+
+server:
+  port: 8080
+  tomcat:
+    max-connections: 10000
+    threads:
+      max: 300
+      min-spare: 20
+    processor-cache: 300
+  servlet:
+    context-path: /xiuXian
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 60
+  profiles:
+    active: dev
+  application:
+    name: xiu-xian-config-server
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+logging:
+  level:
+    root: info
+    com.ddf.boot.common.log.AccessLogAspect: debug
+
+customs:
+  authentication:
+    secret: happygamegamehappygamehappyhappy
+    ignores:
+      - /player/registry
+      - /player/login
+      - /statistics/adClick
+    expired-minute: 10080
+
