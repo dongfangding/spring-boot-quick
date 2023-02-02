@@ -1,0 +1,70 @@
+### 生成验证码
+POST http://localhost:8080/quickstart/common/generateCaptcha
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "captchaType": "CLICK_WORDS"
+}
+
+### 验证码校验
+POST http://localhost:8080/quickstart/common/checkCaptcha
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "uuid": "test_2590435d169a",
+  "verifyCode": "test_8715863e5cdd",
+  "captchaType": "CLICK_WORDS",
+  "verification": false,
+  "captchaVerification": "test_3d79b512c774"
+}
+
+### 发送短信验证码
+POST http://localhost:8080/quickstart/common/sendSmsCode
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "mobile": "18356780000",
+  "captchaVerifyRequest": {
+    "uuid": "test_b1999d90d18d",
+    "verifyCode": "test_533a011f56c8",
+    "captchaType": "MATH",
+    "verification": true,
+    "captchaVerification": "test_073427f3c00f"
+  }
+}
+
+### 字典查询
+GET http://localhost:8080/quickstart/common/listDict?dictType=xxx
+Authorization: Bearer $2a$10$hbsaGaUKqpV4wgz0nT7e7e6J/nRVXnNdzDbLc6eocB.USTRIn/Tjy<=>efe83ec743690a1c463c6b551bbe0d09b589111380397a7a4341bbe76aba8eda103ee09daf1cc5b36c1b73060c233ed965b9ffac0588a0100576e049dad1e2c06a5978f56516c3cba388059467b6a845e7a0d2358413ae7885a124d9d299bb7a69366fefdd6a700631e87d0630ae780914cf3eb09a525aad069a78e92a2f8665592813d4fb155ee59c329f137787b7242b77eaf474151a8546d20558cd20aa4ea2f6a9d64ebd5c377f7f4c2ba98d7454
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{}
+

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.quickstart.core.mapper.SysDictMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.quickstart.core.entity.SysDict">
+    <!--@mbg.generated-->
+    <!--@Table sys_dict-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="dict_type_code" jdbcType="VARCHAR" property="dictTypeCode" />
+    <result column="dict_type_name" jdbcType="VARCHAR" property="dictTypeName" />
+    <result column="dict_detail_code" jdbcType="VARCHAR" property="dictDetailCode" />
+    <result column="dict_detail_name" jdbcType="VARCHAR" property="dictDetailName" />
+    <result column="request_value" jdbcType="VARCHAR" property="requestValue" />
+    <result column="sort" jdbcType="INTEGER" property="sort" />
+    <result column="active" jdbcType="BIT" property="active" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, dict_type_code, dict_type_name, dict_detail_code, dict_detail_name, request_value, 
+    sort, active
+  </sql>
+</mapper>

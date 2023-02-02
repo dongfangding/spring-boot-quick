@@ -2,11 +2,11 @@ package com.ddf.boot.quickstart.core.strategy.login;
 
 import com.ddf.boot.common.core.encode.BCryptPasswordEncoder;
 import com.ddf.boot.common.core.util.PreconditionUtil;
+import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
+import com.ddf.boot.quickstart.api.enume.LoginTypeEnum;
+import com.ddf.boot.quickstart.api.request.auth.LoginRequest;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.repository.UserRepository;
-import com.ddf.game.xiuxian.api.enume.LoginTypeEnum;
-import com.ddf.game.xiuxian.api.enume.XiuXianExceptionCode;
-import com.ddf.game.xiuxian.api.request.player.LoginRequest;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PasswordLoginStrategy implements LoginStrategy {
 
-    private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -36,12 +36,12 @@ public class PasswordLoginStrategy implements LoginStrategy {
     @Override
     public UserInfo login(LoginRequest loginRequest) {
         final String nickname = loginRequest.getLoginIdentity();
-        final UserInfo userInfo = userRepository.getByAccountName(nickname);
-        PreconditionUtil.checkArgument(Objects.nonNull(userInfo), XiuXianExceptionCode.ACCOUNT_NOT_EXISTS);
+        final UserInfo userInfo = userInfoRepository.getByAccountName(nickname);
+        PreconditionUtil.checkArgument(Objects.nonNull(userInfo), ApplicationExceptionCode.ACCOUNT_NOT_EXISTS);
 
         String password = loginRequest.getCredential();
         final boolean matches = bCryptPasswordEncoder.matches(password, userInfo.getPassword());
-        PreconditionUtil.checkArgument(matches, XiuXianExceptionCode.PASSWORD_ERROR);
+        PreconditionUtil.checkArgument(matches, ApplicationExceptionCode.PASSWORD_ERROR);
         return userInfo;
     }
 }

@@ -1,24 +1,23 @@
 package com.ddf.boot.quickstart.core.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import lombok.Data;
 
 /**
-* <p>用户登录历史记录</p >
+* <p>用户登录历史</p >
 *
 * @author Snowball
 * @version 1.0
-* @date 2022/12/17 22:08
+* @date 2023/02/02 16:53
 */
 @Data
-public class UserLoginHistory implements Serializable {
+public class UserLoginHistory {
     private Long id;
 
     /**
-    * 玩家id
+    * 用户id
     */
-    private Long playerId;
+    private Long userId;
 
     /**
     * 登录方式
@@ -60,5 +59,4 @@ public class UserLoginHistory implements Serializable {
     */
     private Integer version;
 
-    private static final long serialVersionUID = 1L;
 }

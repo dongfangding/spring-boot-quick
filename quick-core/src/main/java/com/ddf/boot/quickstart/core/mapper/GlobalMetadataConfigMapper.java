@@ -8,12 +8,10 @@ import com.ddf.boot.quickstart.core.entity.GlobalMetadataConfig;
 *
 * @author Snowball
 * @version 1.0
-* @date 2022/12/16 14:37
+* @date 2023/02/02 16:53
 */
 public interface GlobalMetadataConfigMapper extends BaseMapper<GlobalMetadataConfig> {
     int deleteByPrimaryKey(Long id);
-
-    int insert(GlobalMetadataConfig record);
 
     int insertSelective(GlobalMetadataConfig record);
 

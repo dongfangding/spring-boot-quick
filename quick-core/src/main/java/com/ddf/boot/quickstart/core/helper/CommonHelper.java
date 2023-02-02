@@ -10,6 +10,7 @@ import com.ddf.boot.common.api.util.DateUtils;
 import com.ddf.boot.common.authentication.config.AuthenticationProperties;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
+import com.ddf.boot.common.core.util.RequestContextUtil;
 import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.common.ext.sms.model.SmsSendRequest;
 import com.ddf.boot.common.ext.sms.model.SmsSendResponse;
@@ -80,12 +81,11 @@ public class CommonHelper {
     /**
      * 发送短信验证码
      *
-     * @param sendSmsCodeRequest
+     * @param mobile
      */
-    public SmsSendResponse sendSmsCode(SendSmsCodeRequest sendSmsCodeRequest) {
-        PreconditionUtil.requiredParamCheck(sendSmsCodeRequest);
+    public SmsSendResponse sendSmsCodeWithoutAnyLimit(String mobile) {
         final SmsSendRequest request = new SmsSendRequest();
-        request.setPhoneNumbers(sendSmsCodeRequest.getMobile());
+        request.setPhoneNumbers(mobile);
         return smsClient.send(request);
     }
 
@@ -108,27 +108,30 @@ public class CommonHelper {
      * @return
      */
     public ApplicationSmsSendResponse sendAndLoadSmsCodeWithLimit(SendSmsCodeRequest sendSmsCodeRequest) {
+        if (applicationProperties.isSmsCodeMockEnabled()) {
+            return sendAndLoadSmsCode(sendSmsCodeRequest.getMobile());
+        }
         // 验证码校验
         final CaptchaCheckRequest captchaVerifyRequest = sendSmsCodeRequest.getCaptchaVerifyRequest();
         captchaVerifyRequest.setVerification(true);
         verifyCaptcha(captchaVerifyRequest);
-        final String uid = StrUtil.blankToDefault(UserContextUtil.getUserId(), WebUtil.getHost());
+        final String uid = StrUtil.blankToDefault(UserContextUtil.getUserId(), RequestContextUtil.getRequestContext()
+                .getImei());
         return redisTemplateHelper.sliderWindowAccessExpiredAtCheckException(
                 RedisKeys.getSmsRateLimitKey(uid),
                 applicationProperties.getSmsDailyLimit(), DateUtils.getEndOfDay(new Date()), () -> {
-            return sendAndLoadSmsCode(sendSmsCodeRequest);
+            return sendAndLoadSmsCode(sendSmsCodeRequest.getMobile());
         }, ApplicationExceptionCode.SMS_CODE_LIMIT);
     }
 
     /**
      * 发送并存储短信验证码，并返回绑定的tokenId（随机参数，客户端回传进行表单绑定）， 无限流
      *
-     * @param sendSmsCodeRequest
+     * @param mobile
      * @return
      */
-    public ApplicationSmsSendResponse sendAndLoadSmsCode(SendSmsCodeRequest sendSmsCodeRequest) {
-        final String mobile = sendSmsCodeRequest.getMobile();
-        final SmsSendResponse tempResponse = sendSmsCode(sendSmsCodeRequest);
+    public ApplicationSmsSendResponse sendAndLoadSmsCode(String mobile) {
+        final SmsSendResponse tempResponse = sendSmsCodeWithoutAnyLimit(mobile);
         final String uuid = RandomUtil.randomString(16);
         commonRepository.setSmsCode(mobile, uuid, tempResponse.getRandomCode());
         return ApplicationSmsSendResponse.builder()

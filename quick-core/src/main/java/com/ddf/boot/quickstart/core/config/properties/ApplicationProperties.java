@@ -36,4 +36,9 @@ public class ApplicationProperties {
      */
     private boolean smsCodeMockEnabled = true;
 
+    /**
+     * 应用名称
+     */
+    private String applicationChineseName;
+
 }

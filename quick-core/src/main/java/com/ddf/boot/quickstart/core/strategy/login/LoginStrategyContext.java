@@ -16,7 +16,7 @@ import com.ddf.boot.quickstart.api.request.auth.LoginRequest;
 import com.ddf.boot.quickstart.api.response.auth.LoginResponse;
 import com.ddf.boot.quickstart.core.application.event.UserLoginEvent;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.repository.PlayerConfigRepository;
+import com.ddf.boot.quickstart.core.repository.UserMetadataConfigRepository;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -43,7 +43,7 @@ import org.springframework.stereotype.Component;
 public class LoginStrategyContext implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
-    private final PlayerConfigRepository playerConfigRepository;
+    private final UserMetadataConfigRepository userMetadataConfigRepository;
     private final Map<LoginTypeEnum, LoginStrategy> loginStrategyMap = new HashMap<>();
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -69,7 +69,7 @@ public class LoginStrategyContext implements ApplicationContextAware {
         final LoginTypeEnum loginType = loginRequest.getLoginType();
         final LoginStrategy loginStrategy = loginStrategyMap.get(loginType);
         PreconditionUtil.checkArgument(Objects.nonNull(loginStrategy), ApplicationExceptionCode.LOGIN_STRATEGY_MAPPING_ERROR);
-        // 登录策略， 校验通过后返回的玩家信息
+        // 登录策略， 校验通过后返回的用户信息
         final UserInfo userInfo = loginStrategy.login(loginRequest);
 
         String token = loginRequest.getCredential();
@@ -85,7 +85,7 @@ public class LoginStrategyContext implements ApplicationContextAware {
         // 发布登录事件
         final RequestContext requestContext = UserContextUtil.getRequestContext();
         final UserLoginEventPayload userLoginEventPayload = new UserLoginEventPayload();
-        userLoginEventPayload.setPlayerId(userInfo.getId());
+        userLoginEventPayload.setUserId(userInfo.getId());
         userLoginEventPayload.setLoginType(loginType.name());
         userLoginEventPayload.setLoginIp(requestContext.getClientIp());
         userLoginEventPayload.setLoginTime(DateUtils.currentTimeSeconds());

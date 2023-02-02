@@ -1,21 +1,22 @@
 package com.ddf.boot.quickstart.core.entity;
 
+import lombok.Data;
+
 /**
 * <p>用户数据配置表</p >
 *
 * @author Snowball
 * @version 1.0
-* @date 2022/12/16 14:37
+* @date 2023/02/02 16:53
 */
-import lombok.Data;
 @Data
 public class UserMetadataConfig {
     private Long id;
 
     /**
-    * 玩家ip
+    * 用户id
     */
-    private Long playerId;
+    private Long userId;
 
     /**
     * 配置代码
@@ -26,4 +27,5 @@ public class UserMetadataConfig {
     * 配置明细
     */
     private String configValue;
+
 }

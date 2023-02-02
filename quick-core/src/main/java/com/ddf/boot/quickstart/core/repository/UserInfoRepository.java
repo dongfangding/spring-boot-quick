@@ -99,7 +99,7 @@ public class UserInfoRepository {
     public UserInfo getUserByVerifiedEmail(String email) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserInfo::getEmail, email)
-                .eq(UserInfo::getEmailVerified, true);
+                .isNotNull(UserInfo::getEmail);
         return userInfoMapper.selectOne(wrapper);
     }
 
@@ -136,10 +136,7 @@ public class UserInfoRepository {
      */
     public int completeUserInfo(CompleteUserInfoCommand command) {
         final LambdaUpdateWrapper<UserInfo> wrapper = Wrappers.lambdaUpdate();
-        if (Objects.nonNull(command.getEmail())) {
-            wrapper.set(UserInfo::getEmail, "");
-            wrapper.set(UserInfo::getTempEmail, command.getEmail());
-        }
+        wrapper.set(UserInfo::getTempEmail, command.getEmail());
         if (Objects.nonNull(command.getNickname())) {
             wrapper.set(UserInfo::getNickname, command.getNickname());
         }
@@ -148,9 +145,6 @@ public class UserInfoRepository {
         }
         if (Objects.nonNull(command.getAvatarThumbUrl())) {
             wrapper.set(UserInfo::getAvatarThumbUrl, command.getAvatarThumbUrl());
-        }
-        if (Objects.nonNull(command.getEmailVerified())) {
-            wrapper.set(UserInfo::getEmailVerified, command.getEmailVerified());
         }
         wrapper.eq(UserInfo::getId, command.getId());
         return userInfoMapper.update(null, wrapper);
@@ -167,8 +161,7 @@ public class UserInfoRepository {
         final LambdaUpdateWrapper<UserInfo> wrapper = Wrappers.lambdaUpdate();
         wrapper.eq(UserInfo::getId, userId);
         wrapper.eq(UserInfo::getTempEmail, email);
-        wrapper.eq(UserInfo::getEmailVerified, Boolean.FALSE);
-        wrapper.set(UserInfo::getEmailVerified, Boolean.TRUE);
+        wrapper.isNull(UserInfo::getEmail);
         wrapper.set(UserInfo::getEmail, email);
         return userInfoMapper.update(null, wrapper);
     }

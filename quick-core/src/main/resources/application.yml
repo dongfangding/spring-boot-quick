@@ -30,7 +30,7 @@ server:
       min-spare: 20
     processor-cache: 300
   servlet:
-    context-path: /xiuXian
+    context-path: /quickstart
 
 spring:
   lifecycle:
@@ -38,7 +38,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: xiu-xian-config-server
+    name: quickstart
   mvc:
     hiddenmethod:
       filter:
@@ -56,8 +56,11 @@ customs:
   authentication:
     secret: happygamegamehappygamehappyhappy
     ignores:
-      - /player/registry
-      - /player/login
-      - /statistics/adClick
+      - /auth/sendRegisterSmsCode
+      - /auth/registry
+      - /auth/login
+      - /common/generateCaptcha
+      - /common/checkCaptcha
+      - /common/sendSmsCode
     expired-minute: 10080
 

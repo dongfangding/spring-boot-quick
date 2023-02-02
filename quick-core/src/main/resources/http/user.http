@@ -1,0 +1,96 @@
+### 注册
+POST http://localhost:8080/quickstart/user/registry
+Content-Type: application/json
+
+{
+  "nickname": "dingchen4",
+  "password": "E10ADC3949BA59ABBE56E057F20F883E"
+}
+
+### 登录
+POST http://localhost:8080/quickstart/user/login
+Content-Type: application/json
+os: PC
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "loginIdentity": "dingchen4",
+  "credential": "E10ADC3949BA59ABBE56E057F20F883E"
+}
+
+### 同步账号元数据
+POST http://localhost:8080/quickstart/user/syncAccountMetadata
+Content-Type: application/json
+Authorization: Bearer $2a$10$f4fZsURYddTxhCCjYsncFeBAlD5RQvxZ2zOYv4bxvYTfFBc12HFzi<=>a7a7c9f13779dd931d52cdad44ef2118b589111380397a7a4341bbe76aba8eda7c315cf7fb5a658032b89debfe6ba5989d99ad4492d2cd23779cb0b612f93270b4467720bd810cd004e68f1e710e107002b352f519e398ca84123e8a2839c97969366fefdd6a700631e87d0630ae780914cf3eb09a525aad069a78e92a2f8665592813d4fb155ee59c329f137787b7242b77eaf474151a8546d20558cd20aa4ea2f6a9d64ebd5c377f7f4c2ba98d7454
+
+{
+  "configValue": "fjwojgowejgoiwej"
+}
+
+### 获取账号元数据
+GET http://localhost:8080/quickstart/user/getAccountMetadata
+Content-Type: application/json
+Authorization: Bearer $2a$10$0p5kv8NfibnJWD5vRmhIiuX9zfPZjIZzxUEtgVTEoyt/xqsYGex.W<=>efe83ec743690a1c463c6b551bbe0d09b589111380397a7a4341bbe76aba8eda103ee09daf1cc5b36c1b73060c233ed965b9ffac0588a0100576e049dad1e2c06a5978f56516c3cba388059467b6a845e7a0d2358413ae7885a124d9d299bb7a69366fefdd6a700631e87d0630ae780914cf3eb09a525aad069a78e92a2f8665592813d4fb155ee59c329f137787b7242b77eaf474151a8546d20558cd20aa4ea2f6a9d64ebd5c377f7f4c2ba98d7454
+
+{
+  "configValue": "fjwojgowejgoiwej"
+}
+
+### 兑换cd key
+POST http://localhost:8080/quickstart/cdKey/draw
+Content-Type: application/json
+Authorization: Bearer $2a$10$hbsaGaUKqpV4wgz0nT7e7e6J/nRVXnNdzDbLc6eocB.USTRIn/Tjy<=>efe83ec743690a1c463c6b551bbe0d09b589111380397a7a4341bbe76aba8eda103ee09daf1cc5b36c1b73060c233ed965b9ffac0588a0100576e049dad1e2c06a5978f56516c3cba388059467b6a845e7a0d2358413ae7885a124d9d299bb7a69366fefdd6a700631e87d0630ae780914cf3eb09a525aad069a78e92a2f8665592813d4fb155ee59c329f137787b7242b77eaf474151a8546d20558cd20aa4ea2f6a9d64ebd5c377f7f4c2ba98d7454
+
+{
+  "cdKey": "toBeImmortal666"
+}
+
+### 用户进度条查询
+GET http://localhost:8080/quickstart/user/userProgress
+Content-Type: application/json
+Authorization: Bearer $2a$10$.9AfPNryhGNpeRkI0YoiPem373vpm5yKpvSsqMwTAIuNwqeSWLBN6<=>efe83ec743690a1c463c6b551bbe0d09b589111380397a7a4341bbe76aba8eda103ee09daf1cc5b36c1b73060c233ed965b9ffac0588a0100576e049dad1e2c06a5978f56516c3cba388059467b6a845e7a0d2358413ae7885a124d9d299bb7a69366fefdd6a700631e87d0630ae780914cf3eb09a525aad069a78e92a2f8665592813d4fb155ee59c329f137787b7242b77eaf474151a8546d20558cd20aa4ea2f6a9d64ebd5c377f7f4c2ba98d7454
+
+### 用户进度条同步
+POST http://localhost:8080/quickstart/user/userProgress/sync
+Content-Type: application/json
+Authorization: Bearer $2a$10$.9AfPNryhGNpeRkI0YoiPem373vpm5yKpvSsqMwTAIuNwqeSWLBN6<=>efe83ec743690a1c463c6b551bbe0d09b589111380397a7a4341bbe76aba8eda103ee09daf1cc5b36c1b73060c233ed965b9ffac0588a0100576e049dad1e2c06a5978f56516c3cba388059467b6a845e7a0d2358413ae7885a124d9d299bb7a69366fefdd6a700631e87d0630ae780914cf3eb09a525aad069a78e92a2f8665592813d4fb155ee59c329f137787b7242b77eaf474151a8546d20558cd20aa4ea2f6a9d64ebd5c377f7f4c2ba98d7454
+
+{
+  "progressType": "SYS_NOTICE"
+}
+
+### 最新公告查询
+GET http://localhost:8080/quickstart/sysNotice/latestSysNotice
+Content-Type: application/json
+Authorization: Bearer $2a$10$.9AfPNryhGNpeRkI0YoiPem373vpm5yKpvSsqMwTAIuNwqeSWLBN6<=>efe83ec743690a1c463c6b551bbe0d09b589111380397a7a4341bbe76aba8eda103ee09daf1cc5b36c1b73060c233ed965b9ffac0588a0100576e049dad1e2c06a5978f56516c3cba388059467b6a845e7a0d2358413ae7885a124d9d299bb7a69366fefdd6a700631e87d0630ae780914cf3eb09a525aad069a78e92a2f8665592813d4fb155ee59c329f137787b7242b77eaf474151a8546d20558cd20aa4ea2f6a9d64ebd5c377f7f4c2ba98d7454
+
+### 心跳
+POST http://localhost:8080/quickstart/user/heartbeat
+Content-Type: application/json
+Authorization: Bearer $2a$10$hbsaGaUKqpV4wgz0nT7e7e6J/nRVXnNdzDbLc6eocB.USTRIn/Tjy<=>efe83ec743690a1c463c6b551bbe0d09b589111380397a7a4341bbe76aba8eda103ee09daf1cc5b36c1b73060c233ed965b9ffac0588a0100576e049dad1e2c06a5978f56516c3cba388059467b6a845e7a0d2358413ae7885a124d9d299bb7a69366fefdd6a700631e87d0630ae780914cf3eb09a525aad069a78e92a2f8665592813d4fb155ee59c329f137787b7242b77eaf474151a8546d20558cd20aa4ea2f6a9d64ebd5c377f7f4c2ba98d7454
+
+{}
+
+
+### 广告点击
+POST http://localhost:8080/quickstart/statistics/adClick
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{}
+
+
+
+
+

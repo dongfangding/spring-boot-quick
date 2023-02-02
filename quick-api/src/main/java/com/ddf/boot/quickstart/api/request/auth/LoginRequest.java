@@ -29,7 +29,7 @@ public class LoginRequest implements Serializable {
     private String loginIdentity;
 
     /**
-     * 登录凭据（密码、验证码等）
+     * 登录凭据（密码、验证码,TOKEN等）
      */
     @NotBlank(message = "登录凭据不能为空")
     private String credential;

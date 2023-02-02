@@ -3,10 +3,10 @@ package com.ddf.boot.quickstart.core.strategy.login;
 import com.ddf.boot.common.authentication.model.AuthenticateCheckResult;
 import com.ddf.boot.common.authentication.model.UserClaim;
 import com.ddf.boot.common.authentication.util.TokenUtil;
+import com.ddf.boot.quickstart.api.enume.LoginTypeEnum;
+import com.ddf.boot.quickstart.api.request.auth.LoginRequest;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.repository.UserRepository;
-import com.ddf.game.xiuxian.api.enume.LoginTypeEnum;
-import com.ddf.game.xiuxian.api.request.player.LoginRequest;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class TokenLoginStrategy implements LoginStrategy {
 
-    private final UserRepository userRepository;
+    private final UserInfoRepository userInfoRepository;
 
     @Override
     public LoginTypeEnum getLoginType() {
@@ -40,6 +40,6 @@ public class TokenLoginStrategy implements LoginStrategy {
         final String userId = userClaim.getUserId();
         // 刷新token
         TokenUtil.refreshToken(userId, token);
-        return userRepository.getById(Long.parseLong(userId));
+        return userInfoRepository.getById(Long.parseLong(userId));
     }
 }

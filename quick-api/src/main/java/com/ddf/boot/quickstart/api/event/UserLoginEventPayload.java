@@ -22,9 +22,9 @@ public class UserLoginEventPayload implements Serializable {
     private static final long serialVersionUID = 1516322558409231083L;
 
     /**
-     * 玩家id
+     * 用户id
      */
-    private Long playerId;
+    private Long userId;
 
     /**
      * 登录方式

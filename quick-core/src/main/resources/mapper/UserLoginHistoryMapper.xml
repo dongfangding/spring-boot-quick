@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ddf.boot.quickstart.core.mapper.PlayerLoginHistoryMapper">
+<mapper namespace="com.ddf.boot.quickstart.core.mapper.UserLoginHistoryMapper">
   <resultMap id="BaseResultMap" type="com.ddf.boot.quickstart.core.entity.UserLoginHistory">
     <!--@mbg.generated-->
-    <!--@Table player_login_history-->
+    <!--@Table user_login_history-->
     <id column="id" jdbcType="BIGINT" property="id" />
-    <result column="player_id" jdbcType="BIGINT" property="playerId" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="login_type" jdbcType="VARCHAR" property="loginType" />
     <result column="login_ip" jdbcType="VARCHAR" property="loginIp" />
     <result column="login_time" jdbcType="BIGINT" property="loginTime" />
@@ -17,37 +17,26 @@
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
-    id, player_id, login_type, login_ip, login_time, imei, os, longitude, latitude, version
+    id, user_id, login_type, login_ip, login_time, imei, os, longitude, latitude, version
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     <!--@mbg.generated-->
     select 
     <include refid="Base_Column_List" />
-    from player_login_history
+    from user_login_history
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     <!--@mbg.generated-->
-    delete from player_login_history
+    delete from user_login_history
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserLoginHistory" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into player_login_history (player_id, login_type, login_ip, 
-      login_time, imei, os, 
-      longitude, latitude, version
-      )
-    values (#{playerId,jdbcType=BIGINT}, #{loginType,jdbcType=VARCHAR}, #{loginIp,jdbcType=VARCHAR}, 
-      #{loginTime,jdbcType=BIGINT}, #{imei,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, 
-      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{version,jdbcType=INTEGER}
-      )
-  </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserLoginHistory" useGeneratedKeys="true">
     <!--@mbg.generated-->
-    insert into player_login_history
+    insert into user_login_history
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="playerId != null">
-        player_id,
+      <if test="userId != null">
+        user_id,
       </if>
       <if test="loginType != null">
         login_type,
@@ -75,8 +64,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="playerId != null">
-        #{playerId,jdbcType=BIGINT},
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
       </if>
       <if test="loginType != null">
         #{loginType,jdbcType=VARCHAR},
@@ -106,10 +95,10 @@
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.quickstart.core.entity.UserLoginHistory">
     <!--@mbg.generated-->
-    update player_login_history
+    update user_login_history
     <set>
-      <if test="playerId != null">
-        player_id = #{playerId,jdbcType=BIGINT},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
       <if test="loginType != null">
         login_type = #{loginType,jdbcType=VARCHAR},
@@ -140,8 +129,8 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.ddf.boot.quickstart.core.entity.UserLoginHistory">
     <!--@mbg.generated-->
-    update player_login_history
-    set player_id = #{playerId,jdbcType=BIGINT},
+    update user_login_history
+    set user_id = #{userId,jdbcType=BIGINT},
       login_type = #{loginType,jdbcType=VARCHAR},
       login_ip = #{loginIp,jdbcType=VARCHAR},
       login_time = #{loginTime,jdbcType=BIGINT},

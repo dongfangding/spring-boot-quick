@@ -1,16 +1,16 @@
 package com.ddf.boot.quickstart.core.entity;
 
+import lombok.Data;
+
 /**
 * <p>服务配置中心</p >
 *
 * @author Snowball
 * @version 1.0
-* @date 2022/12/16 14:37
+* @date 2023/02/02 16:53
 */
-import lombok.Data;
 @Data
 public class GlobalMetadataConfig {
-
     private Long id;
 
     /**
@@ -22,5 +22,4 @@ public class GlobalMetadataConfig {
     * 配置值
     */
     private String configValue;
-
 }

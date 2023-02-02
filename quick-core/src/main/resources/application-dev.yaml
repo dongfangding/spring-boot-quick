@@ -1,15 +1,15 @@
 # redis
 redis_host: localhost
 redis_port: 6379
-redis_password: wait_fill
+redis_password: 123456
 redis_database: 0
 
 # mysql
 mysql_host: localhost
 mysql_port: 3306
-mysql_db: wait_fill
-mysql_username: wait_fill
-mysql_password: wait_fill
+mysql_db: quickstart
+mysql_username: root
+mysql_password: 123456
 
 # 动态RSA
 rsa_primaryKey: wait_fill
@@ -37,7 +37,7 @@ spring:
       # 回收连接相关
       time-between-eviction-runs-millis: 60000
       min-evictable-idle-time-millis: 600000
-      validation-query: SELECT x
+      validation-query: SELECT 1
       # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
       test-while-idle: true
       # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
@@ -69,16 +69,13 @@ spring:
     basename: exception/exception
     use-code-as-default-message: false
 
-  # 使用RedisProperties初始化redisson客户端
   redis:
     host: ${redis_host}
     port: ${redis_port}
     database: ${redis_database}
-    timeout: 3000ms
-    password: ${redis_password}
+#    password: ${redis_password}
     redisson:
-      # com.ddf.boot.common.redis.config.RedisCustomizeAutoConfiguration
-      codec: org.redisson.codec.JsonJacksonCodec
+      file: classpath:redisson.yml
 
 customs: # 自定义的属性最好都写在custom前缀下，方便辨认
   global-properties:
@@ -96,4 +93,4 @@ logging:
   level:
     root: info
     com.ddf.boot.common.log.AccessLogAspect: debug
-    com.ddf.game.core.xiuxian.mapper: debug
+    com.ddf.boot.quickstart.core.mapper: debug
