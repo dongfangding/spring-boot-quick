@@ -21,6 +21,7 @@ public interface CommonConverter {
 
 
     @Mappings({
+//            @Mapping(source = "dictDetailCode", target="dictDetailCode")
     })
     SysDictResponse convert(SysDict sysDict);
 

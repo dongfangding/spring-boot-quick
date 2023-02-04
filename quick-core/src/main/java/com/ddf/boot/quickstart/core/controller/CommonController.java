@@ -4,11 +4,11 @@ import com.ddf.boot.common.api.model.captcha.request.CaptchaCheckRequest;
 import com.ddf.boot.common.api.model.captcha.request.CaptchaRequest;
 import com.ddf.boot.common.api.model.captcha.response.ApplicationCaptchaResult;
 import com.ddf.boot.common.core.resolver.MultiArgumentResolver;
+import com.ddf.boot.common.core.util.BeanCopierUtils;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
 import com.ddf.boot.quickstart.api.request.common.SendSmsCodeRequest;
 import com.ddf.boot.quickstart.api.response.common.ApplicationSmsSendResponse;
 import com.ddf.boot.quickstart.api.response.common.SysDictResponse;
-import com.ddf.boot.quickstart.core.convert.CommonConverter;
 import com.ddf.boot.quickstart.core.helper.CommonHelper;
 import com.ddf.boot.quickstart.core.repository.SysDictRepository;
 import java.util.List;
@@ -41,7 +41,8 @@ public class CommonController {
 
     @GetMapping("listDict")
     public List<SysDictResponse> listDict(@RequestParam String dictType) {
-        return CommonConverter.INSTANCE.convert(sysDictRepository.listDictByCodeFromCache(dictType));
+        return BeanCopierUtils.copy(sysDictRepository.listDictByCodeFromCache(dictType), SysDictResponse.class);
+//        return CommonConverter.INSTANCE.convert(sysDictRepository.listDictByCodeFromCache(dictType));
     }
 
     /**
