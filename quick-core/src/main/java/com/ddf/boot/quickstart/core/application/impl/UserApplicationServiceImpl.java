@@ -20,6 +20,7 @@ import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.helper.CommonHelper;
 import com.ddf.boot.quickstart.core.mapper.UserInfoMapper;
 import com.ddf.boot.quickstart.core.model.cqrs.user.CompleteUserInfoCommand;
+import com.ddf.boot.quickstart.core.repository.OnlineUserRepository;
 import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import com.ddf.boot.quickstart.core.service.UserInfoService;
 import java.util.Objects;
@@ -49,6 +50,15 @@ public class UserApplicationServiceImpl implements UserApplicationService {
     private final MailClient mailClient;
     private final EnvironmentHelper environmentHelper;
     private final UserInfoMapper userInfoMapper;
+    private final OnlineUserRepository onlineUserRepository;
+
+    @Override
+    public void heartBeat(Long userId) {
+        // 处理心跳信息
+        userInfoRepository.setHeartBeat(userId);
+        // 将用户放入在线用户列表
+        onlineUserRepository.putOnlineUser(userId);
+    }
 
     @Override
     public void registry(UserRegistryRequest request) {

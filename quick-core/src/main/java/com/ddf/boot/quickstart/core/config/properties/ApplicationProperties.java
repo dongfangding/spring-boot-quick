@@ -46,4 +46,13 @@ public class ApplicationProperties {
      */
     private Long heartBeatIntervalSeconds = 60L;
 
+    /**
+     * 获取心跳最大间隔时间
+     *
+     * @return
+     */
+    public Long getHeartBeatMaxIntervalSeconds() {
+        return heartBeatIntervalSeconds * 2 + 2;
+    }
+
 }

@@ -15,6 +15,12 @@ import com.ddf.boot.quickstart.api.response.user.PersonalInfoResponse;
 public interface UserApplicationService {
 
     /**
+     * 心跳
+     * @param userId
+     */
+    void heartBeat(Long userId);
+
+    /**
      * 注册账号
      *
      * @param request

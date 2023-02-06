@@ -52,7 +52,9 @@ public enum RedisKeyEnum implements RedisKeyConstraint {
      * 连续心跳记录，用户连续在线时间，只要一直心跳，不会因为隔天而清零，心跳时间如果在间隔范围内会一直累加，如果超过间隔时间，则重置；
      * 使用时，还需要自行判定当前时间有没有超过最后一次心跳的间隔时间，因为如果下线后不再上线，这个时间如果没有定时的话，时间是不准的
      */
-    CONTINUE_HEART_BEAT("user:continue_heart_beat", RedisKeyTypeEnum.ZSET)
+    CONTINUE_HEART_BEAT("user:continue_heart_beat", RedisKeyTypeEnum.ZSET),
+
+    ONLINE_USER_MAP("online_user_map", RedisKeyTypeEnum.SET)
 
     ;
 
