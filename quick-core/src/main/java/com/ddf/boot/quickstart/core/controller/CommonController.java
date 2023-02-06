@@ -76,4 +76,5 @@ public class CommonController {
     public ApplicationSmsSendResponse sendSmsCode(@RequestBody @Validated SendSmsCodeRequest sendSmsCodeRequest) {
         return commonHelper.sendAndLoadSmsCodeWithLimit(sendSmsCodeRequest);
     }
+
 }

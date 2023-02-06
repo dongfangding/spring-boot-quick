@@ -15,7 +15,7 @@ import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.common.ext.sms.model.SmsSendRequest;
 import com.ddf.boot.common.ext.sms.model.SmsSendResponse;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
-import com.ddf.boot.quickstart.api.consts.RedisKeys;
+import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;
 import com.ddf.boot.quickstart.api.dto.EmailToken;
 import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.request.common.SendSmsCodeRequest;
@@ -118,7 +118,7 @@ public class CommonHelper {
         final String uid = StrUtil.blankToDefault(UserContextUtil.getUserId(), RequestContextUtil.getRequestContext()
                 .getImei());
         return redisTemplateHelper.sliderWindowAccessExpiredAtCheckException(
-                RedisKeys.getSmsRateLimitKey(uid),
+                RedisKeyEnum.SMS_RATE_LIMIT_KEY.getKey(uid),
                 applicationProperties.getSmsDailyLimit(), DateUtils.getEndOfDay(new Date()), () -> {
             return sendAndLoadSmsCode(sendSmsCodeRequest.getMobile());
         }, ApplicationExceptionCode.SMS_CODE_LIMIT);

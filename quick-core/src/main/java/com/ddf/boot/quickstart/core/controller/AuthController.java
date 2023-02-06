@@ -10,6 +10,7 @@ import com.ddf.boot.quickstart.api.response.auth.LoginResponse;
 import com.ddf.boot.quickstart.api.response.common.ApplicationSmsSendResponse;
 import com.ddf.boot.quickstart.core.application.UserApplicationService;
 import com.ddf.boot.quickstart.core.helper.CommonHelper;
+import com.ddf.boot.quickstart.core.repository.CommonRepository;
 import com.ddf.boot.quickstart.core.strategy.login.LoginStrategyContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class AuthController {
     private final CommonHelper commonHelper;
     private final UserApplicationService userApplicationService;
     private final LoginStrategyContext loginStrategyContext;
+    private final CommonRepository commonRepository;
 
     /**
      * 发送注册短信验证码, 会校验手机号是否已被注册，已被注册，无法发送
@@ -79,4 +81,14 @@ public class AuthController {
         return ResponseData.success(UserContextUtil.getUserClaim());
     }
 
+    /**
+     * 心跳
+     *
+     * @return
+     */
+    @PostMapping("heartbeat")
+    public ResponseData<Void> heartbeat() {
+        commonRepository.setHeartBeat(UserContextUtil.getLongUserId());
+        return ResponseData.empty();
+    }
 }

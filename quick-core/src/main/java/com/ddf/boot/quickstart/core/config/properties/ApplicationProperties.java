@@ -41,4 +41,9 @@ public class ApplicationProperties {
      */
     private String applicationChineseName;
 
+    /**
+     * 用户心跳接口间隔时间
+     */
+    private Long heartBeatIntervalSeconds = 60L;
+
 }
