@@ -1,0 +1,96 @@
+# redis
+redis_host: localhost
+redis_port: 6379
+redis_password: 123456
+redis_database: 0
+
+# mysql
+mysql_host: localhost
+mysql_port: 3306
+mysql_db: quickstart
+mysql_username: root
+mysql_password: 123456
+
+# 动态RSA
+rsa_primaryKey: wait_fill
+rsa_publicKey: wait_fill
+
+## druid
+druid_stat_enable: false
+druid_state_username: wait_fill
+druid_state_password: wait_fill
+
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      url: jdbc:mysql://${mysql_host}:${mysql_port}/${mysql_db}?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
+      username: ${mysql_username}
+      password: ${mysql_password}
+      initial-size: 10
+      asyncInit: true
+      max-active: 200
+      min-idle: 10
+      keep-alive: true
+      max-wait: 60000
+      use-unfair-lock: true
+      # 回收连接相关
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 600000
+      validation-query: SELECT 1
+      # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-borrow: false
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      test-on-return: false
+      use-ping-method: false
+      poolPreparedStatements: false
+      max-open-prepared-statements: 100
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 3000
+        wall:
+          enabled: true # 开启WallFilter
+          db-type: mysql
+      ## 开启内置监控界面 访问路径: /context-path/druid/index.html
+      stat-view-servlet:
+        enabled: ${druid_stat_enable}
+        url-pattern: /druid/*
+        reset-enable: true
+        login-username: ${druid_state_username}
+        login-password: ${druid_state_password}
+        allow:
+
+  # 国际化资源文件
+  messages:
+    basename: exception/exception
+    use-code-as-default-message: false
+
+  redis:
+    host: ${redis_host}
+    port: ${redis_port}
+    database: ${redis_database}
+#    password: ${redis_password}
+    redisson:
+      file: classpath:redisson.yml
+
+customs: # 自定义的属性最好都写在custom前缀下，方便辨认
+  global-properties:
+    snowflakeWorkerId: 1      # worker Id can't be greater than 31 or less than 0
+    snowflakeDataCenterId: 1  # dataCenterId Id can't be greater than 31 or less than 0
+    ignoreErrorTraceProfile: # 过滤将异常堆栈信息输出打前端接口返回值的环境
+      - pre
+      - prod
+    exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
+  rsa:
+    primaryKey: ${rsa_primaryKey}
+    publicKey: ${rsa_publicKey}
+
+logging:
+  level:
+    root: info
+    com.ddf.boot.common.log.AccessLogAspect: debug
+    com.ddf.boot.quickstart.core.mapper: debug

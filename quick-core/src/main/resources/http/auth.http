@@ -1,0 +1,105 @@
+### 发送注册短信验证码
+POST http://localhost:8080/quickstart/auth/sendRegisterSmsCode
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "mobile": "18356780000",
+  "captchaVerifyRequest": {
+    "uuid": "test_b1999d90d18d",
+    "verifyCode": "test_533a011f56c8",
+    "captchaType": "MATH",
+    "verification": true,
+    "captchaVerification": "test_073427f3c00f"
+  }
+}
+
+### 注册
+POST http://localhost:8080/quickstart/auth/registry
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "mobile": "18356780000",
+  "uuid": "v8754iegzaphod8n",
+  "mobileCode": "799377",
+  "password": "test_8e610fc53983"
+}
+
+### 密码登录
+POST http://localhost:8080/quickstart/auth/login
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "loginType": "PASSWORD",
+  "loginIdentity": "18356780000",
+  "credential": "test_8e610fc53983",
+  "uuid": ""
+}
+
+### TOKEN登录
+POST http://localhost:8080/quickstart/auth/login
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "loginType": "TOKEN",
+  "loginIdentity": "18356780000",
+  "credential": "$2a$10$qhTgMtZbmROZkaYWHN.kuOmL1PP0/5etb2QBinXUS68IItgFLMHhC<=>7785d62808f10e0b0fea761cf7dce7ad51f92d1ae49f3e5124a6177e3f82d1ea6704400fd8bf3dd3ddb0a08a0dc84735cb671af6d27c0592eecfafde4461bfa77725f1aedc4ca264caa5c6e71c691f61a5b16b847528cc66d970e9fe5a5218094c625d0e0fd3fbaba0216609096b7e82f56f1e8c8a0a47564652fe6f07ea5abb2d04a11fbaba43a3d20150fb6a0a72b1b0432074e66d75331752a4b01bb7685487ddfd3e8bb6999913ffd60b506724619fa8a3bfefb67a78cfccbeb8cb451fcc",
+  "uuid": ""
+}
+
+### 验证码登录
+POST http://localhost:8080/quickstart/auth/login
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
+
+{
+  "loginType": "SMS_CODE",
+  "loginIdentity": "18356780000",
+  "credential": "473458",
+  "uuid": "2c7525vrbra50ttk"
+}
+
+### 获取当前用户信息
+GET http://localhost:8080/quickstart/auth/currentUser
+Authorization: Bearer $2a$10$qhTgMtZbmROZkaYWHN.kuOmL1PP0/5etb2QBinXUS68IItgFLMHhC<=>7785d62808f10e0b0fea761cf7dce7ad51f92d1ae49f3e5124a6177e3f82d1ea6704400fd8bf3dd3ddb0a08a0dc84735cb671af6d27c0592eecfafde4461bfa77725f1aedc4ca264caa5c6e71c691f61a5b16b847528cc66d970e9fe5a5218094c625d0e0fd3fbaba0216609096b7e82f56f1e8c8a0a47564652fe6f07ea5abb2d04a11fbaba43a3d20150fb6a0a72b1b0432074e66d75331752a4b01bb7685487ddfd3e8bb6999913ffd60b506724619fa8a3bfefb67a78cfccbeb8cb451fcc
+Content-Type: application/json
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656
