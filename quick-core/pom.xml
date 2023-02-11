@@ -25,6 +25,7 @@
         <ddf-common-ids-service.version>1.0.2-SNAPSHOT</ddf-common-ids-service.version>
         <ddf-common-websocket.version>1.0.2-SNAPSHOT</ddf-common-websocket.version>
         <ddf-common-vps.version>1.0.2-SNAPSHOT</ddf-common-vps.version>
+        <ddf-common-third-party.version>1.0.2-SNAPSHOT</ddf-common-third-party.version>
 
     </properties>
 
@@ -63,6 +64,12 @@
             <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-redis</artifactId>
             <version>${ddf-common-redis.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-third-party</artifactId>
+            <version>${ddf-common-third-party.version}</version>
         </dependency>
 
         <dependency>
@@ -179,31 +186,6 @@
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
             <version>${disruptor.version}</version>
-        </dependency>
-
-        <!-- https://repo1.maven.org/maven2/org/apache/shardingsphere/elasticjob/elasticjob-lite-spring-boot-starter/ -->
-        <dependency>
-            <groupId>org.apache.shardingsphere.elasticjob</groupId>
-            <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
-            <version>${elasic-job.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>logback-core</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j-to-slf4j</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
