@@ -1,8 +1,8 @@
 package com.ddf.boot.quickstart.api.consts;
 
-import com.ddf.boot.common.api.constraint.NumberShardingRule;
-import com.ddf.boot.common.api.constraint.RedisKeyConstraint;
-import com.ddf.boot.common.api.constraint.RedisShardingRule;
+import com.ddf.boot.common.api.constraint.redis.NumberShardingRule;
+import com.ddf.boot.common.api.constraint.redis.RedisKeyConstraint;
+import com.ddf.boot.common.api.constraint.redis.RedisShardingRule;
 import com.ddf.boot.common.api.enums.RedisKeyTypeEnum;
 import java.time.Duration;
 

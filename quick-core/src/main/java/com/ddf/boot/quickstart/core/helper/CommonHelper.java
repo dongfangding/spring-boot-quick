@@ -10,7 +10,6 @@ import com.ddf.boot.common.api.util.DateUtils;
 import com.ddf.boot.common.authentication.config.AuthenticationProperties;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.common.core.util.RequestContextUtil;
 import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.common.ext.sms.model.SmsSendRequest;
 import com.ddf.boot.common.ext.sms.model.SmsSendResponse;
@@ -115,7 +114,7 @@ public class CommonHelper {
         final CaptchaCheckRequest captchaVerifyRequest = sendSmsCodeRequest.getCaptchaVerifyRequest();
         captchaVerifyRequest.setVerification(true);
         verifyCaptcha(captchaVerifyRequest);
-        final String uid = StrUtil.blankToDefault(UserContextUtil.getUserId(), RequestContextUtil.getRequestContext()
+        final String uid = StrUtil.blankToDefault(UserContextUtil.getUserId(), UserContextUtil.getRequestContext()
                 .getImei());
         return redisTemplateHelper.sliderWindowAccessExpiredAtCheckException(
                 RedisKeyEnum.SMS_RATE_LIMIT_KEY.getKey(uid),
