@@ -22,8 +22,6 @@
         <ddf-common-limit.version>1.0.2-SNAPSHOT</ddf-common-limit.version>
         <ddf-common-redis.version>1.0.2-SNAPSHOT</ddf-common-redis.version>
         <ddf-common-captcha.version>1.0.2-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-ids-service.version>1.0.2-SNAPSHOT</ddf-common-ids-service.version>
-        <ddf-common-websocket.version>1.0.2-SNAPSHOT</ddf-common-websocket.version>
         <ddf-common-vps.version>1.0.2-SNAPSHOT</ddf-common-vps.version>
         <ddf-common-third-party.version>1.0.2-SNAPSHOT</ddf-common-third-party.version>
 
@@ -186,24 +184,6 @@
             <groupId>com.lmax</groupId>
             <artifactId>disruptor</artifactId>
             <version>${disruptor.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-ids-service</artifactId>
-            <version>${ddf-common-ids-service.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j</artifactId>
-                    <groupId>log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-websocket</artifactId>
-            <version>${ddf-common-websocket.version}</version>
         </dependency>
 
         <dependency>

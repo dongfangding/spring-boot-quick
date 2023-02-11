@@ -2,6 +2,7 @@ package com.ddf.boot.quickstart.core.biz.impl;
 
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ddf.boot.common.api.model.common.CommonSwitchRequest;
 import com.ddf.boot.common.api.model.common.PageResult;
@@ -35,7 +36,6 @@ import com.ddf.boot.quickstart.core.entity.SysUser;
 import com.ddf.boot.quickstart.core.helper.SysUserHelper;
 import com.ddf.boot.quickstart.core.service.ISysUserRoleService;
 import com.ddf.boot.quickstart.core.service.ISysUserService;
-import com.ddf.common.ids.service.api.IdsApi;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -59,7 +59,6 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
 
     private final ISysUserService sysUserService;
     private final ISysUserRoleService sysUserRoleService;
-    private final IdsApi idsApi;
     private final SysUserHelper sysUserHelper;
     private final AuthenticationProperties authenticationProperties;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -102,7 +101,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
                 BizCode.MOBILE_REPEAT
         );
 
-        String userId = idsApi.getSnowflakeId();
+        String userId = IdUtil.getSnowflakeNextIdStr();
         SysUser sysUser = SysUserConverter.INSTANCE.requestConvert(request);
         sysUser.setUserId(userId);
         sysUser.setPassword(bCryptPasswordEncoder.encode(authenticationProperties.getBiz().getResetPassword()));

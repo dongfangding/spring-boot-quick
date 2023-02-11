@@ -56,9 +56,7 @@ customs:
   authentication:
     secret: happygamegamehappygamehappyhappy
     ignores:
-      - /auth/sendRegisterSmsCode
-      - /auth/registry
-      - /auth/login
+      - /sys/sysUser/login
       - /common/generateCaptcha
       - /common/checkCaptcha
       - /common/sendSmsCode
