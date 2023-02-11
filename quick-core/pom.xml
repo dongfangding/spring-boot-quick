@@ -22,23 +22,9 @@
         <ddf-common-limit.version>1.0.2-SNAPSHOT</ddf-common-limit.version>
         <ddf-common-redis.version>1.0.2-SNAPSHOT</ddf-common-redis.version>
         <ddf-common-captcha.version>1.0.2-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-captcha.version>1.0.2-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-third-party.version>1.0.2-SNAPSHOT</ddf-common-third-party.version>
-        <elasic-job.version>3.0.0-alpha</elasic-job.version>
-
-        <ddf-common-mongo.version>1.0.2-SNAPSHOT</ddf-common-mongo.version>
-        <ddf-common-netty-broker.version>1.0.2-SNAPSHOT</ddf-common-netty-broker.version>
         <ddf-common-ids-service.version>1.0.2-SNAPSHOT</ddf-common-ids-service.version>
-        <ddf-common-rocketmq.version>1.0.2-SNAPSHOT</ddf-common-rocketmq.version>
-        <ddf-common-mq.version>1.0.2-SNAPSHOT</ddf-common-mq.version>
         <ddf-common-websocket.version>1.0.2-SNAPSHOT</ddf-common-websocket.version>
-        <ddf-common-distributed-lock.version>1.0.2-SNAPSHOT</ddf-common-distributed-lock.version>
-        <ddf-common-mqtt.version>1.0.2-SNAPSHOT</ddf-common-mqtt.version>
-        <ddf-common-sentinel.version>1.0.2-SNAPSHOT</ddf-common-sentinel.version>
-        <ddf-common-xxl-executor.version>1.0.2-SNAPSHOT</ddf-common-xxl-executor.version>
         <ddf-common-vps.version>1.0.2-SNAPSHOT</ddf-common-vps.version>
-        <ddf-common-es.version>1.0.2-SNAPSHOT</ddf-common-es.version>
-        <ddf-common-nacos.version>1.0.2-SNAPSHOT</ddf-common-nacos.version>
 
     </properties>
 
@@ -195,12 +181,6 @@
             <version>${disruptor.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-third-party</artifactId>
-            <version>${ddf-common-third-party.version}</version>
-        </dependency>
-
         <!-- https://repo1.maven.org/maven2/org/apache/shardingsphere/elasticjob/elasticjob-lite-spring-boot-starter/ -->
         <dependency>
             <groupId>org.apache.shardingsphere.elasticjob</groupId>
@@ -228,18 +208,6 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-mongo</artifactId>
-            <version>${ddf-common-mongo.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-netty-broker</artifactId>
-            <version>${ddf-common-netty-broker.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-ids-service</artifactId>
             <version>${ddf-common-ids-service.version}</version>
             <exclusions>
@@ -252,74 +220,14 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-rocketmq</artifactId>
-            <version>${ddf-common-rocketmq.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-mq</artifactId>
-            <version>${ddf-common-mq.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-websocket</artifactId>
             <version>${ddf-common-websocket.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-distributed-lock</artifactId>
-            <version>${ddf-common-distributed-lock.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-mqtt</artifactId>
-            <version>${ddf-common-mqtt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-sentinel</artifactId>
-            <version>${ddf-common-sentinel.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-xxl-executor</artifactId>
-            <version>${ddf-common-xxl-executor.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-vps</artifactId>
             <version>${ddf-common-vps.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-es</artifactId>
-            <version>${ddf-common-es.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- 用于刷新配置 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-context</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-nacos</artifactId>
-            <version>${ddf-common-nacos.version}</version>
         </dependency>
 
         <dependency>

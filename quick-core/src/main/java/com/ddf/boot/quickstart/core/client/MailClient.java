@@ -33,7 +33,7 @@ public class MailClient {
      * @param email
      */
     @Async("mailThreadPool")
-    public void sendEmailActive(String title, Long userId, String email) {
+    public void sendEmailActive(String title, String userId, String email) {
         String activeToken = generateEmailToken(userId, email);
         String url = applicationProperties.getMailActiveUrl() + "?token=" + activeToken;
         String subject = title + "邮箱激活";
@@ -51,7 +51,7 @@ public class MailClient {
      * @param email
      * @return
      */
-    private String generateEmailToken(Long userId, String email) {
+    private String generateEmailToken(String userId, String email) {
         String token = RandomUtil.randomString(64);
         commonRepository.setEmailActiveToken(email, token, userId);
         return token;

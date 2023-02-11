@@ -23,9 +23,9 @@ import com.ddf.boot.quickstart.api.request.common.SmsCodeVerifyRequest;
 import com.ddf.boot.quickstart.api.response.common.ApplicationSmsSendResponse;
 import com.ddf.boot.quickstart.core.client.SmsClient;
 import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
-import com.ddf.boot.quickstart.core.entity.UserInfo;
+import com.ddf.boot.quickstart.core.entity.SysUser;
 import com.ddf.boot.quickstart.core.repository.CommonRepository;
-import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
+import com.ddf.boot.quickstart.core.service.ISysUserService;
 import com.ddf.common.captcha.helper.CaptchaHelper;
 import java.util.Date;
 import java.util.Objects;
@@ -48,10 +48,10 @@ public class CommonHelper {
     private final CaptchaHelper captchaHelper;
     private final AuthenticationProperties authenticationProperties;
     private final RedisTemplateHelper redisTemplateHelper;
-    private final UserInfoRepository userInfoRepository;
     private final CommonRepository commonRepository;
     private final ApplicationProperties applicationProperties;
     private final SmsClient smsClient;
+    private final ISysUserService sysUserService;
 
     /**
      * 生成验证码
@@ -96,7 +96,7 @@ public class CommonHelper {
      * @return
      */
     public ApplicationSmsSendResponse sendAndLoadRegisterSmsCodeWithLimit(SendSmsCodeRequest sendSmsCodeRequest) {
-        PreconditionUtil.checkArgument(!userInfoRepository.exitsByMobile(sendSmsCodeRequest.getMobile()),
+        PreconditionUtil.checkArgument(Objects.isNull(sysUserService.getByMobile(sendSmsCodeRequest.getMobile())),
                 ApplicationExceptionCode.MOBILE_IS_USED);
         return sendAndLoadSmsCodeWithLimit(sendSmsCodeRequest);
     }
@@ -168,13 +168,14 @@ public class CommonHelper {
         final EmailToken emailToken = commonRepository.getEmailActiveToken(token);
         PreconditionUtil.checkArgument(Objects.nonNull(emailToken), ApplicationExceptionCode.EMAIL_ACTIVE_TOKEN_EXPIRED);
 
-        final Long userId = emailToken.getUserId();
+        final String userId = emailToken.getUserId();
         final String email = emailToken.getEmail();
-        final UserInfo userInfo = userInfoRepository.getById(userId);
-        PreconditionUtil.checkArgument(Objects.nonNull(userInfo), ApplicationExceptionCode.USER_NOT_EXIST);
-        int i = userInfoRepository.verifiedEmail(userId, email);
+        final SysUser sysUser = sysUserService.getByUserId(userId);
+        PreconditionUtil.checkArgument(Objects.nonNull(sysUser), ApplicationExceptionCode.USER_NOT_EXIST);
+        sysUser.setEmail(email);
+        final boolean bool = sysUserService.save(sysUser);
         response.setContentType("text/html;charset=utf-8");
-        if (i > 0) {
+        if (bool) {
             WebUtil.responseSuccess(response, "验证成功");
         } else {
             WebUtil.responseError(response, 400, "验证失败，链接可能已过期或邮箱已验证通过~");

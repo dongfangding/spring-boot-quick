@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Set;
 import javax.validation.constraints.NotBlank;
@@ -25,7 +26,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserUpdateRequest {
+public class SysUserUpdateRequest implements Serializable {
+
+    private static final long serialVersionUID = -8846320147721003035L;
 
     /**
      * id

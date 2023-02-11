@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.mapper;
+package com.ddf.boot.quickstart.core.convert;
 
 import com.ddf.boot.quickstart.api.dto.SysUserDTO;
 import com.ddf.boot.quickstart.api.request.sys.SysUserCreateRequest;
@@ -18,9 +18,9 @@ import org.mapstruct.factory.Mappers;
  * @date 2021/2/10 0010 13:46
  */
 @Mapper
-public interface SysUserConverterMapper {
+public interface SysUserConverter {
 
-    SysUserConverterMapper INSTANCE = Mappers.getMapper(SysUserConverterMapper.class);
+    SysUserConverter INSTANCE = Mappers.getMapper(SysUserConverter.class);
 
     /**
      * 将用户信息转换为创建用户时的新增对象属性返回
@@ -29,7 +29,7 @@ public interface SysUserConverterMapper {
      * @return
      */
     @Mappings({
-            @Mapping(target = "statusName", expression = "java(com.ddf.boot.quick.constants.enumration.SysUserStatusEnum.instanceOfCodeDefaultUnknown(sysUser.getStatus()).getDesc())")
+            @Mapping(target = "statusName", expression = "java(com.ddf.boot.quickstart.api.enume.SysUserStatusEnum.instanceOfCodeDefaultUnknown(sysUser.getStatus()).getDesc())")
     })
     SysUserDTO convert(SysUser sysUser);
 

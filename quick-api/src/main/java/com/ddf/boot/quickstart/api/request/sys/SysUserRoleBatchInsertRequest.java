@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.api.request.sys;
 
+import java.io.Serializable;
 import java.util.Set;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserRoleBatchInsertRequest {
+public class SysUserRoleBatchInsertRequest implements Serializable {
+
+    private static final long serialVersionUID = -8846320147721003035L;
 
     /**
      * 用户id

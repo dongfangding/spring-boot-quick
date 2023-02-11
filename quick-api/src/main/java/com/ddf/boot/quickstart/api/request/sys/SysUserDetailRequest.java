@@ -1,6 +1,7 @@
 package com.ddf.boot.quickstart.api.request.sys;
 
 import com.ddf.boot.common.api.model.common.request.BaseSign;
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserDetailRequest implements BaseSign {
+public class SysUserDetailRequest implements BaseSign, Serializable {
+
+    private static final long serialVersionUID = -8846320147721003035L;
 
     @NotBlank(message = "用户id不能为空")
     private String userId;

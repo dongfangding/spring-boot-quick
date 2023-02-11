@@ -5,6 +5,7 @@ package com.ddf.boot.quickstart.core.biz;
 import com.ddf.boot.common.api.model.common.CommonSwitchRequest;
 import com.ddf.boot.common.api.model.common.PageResult;
 import com.ddf.boot.quickstart.api.dto.SysUserDTO;
+import com.ddf.boot.quickstart.api.request.sys.ModifyPasswordRequest;
 import com.ddf.boot.quickstart.api.request.sys.ResetPasswordRequest;
 import com.ddf.boot.quickstart.api.request.sys.SysUserCreateRequest;
 import com.ddf.boot.quickstart.api.request.sys.SysUserDetailRequest;
@@ -95,4 +96,11 @@ public interface ISysUserBizService {
      * @return
      */
     SysUserDetailResponse detail(SysUserDetailRequest request);
+
+    /**
+     * 修改密码
+     *
+     * @param request
+     */
+    void modifyPassword(ModifyPasswordRequest request);
 }

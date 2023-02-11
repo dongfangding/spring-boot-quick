@@ -24,7 +24,7 @@ public class EmailToken implements Serializable {
     /**
      * uid
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 邮箱

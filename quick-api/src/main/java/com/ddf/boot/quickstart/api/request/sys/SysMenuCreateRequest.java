@@ -1,6 +1,7 @@
 package com.ddf.boot.quickstart.api.request.sys;
 
 import com.ddf.boot.common.api.validator.constraint.LogicValueValidator;
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,7 +21,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysMenuCreateRequest {
+public class SysMenuCreateRequest implements Serializable {
+
+    private static final long serialVersionUID = -8846320147721003035L;
 
     /**
      * 父级菜单id, 0为目录

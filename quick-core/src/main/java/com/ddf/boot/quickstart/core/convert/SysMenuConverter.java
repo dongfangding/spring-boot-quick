@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.mapper;
+package com.ddf.boot.quickstart.core.convert;
 
 import com.ddf.boot.quickstart.api.dto.SysMenuDTO;
 import com.ddf.boot.quickstart.api.request.sys.SysMenuCreateRequest;
@@ -16,9 +16,9 @@ import org.mapstruct.factory.Mappers;
  * @date 2021/2/10 0010 13:46
  */
 @Mapper
-public interface SysMenuConverterMapper {
+public interface SysMenuConverter {
 
-    SysMenuConverterMapper INSTANCE = Mappers.getMapper(SysMenuConverterMapper.class);
+    SysMenuConverter INSTANCE = Mappers.getMapper(SysMenuConverter.class);
 
     /**
      * 系统菜单创建请求参数转换为实体

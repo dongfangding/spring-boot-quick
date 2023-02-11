@@ -19,6 +19,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PageUserHistoryRequest implements PageRequest {
 
+    private static final long serialVersionUID = -8846320147721003035L;
+
     /**
      * 页数, 从1开始
      */

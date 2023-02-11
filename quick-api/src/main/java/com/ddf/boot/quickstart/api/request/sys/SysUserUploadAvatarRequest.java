@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.api.request.sys;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserUploadAvatarRequest {
+public class SysUserUploadAvatarRequest implements Serializable {
+
+    private static final long serialVersionUID = -8846320147721003035L;
 
     /**
      * 头像相对地址url，不要域名前缀

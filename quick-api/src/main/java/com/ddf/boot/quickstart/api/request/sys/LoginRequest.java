@@ -2,6 +2,7 @@ package com.ddf.boot.quickstart.api.request.sys;
 
 import com.ddf.boot.common.api.model.captcha.request.CaptchaCheckRequest;
 import com.ddf.boot.quickstart.api.enume.LoginTypeEnum;
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -19,7 +20,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class LoginRequest implements Serializable {
+
+    private static final long serialVersionUID = -7789500588127808106L;
 
     /**
      * 登录方式{@link LoginTypeEnum}

@@ -54,7 +54,7 @@ public class CommonRepository {
      * @param token
      * @return
      */
-    public void setEmailActiveToken(String email, String token, Long userId) {
+    public void setEmailActiveToken(String email, String token, String userId) {
         final EmailToken emailToken = EmailToken.of(userId, email);
         stringRedisTemplate.opsForValue().set(RedisKeyEnum.EMAIL_ACTIVE_TOKEN_KEY.getKey((token)), JsonUtil.asString(emailToken), RedisKeyEnum.EMAIL_ACTIVE_TOKEN_KEY.getTtl());
     }

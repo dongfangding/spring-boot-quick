@@ -1,21 +1,21 @@
 package com.ddf.boot.quickstart.core.biz.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ddf.boot.common.core.model.CommonSwitchRequest;
-import com.ddf.boot.common.core.model.PageResult;
+import com.ddf.boot.common.api.model.common.CommonSwitchRequest;
+import com.ddf.boot.common.api.model.common.PageResult;
 import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.quick.biz.ISysRoleBizService;
-import com.ddf.boot.quick.common.exception.BizCode;
-import com.ddf.boot.quick.converter.mapper.SysRoleConvertMapper;
-import com.ddf.boot.quick.helper.SysUserHelper;
-import com.ddf.boot.quick.model.dto.SysRoleDTO;
-import com.ddf.boot.quick.model.entity.SysRole;
-import com.ddf.boot.quick.model.entity.SysUser;
-import com.ddf.boot.quick.model.request.SysRoleCreateRequest;
-import com.ddf.boot.quick.model.request.SysRolePageRequest;
-import com.ddf.boot.quick.service.ISysRoleService;
-import com.ddf.boot.quick.service.ISysUserService;
+import com.ddf.boot.quickstart.api.dto.SysRoleDTO;
+import com.ddf.boot.quickstart.api.request.sys.SysRoleCreateRequest;
+import com.ddf.boot.quickstart.api.request.sys.SysRolePageRequest;
+import com.ddf.boot.quickstart.core.biz.ISysRoleBizService;
+import com.ddf.boot.quickstart.core.common.exception.BizCode;
+import com.ddf.boot.quickstart.core.controller.SysRoleConvert;
+import com.ddf.boot.quickstart.core.entity.SysRole;
+import com.ddf.boot.quickstart.core.entity.SysUser;
+import com.ddf.boot.quickstart.core.helper.SysUserHelper;
+import com.ddf.boot.quickstart.core.service.ISysRoleService;
+import com.ddf.boot.quickstart.core.service.ISysUserService;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -82,7 +82,7 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
         if (Objects.nonNull(sysRole.getModifyBy())) {
             operatorIdSet.add(sysRole.getCreateBy());
         }
-        final SysRoleDTO response = SysRoleConvertMapper.INSTANCE.convert(sysRoleService.getByPrimaryKey(sysRole.getId()));
+        final SysRoleDTO response = SysRoleConvert.INSTANCE.convert(sysRoleService.getByPrimaryKey(sysRole.getId()));
         if (CollectionUtil.isNotEmpty(operatorIdSet)) {
             final List<SysUser> sysUserList = sysUserService.getByUserIds(new ArrayList<>(operatorIdSet));
             final Map<String, SysUser> collect = sysUserList.stream()
@@ -114,7 +114,7 @@ public class SysRoleBizServiceImpl implements ISysRoleBizService {
             return PageUtil.empty(request);
         }
         final PageResult<SysRoleDTO> responsePageResult = PageUtil.convertPageResult(
-                result, SysRoleConvertMapper.INSTANCE::convert);
+                result, SysRoleConvert.INSTANCE::convert);
         final List<SysRoleDTO> content = responsePageResult.getContent();
         final Map<String, SysUser> sysUserMap = sysUserHelper.getUserMap(content);
 

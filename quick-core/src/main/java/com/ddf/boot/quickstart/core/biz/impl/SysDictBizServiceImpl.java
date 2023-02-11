@@ -5,8 +5,8 @@ import cn.hutool.core.collection.CollectionUtil;
 import com.ddf.boot.quickstart.api.dto.SysDictDTO;
 import com.ddf.boot.quickstart.api.request.sys.SysDictGetByCodeRequest;
 import com.ddf.boot.quickstart.core.biz.ISysDictBizService;
+import com.ddf.boot.quickstart.core.convert.SysDictConvert;
 import com.ddf.boot.quickstart.core.entity.SysDict;
-import com.ddf.boot.quickstart.core.mapper.SysDictConvertMapper;
 import com.ddf.boot.quickstart.core.service.ISysDictService;
 import java.util.Collections;
 import java.util.List;
@@ -41,6 +41,6 @@ public class SysDictBizServiceImpl implements ISysDictBizService {
         if (CollectionUtil.isEmpty(response)) {
             return Collections.emptyList();
         }
-        return SysDictConvertMapper.INSTANCE.convert(response);
+        return SysDictConvert.INSTANCE.convert(response);
     }
 }

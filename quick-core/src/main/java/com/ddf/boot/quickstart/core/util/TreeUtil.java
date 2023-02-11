@@ -3,8 +3,8 @@ package com.ddf.boot.quickstart.core.util;
 import cn.hutool.core.collection.CollectionUtil;
 import com.ddf.boot.quickstart.api.consts.BootConstants;
 import com.ddf.boot.quickstart.api.response.sys.SysMenuTreeResponse;
+import com.ddf.boot.quickstart.core.convert.SysMenuConverter;
 import com.ddf.boot.quickstart.core.entity.SysMenu;
-import com.ddf.boot.quickstart.core.mapper.SysMenuConverterMapper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -46,7 +46,7 @@ public class TreeUtil {
         }
         Map<Long, SysMenuTreeResponse> dataMap = new LinkedHashMap<>(menuList.size());
         for (SysMenu menu : menuList) {
-            final SysMenuTreeResponse curr = SysMenuConverterMapper.INSTANCE.convertTreeResponse(menu);
+            final SysMenuTreeResponse curr = SysMenuConverter.INSTANCE.convertTreeResponse(menu);
             if (CollectionUtil.isNotEmpty(selectMenuIds) && selectMenuIds.contains(curr.getId())) {
                 curr.setSelected(Boolean.TRUE);
             }

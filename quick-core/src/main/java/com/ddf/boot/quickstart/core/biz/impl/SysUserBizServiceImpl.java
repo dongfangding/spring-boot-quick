@@ -6,6 +6,8 @@ import cn.hutool.core.util.StrUtil;
 import com.ddf.boot.common.api.model.common.CommonSwitchRequest;
 import com.ddf.boot.common.api.model.common.PageResult;
 import com.ddf.boot.common.authentication.config.AuthenticationProperties;
+import com.ddf.boot.common.authentication.util.UserContextUtil;
+import com.ddf.boot.common.core.encode.BCryptPasswordEncoder;
 import com.ddf.boot.common.core.enumration.CommonLogic;
 import com.ddf.boot.common.core.util.PageUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
@@ -13,6 +15,7 @@ import com.ddf.boot.common.core.util.SecureUtil;
 import com.ddf.boot.quickstart.api.dto.SysUserDTO;
 import com.ddf.boot.quickstart.api.dto.SysUserRoleDTO;
 import com.ddf.boot.quickstart.api.enume.SysUserStatusEnum;
+import com.ddf.boot.quickstart.api.request.sys.ModifyPasswordRequest;
 import com.ddf.boot.quickstart.api.request.sys.ResetPasswordRequest;
 import com.ddf.boot.quickstart.api.request.sys.SysUserCreateRequest;
 import com.ddf.boot.quickstart.api.request.sys.SysUserDetailRequest;
@@ -27,9 +30,9 @@ import com.ddf.boot.quickstart.api.response.sys.SysUserDetailResponse;
 import com.ddf.boot.quickstart.api.response.sys.SysUserResetPasswordResponse;
 import com.ddf.boot.quickstart.core.biz.ISysUserBizService;
 import com.ddf.boot.quickstart.core.common.exception.BizCode;
+import com.ddf.boot.quickstart.core.convert.SysUserConverter;
 import com.ddf.boot.quickstart.core.entity.SysUser;
 import com.ddf.boot.quickstart.core.helper.SysUserHelper;
-import com.ddf.boot.quickstart.core.mapper.SysUserConverterMapper;
 import com.ddf.boot.quickstart.core.service.ISysUserRoleService;
 import com.ddf.boot.quickstart.core.service.ISysUserService;
 import com.ddf.common.ids.service.api.IdsApi;
@@ -40,8 +43,6 @@ import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,18 +58,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class SysUserBizServiceImpl implements ISysUserBizService {
 
     private final ISysUserService sysUserService;
-
     private final ISysUserRoleService sysUserRoleService;
-
     private final IdsApi idsApi;
-
-    private final StringRedisTemplate stringRedisTemplate;
-
-    private final ApplicationContext applicationContext;
-
     private final SysUserHelper sysUserHelper;
-
     private final AuthenticationProperties authenticationProperties;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * 获取当前用户详细信息
@@ -80,7 +74,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         final SysUser user = sysUserHelper.getCurrentSysUser();
         final CurrentUserResponse response = new CurrentUserResponse();
         if (Objects.nonNull(user)) {
-            response.setBaseInfo(SysUserConverterMapper.INSTANCE.convert(user));
+            response.setBaseInfo(SysUserConverter.INSTANCE.convert(user));
             final List<SysUserRoleDTO> roles = sysUserRoleService.getUserActiveRoleList(user.getUserId());
             response.setRoles(roles);
             response.setAdmin(roles.stream().anyMatch(val -> Objects.equals(val.getIsAdmin(), CommonLogic.TRUE.getLogic())));
@@ -109,14 +103,14 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
         );
 
         String userId = idsApi.getSnowflakeId();
-        SysUser sysUser = SysUserConverterMapper.INSTANCE.requestConvert(request);
+        SysUser sysUser = SysUserConverter.INSTANCE.requestConvert(request);
         sysUser.setUserId(userId);
-        sysUser.setPassword(SecureUtil.signWithHMac(request.getPassword(), userId));
+        sysUser.setPassword(bCryptPasswordEncoder.encode(authenticationProperties.getBiz().getResetPassword()));
         sysUserService.save(sysUser);
 
         // 处理用户关联角色
         relativeUserRole(userId, request.getRoleIdList());
-        return SysUserConverterMapper.INSTANCE.convert(sysUserService.getByPrimaryKey(sysUser.getId()));
+        return SysUserConverter.INSTANCE.convert(sysUserService.getByPrimaryKey(sysUser.getId()));
     }
 
     /**
@@ -144,13 +138,13 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
             PreconditionUtil.checkArgument(
                     Objects.equals(searchSysUser.getId(), request.getId()), BizCode.MOBILE_REPEAT);
         }
-        final SysUser updateUser = SysUserConverterMapper.INSTANCE.updateConvert(request);
+        final SysUser updateUser = SysUserConverter.INSTANCE.updateConvert(request);
         updateUser.setVersion(sysUser.getVersion());
         sysUserService.update(updateUser);
 
         // 处理用户关联角色
         relativeUserRole(sysUser.getUserId(), request.getRoleIdList());
-        return SysUserConverterMapper.INSTANCE.convert(sysUserService.getByPrimaryKey(request.getId()));
+        return SysUserConverter.INSTANCE.convert(sysUserService.getByPrimaryKey(request.getId()));
     }
 
 
@@ -187,7 +181,7 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
             return PageUtil.empty(request);
         }
         final PageResult<SysUserDTO> responsePageResult = PageUtil.convertPageResult(
-                result, SysUserConverterMapper.INSTANCE::convert);
+                result, SysUserConverter.INSTANCE::convert);
         final List<SysUserDTO> content = responsePageResult.getContent();
         final Map<String, SysUser> sysUserMap = sysUserHelper.getUserMap(content);
 
@@ -291,8 +285,15 @@ public class SysUserBizServiceImpl implements ISysUserBizService {
     public SysUserDetailResponse detail(SysUserDetailRequest request) {
         final SysUser sysUser = sysUserService.getByUserId(request.getUserId());
         PreconditionUtil.checkArgument(Objects.nonNull(sysUser), BizCode.SYS_USER_RECORD_NOT_EXIST);
-        final SysUserDetailResponse response = SysUserConverterMapper.INSTANCE.convertDetailResponse(sysUser);
+        final SysUserDetailResponse response = SysUserConverter.INSTANCE.convertDetailResponse(sysUser);
         response.setRoleList(sysUserRoleService.getUserActiveRoleList(request.getUserId()));
         return response;
+    }
+
+    @Override
+    public void modifyPassword(ModifyPasswordRequest request) {
+        final SysUser sysUser = sysUserService.getByUserId(UserContextUtil.getUserId());
+        sysUser.setPassword(bCryptPasswordEncoder.encode(request.getPassword()));
+        sysUserService.save(sysUser);
     }
 }

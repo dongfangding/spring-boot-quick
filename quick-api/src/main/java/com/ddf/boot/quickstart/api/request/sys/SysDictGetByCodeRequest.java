@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.api.request.sys;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysDictGetByCodeRequest {
+public class SysDictGetByCodeRequest implements Serializable {
+
+    private static final long serialVersionUID = -8846320147721003035L;
 
     /**
      * 字典代码

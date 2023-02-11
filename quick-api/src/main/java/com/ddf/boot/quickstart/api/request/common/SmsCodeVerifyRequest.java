@@ -21,6 +21,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SmsCodeVerifyRequest implements Serializable {
 
+    private static final long serialVersionUID = -8846320147721003035L;
+
     /**
      * 手机号
      */

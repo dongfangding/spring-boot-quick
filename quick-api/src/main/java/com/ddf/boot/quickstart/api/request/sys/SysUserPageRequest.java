@@ -1,6 +1,7 @@
 package com.ddf.boot.quickstart.api.request.sys;
 
 import com.ddf.boot.common.api.model.common.PageRequest;
+import java.io.Serializable;
 import javax.validation.constraints.Min;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -18,7 +19,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SysUserPageRequest implements PageRequest {
+public class SysUserPageRequest implements PageRequest, Serializable {
+
+    private static final long serialVersionUID = -8846320147721003035L;
 
     /**
      * 页数, 从1开始

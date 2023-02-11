@@ -1,15 +1,15 @@
 package com.ddf.boot.quickstart.core.biz.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
-import com.ddf.boot.quick.biz.ISysRoleMenuBizService;
-import com.ddf.boot.quick.helper.SysUserHelper;
-import com.ddf.boot.quick.model.entity.SysMenu;
-import com.ddf.boot.quick.model.request.SysRoleMenuAuthorizationRequest;
-import com.ddf.boot.quick.model.request.SysRoleMenuBuildRoleMenuRequest;
-import com.ddf.boot.quick.model.response.SysMenuTreeResponse;
-import com.ddf.boot.quick.service.ISysMenuService;
-import com.ddf.boot.quick.service.ISysRoleMenuService;
-import com.ddf.boot.quick.util.TreeUtil;
+import com.ddf.boot.quickstart.api.request.sys.SysRoleMenuAuthorizationRequest;
+import com.ddf.boot.quickstart.api.request.sys.SysRoleMenuBuildRoleMenuRequest;
+import com.ddf.boot.quickstart.api.response.sys.SysMenuTreeResponse;
+import com.ddf.boot.quickstart.core.biz.ISysRoleMenuBizService;
+import com.ddf.boot.quickstart.core.entity.SysMenu;
+import com.ddf.boot.quickstart.core.helper.SysUserHelper;
+import com.ddf.boot.quickstart.core.service.ISysMenuService;
+import com.ddf.boot.quickstart.core.service.ISysRoleMenuService;
+import com.ddf.boot.quickstart.core.util.TreeUtil;
 import java.util.Collections;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

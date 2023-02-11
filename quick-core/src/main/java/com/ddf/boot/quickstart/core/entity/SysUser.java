@@ -2,13 +2,7 @@ package com.ddf.boot.quickstart.core.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.ddf.boot.common.core.model.BaseDomain;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -57,38 +51,24 @@ public class SysUser extends BaseDomain implements Serializable {
     private Integer status;
 
     /**
-     * 最后登陆ip
+     * 临时邮箱， 当邮箱未验证时存储在这个字段，当验证通过，再复制给正式邮箱字段，这样使用时主要关心email字段即可
      */
-    private String lastLoginIp;
-
-    /**
-     * 最后活跃时间
-     */
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    private LocalDateTime lastActiveTime;
-
-    /**
-     * 最后登陆时间
-     */
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    private LocalDateTime lastLoginTime;
-
-    /**
-     * 最后一次修改密码时间
-     */
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    private LocalDateTime lastPwdResetTime;
+    private String tempEmail;
 
     /**
      * 邮箱
      */
     private String email;
+
+    /**
+     * 头像地址url
+     */
+    private String avatarUrl;
+
+    /**
+     * 头像地址缩略图url
+     */
+    private String avatarThumbUrl;
 
     /**
      * 手机号
@@ -99,44 +79,5 @@ public class SysUser extends BaseDomain implements Serializable {
      * 性别 0 未知  1 男性 2 女性
      */
     private Integer sex;
-
-    /**
-     * 头像地址
-     */
-    private String avatarUrl;
-
-    /**
-     * 头像缩略图
-     */
-    private String avatarShortUrl;
-
-    /**
-     * 出生日期
-     */
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", locale = "zh", timezone = "GMT+8")
-    private LocalDateTime birthday;
-
-    /**
-     * 身高，单位cm
-     */
-    private Integer height;
-
-    /**
-     * 体重，单位kg
-     */
-    private Integer weight;
-
-    /**
-     * 微信号
-     */
-    private String weiXin;
-
-    /**
-     * QQ号
-     */
-    private String qq;
-
 
 }

@@ -10,10 +10,10 @@ import com.ddf.boot.quickstart.api.request.sys.SysMenuUpdateRequest;
 import com.ddf.boot.quickstart.api.response.sys.SysMenuTreeResponse;
 import com.ddf.boot.quickstart.core.biz.ISysMenuBizService;
 import com.ddf.boot.quickstart.core.common.exception.BizCode;
+import com.ddf.boot.quickstart.core.convert.SysMenuConverter;
 import com.ddf.boot.quickstart.core.entity.SysMenu;
 import com.ddf.boot.quickstart.core.entity.SysUser;
 import com.ddf.boot.quickstart.core.helper.SysUserHelper;
-import com.ddf.boot.quickstart.core.mapper.SysMenuConverterMapper;
 import com.ddf.boot.quickstart.core.service.ISysMenuService;
 import com.ddf.boot.quickstart.core.util.TreeUtil;
 import java.util.Collections;
@@ -56,11 +56,11 @@ public class SysMenuBizServiceImpl implements ISysMenuBizService {
                     BizCode.MENU_RECORD_NOT_EXIST
             );
         }
-        SysMenu menu = SysMenuConverterMapper.INSTANCE.convert(request);
+        SysMenu menu = SysMenuConverter.INSTANCE.convert(request);
         sysMenuService.insert(menu);
         menu = sysMenuService.getByPrimaryKey(menu.getId());
 
-        final SysMenuDTO sysMenuDTO = SysMenuConverterMapper.INSTANCE.convert(menu);
+        final SysMenuDTO sysMenuDTO = SysMenuConverter.INSTANCE.convert(menu);
         final Map<String, SysUser> collectUserMap = sysUserHelper.getUserMap(sysMenuDTO);
         SysUser tempUser;
         if (CollectionUtil.isNotEmpty(collectUserMap)) {
@@ -108,7 +108,7 @@ public class SysMenuBizServiceImpl implements ISysMenuBizService {
         sysMenu.setPermission(request.getPermission());
         sysMenu.setIsActive(request.getIsActive());
         sysMenuService.update(sysMenu);
-        return SysMenuConverterMapper.INSTANCE.convert(sysMenu);
+        return SysMenuConverter.INSTANCE.convert(sysMenu);
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.mapper;
+package com.ddf.boot.quickstart.core.convert;
 
 import com.ddf.boot.quickstart.api.dto.SysDictDTO;
 import com.ddf.boot.quickstart.core.entity.SysDict;
@@ -15,9 +15,9 @@ import org.mapstruct.factory.Mappers;
  * @date 2021/03/15 22:18
  */
 @Mapper
-public interface SysDictConvertMapper {
+public interface SysDictConvert {
 
-    SysDictConvertMapper INSTANCE = Mappers.getMapper(SysDictConvertMapper.class);
+    SysDictConvert INSTANCE = Mappers.getMapper(SysDictConvert.class);
 
     /**
      * 转换

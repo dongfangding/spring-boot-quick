@@ -63,7 +63,7 @@ public class AdminController {
     private final ISysUserBizService sysUserBizService;
 
     private final ISysRoleMenuBizService sysRoleMenuBizService;
-    private final LoginStrategyContext loginByPassword;
+    private final LoginStrategyContext loginStrategyContext;
 
     /**
      * 创建系统用户
@@ -82,9 +82,9 @@ public class AdminController {
      * @param request
      * @return
      */
-    @PostMapping("sysUser/loginByPassword")
-    public LoginResponse loginByPassword(@RequestBody @Validated LoginRequest request) {
-        return loginByPassword.login(request);
+    @PostMapping("sysUser/login")
+    public LoginResponse login(@RequestBody @Validated LoginRequest request) {
+        return loginStrategyContext.login(request);
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.ddf.boot.quickstart.api.consts;
 
-import com.ddf.boot.common.api.constraint.redis.NumberShardingRule;
 import com.ddf.boot.common.api.constraint.redis.RedisKeyConstraint;
 import com.ddf.boot.common.api.constraint.redis.RedisShardingRule;
 import com.ddf.boot.common.api.enums.RedisKeyTypeEnum;
@@ -14,8 +13,6 @@ import java.time.Duration;
  * @date 2022/05/21 20:36
  */
 public enum RedisKeyEnum implements RedisKeyConstraint {
-
-    /**
 
     /**
      * 短信验证码key
@@ -35,27 +32,6 @@ public enum RedisKeyEnum implements RedisKeyConstraint {
      * %s token
      */
     EMAIL_ACTIVE_TOKEN_KEY("common:email_active_token:%s", Duration.ofSeconds(300), RedisKeyTypeEnum.STRING),
-
-    /**
-     * 用户心跳详情信息, hash结构
-     * hash key 为第0个参数，使用这个参数来路由分片key
-     */
-    USER_HEART_BEAT_DETAIL("user:user_heart_beat_detail", RedisKeyTypeEnum.HASH, NumberShardingRule.of(0, 10)),
-
-    /**
-     * 每日心跳在线时长，score为用户当天累计在线时间，隔天的话会累计到第二天里
-     * %s 当前日期天，格式为yyyyMMdd
-     */
-    DAILY_HEART_BEAT("user:daily_heart_beat:%s", Duration.ofDays(30), RedisKeyTypeEnum.ZSET),
-
-    /**
-     * 连续心跳记录，用户连续在线时间，只要一直心跳，不会因为隔天而清零，心跳时间如果在间隔范围内会一直累加，如果超过间隔时间，则重置；
-     * 使用时，还需要自行判定当前时间有没有超过最后一次心跳的间隔时间，因为如果下线后不再上线，这个时间如果没有定时的话，时间是不准的
-     */
-    CONTINUE_HEART_BEAT("user:continue_heart_beat", RedisKeyTypeEnum.ZSET),
-
-    ONLINE_USER_MAP("online_user_map", RedisKeyTypeEnum.SET)
-
     ;
 
     /**

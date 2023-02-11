@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.api.request.sys;
 
+import java.io.Serializable;
 import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResetPasswordRequest {
+public class ResetPasswordRequest implements Serializable {
+    private static final long serialVersionUID = 4043147026743448255L;
 
     /**
      * 主键记录id

@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.mapper;
+package com.ddf.boot.quickstart.core.controller;
 
 import com.ddf.boot.quickstart.api.dto.SysRoleDTO;
 import com.ddf.boot.quickstart.core.entity.SysRole;
@@ -15,9 +15,9 @@ import org.mapstruct.factory.Mappers;
  * @date 2021/02/20 16:30
  */
 @Mapper
-public interface SysRoleConvertMapper {
+public interface SysRoleConvert {
 
-    SysRoleConvertMapper INSTANCE = Mappers.getMapper(SysRoleConvertMapper.class);
+    SysRoleConvert INSTANCE = Mappers.getMapper(SysRoleConvert.class);
 
 
     /**

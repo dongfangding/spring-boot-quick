@@ -40,6 +40,6 @@ public class TokenLoginStrategy implements LoginStrategy {
         final String userId = userClaim.getUserId();
         // 刷新token
         TokenUtil.refreshToken(userId, token);
-        return sysUserService.getById(Long.parseLong(userId));
+        return sysUserService.getByUserId(userId);
     }
 }
