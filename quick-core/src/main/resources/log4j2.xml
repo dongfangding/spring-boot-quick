@@ -3,7 +3,7 @@
 <Configuration status="warn" strict="true">
     <Properties>
         <!-- 伪集群时使用，加一个server.port参数，但是直接读取application.yml中的是不行的，需要配合在启动脚本中添加server.port -->
-        <Property name="LOG_BASE_DIR">/data/logs/xiuxian/${sys:server.port}</Property>
+        <Property name="LOG_BASE_DIR">/data/logs/quickstart/${sys:server.port}</Property>
         <Property name="CONSOLE_LOG_PATTERN">%clr{[%d{yyyy-MM-dd HH:mm:ss.SSS}]} [%X{user_id}#%X{trace_id}]{faint} %clr{%level}{magenta}
             %clr{[%t]}{faint} %clr{%c{1.}}{cyan} %clr{-}{faint} %m%n%xwEx
         </Property>
