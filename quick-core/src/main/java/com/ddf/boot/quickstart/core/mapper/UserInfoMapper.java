@@ -20,4 +20,11 @@ public interface UserInfoMapper extends BaseMapper<UserInfo> {
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
+
+    /**
+     * 随机n条用户
+     *
+     * @return
+     */
+    UserInfo randomUser(Integer num);
 }

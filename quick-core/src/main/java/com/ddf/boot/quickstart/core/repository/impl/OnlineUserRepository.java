@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.repository;
+package com.ddf.boot.quickstart.core.repository.impl;
 
 import com.ddf.boot.common.api.util.DateUtils;
 import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;

@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.repository;
+package com.ddf.boot.quickstart.core.repository.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

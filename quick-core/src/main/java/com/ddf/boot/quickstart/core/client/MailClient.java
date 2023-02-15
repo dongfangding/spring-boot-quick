@@ -1,9 +1,12 @@
 package com.ddf.boot.quickstart.core.client;
 
 import cn.hutool.core.util.RandomUtil;
+import com.ddf.boot.common.api.util.JsonUtil;
 import com.ddf.boot.common.core.util.MailUtil;
+import com.ddf.boot.common.core.util.StringExtUtil;
+import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
-import com.ddf.boot.quickstart.core.repository.CommonRepository;
+import com.ddf.boot.quickstart.core.repository.impl.CommonRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +30,23 @@ public class MailClient {
     private final CommonRepository commonRepository;
 
     /**
+     * 原始发送邮件方法
+     *
+     * @param sendTo
+     * @param subject
+     * @param content
+     */
+    @Async("mailThreadPool")
+    public void sendMimeMail(String[] sendTo, String subject, String content) {
+        mailUtil.sendMimeMail(sendTo, null, subject, content, null);
+    }
+
+    /**
      * 发送邮箱绑定激活邮件
      *
      * @param userId
      * @param email
      */
-    @Async("mailThreadPool")
     public void sendEmailActive(String title, Long userId, String email) {
         String activeToken = generateEmailToken(userId, email);
         String url = applicationProperties.getMailActiveUrl() + "?token=" + activeToken;
@@ -41,7 +55,7 @@ public class MailClient {
         content += "<a href='" + url + "'>" + url + "</a>";
         content += "<p>如果以上链接无法打开，请复制链接到浏览器中打开，该链接五分钟内有效，请及时验证。</p>";
         content += "(该邮件由系统自动发出，请勿回复)";
-        mailUtil.sendMimeMail(new String[] {email}, subject, content);
+        sendMimeMail(new String[] {email}, subject, content);
     }
 
     /**
@@ -55,6 +69,23 @@ public class MailClient {
         String token = RandomUtil.randomString(64);
         commonRepository.setEmailActiveToken(email, token, userId);
         return token;
+    }
+
+
+    /**
+     * 发送rabbitmq 消费监听失败邮件
+     *
+     * @param messageWrapper
+     * @param throwable
+     * @param <T>
+     */
+    public <T> void sendRabbitMQConsumeFailureMail(MqMessageWrapper<T> messageWrapper, Throwable throwable) {
+        sendMimeMail(
+                new String[] {"1041765757@qq.com"},
+                String.format("mq消息[%s]消费失败提醒", messageWrapper.getMessageId()),
+                JsonUtil.asString(messageWrapper) + "<br /><br /> <font color='red'>"
+                        + StringExtUtil.exceptionToStringNoLimit(throwable) + "</font>"
+        );
     }
 
 }

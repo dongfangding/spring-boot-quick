@@ -16,7 +16,6 @@ import com.ddf.boot.quickstart.api.request.auth.LoginRequest;
 import com.ddf.boot.quickstart.api.response.auth.LoginResponse;
 import com.ddf.boot.quickstart.core.application.event.UserLoginEvent;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.repository.UserMetadataConfigRepository;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -43,7 +42,6 @@ import org.springframework.stereotype.Component;
 public class LoginStrategyContext implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
-    private final UserMetadataConfigRepository userMetadataConfigRepository;
     private final Map<LoginTypeEnum, LoginStrategy> loginStrategyMap = new HashMap<>();
     private final ApplicationEventPublisher applicationEventPublisher;
 

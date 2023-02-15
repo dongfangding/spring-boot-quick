@@ -29,10 +29,10 @@ public enum ApplicationExceptionCode implements BaseCallbackCode {
     ACCOUNT_NOT_EXISTS("ACCOUNT_NOT_EXISTS", "账号不存在"),
     ACCOUNT_IN_BLACK("ACCOUNT_IN_BLACK", "账号已被封禁"),
     IDENTITY_MISMATCH("IDENTITY_MISMATCH", "身份不匹配~"),
-    CD_KEY_ERROR("CD_KEY_ERROR", "兑换码无效~"),
-    CD_KEY_EXPIRED("CD_KEY_EXPIRED", "兑换码已失效~"),
-    CD_KEY_USED("CD_KEY_USED", "兑换码已被使用~"),
-    CD_KEY_REPEAT_DRAW("CD_KEY_REPEAT_DRAW", "兑换码只能领取一次~"),
+    TEST_SIMPLE_BIZ_MESSAGE("10014", "基本异常"),
+    TEST_BIZ_MESSAGE("10015", "boot-quick演示业务异常", "啦啦啦啦，请重试"),
+    TEST_FILL_EXCEPTION("10016", "带占位符的异常演示[{0}]"),
+    TEST_FILL_BIZ_EXCEPTION("10017", "带占位符的异常演示[{0}],客户端隐藏详细信息", "报错啦")
     ;
 
     private final String code;

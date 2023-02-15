@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * @author dongfang.ding
  * @date 2020/11/22 0022 22:10
  */
-@RestControllerAdvice(basePackages = "com.ddf.game.xiuxian.core")
+@RestControllerAdvice(basePackages = "com.ddf.boot.quickstart.core")
 public class GlobalExceptionAdvice extends AbstractExceptionHandler {
 
     @ExceptionHandler(value = Exception.class)

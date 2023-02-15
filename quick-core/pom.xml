@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-quick</artifactId>
         <groupId>com.ddf.spring-boot</groupId>
-        <version>1.0.0-quickstart-SNAPSHOT</version>
+        <version>1.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>quick-core</artifactId>
@@ -22,15 +22,22 @@
         <ddf-common-limit.version>1.0.2-SNAPSHOT</ddf-common-limit.version>
         <ddf-common-redis.version>1.0.2-SNAPSHOT</ddf-common-redis.version>
         <ddf-common-captcha.version>1.0.2-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-captcha.version>1.0.2-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-vps.version>1.0.2-SNAPSHOT</ddf-common-vps.version>
         <ddf-common-third-party.version>1.0.2-SNAPSHOT</ddf-common-third-party.version>
+        <ddf-common-mongo.version>1.0.2-SNAPSHOT</ddf-common-mongo.version>
+        <ddf-common-mq.version>1.0.2-SNAPSHOT</ddf-common-mq.version>
+        <ddf-common-netty-broker.version>1.0.2-SNAPSHOT</ddf-common-netty-broker.version>
+        <ddf-common-rocketmq.version>1.0.2-SNAPSHOT</ddf-common-rocketmq.version>
+        <ddf-common-websocket.version>1.0.2-SNAPSHOT</ddf-common-websocket.version>
+        <ddf-common-ids-service.version>1.0.2-SNAPSHOT</ddf-common-ids-service.version>
+        <elasic-job.version>3.0.0-alpha</elasic-job.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.ddf.spring-boot</groupId>
             <artifactId>quick-api</artifactId>
-            <version>1.0.0-quickstart-SNAPSHOT</version>
+            <version>1.0.2-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -47,6 +54,24 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-mongo</artifactId>
+            <version>${ddf-common-mongo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-rocketmq</artifactId>
+            <version>${ddf-common-rocketmq.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-mq</artifactId>
+            <version>${ddf-common-mq.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-mybatis-plus</artifactId>
             <version>${ddf-common-mybatis-plus.version}</version>
         </dependency>
@@ -59,9 +84,22 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-ids-service</artifactId>
+            <version>${ddf-common-ids-service.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-redis</artifactId>
             <version>${ddf-common-redis.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-netty-broker</artifactId>
+            <version>${ddf-common-netty-broker.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -90,6 +128,18 @@
         </dependency>
 
         <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-vps</artifactId>
+            <version>${ddf-common-vps.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-websocket</artifactId>
+            <version>${ddf-common-websocket.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
             <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
@@ -105,6 +155,31 @@
             <artifactId>spring-boot-starter-web</artifactId>
             <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
             <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- https://repo1.maven.org/maven2/org/apache/shardingsphere/elasticjob/elasticjob-lite-spring-boot-starter/ -->
+        <dependency>
+            <groupId>org.apache.shardingsphere.elasticjob</groupId>
+            <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
+            <version>${elasic-job.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>logback-classic</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>logback-core</artifactId>
+                    <groupId>ch.qos.logback</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>log4j-to-slf4j</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
                 <exclusion>
                     <artifactId>spring-boot-starter-logging</artifactId>
                     <groupId>org.springframework.boot</groupId>
@@ -183,6 +258,78 @@
             <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-third-party</artifactId>
             <version>${ddf-common-third-party.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-mqtt</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-sentinel</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-xxl-executor</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-es</artifactId>
+            <version>${project.parent.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 用于刷新配置 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-nacos</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-fdfs-client</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-jdk8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct-processor</artifactId>
         </dependency>
     </dependencies>
 

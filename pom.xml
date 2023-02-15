@@ -12,7 +12,7 @@
     <groupId>com.ddf.spring-boot</groupId>
     <artifactId>spring-boot-quick</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0-quickstart-SNAPSHOT</version>
+    <version>1.0.2-SNAPSHOT</version>
     <modules>
         <module>quick-api</module>
         <module>quick-core</module>

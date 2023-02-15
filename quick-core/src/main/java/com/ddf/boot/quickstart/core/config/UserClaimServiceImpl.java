@@ -7,7 +7,7 @@ import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.enume.UserStatusEnum;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
+import com.ddf.boot.quickstart.core.repository.impl.UserInfoRepository;
 import java.util.Objects;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

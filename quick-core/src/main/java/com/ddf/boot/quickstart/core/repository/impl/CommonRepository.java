@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.repository;
+package com.ddf.boot.quickstart.core.repository.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.ddf.boot.common.api.util.JsonUtil;

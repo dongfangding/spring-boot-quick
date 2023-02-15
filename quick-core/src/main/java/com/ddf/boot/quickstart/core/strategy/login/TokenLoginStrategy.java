@@ -6,7 +6,7 @@ import com.ddf.boot.common.authentication.util.TokenUtil;
 import com.ddf.boot.quickstart.api.enume.LoginTypeEnum;
 import com.ddf.boot.quickstart.api.request.auth.LoginRequest;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
+import com.ddf.boot.quickstart.core.repository.impl.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

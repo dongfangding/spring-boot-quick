@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.repository;
+package com.ddf.boot.quickstart.core.repository.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -277,5 +277,15 @@ public class UserInfoRepository {
         // 累加当日用户在线时长, 如果上一次心跳在前一天结尾，这一次心跳接收到已经到了第二天，就取两个值最小的
         long increaseHeartbeatSeconds = Math.min(heartBeatIntervalPreSeconds, DateUtils.calcPassedTodaySeconds(currentTimeSeconds));
         incrementDailyHeartBeat(currentTimeSeconds, userId, (double) increaseHeartbeatSeconds);
+    }
+
+    /**
+     * 随机取n条用户
+     *
+     * @param number
+     * @return
+     */
+    public UserInfo randomUser(Integer number) {
+        return userInfoMapper.randomUser(number);
     }
 }

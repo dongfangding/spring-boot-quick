@@ -16,6 +16,16 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 public class ThreadConfig {
 
     /**
+     * 邮件发送
+     *
+     * @return
+     */
+    @Bean
+    public ThreadPoolTaskExecutor mailThreadPool() {
+        return ThreadBuilderHelper.buildThreadExecutor("mail-send-executor-", 30, 500);
+    }
+
+    /**
      * 登录事件线程池
      *
      * @return
