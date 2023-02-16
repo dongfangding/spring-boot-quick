@@ -83,7 +83,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: Aa&123456
     ports:
-      - 27017:27017
+      - "27017:27017"
     volumes:
       - /etc/localtime:/etc/localtime
       - ./mongo/configdb:/data/configdb
@@ -98,8 +98,8 @@ services:
       customize_net:
         ipv4_address: 172.19.0.12
     ports:
-      - 9200:9200
-      - 9300:9300
+      - "9200:9200"
+      - "9300:9300"
     volumes:
       - /etc/localtime:/etc/localtime
       - ./elasticsearch/data:/usr/share/elasticsearch/data:rw
@@ -116,7 +116,7 @@ services:
     environment:
       MAX_HEAP_SIZE: 512M
     ports:
-      - 9876:9876
+      - "9876:9876"
     volumes:
       - /etc/localtime:/etc/localtime
       - ./rocketmq/namesrv/logs:/root/logs:rw
@@ -135,9 +135,9 @@ services:
       MAX_HEAP_SIZE: 512M
       NAMESRV_ADDR: rocketmq-namesrv:9876
     ports:
-      - 10909:10909
-      - 10911:10911
-      - 10912:10912
+      - "10909:10909"
+      - "10911:10911"
+      - "10912:10912"
     volumes:
       - /etc/localtime:/etc/localtime
       - ./rocketmq/broker/logs:/root/logs:rw
@@ -152,7 +152,7 @@ services:
       customize_net:
         ipv4_address: 172.19.0.25
     ports:
-      - 8804:8080
+      - "8804:8080"
     depends_on:
       - rocketmq-namesrv
     environment:
@@ -165,7 +165,7 @@ services:
       customize_net:
         ipv4_address: 172.19.0.26
     ports:
-      - 8808:8080
+      - "8808:8080"
     volumes:
       - ./xxl-job:/data/applogs
     environment:
