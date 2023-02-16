@@ -1,5 +1,13 @@
 # spring-boot-quick
 
+## 启动
+
+### 依赖环境
+在`resources/doc`目录下有一个压缩文件为`docker-compose.zip`, 可直接下载解压，根目录有一个`docker-compose.yml` 文件，可直接执行`docker-compose up -d` 命令，一键安装本应用所需应用环境
+
+* 数据库
+* 
+
 ## 配置文件说明
 ### application-{profile}_bak.yml
 

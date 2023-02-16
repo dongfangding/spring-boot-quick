@@ -31,18 +31,28 @@ spring:
       asyncInit: true
       max-active: 200
       min-idle: 10
+      # 配置是否定期探活、探活间隔
       keep-alive: true
+      keepAliveBetweenTimeMillis: 30000
+      # 配置获取连接等待超时的时间
       max-wait: 60000
       use-unfair-lock: true
+      # 配置一个连接最大使用次数，避免长时间使用相同连接造成服务器端负载不均衡
+      phyMaxUseCount: 1000
       # 回收连接相关
       time-between-eviction-runs-millis: 60000
+      # 配置一个连接在连接池中的最小生存时间、最大生存时间，超过最大生存时间会被移除，单位毫秒
       min-evictable-idle-time-millis: 600000
+      max-evictable-idle-time-millis: 900000
+      # 探活、验证链接有效性的查询，新版本默认使用mysqlPing代替
       validation-query: SELECT 1
+      # 禁用新版本validation-query使用validation-query，依然使用validation-query配置的查询语句
+      usePingMethod: false
       # 建议配置为true，不影响性能，并且保证安全性。申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
       test-while-idle: true
-      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      # 申请连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能，除非特别重要或网络特别不可靠等情况下使用true
       test-on-borrow: false
-      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能。
+      # 归还连接时执行validationQuery检测连接是否有效，做了这个配置会降低性能，除非特别重要或网络特别不可靠等情况下使用true
       test-on-return: false
       use-ping-method: false
       poolPreparedStatements: false
@@ -53,7 +63,8 @@ spring:
           log-slow-sql: true
           slow-sql-millis: 3000
         wall:
-          enabled: true # 开启WallFilter
+          # 开启WallFilter
+          enabled: true
           db-type: mysql
       ## 开启内置监控界面 访问路径: /context-path/druid/index.html
       stat-view-servlet:
@@ -73,24 +84,195 @@ spring:
     host: ${redis_host}
     port: ${redis_port}
     database: ${redis_database}
-#    password: ${redis_password}
+    password: ${redis_password}
     redisson:
       file: classpath:redisson.yml
 
-customs: # 自定义的属性最好都写在custom前缀下，方便辨认
-  global-properties:
-    snowflakeWorkerId: 1      # worker Id can't be greater than 31 or less than 0
-    snowflakeDataCenterId: 1  # dataCenterId Id can't be greater than 31 or less than 0
-    ignoreErrorTraceProfile: # 过滤将异常堆栈信息输出打前端接口返回值的环境
-      - pre
-      - prod
-    exception200: true  # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
+  mail:
+    # 用来验证授权的邮件用户名
+    username: ${mail_server_username}
+    # 根据QQ邮箱设置-账户里生成的第三方登陆授权码，可用来代替密码登陆
+    password: ${mail_server_password}
+    # 邮件服务器类型
+    host: smtp.qq.com
+    # 用以支持授权码登陆
+    properties.mail.smtp.ssl.enable: true
+
+  data:
+    mongodb:
+      uri: ${mongodb_url}
+      autoIndexCreation: true
+
+  elasticsearch:
+    rest:
+      uris: ${es_hosts}
+      username: ${es_username}
+      password: ${es_password}
+      connectionTimeout: 3s
+
+  rabbitmq:
+    addresses: ${rabbit_address}
+    username: ${rabbit_username}
+    password: ${rabbit_password}
+    # 创建的虚拟主机，可以简单理解为一个实例，所有队列交换器路由等都是在它的基础上，默认为/，最好自己新建一个
+    virtualHost: /
+    # 消息被投递之后如何确保一定被正确投递或消费，开启conform模式
+    publisher-confirms: true
+    listener:
+      direct:
+        # 开启手动ack
+        acknowledge-mode: manual
+      simple:
+        # 开启手动ack
+        acknowledge-mode: manual
+        retry:
+          enabled: false
+          max-attempts: 3
+          initial-interval: 3000
+        default-requeue-rejected: false
+    cache:
+      channel:
+        size: 100
+        checkoutTimeout: 3000
+      connection:
+        mode: connection
+        size:
+    template:
+      retry:
+        enabled: true
+        maxAttempts: 5
+        # 第一次和第二次尝试传递消息之间的持续时间
+        initialInterval: 2000
+
+rocketmq:
+  name-server: ${rocketmq_name_server}
+  producer:
+    group: boot-quick-producer-group
+    send-message-timeout: 10000
+    retryNextServer: true
+
+xxl-job:
+  adminAddresses: ${xxl_admin_addresses}
+  # 访问token, 需要和xxl-job-admin里的配置一致
+  accessToken: ${xxl_admin_access_token}
+  # 自动使用spring.application.name
+  appName: auto
+  # 日志目录
+  logPath: /data/logs/xxl-job
+  # 日志保留天数
+  logRetentionDays: 7
+
+# 自定义的属性最好都写在custom前缀下，方便辨认
+customs:
   rsa:
     primaryKey: ${rsa_primaryKey}
     publicKey: ${rsa_publicKey}
+
+  # 分布式锁配置
+  distributed:
+    lock:
+      zookeeper:
+        # 是否开启zk分布式锁
+        enable: true
+        # 分布式锁根节点
+        root: /distributed_lock
+        connectString: ${zk_addr}
+      redis:
+        # 是否开启基于redis的分布式锁
+        enable: true
+
+  # ids 服务配置
+  ids:
+    zkAddress: ${zk_addr}
+    zkPort: 2181
+    segmentEnable: true
+
+  # 监控zk节点服务连接信息
+  zookeeper:
+    monitor:
+      connectAddress: ${zk_addr}
+
+  websocket:
+    properties:
+      handshakeTokenSecret: true
+      # websocket连接时是否忽略时间戳校验， 测试环境可以打开方便快速连接
+      ignoreAuthTimestamp: false
+      # 消息是否加密
+      messageSecret: false
+
+emq.config:
+  connectionUrls:
+    - protocol: mqtt_tcp
+      url: tcp://xxxx:1883
+  client:
+    clientIdPrefix: boot-quick
+    username: xxxx
+    password: xxx
+
+fdfs:
+  # tracker-server列表
+  trackerList:
+    - xxxx:22122
+  # web服务器，但是没看懂在项目中的作用
+  webServerUrl: https://xxxx
+  # 连接超时时间
+  connect-timeout: 2000
+  # 读取超时时间
+  so-timeout: 3000
+  # 缩略图配置
+  thumb-image:
+    width: 150
+    height: 150
+  # 连接池配置
+  pool:
+    # 从池中借出的对象的最大数目（配置为-1表示不限制）
+    max-total: -1
+    # 获取连接时的最大等待毫秒数(默认配置为5秒)
+    max-wait-millis: 5000
+    # 每个key最大连接数
+    max-total-per-key: 300
+    # 每个key对应的连接池最大空闲连接数
+    max-idle-per-key: 10
+    # 每个key对应的连接池最小空闲连接数
+    min-idle-per-key: 5
 
 logging:
   level:
     root: info
     com.ddf.boot.common.log.AccessLogAspect: debug
     com.ddf.boot.quickstart.core.mapper: debug
+
+elasticjob:
+  reg-center:
+    server-lists: ${zk_addr}
+  tracing:
+    type: RDB # 事件追踪配置,需要配合数据库数据源
+  dump:
+    port: 9999
+  jobs:
+    # https://shardingsphere.apache.org/elasticjob/current/cn/user-manual/elasticjob-lite/configuration/
+    timeReportJob:
+      # https://shardingsphere.apache.org/elasticjob/current/cn/faq/#3-%E4%B8%BA%E4%BB%80%E4%B9%88%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%88%96%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6%E4%B8%AD%E4%BF%AE%E6%94%B9%E4%BA%86%E4%BD%9C%E4%B8%9A%E9%85%8D%E7%BD%AE%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E9%85%8D%E7%BD%AE%E5%8D%B4%E6%B2%A1%E6%9C%89%E6%9B%B4%E6%96%B0
+      # 本地配置是否可覆盖注册中心配置
+      overwrite: true
+      jobParameter: 我是从配置文件传过来的一个jobParameter
+      # 每次作业执行时间和间隔时间均非常短的情况，建议不监控作业运行时状态以提升效率。 因为是瞬时状态，所以无必要监控。请用户自行增加数据堆积监控。
+      # 并且不能保证数据重复选取，应在作业中实现幂等性。 每次作业执行时间和间隔时间均较长的情况，建议监控作业运行时状态，可保证数据不会重复选取
+      monitorExecution: true
+      # 任务开发的bean class
+      elasticJobClass: com.ddf.boot.quick.features.elasticjob.TimeReportJob
+      cron: 0 0/5 * * * ?
+      # 分片总数， 分片总数如果大于1将会尽量平均分配给多个服务节点（如果存在），然后任务触发的时候多个节点都会执行代码，但如果自己的任务
+      # 只希望同一时刻只有一个节点执行，则要配置为1.否则就是类似于多个服务节点平均分配分片然后来瓜分任务的意思，可以理解为fork-join框架的思想
+      # 所以分片数如果大于1，一定是为了利用服务器的资源然后各自执行不同数据段的代码，这样分片才有意义
+      shardingTotalCount: 1
+      # 个性化分片参数 加入需要分片执行的话，给每个分片传递参数，以便进行数据业务切分隔离，互不影响
+      shardingItemParameters: 0=Beijing,1=Shanghai,2=Guangzhou
+      # 当作业执行过程中服务器宕机，失效转移允许将该次未完成的任务在另一作业节点上补偿执行。失效转移需要与监听作业运行时状态同时开启才可生效。
+      # 开启失效转移功能，ElasticJob 会监控作业每一分片的执行状态，并将其写入注册中心，供其他节点感知。
+      # 在一次运行耗时较长且间隔较长的作业场景，失效转移是提升作业运行实时性的有效手段； 对于间隔较短的作业，会产生大量与注册中心的网络通信，
+      # 对集群的性能产生影响。 而且间隔较短的作业并未见得关注单次作业的实时性，可以通过下次作业执行的重分片使所有的分片正确执行，因此不建议短间隔作业开启失效转移。
+      failover: false
+      # ElasticJob 不允许作业在同一时间内叠加执行。 当作业的执行时长超过其运行间隔，错过任务重执行能够保证作业在完成上次的任务后继续执行逾期的作业。
+      # 在一次运行耗时较长且间隔较长的作业场景，错过任务重执行是提升作业运行实时性的有效手段； 对于未见得关注单次作业的实时性的短间隔的作业来说，开启错过任务重执行并无必要。
+      misfire: false

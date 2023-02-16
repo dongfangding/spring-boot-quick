@@ -55,6 +55,7 @@ logging:
 customs:
   authentication:
     secret: happygamegamehappygamehappyhappy
+    expired-minute: 10080
     ignores:
       - /auth/sendRegisterSmsCode
       - /auth/registry
@@ -62,7 +63,17 @@ customs:
       - /common/generateCaptcha
       - /common/checkCaptcha
       - /common/sendSmsCode
-    expired-minute: 10080
+  global-properties:
+    # worker Id can't be greater than 31 or less than 0
+    snowflakeWorkerId: 1
+    # dataCenterId Id can't be greater than 31 or less than 0
+    snowflakeDataCenterId: 1
+    # 过滤将异常堆栈信息输出打前端接口返回值的环境
+    ignoreErrorTraceProfile:
+      - pre
+      - prod
+    # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
+    exception200: true
 
 mybatis-plus:
   configuration:
