@@ -29,14 +29,16 @@ es_hosts: localhost:9200
 es_username: none
 es_password: none
 ## rabbitmq
-rocketmq_name_server: localhost:5672
+rabbitmq_address: localhost:5672
 rabbitmq_username: rabbitmq
 rabbitmq_password: Aa&123456
+## rocketmq
+rocketmq_name_server: localhost:9876
 ## mongo
 mongodb_url: mongodb://mongo@localhost:27017/?authSource=admin
 ## 邮箱
 mail_server_username: 1041765757@qq.com
-mail_server_password: Aa&123456
+mail_server_password: gcsgqixzkpfubefa
 ## oss
 oss_enable: true
 oss_endpoint: xxx
@@ -135,7 +137,12 @@ spring:
 
   data:
     mongodb:
-      uri: ${mongodb_url}
+#      uri: ${mongodb_url}
+      host: localhost
+      port: 27017
+      authenticationDatabase: admin
+      username: mongo
+      password: 'Aa&123456'
       autoIndexCreation: true
 
   elasticsearch:
