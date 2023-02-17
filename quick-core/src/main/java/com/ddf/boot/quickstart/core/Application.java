@@ -44,5 +44,6 @@ public class Application {
     /**
      * TODO
      * 考虑由服务端下发客户端唯一标识号， 然后全局管理，如果不存在， 则不处理请求
+     * mock用户登录功能
      */
 }
