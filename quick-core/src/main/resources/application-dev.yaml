@@ -1,24 +1,59 @@
+############################################################################################################################################
+# 下面这些属于环境变量，在服务器上使用时，应该是通过启动脚本注入进来的，下面只是列出来可以注入这些变量，顺便方便本机启动时使用的
+############################################################################################################################################
 # redis
 redis_host: localhost
 redis_port: 6379
-redis_password: 123456
+redis_password: Aa&123456
 redis_database: 0
-
 # mysql
 mysql_host: localhost
 mysql_port: 3306
-mysql_db: quickstart
+mysql_db: boot_quick
 mysql_username: root
-mysql_password: 123456
-
+mysql_password: Aa&123456
 # 动态RSA
-rsa_primaryKey: wait_fill
-rsa_publicKey: wait_fill
-
+rsa_primaryKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCm5iySLZA0bR+MUg2hzA/OD7Z0isiBm+ZZzIP6dnPjk7KDDhanAETaT7Ix1VQTJB5X/qTw2oSJfrhvL6W8RxHyWid+UDDqWZtgnGY586oounMUFPRr595OE6cnc5EaoP/ibqwWBeP0G8z62P89t2+Zn2clll73ihKolWyHoYGOfoXpsINjqGkgelZp+UWOZyz0RnYiiHy1VHrKISt6dUQx+KJ2yEJxKarpcUufPPVV9mPNQmzheN8hrH5oVIzbKXOE1mvv3VCvQL1CuYmcJMsHEUZQqAfb01NEFYFuX95oRn8b/KQnrHiQ16ptz2w2q80mnbLAA5ZIhW+/tKqOxRwrAgMBAAECggEBAI26Zt0Xbh7nD+RUBZmBNWayNymOdSiDIEDfiK/XiSAX236pJxlYBCAzj0n8M3IxuMbWynBx0B0GjE528tIItDfO0TzVkkRgJa8MAU9zGOuPMYw7IzjC5Sf+TnMVE4K+d61seBwXknVIanAWd+GL9WxKTghAQpMJIEEi6s/ematLa/evz/kNlkoz3h4V3YXmcZf7EGa7aw4ws3d82kL4tSeTyLX39XfdO7b8seyC6qSYKNn1L8k86zeihq0qIrYPSol2VW9bgGNA8zp9YTOdFwh66773B1VrvYOmhrDj1zrJVR0UepbTdQ5sl5GsybjSl94txSTE4AAy/D98ymNq7ckCgYEA38HFeQZUhSJY8zb2rwwi0W7Fple7JznOFa0K36l+MHCWFupAz39qTHHucYtKW7t9PJayKtEpEcJSGgNeYngygkRIlgJFq37IfaY4wfIFS3nMWoCODVp8kHSolGInc6g48b7GAwutNKMiNzPrf3kuziUEaJUCajaDbDItlOwpIp0CgYEAvvL1ysaV2h9JN4Ji+NtB6HdPMe/xWQa5gaMN1VwRNXQE22LxUH3c4lUCgBkDTmbApdpzH47D5Kn6nZUIH9CmZRRfTs1KvE9Jp09nx93xzK96qBDM8S3ZjRcoGafs9Yuwd+wD+yNIgFu//kDUefNgARFsmZL6DEQdb8X0caDWO2cCgYBGO9FbMqR3AZgAB6GYwmtvZ6C8nM8O+fL5FM7T86S7WauS18auGuVnx1873qfhcVFXIkocbHjCrUcOCT6oE+huwTYzd9UchngyEGnCXtBQp5OAWNe900hEI4oCwWh2wjfVkbcfn5unaQlFYJOr+IK7jBz9IsCWTDQmUv3Bv/sNdQKBgAwpUTo+96BSycj9Ruxumn4By0t06rwuz3XQOrtSB86Nuxl17cSgn4bSvzwFW86MgMyPYzGpWBSiNtH+gev00AQ0DfXo4U+pBRng1s1F93Z/3qIBn+vkbayswuMPbOoeoXih0YcXMjDqpwm8e0vhEkY/I9mMINzTIcTSqMTr53kVAoGAJ+IMk/DYwQDNdWnPIU8YIHDGXNM2JxV8o9qakjW7DYHX+wFaFxj0tEJ5DPiP3LgKCvntenuHuKxNu876Ym6wscDILEDuMcHxlf+k+Qa1CLC04VbdPn1bIVGDyhJR/w8OGXTUH1xB9pSSiX5LpNZOQc/utm/C+g7+5+YAWil4rtQ=
+rsa_publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApuYski2QNG0fjFINocwPzg+2dIrIgZvmWcyD+nZz45Oygw4WpwBE2k+yMdVUEyQeV/6k8NqEiX64by+lvEcR8lonflAw6lmbYJxmOfOqKLpzFBT0a+feThOnJ3ORGqD/4m6sFgXj9BvM+tj/PbdvmZ9nJZZe94oSqJVsh6GBjn6F6bCDY6hpIHpWaflFjmcs9EZ2Ioh8tVR6yiErenVEMfiidshCcSmq6XFLnzz1VfZjzUJs4XjfIax+aFSM2ylzhNZr791Qr0C9QrmJnCTLBxFGUKgH29NTRBWBbl/eaEZ/G/ykJ6x4kNeqbc9sNqvNJp2ywAOWSIVvv7SqjsUcKwIDAQAB
 ## druid
-druid_stat_enable: false
-druid_state_username: wait_fill
-druid_state_password: wait_fill
+druid_stat_enable: true
+druid_state_username: admin
+druid_state_password: Aa&123456
+## xxl-job
+xxl_admin_addresses: http://localhost:8808
+xxl_admin_access_token: Aa&123456
+## zookeeper
+zk_addr: localhost:2181
+## elasticsearch
+es_hosts: localhost:9200
+es_username: none
+es_password: none
+## rabbitmq
+rocketmq_name_server: localhost:5672
+rabbitmq_username: rabbitmq
+rabbitmq_password: Aa&123456
+## mongo
+mongodb_url: mongodb://mongo@localhost:27017/?authSource=admin
+## 邮箱
+mail_server_username: 1041765757@qq.com
+mail_server_password: Aa&123456
+## oss
+oss_enable: true
+oss_endpoint: xxx
+oss_accessKeyId: xxx
+oss_accessKeySecret: xxx
+oss_secret: false
+oss_stsEndpoint: xxx
+oss_roleArn: xxx
+## sms
+sms_enable: false
+sms_secret: false
+sms_accessKeyId: xxx
+sms_accessKeySecret: xxx
+sms_sinaName: xxx
+############################################################################################################################################
+# 环境变量配置结束
+############################################################################################################################################
 
 spring:
   datasource:
@@ -111,9 +146,9 @@ spring:
       connectionTimeout: 3s
 
   rabbitmq:
-    addresses: ${rabbit_address}
-    username: ${rabbit_username}
-    password: ${rabbit_password}
+    addresses: ${rabbitmq_address}
+    username: ${rabbitmq_username}
+    password: ${rabbitmq_password}
     # 创建的虚拟主机，可以简单理解为一个实例，所有队列交换器路由等都是在它的基础上，默认为/，最好自己新建一个
     virtualHost: /
     # 消息被投递之后如何确保一定被正确投递或消费，开启conform模式
@@ -199,6 +234,32 @@ customs:
       ignoreAuthTimestamp: false
       # 消息是否加密
       messageSecret: false
+  ext:
+    ## oss服务配置 com.ddf.boot.common.ext.oss.config.OssProperties
+    oss:
+      enable: ${oss_enable}
+      endpoint: ${oss_endpoint}
+      accessKeyId: ${oss_accessKeyId}
+      accessKeySecret: ${oss_accessKeySecret}
+      secret: ${oss_secret}
+      stsEndpoint: ${oss_stsEndpoint}
+      roleArn: ${oss_roleArn}
+      roleSessionName: ${spring.application.name}
+      durationSeconds: 1800
+      buckets:
+        - bucketName: ddf-private
+          bucketEndpoint: ddf-private.oss-cn-shanghai.aliyuncs.com
+          primary: true
+    ## 短信服务配置 com.ddf.boot.common.ext.sms.config.SmsProperties
+    sms:
+      enable: ${sms_enable}
+      endpoint: dysmsapi.aliyuncs.com
+      protocol: HTTP
+      secretAccessKey: ${sms_secret}
+      accessKeyId: ${sms_accessKeyId}
+      accessKeySecret: ${sms_accessKeySecret}
+      sinaName: ${sms_sinaName}
+      templateCode: SMS_154950909
 
 emq.config:
   connectionUrls:
@@ -260,7 +321,7 @@ elasticjob:
       # 并且不能保证数据重复选取，应在作业中实现幂等性。 每次作业执行时间和间隔时间均较长的情况，建议监控作业运行时状态，可保证数据不会重复选取
       monitorExecution: true
       # 任务开发的bean class
-      elasticJobClass: com.ddf.boot.quick.features.elasticjob.TimeReportJob
+      elasticJobClass: com.ddf.boot.quickstart.core.features.elasticjob.TimeReportJob
       cron: 0 0/5 * * * ?
       # 分片总数， 分片总数如果大于1将会尽量平均分配给多个服务节点（如果存在），然后任务触发的时候多个节点都会执行代码，但如果自己的任务
       # 只希望同一时刻只有一个节点执行，则要配置为1.否则就是类似于多个服务节点平均分配分片然后来瓜分任务的意思，可以理解为fork-join框架的思想

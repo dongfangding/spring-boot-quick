@@ -296,11 +296,11 @@
             <artifactId>spring-cloud-context</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-nacos</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.ddf.common</groupId>-->
+<!--            <artifactId>ddf-common-nacos</artifactId>-->
+<!--            <version>${project.parent.version}</version>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>com.ddf.common</groupId>
