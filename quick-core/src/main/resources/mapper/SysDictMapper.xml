@@ -11,11 +11,122 @@
     <result column="dict_detail_name" jdbcType="VARCHAR" property="dictDetailName" />
     <result column="request_value" jdbcType="VARCHAR" property="requestValue" />
     <result column="sort" jdbcType="INTEGER" property="sort" />
-    <result column="active" jdbcType="BIT" property="active" />
+    <result column="active" jdbcType="VARCHAR" property="active" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--@mbg.generated-->
     id, dict_type_code, dict_type_name, dict_detail_code, dict_detail_name, request_value, 
     sort, active
   </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from sys_dict
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from sys_dict
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.SysDict" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_dict (dict_type_code, dict_type_name, dict_detail_code, 
+      dict_detail_name, request_value, sort, 
+      active)
+    values (#{dictTypeCode,jdbcType=VARCHAR}, #{dictTypeName,jdbcType=VARCHAR}, #{dictDetailCode,jdbcType=VARCHAR}, 
+      #{dictDetailName,jdbcType=VARCHAR}, #{requestValue,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{active,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.SysDict" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into sys_dict
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dictTypeCode != null">
+        dict_type_code,
+      </if>
+      <if test="dictTypeName != null">
+        dict_type_name,
+      </if>
+      <if test="dictDetailCode != null">
+        dict_detail_code,
+      </if>
+      <if test="dictDetailName != null">
+        dict_detail_name,
+      </if>
+      <if test="requestValue != null">
+        request_value,
+      </if>
+      <if test="sort != null">
+        sort,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dictTypeCode != null">
+        #{dictTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictTypeName != null">
+        #{dictTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictDetailCode != null">
+        #{dictDetailCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictDetailName != null">
+        #{dictDetailName,jdbcType=VARCHAR},
+      </if>
+      <if test="requestValue != null">
+        #{requestValue,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.quickstart.core.entity.SysDict">
+    <!--@mbg.generated-->
+    update sys_dict
+    <set>
+      <if test="dictTypeCode != null">
+        dict_type_code = #{dictTypeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictTypeName != null">
+        dict_type_name = #{dictTypeName,jdbcType=VARCHAR},
+      </if>
+      <if test="dictDetailCode != null">
+        dict_detail_code = #{dictDetailCode,jdbcType=VARCHAR},
+      </if>
+      <if test="dictDetailName != null">
+        dict_detail_name = #{dictDetailName,jdbcType=VARCHAR},
+      </if>
+      <if test="requestValue != null">
+        request_value = #{requestValue,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null">
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.quickstart.core.entity.SysDict">
+    <!--@mbg.generated-->
+    update sys_dict
+    set dict_type_code = #{dictTypeCode,jdbcType=VARCHAR},
+      dict_type_name = #{dictTypeName,jdbcType=VARCHAR},
+      dict_detail_code = #{dictDetailCode,jdbcType=VARCHAR},
+      dict_detail_name = #{dictDetailName,jdbcType=VARCHAR},
+      request_value = #{requestValue,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      active = #{active,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
 </mapper>

@@ -4,12 +4,12 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
 
 /**
-* <p>description</p >
-*
-* @author Snowball
-* @version 1.0
-* @date 2023/02/02 16:53
-*/
+ * <p>description</p >
+ *
+ * @author Snowball
+ * @version 1.0
+ * @date 2023/02/18 23:43
+ */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
     int deleteByPrimaryKey(Long id);
 

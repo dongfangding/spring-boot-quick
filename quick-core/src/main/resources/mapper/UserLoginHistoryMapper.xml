@@ -31,6 +31,17 @@
     delete from user_login_history
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserLoginHistory" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user_login_history (user_id, login_type, login_ip, 
+      login_time, imei, os, 
+      longitude, latitude, version
+      )
+    values (#{userId,jdbcType=BIGINT}, #{loginType,jdbcType=VARCHAR}, #{loginIp,jdbcType=VARCHAR}, 
+      #{loginTime,jdbcType=BIGINT}, #{imei,jdbcType=VARCHAR}, #{os,jdbcType=VARCHAR}, 
+      #{longitude,jdbcType=DECIMAL}, #{latitude,jdbcType=DECIMAL}, #{version,jdbcType=INTEGER}
+      )
+  </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserLoginHistory" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into user_login_history

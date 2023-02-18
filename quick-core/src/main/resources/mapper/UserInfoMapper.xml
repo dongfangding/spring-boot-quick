@@ -34,13 +34,21 @@
     delete from user_info
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insertSelective" parameterType="com.ddf.boot.quickstart.core.entity.UserInfo">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user_info (nickname, mobile, `password`, 
+      register_ip, register_imei, temp_email, 
+      email, avatar_url, avatar_thumb_url, 
+      ctime, `status`)
+    values (#{nickname,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{registerIp,jdbcType=VARCHAR}, #{registerImei,jdbcType=VARCHAR}, #{tempEmail,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{avatarThumbUrl,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserInfo" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
-      </if>
       <if test="nickname != null">
         nickname,
       </if>
@@ -76,9 +84,6 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=BIGINT},
-      </if>
       <if test="nickname != null">
         #{nickname,jdbcType=VARCHAR},
       </if>

@@ -6,7 +6,7 @@ import com.ddf.boot.common.core.util.MailUtil;
 import com.ddf.boot.common.core.util.StringExtUtil;
 import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
-import com.ddf.boot.quickstart.core.repository.impl.CommonRepository;
+import com.ddf.boot.quickstart.core.repository.CommonRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

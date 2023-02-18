@@ -80,7 +80,7 @@ services:
     restart: always
     environment:
       # mongo的用户名和密码
-      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_USERNAME: mongo
       MONGO_INITDB_ROOT_PASSWORD: Aa&123456
     ports:
       - "27017:27017"
@@ -170,4 +170,4 @@ services:
       - ./xxl-job:/data/applogs
     environment:
       JAVA_OPTS: -Xms256M -Xmx512M
-      PARAMS: --spring.datasource.url=jdbc:mysql://mysql:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai --spring.datasource.username=root --spring.datasource.password=Aa&123456 --xxl.job.accessToken=xxl_develop
+      PARAMS: --spring.datasource.url=jdbc:mysql://mysql:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai --spring.datasource.username=root --spring.datasource.password=Aa&123456 --xxl.job.accessToken=Aa&123456

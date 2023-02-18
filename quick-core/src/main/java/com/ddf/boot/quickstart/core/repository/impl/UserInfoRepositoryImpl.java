@@ -11,6 +11,7 @@ import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.mapper.UserInfoMapper;
 import com.ddf.boot.quickstart.core.model.cqrs.user.CompleteUserInfoCommand;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor_={@Autowired})
-public class UserInfoRepository {
+public class UserInfoRepositoryImpl implements UserInfoRepository {
 
     private final UserInfoMapper userInfoMapper;
     private final ApplicationProperties applicationProperties;
@@ -46,6 +47,7 @@ public class UserInfoRepository {
      * @param userId
      * @return
      */
+    @Override
     public UserInfo getById(Long userId) {
         return userInfoMapper.selectById(userId);
     }
@@ -56,6 +58,7 @@ public class UserInfoRepository {
      * @param mobile
      * @return
      */
+    @Override
     public UserInfo getByMobile(String mobile) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserInfo::getMobile, mobile);
@@ -68,6 +71,7 @@ public class UserInfoRepository {
      * @param nickname
      * @return
      */
+    @Override
     public UserInfo getByAccountName(String nickname) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserInfo::getNickname, nickname);
@@ -80,6 +84,7 @@ public class UserInfoRepository {
      * @param nickname
      * @return
      */
+    @Override
     public boolean nicknameExists(String nickname) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserInfo::getNickname, nickname);
@@ -93,6 +98,7 @@ public class UserInfoRepository {
      * @param email
      * @return
      */
+    @Override
     public List<UserInfo> listUserByEmail(String email) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserInfo::getEmail, email);
@@ -105,6 +111,7 @@ public class UserInfoRepository {
      * @param email
      * @return
      */
+    @Override
     public UserInfo getUserByVerifiedEmail(String email) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserInfo::getEmail, email)
@@ -118,6 +125,7 @@ public class UserInfoRepository {
      * @param mobile
      * @return
      */
+    @Override
     public boolean exitsByMobile(String mobile) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserInfo::getMobile, mobile);
@@ -131,6 +139,7 @@ public class UserInfoRepository {
      * @param email
      * @return
      */
+    @Override
     public boolean exitsByEmail(String email) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserInfo::getEmail, email);
@@ -143,6 +152,7 @@ public class UserInfoRepository {
      * @param command
      * @return
      */
+    @Override
     public int completeUserInfo(CompleteUserInfoCommand command) {
         final LambdaUpdateWrapper<UserInfo> wrapper = Wrappers.lambdaUpdate();
         wrapper.set(UserInfo::getTempEmail, command.getEmail());
@@ -166,6 +176,7 @@ public class UserInfoRepository {
      * @param email
      * @return
      */
+    @Override
     public int verifiedEmail(Long userId, String email) {
         final LambdaUpdateWrapper<UserInfo> wrapper = Wrappers.lambdaUpdate();
         wrapper.eq(UserInfo::getId, userId);
@@ -181,6 +192,7 @@ public class UserInfoRepository {
      * @param uidList
      * @return
      */
+    @Override
     public Map<Long, UserInfo> mapListUsers(Set<Long> uidList) {
         final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
         wrapper.in(UserInfo::getId, uidList);
@@ -195,6 +207,7 @@ public class UserInfoRepository {
      * @param userId
      * @return
      */
+    @Override
     public UserHeartBeatDTO getUserHeartBeatDetail(Long userId) {
         final String userHeartBeatDetailKey = RedisKeyEnum.USER_HEART_BEAT_DETAIL.getShardingKey(userId + "");
         final Object o = stringRedisTemplate.opsForHash().get(userHeartBeatDetailKey, userId);
@@ -207,6 +220,7 @@ public class UserInfoRepository {
      *
      * @param userHeartBeatDetail
      */
+    @Override
     public void setUserHeartBeatDetail(UserHeartBeatDTO userHeartBeatDetail) {
         final Long hashKey = userHeartBeatDetail.getUserId();
         final String userHeartBeatDetailKey = RedisKeyEnum.USER_HEART_BEAT_DETAIL.getShardingKey(hashKey + "");
@@ -221,6 +235,7 @@ public class UserInfoRepository {
      * @param increaseTimeSeconds
      * @return
      */
+    @Override
     public Double incrementDailyHeartBeat(Long currentTimeSeconds, Long userId, Double increaseTimeSeconds) {
         final LocalDateTime localDateTime = DateUtils.ofSeconds(currentTimeSeconds);
         final Integer currentYearMonthDay = DateUtils.formatYearMonth(localDateTime);
@@ -242,6 +257,7 @@ public class UserInfoRepository {
      * @param increaseTimeSeconds
      * @return
      */
+    @Override
     public Double incrementUserContinueHeartBeat(Long userId, Double increaseTimeSeconds) {
         String dailyHeartBeatKey = RedisKeyEnum.CONTINUE_HEART_BEAT.getKey();
         return stringRedisTemplate.opsForZSet().incrementScore(dailyHeartBeatKey, userId + "", increaseTimeSeconds);
@@ -252,6 +268,7 @@ public class UserInfoRepository {
      *
      * @param userId
      */
+    @Override
     public void setHeartBeat(Long userId) {
         final Long currentTimeSeconds = DateUtils.currentTimeSeconds();
         UserHeartBeatDTO detail = getUserHeartBeatDetail(userId);
@@ -285,6 +302,7 @@ public class UserInfoRepository {
      * @param number
      * @return
      */
+    @Override
     public UserInfo randomUser(Integer number) {
         return userInfoMapper.randomUser(number);
     }

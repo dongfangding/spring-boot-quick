@@ -6,7 +6,7 @@ import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.enume.LoginTypeEnum;
 import com.ddf.boot.quickstart.api.request.auth.LoginRequest;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.repository.impl.UserInfoRepository;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

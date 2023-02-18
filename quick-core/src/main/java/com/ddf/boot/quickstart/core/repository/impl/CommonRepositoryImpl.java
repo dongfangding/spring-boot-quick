@@ -4,6 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.ddf.boot.common.api.util.JsonUtil;
 import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;
 import com.ddf.boot.quickstart.api.dto.EmailToken;
+import com.ddf.boot.quickstart.core.repository.CommonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -18,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor(onConstructor_={@Autowired})
-public class CommonRepository {
+public class CommonRepositoryImpl implements CommonRepository {
 
     private final StringRedisTemplate stringRedisTemplate;
 
@@ -30,6 +31,7 @@ public class CommonRepository {
      * @param randomCode
      * @return
      */
+    @Override
     public void setSmsCode(String mobile, String uuid, String randomCode) {
         stringRedisTemplate.opsForValue().set(
                 RedisKeyEnum.SMS_CODE_KEY.getKey(mobile, uuid), randomCode,
@@ -43,6 +45,7 @@ public class CommonRepository {
      * @param uuid
      * @return
      */
+    @Override
     public String getSmsCode(String mobile, String uuid) {
         return stringRedisTemplate.opsForValue().get(RedisKeyEnum.SMS_CODE_KEY.getKey(mobile, uuid));
     }
@@ -54,6 +57,7 @@ public class CommonRepository {
      * @param token
      * @return
      */
+    @Override
     public void setEmailActiveToken(String email, String token, Long userId) {
         final EmailToken emailToken = EmailToken.of(userId, email);
         stringRedisTemplate.opsForValue().set(RedisKeyEnum.EMAIL_ACTIVE_TOKEN_KEY.getKey((token)), JsonUtil.asString(emailToken), RedisKeyEnum.EMAIL_ACTIVE_TOKEN_KEY.getTtl());
@@ -65,6 +69,7 @@ public class CommonRepository {
      * @param token
      * @return
      */
+    @Override
     public EmailToken getEmailActiveToken(String token) {
         final String value = stringRedisTemplate.opsForValue().get(RedisKeyEnum.EMAIL_ACTIVE_TOKEN_KEY.getKey(token));
         if (StrUtil.isBlank(value)) {

@@ -1,6 +1,6 @@
 package com.ddf.boot.quickstart.core.features.xxljob;
 
-import com.ddf.boot.quickstart.core.repository.impl.UserInfoRepository;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import com.xxl.job.core.biz.model.ReturnT;
 import com.xxl.job.core.handler.annotation.XxlJob;
 import com.xxl.job.core.log.XxlJobLogger;

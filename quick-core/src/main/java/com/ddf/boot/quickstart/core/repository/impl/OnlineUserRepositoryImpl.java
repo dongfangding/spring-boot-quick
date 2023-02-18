@@ -3,6 +3,7 @@ package com.ddf.boot.quickstart.core.repository.impl;
 import com.ddf.boot.common.api.util.DateUtils;
 import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;
 import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
+import com.ddf.boot.quickstart.core.repository.OnlineUserRepository;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
-public class OnlineUserRepository {
+public class OnlineUserRepositoryImpl implements OnlineUserRepository {
 
     private final RedissonClient redissonClient;
     private RMapCache<Long, String> ON_LINE_MAP;
@@ -41,6 +42,7 @@ public class OnlineUserRepository {
      *
      * @param userId
      */
+    @Override
     public void putOnlineUser(Long userId) {
         ON_LINE_MAP.put(userId, DateUtils.currentTimeSeconds() + "", applicationProperties.getHeartBeatMaxIntervalSeconds(), TimeUnit.SECONDS);
     }
@@ -51,6 +53,7 @@ public class OnlineUserRepository {
      * @param userId
      * @return
      */
+    @Override
     public boolean isOnline(Long userId) {
         return StringUtils.isNotBlank(ON_LINE_MAP.get(userId));
     }

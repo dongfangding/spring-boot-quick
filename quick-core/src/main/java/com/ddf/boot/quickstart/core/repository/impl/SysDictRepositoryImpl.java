@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.quickstart.core.entity.SysDict;
 import com.ddf.boot.quickstart.core.mapper.SysDictMapper;
+import com.ddf.boot.quickstart.core.repository.SysDictRepository;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import java.time.Duration;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 @RequiredArgsConstructor(onConstructor_={@Autowired})
-public class SysDictRepository {
+public class SysDictRepositoryImpl implements SysDictRepository {
 
     private final SysDictMapper sysDictMapper;
 
@@ -45,6 +46,7 @@ public class SysDictRepository {
      * @param dictCode
      * @return
      */
+    @Override
     public List<SysDict> listDictByCodeFromCache(String dictCode) {
         return DICT_CACHE.get(dictCode);
     }
@@ -55,6 +57,7 @@ public class SysDictRepository {
      * @param dictCode
      * @return
      */
+    @Override
     public List<SysDict> listDictByCode(String dictCode) {
         final LambdaQueryWrapper<SysDict> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(SysDict::getDictTypeCode, dictCode)

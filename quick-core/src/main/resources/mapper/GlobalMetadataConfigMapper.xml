@@ -24,6 +24,11 @@
     delete from global_metadata_config
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.GlobalMetadataConfig" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into global_metadata_config (config_code, config_value)
+    values (#{configCode,jdbcType=VARCHAR}, #{configValue,jdbcType=LONGVARCHAR})
+  </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.GlobalMetadataConfig" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into global_metadata_config

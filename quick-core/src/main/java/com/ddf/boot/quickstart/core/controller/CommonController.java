@@ -9,7 +9,7 @@ import com.ddf.boot.quickstart.api.request.common.SendSmsCodeRequest;
 import com.ddf.boot.quickstart.api.response.common.ApplicationSmsSendResponse;
 import com.ddf.boot.quickstart.api.response.common.SysDictResponse;
 import com.ddf.boot.quickstart.core.helper.CommonHelper;
-import com.ddf.boot.quickstart.core.repository.impl.SysDictRepository;
+import com.ddf.boot.quickstart.core.repository.SysDictRepository;
 import comm.ddf.common.vps.dto.UploadResponse;
 import comm.ddf.common.vps.helper.VpsClient;
 import java.util.List;

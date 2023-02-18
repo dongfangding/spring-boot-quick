@@ -7,7 +7,7 @@ import com.ddf.boot.quickstart.api.request.common.SmsCodeVerifyRequest;
 import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.helper.CommonHelper;
-import com.ddf.boot.quickstart.core.repository.impl.UserInfoRepository;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import com.ddf.boot.quickstart.core.service.UserInfoService;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;

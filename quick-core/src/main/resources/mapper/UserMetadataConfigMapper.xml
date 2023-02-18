@@ -25,6 +25,13 @@
     delete from user_metadata_config
     where id = #{id,jdbcType=BIGINT}
   </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user_metadata_config (user_id, config_code, config_value
+      )
+    values (#{userId,jdbcType=BIGINT}, #{configCode,jdbcType=VARCHAR}, #{configValue,jdbcType=LONGVARCHAR}
+      )
+  </insert>
   <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into user_metadata_config

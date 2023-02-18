@@ -9,7 +9,7 @@ import com.ddf.boot.common.rocketmq.helper.RocketMQHelper;
 import com.ddf.boot.quickstart.api.consts.RocketMQConstants;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.features.mongo.collection.UserLoginHistoryCollection;
-import com.ddf.boot.quickstart.core.repository.impl.UserInfoRepository;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;

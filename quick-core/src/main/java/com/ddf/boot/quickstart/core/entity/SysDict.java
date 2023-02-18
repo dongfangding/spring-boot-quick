@@ -4,12 +4,12 @@ import java.io.Serializable;
 import lombok.Data;
 
 /**
- * <p>字典表</p >
- *
- * @author Snowball
- * @version 1.0
- * @date 2023/02/02 16:53
- */
+* <p>字典表</p >
+*
+* @author Snowball
+* @version 1.0
+* @date 2023/02/18 23:43
+*/
 @Data
 public class SysDict implements Serializable {
     private Long id;
@@ -47,7 +47,7 @@ public class SysDict implements Serializable {
     /**
      * 是否有效
      */
-    private Boolean active;
+    private String active;
 
     private static final long serialVersionUID = 1L;
 }

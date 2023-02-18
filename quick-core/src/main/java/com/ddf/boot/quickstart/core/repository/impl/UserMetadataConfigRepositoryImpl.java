@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.quickstart.api.enume.UserConfigCodeEnum;
 import com.ddf.boot.quickstart.core.entity.UserMetadataConfig;
 import com.ddf.boot.quickstart.core.mapper.UserMetadataConfigMapper;
+import com.ddf.boot.quickstart.core.repository.UserMetadataConfigRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @Slf4j
-public class UserMetadataConfigRepository {
+public class UserMetadataConfigRepositoryImpl implements UserMetadataConfigRepository {
 
     private final UserMetadataConfigMapper userMetadataConfigMapper;
 
@@ -30,6 +31,7 @@ public class UserMetadataConfigRepository {
      * @param metadataConfig
      * @return
      */
+    @Override
     public boolean insertOrUpdate(UserMetadataConfig metadataConfig) {
         return userMetadataConfigMapper.insertOrUpdate(metadataConfig) > 0;
     }
@@ -41,6 +43,7 @@ public class UserMetadataConfigRepository {
      * @param userConfigCodeEnum
      * @return
      */
+    @Override
     public UserMetadataConfig getConfig(Long userId, UserConfigCodeEnum userConfigCodeEnum) {
         final LambdaQueryWrapper<UserMetadataConfig> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(UserMetadataConfig::getUserId, userId)
