@@ -25,6 +25,46 @@ public interface UserInfoRepository {
     UserInfo getById(Long userId);
 
     /**
+     * 从缓存中获取用户信息
+     *
+     * @param userId
+     * @return
+     */
+    UserInfo getByIdFromCache(Long userId);
+
+    /**
+     * 获取最新用户数据，重新刷新用户缓存
+     *
+     * @param userId
+     * @return
+     */
+    UserInfo refreshUserInfo(Long userId);
+
+    /**
+     * 从缓存中获取批量用户
+     *
+     * @param userIds
+     * @return
+     */
+    Map<Long, UserInfo> listUserInfoMapFromCache(List<Long> userIds);
+
+    /**
+     * 从db中批量获取用户信息
+     *
+     * @param userIds
+     * @return
+     */
+    Map<Long, UserInfo> listUserInfoMapFromDB(List<Long> userIds);
+
+    /**
+     * 从db中批量获取用户信息
+     *
+     * @param userIds
+     * @return
+     */
+    List<UserInfo> listUserInfoFromDB(List<Long> userIds);
+
+    /**
      * 根据手机号查询用户
      *
      * @param mobile

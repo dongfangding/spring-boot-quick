@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.core.repository.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -12,7 +13,11 @@ import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.mapper.UserInfoMapper;
 import com.ddf.boot.quickstart.core.model.cqrs.user.CompleteUserInfoCommand;
 import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -23,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -40,6 +46,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     private final UserInfoMapper userInfoMapper;
     private final ApplicationProperties applicationProperties;
     private final StringRedisTemplate stringRedisTemplate;
+    private final ThreadPoolTaskExecutor userReloadCacheExecutor;
 
     /**
      * 根据userId获取用户信息
@@ -50,6 +57,73 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     @Override
     public UserInfo getById(Long userId) {
         return userInfoMapper.selectById(userId);
+    }
+
+    @Override
+    public UserInfo getByIdFromCache(Long userId) {
+        return JsonUtil.toBeanChecked(stringRedisTemplate.opsForValue()
+                .get(RedisKeyEnum.USER_INFO.getKey(userId + "")), UserInfo.class);
+    }
+
+    @Override
+    public UserInfo refreshUserInfo(Long userId) {
+        final UserInfo userInfo = getById(userId);
+        if (Objects.nonNull(userInfo)) {
+            stringRedisTemplate.opsForValue().set(RedisKeyEnum.USER_INFO.getKey(userId + ""),
+                    JsonUtil.asString(userInfo), RedisKeyEnum.USER_INFO.getTtl());
+        }
+        return userInfo;
+    }
+
+    @Override
+    public Map<Long, UserInfo> listUserInfoMapFromCache(List<Long> userIds) {
+        Map<Long, UserInfo> userInfoMap = Lists.partition(userIds, 50)
+                .stream()
+                .map(userIdPartition -> {
+                    return stringRedisTemplate.opsForValue()
+                            .multiGet(userIdPartition.stream()
+                                    .map(id -> id + "")
+                                    .collect(Collectors.toList()))
+                            .stream()
+                            .map(str -> JsonUtil.toBeanChecked(str, UserInfo.class))
+                            .collect(Collectors.toList());
+                }).flatMap(List::stream)
+                .collect(Collectors.toMap(UserInfo::getId, user -> user));
+        // 找出未能从缓存中查询到的用户，到数据库中查询，然后重新缓存，未处理缓存穿透问题
+        final Sets.SetView<Long> difference = Sets.difference(new HashSet<>(userIds), userInfoMap.keySet());
+        if (CollUtil.isEmpty(difference)) {
+            final List<UserInfo> differenceUserList = listUserInfoFromDB(new ArrayList<>(difference));
+            if (CollUtil.isEmpty(differenceUserList)) {
+                return userInfoMap;
+            }
+            // 将数据库中的数据添加到返回集合中
+            differenceUserList.forEach(user -> userInfoMap.put(user.getId(), user));
+            // 异步将缓存中缺少的数据重新刷到缓存中， 批量将用户信息快速刷到缓存中，然后再慢慢设置过期时间，注意设置缓存和过期时间是分开的，业务
+            // 注意是否有其它刷新缓存的时机
+            userReloadCacheExecutor.execute(() -> {
+                Lists.partition(differenceUserList, 50).forEach(userList -> {
+                    stringRedisTemplate.opsForValue().multiSet(userList.stream()
+                            .collect(Collectors.toMap(user -> RedisKeyEnum.USER_INFO.getKey(user.getId() + ""),
+                                    JsonUtil::asString)));
+                });
+                differenceUserList.forEach(user -> {
+                    stringRedisTemplate.expire(RedisKeyEnum.USER_INFO.getKey(user.getId() + ""), RedisKeyEnum.USER_INFO.getTtl());
+                });
+            });
+        }
+        return userInfoMap;
+    }
+
+    @Override
+    public Map<Long, UserInfo> listUserInfoMapFromDB(List<Long> userIds) {
+        return listUserInfoFromDB(userIds).stream().collect(Collectors.toMap(UserInfo::getId, user -> user));
+    }
+
+    @Override
+    public List<UserInfo> listUserInfoFromDB(List<Long> userIds) {
+        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
+        wrapper.in(UserInfo::getId, userIds);
+        return userInfoMapper.selectList(wrapper);
     }
 
     /**

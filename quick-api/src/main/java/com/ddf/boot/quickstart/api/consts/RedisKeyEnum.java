@@ -16,8 +16,6 @@ import java.time.Duration;
 public enum RedisKeyEnum implements RedisKeyConstraint {
 
     /**
-
-    /**
      * 短信验证码key
      * %s mobile
      * %s 随机字符串
@@ -54,7 +52,16 @@ public enum RedisKeyEnum implements RedisKeyConstraint {
      */
     CONTINUE_HEART_BEAT("user:continue_heart_beat", RedisKeyTypeEnum.ZSET),
 
-    ONLINE_USER_MAP("online_user_map", RedisKeyTypeEnum.SET)
+    /**
+     * 在线用户map维护
+     */
+    ONLINE_USER_MAP("user:online_user_map", RedisKeyTypeEnum.SET),
+
+    /**
+     * 用户信息
+     * %s 用户id
+     */
+    USER_INFO("user:user_info:%s", Duration.ofDays(1), RedisKeyTypeEnum.STRING),
 
     ;
 

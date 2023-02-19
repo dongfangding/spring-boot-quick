@@ -3,7 +3,7 @@ package com.ddf.boot.quickstart.core.client;
 import com.ddf.boot.common.authentication.model.UserClaim;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.mapper.UserInfoMapper;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class UserClient {
 
-    private final UserInfoMapper userInfoExtMapper;
+    private final UserInfoRepository userInfoRepository;
 
     /**
      * 获取当前用户id
@@ -47,6 +47,6 @@ public class UserClient {
      * @return
      */
     public UserInfo currentUserInfo() {
-        return userInfoExtMapper.selectById(UserContextUtil.getUserId());
+        return userInfoRepository.getByIdFromCache(UserContextUtil.getLongUserId());
     }
 }

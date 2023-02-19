@@ -32,6 +32,16 @@ public class ThreadConfig {
      */
     @Bean
     public ThreadPoolTaskExecutor loginPoolTaskExecutor() {
-        return ThreadBuilderHelper.buildThreadExecutor("login-pool-", 300, 1000);
+        return ThreadBuilderHelper.buildThreadExecutor("login-executor-", 300, 1000);
+    }
+
+    /**
+     * 用户重新load缓存线程池
+     *
+     * @return
+     */
+    @Bean
+    public ThreadPoolTaskExecutor userReloadCacheExecutor() {
+        return ThreadBuilderHelper.buildThreadExecutor("user-reload-executor-", 300, 1000);
     }
 }
