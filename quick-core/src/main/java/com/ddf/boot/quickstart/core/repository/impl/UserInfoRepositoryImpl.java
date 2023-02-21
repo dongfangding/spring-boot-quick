@@ -85,13 +85,14 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
                                     .map(id -> id + "")
                                     .collect(Collectors.toList()))
                             .stream()
+                            .filter(Objects::nonNull)
                             .map(str -> JsonUtil.toBeanChecked(str, UserInfo.class))
                             .collect(Collectors.toList());
                 }).flatMap(List::stream)
                 .collect(Collectors.toMap(UserInfo::getId, user -> user));
         // 找出未能从缓存中查询到的用户，到数据库中查询，然后重新缓存，未处理缓存穿透问题
         final Sets.SetView<Long> difference = Sets.difference(new HashSet<>(userIds), userInfoMap.keySet());
-        if (CollUtil.isEmpty(difference)) {
+        if (CollUtil.isNotEmpty(difference)) {
             final List<UserInfo> differenceUserList = listUserInfoFromDB(new ArrayList<>(difference));
             if (CollUtil.isEmpty(differenceUserList)) {
                 return userInfoMap;
@@ -101,14 +102,18 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
             // 异步将缓存中缺少的数据重新刷到缓存中， 批量将用户信息快速刷到缓存中，然后再慢慢设置过期时间，注意设置缓存和过期时间是分开的，业务
             // 注意是否有其它刷新缓存的时机
             userReloadCacheExecutor.execute(() -> {
-                Lists.partition(differenceUserList, 50).forEach(userList -> {
-                    stringRedisTemplate.opsForValue().multiSet(userList.stream()
-                            .collect(Collectors.toMap(user -> RedisKeyEnum.USER_INFO.getKey(user.getId() + ""),
-                                    JsonUtil::asString)));
-                });
-                differenceUserList.forEach(user -> {
-                    stringRedisTemplate.expire(RedisKeyEnum.USER_INFO.getKey(user.getId() + ""), RedisKeyEnum.USER_INFO.getTtl());
-                });
+                for (UserInfo userInfo : differenceUserList) {
+                    stringRedisTemplate.opsForValue().set(RedisKeyEnum.USER_INFO.getKey(userInfo.getId() + ""),
+                            JsonUtil.asString(userInfo), RedisKeyEnum.USER_INFO.getTtl());
+                }
+//                Lists.partition(differenceUserList, 50).forEach(userList -> {
+//                    stringRedisTemplate.opsForValue().multiSet(userList.stream()
+//                            .collect(Collectors.toMap(user -> RedisKeyEnum.USER_INFO.getKey(user.getId() + ""),
+//                                    JsonUtil::asString)));
+//                });
+//                differenceUserList.forEach(user -> {
+//                    stringRedisTemplate.expire(RedisKeyEnum.USER_INFO.getKey(user.getId() + ""), RedisKeyEnum.USER_INFO.getTtl());
+//                });
             });
         }
         return userInfoMap;
