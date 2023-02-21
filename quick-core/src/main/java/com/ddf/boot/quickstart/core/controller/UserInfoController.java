@@ -55,8 +55,8 @@ public class UserInfoController {
      * @param request
      */
     @PostMapping("completeInfo")
-    public PersonalInfoResponse completeInfo(@RequestBody @Validated CompleteUserInfoRequest request) {
-        return userApplicationService.completeInfo(request);
+    public ResponseData<PersonalInfoResponse> completeInfo(@RequestBody @Validated CompleteUserInfoRequest request) {
+        return ResponseData.success(userApplicationService.completeInfo(request));
     }
 
     /**
@@ -65,8 +65,9 @@ public class UserInfoController {
      * @param request
      */
     @PostMapping("sendEmailVerify")
-    public void sendEmailVerify(@RequestBody @Validated EmailVerifyRequest request) {
+    public ResponseData<Void> sendEmailVerify(@RequestBody @Validated EmailVerifyRequest request) {
         mailClient.sendEmailActive(applicationProperties.getApplicationChineseName(), UserContextUtil.getLongUserId(), request.getEmail());
+        return ResponseData.empty();
     }
 
     /**
@@ -76,16 +77,17 @@ public class UserInfoController {
      * @param token
      */
     @GetMapping("verifyEmailActiveToken")
-    public void verifyEmailActiveToken(HttpServletResponse response, @RequestParam String token) {
+    public ResponseData<Void> verifyEmailActiveToken(HttpServletResponse response, @RequestParam String token) {
         commonHelper.verifyEmailActiveToken(response, token);
+        return ResponseData.empty();
     }
 
     /**
      * 个人中心
      */
     @GetMapping("personalInfo")
-    public PersonalInfoResponse personalInfo() {
-        return userApplicationService.personalInfo();
+    public ResponseData<PersonalInfoResponse> personalInfo() {
+        return ResponseData.success(userApplicationService.personalInfo());
     }
 
 
@@ -95,7 +97,8 @@ public class UserInfoController {
      * @param request
      */
     @PostMapping("modifyPassword")
-    public void modifyPassword(@RequestBody @Validated ModifyPasswordRequest request) {
+    public ResponseData<Void> modifyPassword(@RequestBody @Validated ModifyPasswordRequest request) {
         userApplicationService.modifyPassword(request);
+        return ResponseData.empty();
     }
 }

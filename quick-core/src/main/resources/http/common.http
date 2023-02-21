@@ -1,5 +1,5 @@
 ### 生成验证码
-POST http://localhost:8080/quickstart/common/generateCaptcha
+POST http://localhost:8080/boot-quick/common/generateCaptcha
 Content-Type: application/json
 os: ANDROID
 imei: fwefewfwefwefwefw
@@ -14,7 +14,7 @@ latitude: 89.154656
 }
 
 ### 验证码校验
-POST http://localhost:8080/quickstart/common/checkCaptcha
+POST http://localhost:8080/boot-quick/common/checkCaptcha
 Content-Type: application/json
 os: ANDROID
 imei: fwefewfwefwefwefw
@@ -33,7 +33,7 @@ latitude: 89.154656
 }
 
 ### 发送短信验证码
-POST http://localhost:8080/quickstart/common/sendSmsCode
+POST http://localhost:8080/boot-quick/common/sendSmsCode
 Content-Type: application/json
 os: ANDROID
 imei: fwefewfwefwefwefw
@@ -55,8 +55,8 @@ latitude: 89.154656
 }
 
 ### 字典查询
-GET http://localhost:8080/quickstart/common/listDict?dictType=USER_STATUS
-Authorization: Bearer $2a$10$cAZnWsaJtoMeLfUmSoiaueocH.kyBt04TWHeZlDIfbPr.vA9OSwa2<=>efe83ec743690a1c463c6b551bbe0d09770ca3d44d43ba48f249c85b2fff50409db741cecb9bac6f909f2af33fc0970d4755413c26d3e3ba145c8a26b95358fe413ef8f2afc13aeee167a4b2e1bf3e37b82e34bc5d34108ad3756e748f71819602806188ca204193f5ceea7c93af1e90606e7d6f145c853d87b510fece9ba6f5b8ee55146beae5874a69b9f242933a33a54b58285121fb4506b8e20fecfacb661dba9a22acfae78101fd4e5488cdfb4c
+GET http://localhost:8080/boot-quick/common/listDict?dictType=USER_STATUS
+Authorization: Bearer $2a$10$mKXm/6VWjt0KapQ4bhhL8.QLIiC7.SdVPgt1rWy8ucZo5DtztNG/a<=>efe83ec743690a1c463c6b551bbe0d09770ca3d44d43ba48f249c85b2fff5040bb144fc3feec2af71147fb7f39ef36b6beca553e7383e3316017185de8e7b15cc23b69d7977ad371f2bb939a0663bc5acb0d92f79177c7950ffc29e5ba2fa77a7b00771eb34abf528eb444c65fcd26c6f489b1f149a330321fe7f58d9269af37
 Content-Type: application/json
 os: ANDROID
 imei: fwefewfwefwefwefw

@@ -8,7 +8,6 @@ import com.ddf.boot.common.authentication.model.UserClaim;
 import com.ddf.boot.common.authentication.util.TokenUtil;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.enume.LoginTypeEnum;
 import com.ddf.boot.quickstart.api.event.UserLoginEventPayload;
@@ -76,7 +75,7 @@ public class LoginStrategyContext implements ApplicationContextAware {
             final UserClaim userClaim = new UserClaim();
             userClaim.setUserId(userInfo.getId().toString());
             userClaim.setUsername(userInfo.getNickname());
-            userClaim.setCredit(WebUtil.getUserAgent());
+            userClaim.setCredit(UserContextUtil.getRequestContext().getImei());
             final AuthenticateToken authenticateToken = TokenUtil.createToken(userClaim);
             token = authenticateToken.getToken();
         }
