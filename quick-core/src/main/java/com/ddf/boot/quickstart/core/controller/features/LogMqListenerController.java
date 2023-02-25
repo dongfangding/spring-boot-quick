@@ -2,6 +2,7 @@ package com.ddf.boot.quickstart.core.controller.features;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ddf.boot.common.api.model.common.response.response.ResponseData;
 import com.ddf.boot.common.mq.entity.LogMqListener;
 import com.ddf.boot.common.mq.mapper.LogMqListenerMapper;
 import java.util.List;
@@ -55,9 +56,9 @@ public class LogMqListenerController {
      * @return
      */
     @GetMapping("/list")
-    public List<LogMqListener> list() {
+    public ResponseData<List<LogMqListener>> list() {
         LambdaQueryWrapper<LogMqListener> query = Wrappers.lambdaQuery();
         query.orderByDesc(LogMqListener::getEventTimestamp);
-        return logMqListenerMapper.selectList(query);
+        return ResponseData.success(logMqListenerMapper.selectList(query));
     }
 }

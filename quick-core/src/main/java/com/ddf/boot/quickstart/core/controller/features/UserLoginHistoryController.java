@@ -1,6 +1,7 @@
 package com.ddf.boot.quickstart.core.controller.features;
 
 import com.ddf.boot.common.api.model.common.PageResult;
+import com.ddf.boot.common.api.model.common.response.response.ResponseData;
 import com.ddf.boot.mongo.helper.MongoTemplateHelper;
 import com.ddf.boot.quickstart.api.request.features.PageUserHistoryBo;
 import com.ddf.boot.quickstart.core.features.mongo.collection.UserLoginHistoryCollection;
@@ -35,7 +36,7 @@ public class UserLoginHistoryController {
      * @return
      */
     @PostMapping("pageList")
-    public PageResult<UserLoginHistoryCollection> pageList(@RequestBody PageUserHistoryBo pageUserHistoryBo) {
+    public ResponseData<PageResult<UserLoginHistoryCollection>> pageList(@RequestBody PageUserHistoryBo pageUserHistoryBo) {
         Query query = new Query();
         if (StringUtils.isNotBlank(pageUserHistoryBo.getUsername())) {
             query.addCriteria(Criteria.where("username").regex(pageUserHistoryBo.getUsername()));
@@ -43,6 +44,6 @@ public class UserLoginHistoryController {
         if (pageUserHistoryBo.getUserId() != null) {
             query.addCriteria(Criteria.where("userId").is(pageUserHistoryBo.getUserId()));
         }
-        return mongoTemplateHelper.handlerPageResult(pageUserHistoryBo, query, UserLoginHistoryCollection.class);
+        return ResponseData.success(mongoTemplateHelper.handlerPageResult(pageUserHistoryBo, query, UserLoginHistoryCollection.class));
     }
 }

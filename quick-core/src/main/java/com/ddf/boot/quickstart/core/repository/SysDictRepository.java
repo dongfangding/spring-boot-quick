@@ -11,8 +11,6 @@ import java.util.List;
  * @date 2022/08/29 16:38
  */
 public interface SysDictRepository {
-
-
     /**
      * 从缓存中获取字典数据
      *
@@ -28,4 +26,16 @@ public interface SysDictRepository {
      * @return
      */
     List<SysDict> listDictByCode(String dictCode);
+
+    /**
+     * 清除指定缓存
+     *
+     * @param dictCode
+     */
+    void clearCache(String dictCode);
+
+    /**
+     * 清除字典全部缓存
+     */
+    void clearAllCache();
 }

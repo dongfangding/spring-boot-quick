@@ -3,6 +3,7 @@ package com.ddf.boot.quickstart.core.controller.features;
 
 import cn.hutool.core.net.NetUtil;
 import cn.hutool.core.util.IdUtil;
+import com.ddf.boot.common.api.model.common.response.response.ResponseData;
 import com.ddf.boot.common.core.util.IdsUtil;
 import com.ddf.boot.common.rocketmq.dto.RocketMQDestination;
 import com.ddf.boot.common.rocketmq.helper.RocketMQHelper;
@@ -43,7 +44,7 @@ public class RocketMQController {
      * 触发rocketmq 的常用发送操作
      */
     @PostMapping("sendDemo")
-    public void sendDemo() {
+    public ResponseData<Void> sendDemo() {
         // 发送最简单的string消息
         rocketMQHelper.syncSend(RocketMQDestination.builder()
             .topic(RocketMQConstants.Topic.DEMO)
@@ -67,5 +68,6 @@ public class RocketMQController {
             .topic(RocketMQConstants.Topic.DEMO)
             .tags(RocketMQConstants.Tags.CONSUMER_MESSAGE_EXT)
             .build(), collection);
+        return ResponseData.empty();
     }
 }

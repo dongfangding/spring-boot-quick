@@ -1,6 +1,7 @@
 package com.ddf.boot.quickstart.core.controller.features;
 
 
+import com.ddf.boot.common.api.model.common.response.response.ResponseData;
 import com.ddf.boot.quickstart.core.client.IdsClient;
 import com.ddf.common.ids.service.model.common.DecodeSnowflakeIdData;
 import com.ddf.common.ids.service.model.common.IdsMultiData;
@@ -39,8 +40,8 @@ public class IdsController {
      * @return
      */
     @GetMapping("getSnowflakeId")
-    public String getSnowflakeId() {
-        return idsClient.getSnowflakeId();
+    public ResponseData<String> getSnowflakeId() {
+        return ResponseData.success(idsClient.getSnowflakeId());
     }
 
     /**
@@ -49,8 +50,8 @@ public class IdsController {
      * @return
      */
     @GetMapping("getSnowflakeIds")
-    public List<String> getSnowflakeIds(@RequestParam Integer number) {
-        return idsClient.getSnowflakeIds(number);
+    public ResponseData<List<String>> getSnowflakeIds(@RequestParam Integer number) {
+        return ResponseData.success(idsClient.getSnowflakeIds(number));
     }
 
     /**
@@ -59,8 +60,8 @@ public class IdsController {
      * @return
      */
     @GetMapping("getSegmentId")
-    public String getSegmentId(@RequestParam String key) {
-        return idsClient.getSegmentId(key);
+    public ResponseData<String> getSegmentId(@RequestParam String key) {
+        return ResponseData.success(idsClient.getSegmentId(key));
     }
 
     /**
@@ -69,8 +70,8 @@ public class IdsController {
      * @return
      */
     @GetMapping("getSegmentIds")
-    public List<String> getSegmentIds(@RequestParam String key, @RequestParam Integer number) {
-        return idsClient.getSegmentIds(key, number);
+    public ResponseData<List<String>> getSegmentIds(@RequestParam String key, @RequestParam Integer number) {
+        return ResponseData.success(idsClient.getSegmentIds(key, number));
     }
 
 
@@ -81,8 +82,8 @@ public class IdsController {
      * @return
      */
     @GetMapping("getMultiId")
-    public IdsMultiData getMultiId(@RequestParam String key) {
-        return idsClient.getMultiId(key);
+    public ResponseData<IdsMultiData> getMultiId(@RequestParam String key) {
+        return ResponseData.success(idsClient.getMultiId(key));
     }
 
     /**
@@ -93,8 +94,8 @@ public class IdsController {
      * @return
      */
     @GetMapping("getMultiIds")
-    public IdsMultiListData getMultiIds(@RequestParam String key, @RequestParam Integer number) {
-        return idsClient.getMultiIds(key, number);
+    public ResponseData<IdsMultiListData> getMultiIds(@RequestParam String key, @RequestParam Integer number) {
+        return ResponseData.success(idsClient.getMultiIds(key, number));
     }
 
     /**
@@ -103,8 +104,8 @@ public class IdsController {
      * @return
      */
     @GetMapping(value = "cache")
-    public Map<String, SegmentBufferView> getCache() {
-        return idsClient.getSegmentCache();
+    public ResponseData<Map<String, SegmentBufferView>> getCache() {
+        return ResponseData.success(idsClient.getSegmentCache());
     }
 
     /**
@@ -113,8 +114,8 @@ public class IdsController {
      * @return
      */
     @GetMapping(value = "db")
-    public List<LeafAlloc> getDb() {
-        return idsClient.getDb();
+    public ResponseData<List<LeafAlloc>> getDb() {
+        return ResponseData.success(idsClient.getDb());
     }
 
     /**
@@ -126,7 +127,7 @@ public class IdsController {
      * }
      */
     @GetMapping(value = "decodeSnowflakeId")
-    public DecodeSnowflakeIdData decodeSnowflakeId(@RequestParam("snowflakeId") String snowflakeIdStr) {
-        return idsClient.decodeSnowflakeId(snowflakeIdStr);
+    public ResponseData<DecodeSnowflakeIdData> decodeSnowflakeId(@RequestParam("snowflakeId") String snowflakeIdStr) {
+        return ResponseData.success(idsClient.decodeSnowflakeId(snowflakeIdStr));
     }
 }

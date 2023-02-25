@@ -35,11 +35,6 @@ public class SysDictRepositoryImpl implements SysDictRepository {
             .expireAfterWrite(Duration.ofHours(1))
             .build(this::listDictByCode);
 
-    public void clearCache() {
-        DICT_CACHE.invalidateAll();
-    }
-
-
     /**
      * 从缓存中获取字典数据
      *
@@ -64,5 +59,15 @@ public class SysDictRepositoryImpl implements SysDictRepository {
                 .eq(SysDict::getActive, true)
                 .orderByAsc(SysDict::getSort);
         return sysDictMapper.selectList(wrapper);
+    }
+
+    @Override
+    public void clearCache(String dictCode) {
+        DICT_CACHE.invalidate(dictCode);
+    }
+
+    @Override
+    public void clearAllCache() {
+        DICT_CACHE.invalidateAll();
     }
 }

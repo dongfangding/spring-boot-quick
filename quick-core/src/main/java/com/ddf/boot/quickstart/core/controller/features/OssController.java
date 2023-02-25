@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.core.controller.features;
 
+import com.ddf.boot.common.api.model.common.response.response.ResponseData;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.quickstart.core.client.OssClient;
 import java.io.IOException;
@@ -28,17 +29,17 @@ public class OssController {
      * 返回STS授权信息, 实际中使用的比较多
      */
     @PostMapping("getOssToken")
-    public StsTokenResponse getOssToken() {
-        return ossClient.getOssTokenWithApiLimit();
+    public ResponseData<StsTokenResponse> getOssToken() {
+        return ResponseData.success(ossClient.getOssTokenWithApiLimit());
     }
 
     /**
      * 本地简单上传，不需要客户端上传文件，直接上传本地文件
      */
     @PostMapping("localSimpleUploadPic")
-    public String localSimpleUpload() throws IOException {
+    public ResponseData<String> localSimpleUpload() throws IOException {
         String key = "7dd13d37acaf2edde000d44f811001e93b0193f8.jpg";
         ClassPathResource classPathResource = new ClassPathResource("/static/img/" + key);
-        return ossClient.putObject(".jpg", classPathResource.getInputStream());
+        return ResponseData.success(ossClient.putObject(".jpg", classPathResource.getInputStream()));
     }
 }

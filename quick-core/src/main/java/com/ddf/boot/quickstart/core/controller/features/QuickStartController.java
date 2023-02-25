@@ -1,6 +1,7 @@
 package com.ddf.boot.quickstart.core.controller.features;
 
 import com.ddf.boot.common.api.exception.BusinessException;
+import com.ddf.boot.common.api.model.common.response.response.ResponseData;
 import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.common.limit.exception.LimitExceptionCode;
 import com.ddf.boot.common.lock.DistributedLock;
@@ -70,8 +71,8 @@ public class QuickStartController {
      * @return
      */
     @GetMapping("quickTest")
-    public Boolean quickTest() {
-        return Boolean.TRUE;
+    public ResponseData<Boolean> quickTest() {
+        return ResponseData.success(Boolean.TRUE);
     }
 
 
@@ -81,7 +82,7 @@ public class QuickStartController {
      * @return
      */
     @GetMapping("simpleException")
-    public Boolean simpleException() {
+    public ResponseData<Boolean> simpleException() {
         throw new BusinessException("异常演示");
     }
 
