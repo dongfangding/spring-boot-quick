@@ -3,6 +3,9 @@
 ## 启动
 
 ### 依赖环境
+#### 模块依赖
+本项目严重依赖另外一个通用包项目，需要先clone通用包项目[ddf-common](https://github.com/dongfangding/ddf-common)，然后执行`mvn install`命令，将jar包安装到本地
+#### 环境安装
 在`resources/doc`目录下有一个压缩文件为`docker-compose.zip`, 可直接下载解压，根目录有一个`docker-compose.yml` 文件，可直接执行`docker-compose up -d` 命令，一键安装本应用所需应用环境
 
 * 数据库
