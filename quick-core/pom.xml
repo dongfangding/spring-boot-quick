@@ -14,26 +14,33 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <disruptor.version>3.4.4</disruptor.version>
-        <log4j2.version>2.17.1</log4j2.version>
-        <ddf-common-core.version>1.0.2-SNAPSHOT</ddf-common-core.version>
-        <ddf-common-authentication.version>1.0.2-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>1.0.2-SNAPSHOT</ddf-common-mybatis-plus.version>
-        <ddf-common-limit.version>1.0.2-SNAPSHOT</ddf-common-limit.version>
-        <ddf-common-redis.version>1.0.2-SNAPSHOT</ddf-common-redis.version>
-        <ddf-common-captcha.version>1.0.2-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-vps.version>1.0.2-SNAPSHOT</ddf-common-vps.version>
-        <ddf-common-third-party.version>1.0.2-SNAPSHOT</ddf-common-third-party.version>
-        <ddf-common-mongo.version>1.0.2-SNAPSHOT</ddf-common-mongo.version>
-        <ddf-common-mq.version>1.0.2-SNAPSHOT</ddf-common-mq.version>
-        <ddf-common-netty-broker.version>1.0.2-SNAPSHOT</ddf-common-netty-broker.version>
-        <ddf-common-rocketmq.version>1.0.2-SNAPSHOT</ddf-common-rocketmq.version>
-        <ddf-common-websocket.version>1.0.2-SNAPSHOT</ddf-common-websocket.version>
-        <ddf-common-ids-service.version>1.0.2-SNAPSHOT</ddf-common-ids-service.version>
+        <ddf-common-core.version>1.0.2-2611-SNAPSHOT</ddf-common-core.version>
+        <ddf-common-authentication.version>1.0.2-2611-SNAPSHOT</ddf-common-authentication.version>
+        <ddf-common-mybatis-plus.version>1.0.2-2611-SNAPSHOT</ddf-common-mybatis-plus.version>
+        <ddf-common-limit.version>1.0.2-2611-SNAPSHOT</ddf-common-limit.version>
+        <ddf-common-redis.version>1.0.2-2611-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-captcha.version>1.0.2-2611-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-vps.version>1.0.2-2611-SNAPSHOT</ddf-common-vps.version>
+        <ddf-common-third-party.version>1.0.2-2611-SNAPSHOT</ddf-common-third-party.version>
+        <ddf-common-mongo.version>1.0.2-2611-SNAPSHOT</ddf-common-mongo.version>
+        <ddf-common-mq.version>1.0.2-2611-SNAPSHOT</ddf-common-mq.version>
+        <ddf-common-netty-broker.version>1.0.2-2611-SNAPSHOT</ddf-common-netty-broker.version>
+        <ddf-common-rocketmq.version>1.0.2-2611-SNAPSHOT</ddf-common-rocketmq.version>
+        <ddf-common-websocket.version>1.0.2-2611-SNAPSHOT</ddf-common-websocket.version>
+        <ddf-common-ids-service.version>1.0.2-2611-SNAPSHOT</ddf-common-ids-service.version>
+        <ddf-common-es.version>1.0.2-2611-SNAPSHOT</ddf-common-es.version>
+        <ddf-common-xxl-executor.version>1.0.2-2611-SNAPSHOT</ddf-common-xxl-executor.version>
+        <ddf-common-sentinel.version>1.0.2-2611-SNAPSHOT</ddf-common-sentinel.version>
+        <ddf-common-mqtt.version>1.0.2-2611-SNAPSHOT</ddf-common-mqtt.version>
         <elasic-job.version>3.0.0-alpha</elasic-job.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.0</version>
+        </dependency>
         <dependency>
             <groupId>com.ddf.spring-boot</groupId>
             <artifactId>quick-api</artifactId>
@@ -51,6 +58,62 @@
             <artifactId>ddf-common-authentication</artifactId>
             <version>${ddf-common-authentication.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-third-party</artifactId>
+            <version>${ddf-common-third-party.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-mqtt</artifactId>
+            <version>${ddf-common-mqtt.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-sentinel</artifactId>
+            <version>${ddf-common-sentinel.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-xxl-executor</artifactId>
+            <version>${ddf-common-xxl-executor.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-log4j</artifactId>
+            <version>${ddf-common-xxl-executor.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-es</artifactId>
+            <version>${ddf-common-es.version}</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>log4j-api</artifactId>
+                    <groupId>org.apache.logging.log4j</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- 用于刷新配置 -->
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-context</artifactId>-->
+        <!--        </dependency>-->
+
+        <!--        <dependency>-->
+        <!--            <groupId>com.ddf.common</groupId>-->
+        <!--            <artifactId>ddf-common-nacos</artifactId>-->
+        <!--            <version>${project.parent.version}</version>-->
+        <!--        </dependency>-->
+
 
         <dependency>
             <groupId>com.ddf.common</groupId>
@@ -167,155 +230,11 @@
             <groupId>org.apache.shardingsphere.elasticjob</groupId>
             <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
             <version>${elasic-job.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>logback-classic</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>logback-core</artifactId>
-                    <groupId>ch.qos.logback</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j-to-slf4j</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- 日志组件 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-slf4j-impl</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j-core</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j-jul</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <artifactId>log4j-slf4j-impl</artifactId>
-            <groupId>org.apache.logging.log4j</groupId>
-            <version>${log4j2.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>log4j-core</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>slf4j-api</artifactId>
-                    <groupId>org.slf4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <artifactId>log4j-api</artifactId>
-            <groupId>org.apache.logging.log4j</groupId>
-            <version>${log4j2.version}</version>
-        </dependency>
-        <dependency>
-            <artifactId>log4j-core</artifactId>
-            <groupId>org.apache.logging.log4j</groupId>
-            <version>${log4j2.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- 日志组件依赖，异步打印日志 -->
-        <dependency>
-            <groupId>com.lmax</groupId>
-            <artifactId>disruptor</artifactId>
-            <version>${disruptor.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-third-party</artifactId>
-            <version>${ddf-common-third-party.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-mqtt</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-sentinel</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-xxl-executor</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-es</artifactId>
-            <version>${project.parent.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <!-- 用于刷新配置 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-context</artifactId>
-        </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>com.ddf.common</groupId>-->
-<!--            <artifactId>ddf-common-nacos</artifactId>-->
-<!--            <version>${project.parent.version}</version>-->
-<!--        </dependency>-->
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-fdfs-client</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
         <dependency>

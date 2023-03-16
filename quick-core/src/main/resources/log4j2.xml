@@ -6,10 +6,9 @@
         <!-- 伪集群时使用，加一个server.port参数，但是直接读取application.yml中的是不行的，需要配合在启动脚本中添加server.port -->
         <!-- <Property name="LOG_BASE_DIR">/data/logs/${application_name}/${sys:server.port}</Property> -->
         <Property name="LOG_BASE_DIR">/data/logs/${application_name}</Property>
-        <Property name="CONSOLE_LOG_PATTERN">%clr{[%d{yyyy-MM-dd HH:mm:ss.SSS}]} [%X{user_id}#%X{trace_id}]{faint} %clr{%level}{magenta}
-            %clr{[%t]}{faint} %clr{%c{1.}}{cyan} %clr{-}{faint} %m%n%xwEx
+        <Property name="CONSOLE_LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}} %clr{[%t]} %clr{%-5p} %clr{[%X{user_id}#%X{trace_id}]} %clr{%c(%L)} %clr{%m%n}
         </Property>
-        <Property name="FILE_LOG_PATTERN">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{user_id}#%X{trace_id}] %level [%t] %c{1.} - %msg%n</Property>
+        <Property name="FILE_LOG_PATTERN">[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%t] %-5p [%X{user_id}#%X{trace_id}] %c{1.} - %msg%n</Property>
     </Properties>
 
     <Appenders>
@@ -21,7 +20,7 @@
 
         <RollingRandomAccessFile name="INFO_FILE" fileName="${LOG_BASE_DIR}/${application_name}.log"
                                  filePattern="${LOG_BASE_DIR}/${application_name}-%d{yyyy-MM-dd}.log">
-            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
             <!-- 需要记录的格式 -->
             <PatternLayout pattern="${sys:FILE_LOG_PATTERN}"/>
@@ -35,7 +34,7 @@
 
         <RollingRandomAccessFile name="WARN_FILE" fileName="${LOG_BASE_DIR}/${application_name}-warn.log"
                                  filePattern="${LOG_BASE_DIR}/${application_name}-warn-%d{yyyy-MM-dd}.log">
-            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
             <!-- 需要记录的格式 -->
             <PatternLayout pattern="${sys:FILE_LOG_PATTERN}"/>
@@ -49,7 +48,7 @@
 
         <RollingRandomAccessFile name="ERROR_FILE" fileName="${LOG_BASE_DIR}/${application_name}.log"
                                  filePattern="${LOG_BASE_DIR}/${application_name}-error-%d{yyyy-MM-dd}.log">
-            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <!--只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
             <!-- 需要记录的格式 -->
             <PatternLayout pattern="${sys:FILE_LOG_PATTERN}"/>

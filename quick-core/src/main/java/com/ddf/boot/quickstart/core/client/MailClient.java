@@ -24,8 +24,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_={@Autowired})
 public class MailClient {
-
-    private final MailUtil mailUtil;
     private final ApplicationProperties applicationProperties;
     private final CommonRepository commonRepository;
 
@@ -38,7 +36,7 @@ public class MailClient {
      */
     @Async("mailThreadPool")
     public void sendMimeMail(String[] sendTo, String subject, String content) {
-        mailUtil.sendMimeMail(sendTo, null, subject, content, null);
+        MailUtil.sendMimeMail(sendTo, null, subject, content, null);
     }
 
     /**

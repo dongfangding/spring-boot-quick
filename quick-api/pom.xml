@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <ddf-common-api.version>1.0.2-SNAPSHOT</ddf-common-api.version>
+        <ddf-common-api.version>1.0.2-2611-SNAPSHOT</ddf-common-api.version>
     </properties>
 
     <dependencies>
