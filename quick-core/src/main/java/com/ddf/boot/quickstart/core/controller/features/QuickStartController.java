@@ -18,6 +18,7 @@ import com.ddf.boot.common.websocket.service.WsMessageService;
 import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.request.features.PublishUniqueNameDTO;
 import com.ddf.boot.quickstart.core.client.RedisRequestDefinition;
+import com.ddf.boot.quickstart.core.entity.GlobalMetadataConfig;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
@@ -101,16 +102,6 @@ public class QuickStartController {
      *
      * @return
      */
-    @GetMapping("simpleBizException2")
-    public Boolean simpleBizException2() {
-        throw new BusinessException(ApplicationExceptionCode.TEST_BIZ_MESSAGE);
-    }
-
-    /**
-     * 异常演示
-     *
-     * @return
-     */
     @GetMapping("fillBizException")
     public Boolean fillBizException() {
         throw new BusinessException(ApplicationExceptionCode.TEST_FILL_EXCEPTION, System.currentTimeMillis());
@@ -124,6 +115,20 @@ public class QuickStartController {
     @GetMapping("fillBizException1")
     public Boolean fillBizException1() {
         throw new BusinessException(ApplicationExceptionCode.TEST_FILL_BIZ_EXCEPTION, System.currentTimeMillis());
+    }
+
+    /**
+     * 异常演示， 演示即使遇到异常，也能返回数据
+     *
+     * @return
+     */
+    @GetMapping("exceptionReturnExtra")
+    public ResponseData<GlobalMetadataConfig> exceptionReturnExtra() {
+        final GlobalMetadataConfig config = new GlobalMetadataConfig();
+        config.setId(0L);
+        config.setConfigCode("errorCode");
+        config.setConfigValue("hello world!");
+        throw new BusinessException(config, ApplicationExceptionCode.TEST_FILL_BIZ_EXCEPTION, System.currentTimeMillis());
     }
 
     /**

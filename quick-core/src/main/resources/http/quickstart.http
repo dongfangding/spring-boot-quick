@@ -1,0 +1,11 @@
+### 演示异常还能返回自定义业务数据，用来处理异常情况下的额外业务
+GET http://localhost:8080/boot-quick/quick-start/exceptionReturnExtra
+Content-Type: application/json
+Authorization: Bearer $2a$10$3EjQDz.FAqqFz98wgui.9.fa6ike1tLZh2FypTfjqPjkZ.YOMywJy<=>efe83ec743690a1c463c6b551bbe0d09770ca3d44d43ba48f249c85b2fff5040bb144fc3feec2af71147fb7f39ef36b6beca553e7383e3316017185de8e7b15cc23b69d7977ad371f2bb939a0663bc5acb0d92f79177c7950ffc29e5ba2fa77a7b00771eb34abf528eb444c65fcd26c6f489b1f149a330321fe7f58d9269af37
+os: ANDROID
+imei: fwefewfwefwefwefw
+version: 101
+sign: aszafafafasfasdfa
+nonce: 1565656
+longitude: 45.5696
+latitude: 89.154656

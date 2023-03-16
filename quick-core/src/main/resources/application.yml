@@ -15,7 +15,7 @@ spring:
   profiles:
     active: dev
   application:
-    name: quickstart
+    name: spring-boot-quick
   mvc:
     hiddenmethod:
       filter:

@@ -20,7 +20,7 @@ druid_stat_enable: true
 druid_state_username: admin
 druid_state_password: Aa&123456
 ## xxl-job
-xxl_admin_addresses: http://localhost:8808
+xxl_admin_addresses: http://localhost:8808/xxl-job-admin
 xxl_admin_access_token: Aa&123456
 ## zookeeper
 zk_addr: localhost:2181
