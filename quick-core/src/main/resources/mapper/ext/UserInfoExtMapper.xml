@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.quickstart.core.mapper.UserInfoMapper">
+    <select id="randomUser" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user_info as t1
+        WHERE t1.id >= (RAND() * (SELECT MAX(id) FROM user_info))
+        LIMIT #{number};
+    </select>
+</mapper>

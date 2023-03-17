@@ -1,0 +1,63 @@
+server:
+  port: 8080
+  tomcat:
+    max-connections: 10000
+    threads:
+      max: 300
+      min-spare: 20
+    processor-cache: 300
+  servlet:
+    context-path: /boot-quick
+
+spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 60
+  profiles:
+    active: dev
+  application:
+    name: spring-boot-quick
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+logging:
+  level:
+    root: info
+    com.ddf.boot.common.log.AccessLogAspect: debug
+
+customs:
+  authentication:
+    secret: happygamegamehappygamehappyhappy
+    expired-minute: 10080
+    ignores:
+      - /auth/sendRegisterSmsCode
+      - /auth/registry
+      - /auth/login
+      - /common/generateCaptcha
+      - /common/checkCaptcha
+      - /common/sendSmsCode
+  global-properties:
+    # worker Id can't be greater than 31 or less than 0
+    snowflakeWorkerId: 1
+    # dataCenterId Id can't be greater than 31 or less than 0
+    snowflakeDataCenterId: 1
+    # 过滤将异常堆栈信息输出打前端接口返回值的环境
+    ignoreErrorTraceProfile:
+      - pre
+      - prod
+    # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
+    exception200: true
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+  global-config:
+    db-config:
+      id-type: AUTO
+  mapper-locations: classpath*:/mapper/**/*.xml
+

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ddf.boot.quickstart.core.mapper.UserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.quickstart.core.entity.UserInfo">
+    <!--@mbg.generated-->
+    <!--@Table user_info-->
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="nickname" jdbcType="VARCHAR" property="nickname" />
+    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="register_ip" jdbcType="VARCHAR" property="registerIp" />
+    <result column="register_imei" jdbcType="VARCHAR" property="registerImei" />
+    <result column="temp_email" jdbcType="VARCHAR" property="tempEmail" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="avatar_thumb_url" jdbcType="VARCHAR" property="avatarThumbUrl" />
+    <result column="ctime" jdbcType="BIGINT" property="ctime" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, nickname, mobile, `password`, register_ip, register_imei, temp_email, email, 
+    avatar_url, avatar_thumb_url, ctime, `status`
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from user_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    <!--@mbg.generated-->
+    delete from user_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user_info (nickname, mobile, `password`, 
+      register_ip, register_imei, temp_email, 
+      email, avatar_url, avatar_thumb_url, 
+      ctime, `status`)
+    values (#{nickname,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{registerIp,jdbcType=VARCHAR}, #{registerImei,jdbcType=VARCHAR}, #{tempEmail,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{avatarThumbUrl,jdbcType=VARCHAR}, 
+      #{ctime,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserInfo" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into user_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="nickname != null">
+        nickname,
+      </if>
+      <if test="mobile != null">
+        mobile,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="registerIp != null">
+        register_ip,
+      </if>
+      <if test="registerImei != null">
+        register_imei,
+      </if>
+      <if test="tempEmail != null">
+        temp_email,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url,
+      </if>
+      <if test="avatarThumbUrl != null">
+        avatar_thumb_url,
+      </if>
+      <if test="ctime != null">
+        ctime,
+      </if>
+      <if test="status != null">
+        `status`,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="nickname != null">
+        #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerIp != null">
+        #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerImei != null">
+        #{registerImei,jdbcType=VARCHAR},
+      </if>
+      <if test="tempEmail != null">
+        #{tempEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarThumbUrl != null">
+        #{avatarThumbUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        #{ctime,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.quickstart.core.entity.UserInfo">
+    <!--@mbg.generated-->
+    update user_info
+    <set>
+      <if test="nickname != null">
+        nickname = #{nickname,jdbcType=VARCHAR},
+      </if>
+      <if test="mobile != null">
+        mobile = #{mobile,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerIp != null">
+        register_ip = #{registerIp,jdbcType=VARCHAR},
+      </if>
+      <if test="registerImei != null">
+        register_imei = #{registerImei,jdbcType=VARCHAR},
+      </if>
+      <if test="tempEmail != null">
+        temp_email = #{tempEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarUrl != null">
+        avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="avatarThumbUrl != null">
+        avatar_thumb_url = #{avatarThumbUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ctime != null">
+        ctime = #{ctime,jdbcType=BIGINT},
+      </if>
+      <if test="status != null">
+        `status` = #{status,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.quickstart.core.entity.UserInfo">
+    <!--@mbg.generated-->
+    update user_info
+    set nickname = #{nickname,jdbcType=VARCHAR},
+      mobile = #{mobile,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      register_ip = #{registerIp,jdbcType=VARCHAR},
+      register_imei = #{registerImei,jdbcType=VARCHAR},
+      temp_email = #{tempEmail,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      avatar_thumb_url = #{avatarThumbUrl,jdbcType=VARCHAR},
+      ctime = #{ctime,jdbcType=BIGINT},
+      `status` = #{status,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
