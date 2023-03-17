@@ -1,13 +1,13 @@
 #!/bin/bash
 echo "开始执行部署脚本>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
 source /etc/profile
-source /opt/services/xiu-xian-config-server/.env
+source /opt/services/spring-boot-quick/.env
 
 DATE=$(date +%Y%m%d%H%M)
 # 基础路径
-BASE_PATH=/opt/services/xiu-xian-config-server
+BASE_PATH=/opt/services/spring-boot-quick
 # 服务名称。同时约定部署服务的 jar 包名字也为它。
-SERVER_NAME=xiu-xian-config-server
+SERVER_NAME=spring-boot-quick
 # 环境
 PROFILES_ACTIVE=dev
 # heapError 存放路径
