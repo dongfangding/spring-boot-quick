@@ -8,10 +8,14 @@ networks:
           gateway: 172.19.0.1
 services:
   mysql: 
-    image: mysql:8.0.32
+    image: mysql:5.7.42
     environment:
       MYSQL_ROOT_PASSWORD: Aa&123456
-    command: --default-authentication-plugin=mysql_native_password 
+#    command: --default-authentication-plugin=mysql_native_password
+    # 如果碰到挂载的配置文件挂载成功了，但是不生效，可以用这个命令然后看日志
+    # [ERROR] Could not open required defaults file: /etc/my.cnf 是权限不够
+    # mysqld: [Warning] World-writable config file '/etc/my.cnf' is ignored 是权限太大，给644就行
+    # command: mysqld --defaults-file=/etc/my.cnf
     container_name: mysql
     networks:
       customize_net:
@@ -22,8 +26,13 @@ services:
       - /etc/localtime:/etc/localtime
       - ./mysql/data/:/var/lib/mysql:rw/
       - ./mysql/logs/:/var/log/mysql:rw/
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
+      - ./mysql/my.cnf:/etc/mysql/my.cnf:rw/
     restart: always
+    healthcheck:
+      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost", "-u", "root", "-p", "'Aa&123456'"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
 
     
   redis:

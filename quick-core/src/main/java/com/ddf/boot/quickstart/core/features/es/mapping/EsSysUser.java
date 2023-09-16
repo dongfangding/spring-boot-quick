@@ -7,6 +7,7 @@ import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
+import org.springframework.data.elasticsearch.annotations.Setting;
 
 /**
  * <p>description</p >
@@ -23,8 +24,9 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * @date 2021/10/13 14:31
  */
 @Data
-@Document(indexName = "sys_user", shards = 5, replicas = 2)
+@Document(indexName = "sys_user")
 @TypeAlias("alias_sys_user")
+@Setting(shards = 5, replicas = 2)
 public class EsSysUser implements Serializable {
 
     /**
@@ -36,13 +38,13 @@ public class EsSysUser implements Serializable {
     /**
      * 登陆名
      */
-    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+//    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String loginName;
 
     /**
      * 昵称
      */
-    @Field(type = FieldType.Text, analyzer = "ik_max_word")
+//    @Field(type = FieldType.Text, analyzer = "ik_max_word")
     private String nickname;
 
     /**
