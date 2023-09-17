@@ -97,7 +97,6 @@ services:
       - /etc/localtime:/etc/localtime
       - ./mongo/configdb:/data/configdb
       - ./mongo/db:/data/db:rw
-    command: "mongod --config /data/configdb/mongod.conf"
 
   elasticsearch:
     image: elasticsearch:7.17.9
