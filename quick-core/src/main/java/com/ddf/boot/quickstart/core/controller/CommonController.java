@@ -3,9 +3,9 @@ package com.ddf.boot.quickstart.core.controller;
 import com.ddf.boot.common.api.model.captcha.request.CaptchaCheckRequest;
 import com.ddf.boot.common.api.model.captcha.request.CaptchaRequest;
 import com.ddf.boot.common.api.model.captcha.response.ApplicationCaptchaResult;
-import com.ddf.boot.common.api.model.common.response.response.ResponseData;
-import com.ddf.boot.common.core.resolver.MultiArgumentResolver;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.common.core.util.BeanCopierUtils;
+import com.ddf.boot.common.mvc.resolver.MultiArgumentResolver;
 import com.ddf.boot.quickstart.api.request.common.SendSmsCodeRequest;
 import com.ddf.boot.quickstart.api.response.common.ApplicationSmsSendResponse;
 import com.ddf.boot.quickstart.api.response.common.SysDictResponse;
@@ -45,7 +45,6 @@ public class CommonController {
     @GetMapping("listDict")
     public ResponseData<List<SysDictResponse>> listDict(@RequestParam String dictType) {
         return ResponseData.success(BeanCopierUtils.copy(sysDictRepository.listDictByCodeFromCache(dictType), SysDictResponse.class));
-//        return CommonConverter.INSTANCE.convert(sysDictRepository.listDictByCodeFromCache(dictType));
     }
 
     /**

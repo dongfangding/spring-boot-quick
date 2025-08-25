@@ -1,6 +1,6 @@
 package com.ddf.boot.quickstart.core.controller;
 
-import com.ddf.boot.common.api.model.common.response.response.ResponseData;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.quickstart.api.request.auth.ModifyPasswordRequest;
 import com.ddf.boot.quickstart.api.request.user.CompleteUserInfoRequest;

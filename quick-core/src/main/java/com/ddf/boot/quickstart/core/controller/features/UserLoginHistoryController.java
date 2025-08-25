@@ -1,7 +1,7 @@
 package com.ddf.boot.quickstart.core.controller.features;
 
-import com.ddf.boot.common.api.model.common.PageResult;
-import com.ddf.boot.common.api.model.common.response.response.ResponseData;
+import com.ddf.boot.common.api.model.common.response.PageResult;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.mongo.helper.MongoTemplateHelper;
 import com.ddf.boot.quickstart.api.request.features.PageUserHistoryBo;
 import com.ddf.boot.quickstart.core.features.mongo.collection.UserLoginHistoryCollection;

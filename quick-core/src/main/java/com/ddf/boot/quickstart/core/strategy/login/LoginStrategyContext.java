@@ -1,12 +1,12 @@
 package com.ddf.boot.quickstart.core.strategy.login;
 
 import cn.hutool.core.collection.CollUtil;
-import com.ddf.boot.common.api.model.common.RequestContext;
+import com.ddf.boot.common.api.model.authentication.AuthenticateToken;
+import com.ddf.boot.common.api.model.authentication.UserClaim;
+import com.ddf.boot.common.api.model.common.dto.RequestContext;
 import com.ddf.boot.common.api.util.DateUtils;
-import com.ddf.boot.common.authentication.model.AuthenticateToken;
-import com.ddf.boot.common.authentication.model.UserClaim;
-import com.ddf.boot.common.authentication.util.TokenUtil;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
+import com.ddf.boot.common.core.authentication.TokenUtil;
 import com.ddf.boot.common.core.util.PreconditionUtil;
 import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.enume.LoginTypeEnum;
@@ -91,6 +91,7 @@ public class LoginStrategyContext implements ApplicationContextAware {
         userLoginEventPayload.setLongitude(requestContext.getLongitude());
         userLoginEventPayload.setLatitude(requestContext.getLatitude());
         userLoginEventPayload.setVersion(requestContext.getVersion());
+        userLoginEventPayload.setVersionCode(requestContext.getVersionCode());
         applicationEventPublisher.publishEvent(new UserLoginEvent(this, userLoginEventPayload));
 
         return LoginResponse.builder()

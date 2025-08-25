@@ -79,6 +79,8 @@ public enum RedisKeyEnum implements RedisKeyConstraint {
 
     private final RedisKeyTypeEnum keyType;
 
+    private Class clazz;
+
     /**
      * key的分片规则
      */
@@ -93,7 +95,22 @@ public enum RedisKeyEnum implements RedisKeyConstraint {
     RedisKeyEnum(String template, Duration ttl, RedisKeyTypeEnum keyType) {
         this.template = template;
         this.ttl = ttl;
+        this.clazz = clazz;
         this.keyType = keyType;
+    }
+
+    RedisKeyEnum(String template, Duration ttl, RedisKeyTypeEnum keyType, Class clazz) {
+        this.template = template;
+        this.ttl = ttl;
+        this.clazz = clazz;
+        this.keyType = keyType;
+    }
+
+    RedisKeyEnum(String template, RedisKeyTypeEnum keyType, Class clazz, RedisShardingRule redisShardingRule) {
+        this.template = template;
+        this.keyType = keyType;
+        this.clazz = clazz;
+        this.redisShardingRule = redisShardingRule;
     }
 
     RedisKeyEnum(String template, RedisKeyTypeEnum keyType, RedisShardingRule redisShardingRule) {
@@ -115,6 +132,11 @@ public enum RedisKeyEnum implements RedisKeyConstraint {
     @Override
     public RedisKeyTypeEnum getRedisKeyType() {
         return keyType;
+    }
+
+    @Override
+    public Class getClazz() {
+        return null;
     }
 
     @Override

@@ -1,8 +1,8 @@
 package com.ddf.boot.quickstart.core.strategy.login;
 
-import com.ddf.boot.common.authentication.model.AuthenticateCheckResult;
-import com.ddf.boot.common.authentication.model.UserClaim;
-import com.ddf.boot.common.authentication.util.TokenUtil;
+import com.ddf.boot.common.api.model.authentication.AuthenticateCheckResult;
+import com.ddf.boot.common.api.model.authentication.UserClaim;
+import com.ddf.boot.common.core.authentication.TokenUtil;
 import com.ddf.boot.quickstart.api.enume.LoginTypeEnum;
 import com.ddf.boot.quickstart.api.request.auth.LoginRequest;
 import com.ddf.boot.quickstart.core.entity.UserInfo;

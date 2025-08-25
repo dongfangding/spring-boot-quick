@@ -1,7 +1,7 @@
 package com.ddf.boot.quickstart.core.controller.features;
 
 
-import com.ddf.boot.common.api.model.common.response.response.ResponseData;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.quickstart.core.client.IdsClient;
 import com.ddf.common.ids.service.model.common.DecodeSnowflakeIdData;
 import com.ddf.common.ids.service.model.common.IdsMultiData;

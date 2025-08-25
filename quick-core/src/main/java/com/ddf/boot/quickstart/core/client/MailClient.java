@@ -1,10 +1,7 @@
 package com.ddf.boot.quickstart.core.client;
 
 import cn.hutool.core.util.RandomUtil;
-import com.ddf.boot.common.api.util.JsonUtil;
 import com.ddf.boot.common.core.util.MailUtil;
-import com.ddf.boot.common.core.util.StringExtUtil;
-import com.ddf.boot.common.mq.definition.MqMessageWrapper;
 import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
 import com.ddf.boot.quickstart.core.repository.CommonRepository;
 import lombok.RequiredArgsConstructor;
@@ -67,23 +64,6 @@ public class MailClient {
         String token = RandomUtil.randomString(64);
         commonRepository.setEmailActiveToken(email, token, userId);
         return token;
-    }
-
-
-    /**
-     * 发送rabbitmq 消费监听失败邮件
-     *
-     * @param messageWrapper
-     * @param throwable
-     * @param <T>
-     */
-    public <T> void sendRabbitMQConsumeFailureMail(MqMessageWrapper<T> messageWrapper, Throwable throwable) {
-        sendMimeMail(
-                new String[] {"1041765757@qq.com"},
-                String.format("mq消息[%s]消费失败提醒", messageWrapper.getMessageId()),
-                JsonUtil.asString(messageWrapper) + "<br /><br /> <font color='red'>"
-                        + StringExtUtil.exceptionToStringNoLimit(throwable) + "</font>"
-        );
     }
 
 }

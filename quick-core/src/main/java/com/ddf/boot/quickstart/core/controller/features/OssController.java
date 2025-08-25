@@ -1,6 +1,6 @@
 package com.ddf.boot.quickstart.core.controller.features;
 
-import com.ddf.boot.common.api.model.common.response.response.ResponseData;
+import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.common.ext.oss.config.StsTokenResponse;
 import com.ddf.boot.quickstart.core.client.OssClient;
 import java.io.IOException;

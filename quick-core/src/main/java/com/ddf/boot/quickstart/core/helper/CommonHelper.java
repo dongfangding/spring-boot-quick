@@ -1,6 +1,5 @@
 package com.ddf.boot.quickstart.core.helper;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.ddf.boot.common.api.model.captcha.request.CaptchaCheckRequest;
@@ -9,10 +8,11 @@ import com.ddf.boot.common.api.model.captcha.response.ApplicationCaptchaResult;
 import com.ddf.boot.common.api.util.DateUtils;
 import com.ddf.boot.common.authentication.config.AuthenticationProperties;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
+import com.ddf.boot.common.core.helper.EnvironmentHelper;
 import com.ddf.boot.common.core.util.PreconditionUtil;
-import com.ddf.boot.common.core.util.WebUtil;
 import com.ddf.boot.common.ext.sms.model.SmsSendRequest;
 import com.ddf.boot.common.ext.sms.model.SmsSendResponse;
+import com.ddf.boot.common.mvc.util.WebUtil;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
 import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;
 import com.ddf.boot.quickstart.api.dto.EmailToken;
@@ -26,7 +26,6 @@ import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.repository.CommonRepository;
 import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import com.ddf.common.captcha.helper.CaptchaHelper;
-import java.util.Date;
 import java.util.Objects;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +40,7 @@ import org.springframework.stereotype.Component;
  * @date 2022/05/15 22:58
  */
 @Component
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class CommonHelper {
 
     private final CaptchaHelper captchaHelper;
@@ -51,6 +50,7 @@ public class CommonHelper {
     private final CommonRepository commonRepository;
     private final ApplicationProperties applicationProperties;
     private final SmsClient smsClient;
+    private final EnvironmentHelper environmentHelper;
 
     /**
      * 生成验证码
@@ -68,7 +68,8 @@ public class CommonHelper {
      * @param request
      */
     public void verifyCaptcha(CaptchaCheckRequest request) {
-        captchaHelper.check(CaptchaCheckRequest.builder()
+        captchaHelper.check(CaptchaCheckRequest
+                .builder()
                 .uuid(request.getUuid())
                 .verification(request.isVerification())
                 .captchaVerification(request.getCaptchaVerification())
@@ -95,8 +96,10 @@ public class CommonHelper {
      * @return
      */
     public ApplicationSmsSendResponse sendAndLoadRegisterSmsCodeWithLimit(SendSmsCodeRequest sendSmsCodeRequest) {
-        PreconditionUtil.checkArgument(!userInfoRepository.exitsByMobile(sendSmsCodeRequest.getMobile()),
-                ApplicationExceptionCode.MOBILE_IS_USED);
+        PreconditionUtil.checkArgument(
+                !userInfoRepository.exitsByMobile(sendSmsCodeRequest.getMobile()),
+                ApplicationExceptionCode.MOBILE_IS_USED
+        );
         return sendAndLoadSmsCodeWithLimit(sendSmsCodeRequest);
     }
 
@@ -114,13 +117,20 @@ public class CommonHelper {
         final CaptchaCheckRequest captchaVerifyRequest = sendSmsCodeRequest.getCaptchaVerifyRequest();
         captchaVerifyRequest.setVerification(true);
         verifyCaptcha(captchaVerifyRequest);
-        final String uid = StrUtil.blankToDefault(UserContextUtil.getUserId(), UserContextUtil.getRequestContext()
-                .getImei());
-        return redisTemplateHelper.sliderWindowAccessExpiredAtCheckException(
-                RedisKeyEnum.SMS_RATE_LIMIT_KEY.getKey(uid),
-                applicationProperties.getSmsDailyLimit(), DateUtils.getEndOfDay(new Date()), () -> {
-            return sendAndLoadSmsCode(sendSmsCodeRequest.getMobile());
-        }, ApplicationExceptionCode.SMS_CODE_LIMIT);
+        final String uid = StrUtil.blankToDefault(
+                UserContextUtil.getUserId(), UserContextUtil
+                        .getRequestContext()
+                        .getImei()
+        );
+        final int remainingSecondsOfToday = DateUtils
+                .getRemainingSecondsOfToday()
+                .intValue();
+        return redisTemplateHelper.sliderWindowAccessCheckException(
+                RedisKeyEnum.SMS_RATE_LIMIT_KEY.getKey(uid), applicationProperties.getSmsDailyLimit(),
+                remainingSecondsOfToday, () -> {
+                    return sendAndLoadSmsCode(sendSmsCodeRequest.getMobile());
+                }, ApplicationExceptionCode.SMS_CODE_LIMIT
+        );
     }
 
     /**
@@ -133,7 +143,8 @@ public class CommonHelper {
         final SmsSendResponse tempResponse = sendSmsCodeWithoutAnyLimit(mobile);
         final String uuid = RandomUtil.randomString(16);
         commonRepository.setSmsCode(mobile, uuid, tempResponse.getRandomCode());
-        return ApplicationSmsSendResponse.builder()
+        return ApplicationSmsSendResponse
+                .builder()
                 .uuid(uuid)
                 .build();
     }
@@ -147,14 +158,16 @@ public class CommonHelper {
     public void verifySmsCode(SmsCodeVerifyRequest request) {
         PreconditionUtil.requiredParamCheck(request);
         String mobile = request.getMobile();
-        // 验证码白名单忽略处理
-        if (Objects.isNull(authenticationProperties) || CollectionUtil.isEmpty(authenticationProperties.getBiz().getWhiteLoginNameList())
-                || !authenticationProperties.getBiz().getWhiteLoginNameList().contains(request.getMobile())) {
-            // 校验验证码
-            String verifyCode = commonRepository.getSmsCode(mobile, request.getUuid());
-            PreconditionUtil.checkArgument(StrUtil.isNotBlank(verifyCode), ApplicationExceptionCode.VERIFY_CODE_EXPIRED);
-            PreconditionUtil.checkArgument(StrUtil.equals(verifyCode, request.getMobileCode()), ApplicationExceptionCode.VERIFY_CODE_NOT_MATCH);
+        if (Objects.equals("1111", request.getMobileCode()) && !environmentHelper.isProdProfile()) {
+            return;
         }
+        // 校验验证码
+        String verifyCode = commonRepository.getSmsCode(mobile, request.getUuid());
+        PreconditionUtil.checkArgument(StrUtil.isNotBlank(verifyCode), ApplicationExceptionCode.VERIFY_CODE_EXPIRED);
+        PreconditionUtil.checkArgument(
+                StrUtil.equals(verifyCode, request.getMobileCode()),
+                ApplicationExceptionCode.VERIFY_CODE_NOT_MATCH
+        );
     }
 
     /**
@@ -165,7 +178,8 @@ public class CommonHelper {
      */
     public void verifyEmailActiveToken(HttpServletResponse response, String token) {
         final EmailToken emailToken = commonRepository.getEmailActiveToken(token);
-        PreconditionUtil.checkArgument(Objects.nonNull(emailToken), ApplicationExceptionCode.EMAIL_ACTIVE_TOKEN_EXPIRED);
+        PreconditionUtil.checkArgument(
+                Objects.nonNull(emailToken), ApplicationExceptionCode.EMAIL_ACTIVE_TOKEN_EXPIRED);
 
         final Long userId = emailToken.getUserId();
         final String email = emailToken.getEmail();

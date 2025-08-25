@@ -12,27 +12,28 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <ddf-common-core.version>1.0.2-2611-SNAPSHOT</ddf-common-core.version>
-        <ddf-common-authentication.version>1.0.2-2611-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>1.0.2-2611-SNAPSHOT</ddf-common-mybatis-plus.version>
-        <ddf-common-limit.version>1.0.2-2611-SNAPSHOT</ddf-common-limit.version>
-        <ddf-common-redis.version>1.0.2-2611-SNAPSHOT</ddf-common-redis.version>
-        <ddf-common-captcha.version>1.0.2-2611-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-vps.version>1.0.2-2611-SNAPSHOT</ddf-common-vps.version>
-        <ddf-common-third-party.version>1.0.2-2611-SNAPSHOT</ddf-common-third-party.version>
-        <ddf-common-mongo.version>1.0.2-2611-SNAPSHOT</ddf-common-mongo.version>
-        <ddf-common-mq.version>1.0.2-2611-SNAPSHOT</ddf-common-mq.version>
-        <ddf-common-netty-broker.version>1.0.2-2611-SNAPSHOT</ddf-common-netty-broker.version>
-        <ddf-common-rocketmq.version>1.0.2-2611-SNAPSHOT</ddf-common-rocketmq.version>
-        <ddf-common-websocket.version>1.0.2-2611-SNAPSHOT</ddf-common-websocket.version>
-        <ddf-common-ids-service.version>1.0.2-2611-SNAPSHOT</ddf-common-ids-service.version>
-        <ddf-common-es.version>1.0.2-2611-SNAPSHOT</ddf-common-es.version>
-        <ddf-common-xxl-executor.version>1.0.2-2611-SNAPSHOT</ddf-common-xxl-executor.version>
-        <ddf-common-sentinel.version>1.0.2-2611-SNAPSHOT</ddf-common-sentinel.version>
-        <ddf-common-mqtt.version>1.0.2-2611-SNAPSHOT</ddf-common-mqtt.version>
-        <elasic-job.version>3.0.0-alpha</elasic-job.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <ddf-common-core.version>boot276-2025.2.0-SNAPSHOT</ddf-common-core.version>
+        <ddf-common-authentication.version>boot276-2025.2.0-SNAPSHOT</ddf-common-authentication.version>
+        <ddf-common-mybatis-plus.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mybatis-plus.version>
+        <ddf-common-limit.version>boot276-2025.2.0-SNAPSHOT</ddf-common-limit.version>
+        <ddf-common-redis.version>boot276-2025.2.0-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-captcha.version>boot276-2025.2.0-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-vps.version>boot276-2025.2.0-SNAPSHOT</ddf-common-vps.version>
+        <ddf-common-third-party.version>boot276-2025.2.0-SNAPSHOT</ddf-common-third-party.version>
+        <ddf-common-mongo.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mongo.version>
+        <ddf-common-mq.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mq.version>
+        <ddf-common-netty-broker.version>boot276-2025.2.0-SNAPSHOT</ddf-common-netty-broker.version>
+        <ddf-common-rocketmq.version>boot276-2025.2.0-SNAPSHOT</ddf-common-rocketmq.version>
+        <ddf-common-websocket.version>boot276-2025.2.0-SNAPSHOT</ddf-common-websocket.version>
+        <ddf-common-ids-service.version>boot276-2025.2.0-SNAPSHOT</ddf-common-ids-service.version>
+        <ddf-common-es.version>boot276-2025.2.0-SNAPSHOT</ddf-common-es.version>
+        <ddf-common-xxl-executor.version>boot276-2025.2.0-SNAPSHOT</ddf-common-xxl-executor.version>
+        <ddf-common-log4j.version>boot276-2025.2.0-SNAPSHOT</ddf-common-log4j.version>
+        <ddf-common-sentinel.version>boot276-2025.2.0-SNAPSHOT</ddf-common-sentinel.version>
+        <ddf-common-mqtt.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mqtt.version>
+        <ddf-common-mvc.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mvc.version>
     </properties>
 
     <dependencies>
@@ -85,13 +86,6 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-log4j</artifactId>
-            <version>${ddf-common-xxl-executor.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-es</artifactId>
             <version>${ddf-common-es.version}</version>
             <exclusions>
@@ -103,17 +97,10 @@
         </dependency>
 
         <!-- 用于刷新配置 -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-context</artifactId>-->
-        <!--        </dependency>-->
-
-        <!--        <dependency>-->
-        <!--            <groupId>com.ddf.common</groupId>-->
-        <!--            <artifactId>ddf-common-nacos</artifactId>-->
-        <!--            <version>${project.parent.version}</version>-->
-        <!--        </dependency>-->
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>com.ddf.common</groupId>
@@ -125,18 +112,6 @@
             <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-rocketmq</artifactId>
             <version>${ddf-common-rocketmq.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-mq</artifactId>
-            <version>${ddf-common-mq.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-mybatis-plus</artifactId>
-            <version>${ddf-common-mybatis-plus.version}</version>
         </dependency>
 
         <dependency>
@@ -163,25 +138,14 @@
             <version>${ddf-common-netty-broker.version}</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -203,19 +167,15 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
-            <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                    <groupId>org.springframework.boot</groupId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-log4j</artifactId>
+            <version>${ddf-common-log4j.version}</version>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-mvc</artifactId>
+            <version>${ddf-common-mvc.version}</version>
             <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
             <exclusions>
                 <exclusion>
@@ -225,11 +185,16 @@
             </exclusions>
         </dependency>
 
-        <!-- https://repo1.maven.org/maven2/org/apache/shardingsphere/elasticjob/elasticjob-lite-spring-boot-starter/ -->
         <dependency>
-            <groupId>org.apache.shardingsphere.elasticjob</groupId>
-            <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
-            <version>${elasic-job.version}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -242,96 +207,15 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-jdk8</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-        </dependency>
     </dependencies>
 
-    <build>
-        <finalName>spring-boot-quick</finalName>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <fork>true</fork>
-                    <classifier>exec</classifier>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                            <goal>build-info</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <!--<phase>verify</phase>-->
-                        <phase>install</phase>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
-                    <compilerArgument>-parameters</compilerArgument>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <configuration>
-                    <includes>
-                        <skip>true</skip>
-                    </includes>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <tagNameFormat>v@{project.version}</tagNameFormat>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-archetype-plugin</artifactId>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <phase>deploy</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
+<!--    <build>-->
+<!--        <finalName>spring-boot-quick</finalName>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 </project>

@@ -1,6 +1,6 @@
 package com.ddf.boot.quickstart.api.request.features;
 
-import com.ddf.boot.common.api.model.common.PageRequest;
+import com.ddf.boot.common.api.model.common.request.PageRequest;
 import javax.validation.constraints.Min;
 import lombok.Data;
 

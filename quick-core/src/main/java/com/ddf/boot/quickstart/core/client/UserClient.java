@@ -1,6 +1,6 @@
 package com.ddf.boot.quickstart.core.client;
 
-import com.ddf.boot.common.authentication.model.UserClaim;
+import com.ddf.boot.common.api.model.authentication.UserClaim;
 import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.repository.UserInfoRepository;

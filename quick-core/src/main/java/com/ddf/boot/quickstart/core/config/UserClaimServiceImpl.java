@@ -1,9 +1,9 @@
 package com.ddf.boot.quickstart.core.config;
 
 import com.ddf.boot.common.api.exception.BusinessException;
+import com.ddf.boot.common.api.model.authentication.UserClaim;
 import com.ddf.boot.common.authentication.interfaces.UserClaimService;
-import com.ddf.boot.common.authentication.model.UserClaim;
-import com.ddf.boot.common.core.util.WebUtil;
+import com.ddf.boot.common.mvc.util.WebUtil;
 import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.enume.UserStatusEnum;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
@@ -33,7 +33,7 @@ public class UserClaimServiceImpl implements UserClaimService {
     }
 
     @Override
-    public UserClaim getStoreUserInfo(UserClaim userClaim) {
+    public UserClaim getStoreUserInfo(HttpServletRequest request, UserClaim userClaim) {
         final UserInfo userInfo = userInfoRepository.getById(Long.parseLong(userClaim.getUserId()));
         if (Objects.isNull(userInfo)) {
             throw new BusinessException(ApplicationExceptionCode.ACCOUNT_NOT_EXISTS);

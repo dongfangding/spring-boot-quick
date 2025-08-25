@@ -64,6 +64,11 @@ public class UserLoginEventPayload implements Serializable {
     /**
      * 版本号
      */
-    private Integer version;
+    private String version;
+
+    /**
+     * 版本代码
+     */
+    private Integer versionCode;
 
 }
