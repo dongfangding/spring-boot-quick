@@ -23,6 +23,7 @@
         <ddf-common-vps.version>boot276-2025.2.0-SNAPSHOT</ddf-common-vps.version>
         <ddf-common-third-party.version>boot276-2025.2.0-SNAPSHOT</ddf-common-third-party.version>
         <ddf-common-mongo.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mongo.version>
+        <ddf-common-sharding.version>boot276-2025.2.0-SNAPSHOT</ddf-common-sharding.version>
         <ddf-common-mq.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mq.version>
         <ddf-common-netty-broker.version>boot276-2025.2.0-SNAPSHOT</ddf-common-netty-broker.version>
         <ddf-common-rocketmq.version>boot276-2025.2.0-SNAPSHOT</ddf-common-rocketmq.version>
@@ -34,6 +35,7 @@
         <ddf-common-sentinel.version>boot276-2025.2.0-SNAPSHOT</ddf-common-sentinel.version>
         <ddf-common-mqtt.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mqtt.version>
         <ddf-common-mvc.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mvc.version>
+        <ddf-common-alarm.version>boot276-2025.2.0-SNAPSHOT</ddf-common-alarm.version>
     </properties>
 
     <dependencies>
@@ -53,6 +55,13 @@
             <artifactId>ddf-common-core</artifactId>
             <version>${ddf-common-core.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-alarm</artifactId>
+            <version>${ddf-common-alarm.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.ddf.common</groupId>
@@ -100,6 +109,12 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-sharding</artifactId>
+            <version>${ddf-common-sharding.version}</version>
         </dependency>
 
         <dependency>
@@ -209,13 +224,13 @@
 
     </dependencies>
 
-<!--    <build>-->
-<!--        <finalName>spring-boot-quick</finalName>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
+    <build>
+        <finalName>spring-boot-quick</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

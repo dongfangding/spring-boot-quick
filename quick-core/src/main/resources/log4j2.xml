@@ -2,7 +2,7 @@
 <!-- Log4j 2.x 配置文件 -->
 <Configuration status="warn" strict="true">
   <Properties>
-    <Property name="application_name">spring-boot-quick</Property>
+    <Property name="application_name">boot-quick</Property>
     <Property name="LOG_BASE_DIR">/data/logs/${application_name}</Property>
     <Property name="CONSOLE_LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}} %clr{[%t]} %clr{%-5p} %clr{[%X{user_id}#%X{trace_id}]} %clr{%c(%L)} %clr{%m%n}
     </Property>

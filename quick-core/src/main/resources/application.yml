@@ -3,54 +3,106 @@ server:
   tomcat:
     max-connections: 10000
     threads:
-      max: 300
-      min-spare: 20
+      max: 600
+      min-spare: 50
     processor-cache: 300
+  # 服务优雅下线
+  shutdown: graceful
   servlet:
     context-path: /boot-quick
 
 spring:
+  messages:
+    basename: i18n/messages,i18n/biz_messages
+    encoding: UTF-8
   lifecycle:
-    timeout-per-shutdown-phase: 60
+    timeout-per-shutdown-phase: 60s
   profiles:
     active: dev
   application:
     name: spring-boot-quick
-  mvc:
-    hiddenmethod:
-      filter:
-        enabled: true
   servlet:
     multipart:
-      max-file-size: 50MB
-      max-request-size: 50MB
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  redis:
+    redisson:
+      file: classpath:redisson.yml
+    host: localhost
+    port: 6379
+    database: 1
+    password: Aa&123456
+  sql:
+    init:
+      mode: always
+  shardingsphere:
+    datasource:
+      names: master
+      master:
+        port: 3306:q
+
+        type: com.alibaba.druid.pool.DruidDataSource
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://${mysql_host}:3306/game?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
+    rules:
+      sharding:
+        # 为了解决不分库分表的表不需要配置分片规则
+        default-data-source-name: master
+        binding-tables:
+          - user_pack
+        # 分表
+        tables:
+          # 逻辑表名
+          user_pack:
+            # 配置数据表分布情况，哪个表在哪个数据源里,有哪些表，只要分配要写的表即可
+            actual-data-nodes: master.user_pack_0$->{0..9}
+            table-strategy:
+              standard:
+                sharding-algorithm-name: hashmod10-algorithm
+                sharding-column: uid
 logging:
   level:
     root: info
-    com.ddf.boot.common.log.AccessLogAspect: debug
+    com.ddf.boot.common.log.AccessLogAspect: info
 
-customs:
-  authentication:
-    secret: happygamegamehappygamehappyhappy
-    expired-minute: 10080
-    ignores:
-      - /auth/sendRegisterSmsCode
-      - /auth/registry
-      - /auth/login
-      - /common/generateCaptcha
-      - /common/checkCaptcha
-      - /common/sendSmsCode
-  global-properties:
-    # worker Id can't be greater than 31 or less than 0
-    snowflakeWorkerId: 1
-    # dataCenterId Id can't be greater than 31 or less than 0
-    snowflakeDataCenterId: 1
-    # 过滤将异常堆栈信息输出打前端接口返回值的环境
-    ignoreErrorTraceProfile:
-      - pre
-      - prod
-    # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
-    exception200: true
+customizer:
+  infra:
+    distributed:
+      lock:
+        redis:
+          enable: true
+    redis:
+      extra-multi:
+        enable: false
+        # 多redis数据源配置
+        map:
+          user:
+            host: localhost
+            port: 6379
+            database: 1
+            password:
+    authentication:
+      secret: happygamegamehappygamehappyhappy
+      expired-minute: 10080
+      ignores:
+        - /auth/sendRegisterSmsCode
+        - /auth/registry
+        - /auth/login
+        - /common/generateCaptcha
+        - /common/checkCaptcha
+        - /common/sendSmsCode
+    global-properties:
+      # worker Id can't be greater than 31 or less than 0
+      snowflakeWorkerId: 1
+      # dataCenterId Id can't be greater than 31 or less than 0
+      snowflakeDataCenterId: 1
+      # 过滤将异常堆栈信息输出打前端接口返回值的环境
+      ignoreErrorTraceProfile:
+        - pre
+        - prod
+      # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
+      exception200: true
 
 mybatis-plus:
   configuration:
