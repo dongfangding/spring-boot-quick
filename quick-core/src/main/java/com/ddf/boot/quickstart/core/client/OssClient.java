@@ -39,7 +39,8 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class OssClient {
 
-    private final OssHelper ossHelper;
+    @Autowired(required = false)
+    private OssHelper ossHelper;
     private final RedisTemplateHelper redisTemplateHelper;
 
     public static final String OSS_PLATFORM = "boot-quick";
@@ -57,17 +58,7 @@ public class OssClient {
             "static/img/da80babe6c81800a4e1c0156a63533fa808b47c2.jpg", "static/img/月光.9b95f8a8.jpg"
     );
 
-
-    public static TimedCache<String, AtomicInteger> ipApiTotalMap = CacheUtil.newTimedCache(TimeUnit.DAYS.toMillis(1));
-
-    public static Integer maxIpTotalPerDay = 24;
-
-    static {
-        ipApiTotalMap.schedulePrune(TimeUnit.MINUTES.toMillis(10));
-    }
-
     /**
-     * 暂时单机版限制
      *
      * @return
      */
@@ -76,26 +67,7 @@ public class OssClient {
         PreconditionUtil.checkArgument(redisTemplateHelper.tokenBucketRateLimitAcquire(RedisRequestDefinition.ossRateLimit),
                 LimitExceptionCode.RATE_LIMIT
         );
-        final String host = WebUtil.getHost();
-        log.info("host: {} >>>>>>>>>>>>>>>>>>>", host);
-        AtomicInteger currCount;
-        synchronized (host.intern()) {
-            currCount = ipApiTotalMap.get(host, false);
-            log.info("当前{}调用次数: {}", host, currCount);
-            if (currCount == null) {
-                currCount = new AtomicInteger(1);
-            } else {
-                currCount.getAndIncrement();
-            }
-            if (currCount.get() > maxIpTotalPerDay) {
-                log.error("当前ip[{}]调用次数[{}]超限", host, maxIpTotalPerDay);
-                throw new BusinessException("24小时内同一ip调用次数超限");
-            }
-            log.info("当前{}增加后调用次数: {}", host, currCount);
-        }
-        final StsTokenResponse token = getOssToken();
-        ipApiTotalMap.put(host, currCount);
-        return token;
+        return getOssToken();
     }
 
 
