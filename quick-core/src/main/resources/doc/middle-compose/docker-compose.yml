@@ -1,0 +1,220 @@
+
+version: "3.9"
+
+networks:
+  middleware_bridge:
+    driver: bridge
+
+services:
+  mysql:
+    image: mysql:8.0.32
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/logs:/var/log/mysql
+      - ./mysql/my.cnf:/etc/mysql/my.cnf
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - middleware_bridge
+
+  redis:
+    image: redis:6.0.17
+    container_name: redis
+    restart: always
+    command: ["redis-server", "/data/redis.conf"]
+    ports:
+      - "6379:6379"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./redis:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - middleware_bridge
+
+  zookeeper:
+    image: zookeeper:3.6.4
+    container_name: zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./zookeeper/conf:/conf
+      - ./zookeeper/data:/data
+      - ./zookeeper/datalog:/datalog
+    healthcheck:
+      test: ["CMD-SHELL", "zkServer.sh status || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - middleware_bridge
+
+  rabbitmq:
+    image: rabbitmq:3.11.9-management
+    container_name: rabbitmq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: rabbitmq
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 15s
+      timeout: 10s
+      retries: 5
+    networks:
+      - middleware_bridge
+
+  mongo:
+    image: mongo:6.0.4
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASS}
+    ports:
+      - "27017:27017"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./mongo/configdb:/data/configdb
+      - ./mongo/db:/data/db
+    command: ["mongod", "--config", "/data/configdb/mongod.conf"]
+    healthcheck:
+      test: ["CMD-SHELL", "mongosh --eval \"db.adminCommand('ping')\""]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    networks:
+      - middleware_bridge
+
+  elasticsearch:
+    image: elasticsearch:7.17.9
+    container_name: es
+    restart: always
+    environment:
+      discovery.type: single-node
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+      - ./elasticsearch/logs:/usr/share/elasticsearch/logs
+      - ./elasticsearch/config:/usr/share/elasticsearch/config
+    networks:
+      - middleware_bridge
+
+  rocketmq-namesrv:
+    image: rocketmqinc/rocketmq-namesrv:4.5.0-alpine
+    container_name: rocketmq-namesrv
+    restart: always
+    ports:
+      - "9876:9876"
+    environment:
+      MAX_HEAP_SIZE: 512M
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./rocketmq/namesrv/logs:/root/logs
+      - ./rocketmq/namesrv/store:/root/store
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z localhost 9876"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - middleware_bridge
+
+  rocketmq-broker:
+    image: rocketmqinc/rocketmq-broker:4.5.0-alpine
+    container_name: rocketmq-broker
+    restart: always
+    depends_on:
+      rocketmq-namesrv:
+        condition: service_healthy
+    environment:
+      MAX_HEAP_SIZE: 512M
+      NAMESRV_ADDR: rocketmq-namesrv:9876
+    ports:
+      - "10909:10909"
+      - "10911:10911"
+      - "10912:10912"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./rocketmq/broker/logs:/root/logs
+      - ./rocketmq/broker/store:/root/store
+      - ./rocketmq/broker/conf:/root/rocketmq-4.5.0/conf
+    command: ["sh", "mqbroker", "-c", "/root/rocketmq-4.5.0/conf/broker.conf"]
+    networks:
+      - middleware_bridge
+
+  rocketmq-console:
+    image: styletang/rocketmq-console-ng
+    container_name: rocketmq-console
+    restart: always
+    depends_on:
+      rocketmq-namesrv:
+        condition: service_healthy
+    ports:
+      - "8804:8080"
+    environment:
+      JAVA_OPTS: "-Xms256M -Xmx512M -Dlogging.level.root=info -Drocketmq.namesrv.addr=rocketmq-namesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
+    networks:
+      - middleware_bridge
+
+  xxl-job-admin:
+    image: xuxueli/xxl-job-admin:2.3.1
+    container_name: xxl-job-admin
+    restart: always
+    ports:
+      - "8808:8080"
+    volumes:
+      - ./xxl-job:/data/applogs
+    environment:
+      JAVA_OPTS: "-Xms256M -Xmx512M"
+      PARAMS: "--spring.datasource.url=jdbc:mysql://mysql:3306/xxl_job?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&serverTimezone=Asia/Shanghai --spring.datasource.username=root --spring.datasource.password=${MYSQL_ROOT_PASSWORD} --xxl.job.accessToken=${XXL_JOB_TOKEN}"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - middleware_bridge
+
+  emqx:
+    image: emqx/emqx-enterprise:5.10.0
+    container_name: emqx
+    restart: always
+    ports:
+      - "21883:1883"
+      - "28083:8083"
+      - "28084:8084"
+      - "28883:8883"
+      - "18083:18083"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./emqx/data:/opt/emqx/data
+      - ./emqx/log:/opt/emqx/log
+    environment:
+      - EMQX_NODE_NAME=emqx@node1.emqx.com
+      - EMQX_ADMIN_PASSWORD=${EMQX_PASS}
+    networks:
+      - middleware_bridge
+

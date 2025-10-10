@@ -81,7 +81,7 @@ rocketmq:
 customizer:
   infra:
     ids:
-      zkAddress: 10.88.1.20:2181
+      zkAddress: localhost:2181
       port: 2181
       segmentEnable: false
     distributed:
@@ -100,6 +100,16 @@ customizer:
             port: 6379
             database: 1
             password:
+    mqtt:
+      config:
+        enable: true
+        connectionUrls:
+          - protocol: mqtt_tcp
+            url: tcp://localhost:1883
+        client:
+          clientIdPrefix: boot-quick
+          username: system
+          password: Aa&123456
     authentication:
       secret: happygamegamehappygamehappyhappy
       expired-minute: 10080
