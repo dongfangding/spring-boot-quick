@@ -1,6 +1,5 @@
 package com.ddf.boot.quickstart.core.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ddf.boot.quickstart.core.entity.UserMetadataConfig;
 
 /**
@@ -10,7 +9,7 @@ import com.ddf.boot.quickstart.core.entity.UserMetadataConfig;
  * @version 1.0
  * @date 2023/02/18 23:43
  */
-public interface UserMetadataConfigMapper extends BaseMapper<UserMetadataConfig> {
+public interface UserMetadataConfigMapper {
     int deleteByPrimaryKey(Long id);
 
     int insertSelective(UserMetadataConfig record);

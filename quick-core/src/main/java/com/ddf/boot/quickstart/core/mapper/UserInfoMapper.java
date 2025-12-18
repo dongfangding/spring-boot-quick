@@ -1,6 +1,5 @@
 package com.ddf.boot.quickstart.core.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
 
 /**
@@ -10,7 +9,7 @@ import com.ddf.boot.quickstart.core.entity.UserInfo;
  * @version 1.0
  * @date 2023/02/18 23:43
  */
-public interface UserInfoMapper extends BaseMapper<UserInfo> {
+public interface UserInfoMapper  {
     int deleteByPrimaryKey(Long id);
 
     int insertSelective(UserInfo record);
