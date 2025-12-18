@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @date 2023/02/25 23:46
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class GlobalMetadataConfigRepositoryImpl implements GlobalMetadataConfigRepository {
 

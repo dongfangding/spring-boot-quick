@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping("redisson")
 @RestController
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class RedissonController {
 
     private final RedisTemplateHelper redisTemplateHelper;

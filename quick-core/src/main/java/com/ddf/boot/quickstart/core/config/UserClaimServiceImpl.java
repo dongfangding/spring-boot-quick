@@ -8,8 +8,8 @@ import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.enume.UserStatusEnum;
 import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.Objects;
-import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @date 2022/05/26 23:06
  */
 @Service
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class UserClaimServiceImpl implements UserClaimService {
 
     private final UserInfoRepository userInfoRepository;

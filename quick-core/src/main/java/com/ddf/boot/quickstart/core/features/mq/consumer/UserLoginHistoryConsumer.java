@@ -25,7 +25,7 @@
 // */
 //@Slf4j
 //@Component
-//@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+//@RequiredArgsConstructor
 //public class UserLoginHistoryConsumer {
 //
 //    private final MqMessageHelper mqMessageHelper;

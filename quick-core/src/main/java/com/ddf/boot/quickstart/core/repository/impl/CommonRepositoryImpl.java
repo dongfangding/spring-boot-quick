@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @date 2022/05/28 15:20
  */
 @Component
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class CommonRepositoryImpl implements CommonRepository {
 
     private final StringRedisTemplate stringRedisTemplate;

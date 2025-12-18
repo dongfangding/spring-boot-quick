@@ -23,7 +23,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
  * @date 2021/10/13 14:31
  */
 @Data
-@Document(indexName = "sys_user", shards = 5, replicas = 2)
+@Document(indexName = "sys_user")
 @TypeAlias("alias_sys_user")
 public class EsSysUser implements Serializable {
 

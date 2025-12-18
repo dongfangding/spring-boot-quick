@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class SysDictRepositoryImpl implements SysDictRepository {
 
     private final SysDictMapper sysDictMapper;

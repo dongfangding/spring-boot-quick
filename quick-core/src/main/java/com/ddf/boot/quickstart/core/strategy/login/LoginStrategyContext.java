@@ -37,7 +37,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class LoginStrategyContext implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;

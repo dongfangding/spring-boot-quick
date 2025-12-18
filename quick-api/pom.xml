@@ -16,7 +16,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <ddf-common-api.version>boot276-2025.2.0-SNAPSHOT</ddf-common-api.version>
+        <ddf-common-api.version>boot358-2025.12-SNAPSHOT</ddf-common-api.version>
     </properties>
 
     <dependencies>

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @date 2020/12/07 17:22
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class JobHandler {
 

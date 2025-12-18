@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @date 2022/12/17 11:51
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class PasswordLoginStrategy implements LoginStrategy {
 

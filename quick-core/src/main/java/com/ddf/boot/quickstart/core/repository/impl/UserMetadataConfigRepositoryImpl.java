@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  * @date 2022/12/16 15:49
  */
 @Repository
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class UserMetadataConfigRepositoryImpl implements UserMetadataConfigRepository {
 

@@ -1,6 +1,6 @@
 package com.ddf.boot.quickstart.core;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.ddf.boot.common.authentication.annotation.EnableAuthenticate;
 import com.ddf.boot.common.limit.ratelimit.annotation.EnableRateLimit;
 import com.ddf.boot.common.limit.repeatable.annotation.EnableRepeatable;
@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -23,7 +22,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @version 1.0
  * @date 2022/12/16 11:49
  */
-@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
+@SpringBootApplication/*(exclude = {DruidDataSourceAutoConfigure.class})*/
 @MapperScan("com.ddf.boot.quickstart.core.mapper")
 @EnableAuthenticate
 @EnableAsync

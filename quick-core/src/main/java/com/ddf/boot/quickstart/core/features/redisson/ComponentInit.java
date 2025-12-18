@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
  * @date 2021/07/19 15:42
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class ComponentInit {
 
     private final RedissonClient redissonClient;

@@ -22,7 +22,7 @@
 // */
 //@RestController
 //@RequestMapping("/nacos")
-//@RequiredArgsConstructor(onConstructor_={@Autowired})
+//@RequiredArgsConstructor
 //public class NacosController {
 //
 //    private final DynamicProperties dynamicProperties;

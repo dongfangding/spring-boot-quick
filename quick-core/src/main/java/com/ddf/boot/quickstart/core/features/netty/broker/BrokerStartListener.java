@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @date 2020/9/21 0021 23:32
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class BrokerStartListener implements ApplicationListener<ContextRefreshedEvent> {
     private final BrokerProperties brokerProperties;

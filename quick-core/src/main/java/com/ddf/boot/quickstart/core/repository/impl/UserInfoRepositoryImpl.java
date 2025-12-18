@@ -40,7 +40,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class UserInfoRepositoryImpl implements UserInfoRepository {
 
     private final UserInfoMapper userInfoMapper;

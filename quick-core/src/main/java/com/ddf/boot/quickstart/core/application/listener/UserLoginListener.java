@@ -20,7 +20,7 @@ import org.springframework.stereotype.Component;
  * @date 2023/01/02 00:33
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class UserLoginListener implements ApplicationListener<UserLoginEvent> {
     private final ThreadPoolTaskExecutor loginPoolTaskExecutor;

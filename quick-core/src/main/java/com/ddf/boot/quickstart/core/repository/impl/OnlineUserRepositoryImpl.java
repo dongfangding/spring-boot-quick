@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
  * @date 2023/02/06 20:18
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class OnlineUserRepositoryImpl implements OnlineUserRepository {
 

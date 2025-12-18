@@ -1,10 +1,11 @@
-mysql_host: 10.88.1.30
+mysql_host: 10.88.1.177
 spring:
-  redis:
-    host: 10.88.1.30
-    port: 6379
-    database: 1
-    password: Aa&123456
+  data:
+    redis:
+      host: 10.88.1.177
+      port: 6379
+      database: 1
+      password: Aa&123456
   shardingsphere:
     datasource:
       names: master
@@ -12,18 +13,22 @@ spring:
         port: 3306
         username: root
         password: Aa&123456
+  datasource:
+    url: jdbc:mysql://${mysql_host}:3306/boot-quick?useUnicode=true&characterEncoding=UTF8&useSSL=false&serverTimezone=GMT%2B8&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&autoReconnect=true&failOverReadOnly=false&maxReconnects=10&tinyInt1isBit=false
+    username: root
+    password: Aa&123456
 
 rocketmq:
-  name-server: 10.88.1.30:9876
+  name-server: 10.88.1.177:9876
 customizer:
   infra:
     ids:
-      zkAddress: 10.88.1.30:2181
+      zkAddress: 10.88.1.177:2181
     mqtt:
       config:
         connectionUrls:
           - protocol: mqtt_tcp
-            url: tcp://10.88.1.30:21883
+            url: tcp://10.88.1.177:21883
         client:
           clientIdPrefix: boot-quick
           username: system

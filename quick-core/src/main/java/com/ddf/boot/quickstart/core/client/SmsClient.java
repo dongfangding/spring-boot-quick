@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @date 2022/11/25 15:58
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class SmsClient {
 

@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.TestComponent;
  * @date 2021/07/19 16:04
  */
 @TestComponent
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class TopicListeners {
 

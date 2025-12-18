@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class MailClient {
     private final ApplicationProperties applicationProperties;
     private final CommonRepository commonRepository;

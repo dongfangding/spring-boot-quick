@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
  * @date 2023/02/15 19:41
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class IdsClient {
 

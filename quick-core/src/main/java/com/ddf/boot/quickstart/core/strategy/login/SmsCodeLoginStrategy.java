@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor_={@Autowired})
+@RequiredArgsConstructor
 public class SmsCodeLoginStrategy implements LoginStrategy {
     private final UserInfoRepository userInfoRepository;
     private final CommonHelper commonHelper;

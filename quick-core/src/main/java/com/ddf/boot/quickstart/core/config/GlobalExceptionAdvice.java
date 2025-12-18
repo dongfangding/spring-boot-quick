@@ -2,8 +2,8 @@ package com.ddf.boot.quickstart.core.config;
 
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.common.mvc.exception200.AbstractExceptionHandler;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

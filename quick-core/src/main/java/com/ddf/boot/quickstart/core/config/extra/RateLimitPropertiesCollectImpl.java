@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @date 2021/02/25 11:06
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class RateLimitPropertiesCollectImpl implements RateLimitPropertiesCollect {
 
     private final RateLimitExtraProperties rateLimitExtraProperties;

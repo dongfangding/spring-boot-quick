@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
  * @date 2021/04/25 17:00
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class BatchInsertActionExample {
 
     private final JdbcTemplate jdbcTemplate;

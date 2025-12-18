@@ -26,8 +26,8 @@ import com.ddf.boot.quickstart.core.entity.UserInfo;
 import com.ddf.boot.quickstart.core.repository.CommonRepository;
 import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
 import com.ddf.common.captcha.helper.CaptchaHelper;
+import jakarta.servlet.http.HttpServletResponse;
 import java.util.Objects;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
  * @date 2022/05/15 22:58
  */
 @Component
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class CommonHelper {
 
     private final CaptchaHelper captchaHelper;

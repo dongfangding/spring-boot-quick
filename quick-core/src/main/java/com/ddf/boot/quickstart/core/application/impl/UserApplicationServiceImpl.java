@@ -38,7 +38,7 @@ import org.springframework.stereotype.Service;
  * @date 2022/12/16 14:52
  */
 @Service
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 @Slf4j
 public class UserApplicationServiceImpl implements UserApplicationService {
     private final UserInfoRepository userInfoRepository;
