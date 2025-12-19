@@ -135,12 +135,10 @@ customizer:
       # 异常模式， true标识使用异常时保证http状态码为200，使用返回数据标识具体异常
       exception200: true
 
-mybatis-plus:
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml,classpath:/mapper/ext/*.xml
   configuration:
     map-underscore-to-camel-case: true
-    cache-enabled: false
-  global-config:
-    db-config:
-      id-type: AUTO
-  mapper-locations: classpath*:/mapper/**/*.xml
+    default-fetch-size: 100
+    default-statement-timeout: 30
 

@@ -1,7 +1,7 @@
 package com.ddf.boot.quickstart.core.repository;
 
 import com.ddf.boot.quickstart.core.ApplicationTest;
-import com.ddf.boot.quickstart.core.entity.UserInfo;
+import com.ddf.boot.quickstart.core.infra.model.entity.UserInfo;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;

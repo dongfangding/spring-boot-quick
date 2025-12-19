@@ -3,7 +3,7 @@ package com.ddf.boot.quickstart.core.controller.features;
 import com.ddf.boot.common.api.exception.BusinessException;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
-import com.ddf.boot.quickstart.core.entity.GlobalMetadataConfig;
+import com.ddf.boot.quickstart.core.infra.model.entity.GlobalMetadataConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

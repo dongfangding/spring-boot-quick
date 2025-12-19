@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.config;
+package com.ddf.boot.quickstart.core.infra.config;
 
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.common.mvc.exception200.AbstractExceptionHandler;

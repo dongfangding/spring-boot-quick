@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.config.properties;
+package com.ddf.boot.quickstart.core.infra.config.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

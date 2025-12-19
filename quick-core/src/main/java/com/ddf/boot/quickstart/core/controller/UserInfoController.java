@@ -2,7 +2,7 @@ package com.ddf.boot.quickstart.core.controller;
 
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.boot.quickstart.core.application.UserApplicationService;
-import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
+import com.ddf.boot.quickstart.core.infra.config.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

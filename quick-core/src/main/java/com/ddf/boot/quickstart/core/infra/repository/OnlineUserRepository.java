@@ -1,7 +1,7 @@
-package com.ddf.boot.quickstart.core.repository;
+package com.ddf.boot.quickstart.core.infra.repository;
 
 import com.ddf.boot.quickstart.api.dto.UserHeartBeatDTO;
-import com.ddf.boot.quickstart.core.entity.UserInfo;
+import com.ddf.boot.quickstart.core.infra.model.entity.UserInfo;
 
 /**
  * <p>在线用户管理仓储</p >

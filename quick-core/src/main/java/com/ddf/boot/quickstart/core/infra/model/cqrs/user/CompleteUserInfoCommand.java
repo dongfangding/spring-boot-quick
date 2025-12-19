@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.model.cqrs.user;
+package com.ddf.boot.quickstart.core.infra.model.cqrs.user;
 
 import java.io.Serializable;
 import lombok.Builder;

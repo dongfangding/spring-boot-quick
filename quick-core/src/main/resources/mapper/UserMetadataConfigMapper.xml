@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ddf.boot.quickstart.core.mapper.UserMetadataConfigMapper">
-  <resultMap id="BaseResultMap" type="com.ddf.boot.quickstart.core.entity.UserMetadataConfig">
+<mapper namespace="com.ddf.boot.quickstart.core.infra.mapper.UserMetadataConfigMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.quickstart.core.infra.model.entity.UserMetadataConfig">
     <!--@mbg.generated-->
     <!--@Table user_metadata_config-->
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -25,14 +25,14 @@
     delete from user_metadata_config
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.infra.model.entity.UserMetadataConfig" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into user_metadata_config (user_id, config_code, config_value
       )
     values (#{userId,jdbcType=BIGINT}, #{configCode,jdbcType=VARCHAR}, #{configValue,jdbcType=LONGVARCHAR}
       )
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.infra.model.entity.UserMetadataConfig" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into user_metadata_config
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -58,7 +58,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.quickstart.core.infra.model.entity.UserMetadataConfig">
     <!--@mbg.generated-->
     update user_metadata_config
     <set>
@@ -74,7 +74,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.quickstart.core.entity.UserMetadataConfig">
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.quickstart.core.infra.model.entity.UserMetadataConfig">
     <!--@mbg.generated-->
     update user_metadata_config
     set user_id = #{userId,jdbcType=BIGINT},

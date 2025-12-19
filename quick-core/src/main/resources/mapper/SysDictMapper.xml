@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ddf.boot.quickstart.core.mapper.SysDictMapper">
-  <resultMap id="BaseResultMap" type="com.ddf.boot.quickstart.core.entity.SysDict">
+<mapper namespace="com.ddf.boot.quickstart.core.infra.mapper.SysDictMapper">
+  <resultMap id="BaseResultMap" type="com.ddf.boot.quickstart.core.infra.model.entity.SysDict">
     <!--@mbg.generated-->
     <!--@Table sys_dict-->
     <id column="id" jdbcType="BIGINT" property="id" />
@@ -30,7 +30,7 @@
     delete from sys_dict
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.SysDict" useGeneratedKeys="true">
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.infra.model.entity.SysDict" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into sys_dict (dict_type_code, dict_type_name, dict_detail_code, 
       dict_detail_name, request_value, sort, 
@@ -39,7 +39,7 @@
       #{dictDetailName,jdbcType=VARCHAR}, #{requestValue,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
       #{active,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.entity.SysDict" useGeneratedKeys="true">
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.ddf.boot.quickstart.core.infra.model.entity.SysDict" useGeneratedKeys="true">
     <!--@mbg.generated-->
     insert into sys_dict
     <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -89,7 +89,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.quickstart.core.entity.SysDict">
+  <update id="updateByPrimaryKeySelective" parameterType="com.ddf.boot.quickstart.core.infra.model.entity.SysDict">
     <!--@mbg.generated-->
     update sys_dict
     <set>
@@ -117,7 +117,7 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.quickstart.core.entity.SysDict">
+  <update id="updateByPrimaryKey" parameterType="com.ddf.boot.quickstart.core.infra.model.entity.SysDict">
     <!--@mbg.generated-->
     update sys_dict
     set dict_type_code = #{dictTypeCode,jdbcType=VARCHAR},

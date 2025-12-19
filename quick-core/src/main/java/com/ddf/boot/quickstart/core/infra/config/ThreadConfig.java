@@ -1,4 +1,4 @@
-package com.ddf.boot.quickstart.core.config;
+package com.ddf.boot.quickstart.core.infra.config;
 
 import com.ddf.boot.common.core.helper.ThreadBuilderHelper;
 import org.springframework.beans.factory.annotation.Configurable;

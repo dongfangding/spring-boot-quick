@@ -17,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @date 2022/12/16 11:49
  */
 @SpringBootApplication/*(exclude = {DruidDataSourceAutoConfigure.class})*/
-@MapperScan("com.ddf.boot.quickstart.core.mapper")
+@MapperScan("com.ddf.boot.quickstart.core.infra.mapper")
 @EnableAsync
 @EnableScheduling
 @EnableLogAspect(slowTime = 3000)

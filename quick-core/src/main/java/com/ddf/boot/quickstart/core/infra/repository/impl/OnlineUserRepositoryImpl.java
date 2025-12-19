@@ -1,14 +1,14 @@
-package com.ddf.boot.quickstart.core.repository.impl;
+package com.ddf.boot.quickstart.core.infra.repository.impl;
 
 import com.ddf.boot.common.api.util.DateUtils;
 import com.ddf.boot.common.api.util.JsonUtil;
 import com.ddf.boot.common.redis.helper.RedisCommandHelper;
 import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;
 import com.ddf.boot.quickstart.api.dto.UserHeartBeatDTO;
-import com.ddf.boot.quickstart.core.config.properties.ApplicationProperties;
-import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.mapper.UserInfoMapper;
-import com.ddf.boot.quickstart.core.repository.OnlineUserRepository;
+import com.ddf.boot.quickstart.core.infra.config.properties.ApplicationProperties;
+import com.ddf.boot.quickstart.core.infra.model.entity.UserInfo;
+import com.ddf.boot.quickstart.core.infra.mapper.UserInfoMapper;
+import com.ddf.boot.quickstart.core.infra.repository.OnlineUserRepository;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
