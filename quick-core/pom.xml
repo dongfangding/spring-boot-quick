@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-quick</artifactId>
         <groupId>com.ddf.spring-boot</groupId>
-        <version>1.0.2-SNAPSHOT</version>
+        <version>simple3.3-2025.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>quick-core</artifactId>
@@ -14,27 +14,28 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <ddf-common-core.version>boot358-2025.12-SNAPSHOT</ddf-common-core.version>
-        <ddf-common-authentication.version>boot358-2025.12-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>boot358-2025.12-SNAPSHOT</ddf-common-mybatis-plus.version>
-        <ddf-common-limit.version>boot358-2025.12-SNAPSHOT</ddf-common-limit.version>
-        <ddf-common-redis.version>boot358-2025.12-SNAPSHOT</ddf-common-redis.version>
-        <ddf-common-captcha.version>boot358-2025.12-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-vps.version>boot358-2025.12-SNAPSHOT</ddf-common-vps.version>
-        <ddf-common-third-party.version>boot358-2025.12-SNAPSHOT</ddf-common-third-party.version>
-        <ddf-common-mongo.version>boot358-2025.12-SNAPSHOT</ddf-common-mongo.version>
-        <ddf-common-sharding.version>boot358-2025.12-SNAPSHOT</ddf-common-sharding.version>
-        <ddf-common-mq.version>boot358-2025.12-SNAPSHOT</ddf-common-mq.version>
-        <ddf-common-netty-broker.version>boot358-2025.12-SNAPSHOT</ddf-common-netty-broker.version>
-        <ddf-common-rocketmq.version>boot358-2025.12-SNAPSHOT</ddf-common-rocketmq.version>
-        <ddf-common-websocket.version>boot358-2025.12-SNAPSHOT</ddf-common-websocket.version>
-        <ddf-common-ids-service.version>boot358-2025.12-SNAPSHOT</ddf-common-ids-service.version>
-        <ddf-common-es.version>boot358-2025.12-SNAPSHOT</ddf-common-es.version>
-        <ddf-common-xxl-executor.version>boot358-2025.12-SNAPSHOT</ddf-common-xxl-executor.version>
-        <ddf-common-log4j.version>boot358-2025.12-SNAPSHOT</ddf-common-log4j.version>
-        <ddf-common-mqtt.version>boot358-2025.12-SNAPSHOT</ddf-common-mqtt.version>
-        <ddf-common-mvc.version>boot358-2025.12-SNAPSHOT</ddf-common-mvc.version>
-        <ddf-common-alarm.version>boot358-2025.12-SNAPSHOT</ddf-common-alarm.version>
+        <ddf-common-core.version>boot3.3-2025.1-SNAPSHOT</ddf-common-core.version>
+        <ddf-common-authentication.version>boot3.3-2025.1-SNAPSHOT</ddf-common-authentication.version>
+        <ddf-common-mybatis-plus.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mybatis-plus.version>
+        <ddf-common-limit.version>boot3.3-2025.1-SNAPSHOT</ddf-common-limit.version>
+        <ddf-common-redis.version>boot3.3-2025.1-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-captcha.version>boot3.3-2025.1-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-vps.version>boot3.3-2025.1-SNAPSHOT</ddf-common-vps.version>
+        <ddf-common-third-party.version>boot3.3-2025.1-SNAPSHOT</ddf-common-third-party.version>
+        <ddf-common-mongo.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mongo.version>
+        <ddf-common-sharding.version>boot3.3-2025.1-SNAPSHOT</ddf-common-sharding.version>
+        <ddf-common-mq.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mq.version>
+        <ddf-common-netty-broker.version>boot3.3-2025.1-SNAPSHOT</ddf-common-netty-broker.version>
+        <ddf-common-rocketmq.version>boot3.3-2025.1-SNAPSHOT</ddf-common-rocketmq.version>
+        <ddf-common-websocket.version>boot3.3-2025.1-SNAPSHOT</ddf-common-websocket.version>
+        <ddf-common-ids-service.version>boot3.3-2025.1-SNAPSHOT</ddf-common-ids-service.version>
+        <ddf-common-es.version>boot3.3-2025.1-SNAPSHOT</ddf-common-es.version>
+        <ddf-common-xxl-executor.version>boot3.3-2025.1-SNAPSHOT</ddf-common-xxl-executor.version>
+        <ddf-common-log4j.version>boot3.3-2025.1-SNAPSHOT</ddf-common-log4j.version>
+        <ddf-common-mqtt.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mqtt.version>
+        <ddf-common-mvc.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mvc.version>
+        <ddf-common-alarm.version>boot3.3-2025.1-SNAPSHOT</ddf-common-alarm.version>
+        <quick-api.version>simple3.3-2025.1-SNAPSHOT</quick-api.version>
     </properties>
 
     <dependencies>
@@ -42,14 +43,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-properties-migrator</artifactId>
-            <version>3.5.8</version>
+            <version>3.3.13</version>
             <scope>compile</scope>
         </dependency>
 
         <dependency>
             <groupId>com.ddf.spring-boot</groupId>
             <artifactId>quick-api</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>${quick-api.version}</version>
         </dependency>
 
         <dependency>

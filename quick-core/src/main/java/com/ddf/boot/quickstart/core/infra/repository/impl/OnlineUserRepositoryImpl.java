@@ -9,10 +9,10 @@ import com.ddf.boot.quickstart.core.infra.config.properties.ApplicationPropertie
 import com.ddf.boot.quickstart.core.infra.model.entity.UserInfo;
 import com.ddf.boot.quickstart.core.infra.mapper.UserInfoMapper;
 import com.ddf.boot.quickstart.core.infra.repository.OnlineUserRepository;
+import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
