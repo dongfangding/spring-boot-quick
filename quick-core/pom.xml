@@ -74,7 +74,6 @@
             <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
-
         <dependency>
             <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-log4j</artifactId>
@@ -115,6 +114,14 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-sharding</artifactId>
+            <version>${ddf-common-sharding.version}</version>
+        </dependency>
+
 
     </dependencies>
 

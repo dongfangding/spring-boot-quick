@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.core;
 
+import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.ddf.boot.common.mvc.logaccess.EnableLogAspect;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
@@ -16,7 +17,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @version 1.0
  * @date 2022/12/16 11:49
  */
-@SpringBootApplication/*(exclude = {DruidDataSourceAutoConfigure.class})*/
+@SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
 @MapperScan("com.ddf.boot.quickstart.core.infra.mapper")
 @EnableAsync
 @EnableScheduling
