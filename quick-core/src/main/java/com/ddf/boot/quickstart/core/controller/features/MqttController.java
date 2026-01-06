@@ -3,6 +3,7 @@ package com.ddf.boot.quickstart.core.controller.features;
 import com.ddf.boot.common.api.model.common.response.ResponseData;
 import com.ddf.common.boot.mqtt.client.MqttPublishClient;
 import com.ddf.common.boot.mqtt.model.request.InnerMqttMessageRequest;
+import com.ddf.common.boot.mqtt.model.response.MqttMessageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,8 +27,7 @@ public class MqttController {
     private MqttPublishClient mqttPublishClient;
 
     @PostMapping("im/c2c/publish")
-    public ResponseData<Void> publishMessage(@RequestBody InnerMqttMessageRequest request) {
-        mqttPublishClient.publish(request);
-        return ResponseData.empty();
+    public ResponseData<MqttMessageResponse> publishMessage(@RequestBody InnerMqttMessageRequest request) {
+        return mqttPublishClient.publish(request);
     }
 }

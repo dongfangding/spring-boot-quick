@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
@@ -25,7 +26,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication(exclude = {DruidDataSourceAutoConfigure.class})
 @MapperScan("com.ddf.boot.quickstart.core.mapper")
-@EnableAuthenticate
+//@EnableAuthenticate
 @EnableAsync
 @EnableScheduling
 @EnableLogAspect(slowTime = 3000)

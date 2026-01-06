@@ -36,6 +36,10 @@ spring:
   sql:
     init:
       mode: always
+  elasticsearch:
+    uris: localhost:9200
+    username: root
+    password: Aa&123456
   shardingsphere:
     datasource:
       names: master
@@ -90,6 +94,9 @@ customizer:
           enable: true
         zookeeper:
           enable: true
+    zookeeper:
+      monitor:
+        connectAddress: localhost:2181
     redis:
       extra-multi:
         enable: false

@@ -1,7 +1,7 @@
-mysql_host: 10.88.1.30
+mysql_host: 10.88.1.173
 spring:
   redis:
-    host: 10.88.1.30
+    host: 10.88.1.173
     port: 6379
     database: 1
     password: Aa&123456
@@ -12,18 +12,24 @@ spring:
         port: 3306
         username: root
         password: Aa&123456
-
+  elasticsearch:
+    uris: 10.88.1.173:9200
+    username: root
+    password: Aa&123456
 rocketmq:
-  name-server: 10.88.1.30:9876
+  name-server: 10.88.1.173:9876
 customizer:
   infra:
     ids:
-      zkAddress: 10.88.1.30:2181
+      zkAddress: 10.88.1.173:2181
+    zookeeper:
+      monitor:
+        connectAddress: 10.88.1.173:2181
     mqtt:
       config:
         connectionUrls:
           - protocol: mqtt_tcp
-            url: tcp://10.88.1.30:21883
+            url: tcp://10.88.1.173:21883
         client:
           clientIdPrefix: boot-quick
           username: system
