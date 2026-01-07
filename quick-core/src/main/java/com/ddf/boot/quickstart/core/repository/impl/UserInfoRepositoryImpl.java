@@ -1,9 +1,6 @@
 package com.ddf.boot.quickstart.core.repository.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.common.api.util.DateUtils;
 import com.ddf.boot.common.api.util.JsonUtil;
 import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;
@@ -56,7 +53,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public UserInfo getById(Long userId) {
-        return userInfoMapper.selectById(userId);
+        return userInfoMapper.selectByPrimaryKey(userId);
     }
 
     @Override
@@ -126,9 +123,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
 
     @Override
     public List<UserInfo> listUserInfoFromDB(List<Long> userIds) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.in(UserInfo::getId, userIds);
-        return userInfoMapper.selectList(wrapper);
+        return userInfoMapper.listByIds(userIds);
     }
 
     /**
@@ -139,9 +134,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public UserInfo getByMobile(String mobile) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(UserInfo::getMobile, mobile);
-        return userInfoMapper.selectOne(wrapper);
+        return userInfoMapper.selectByMobile(mobile);
     }
 
     /**
@@ -152,9 +145,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public UserInfo getByAccountName(String nickname) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(UserInfo::getNickname, nickname);
-        return userInfoMapper.selectOne(wrapper);
+        return userInfoMapper.selectByNickname(nickname);
     }
 
     /**
@@ -165,24 +156,9 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public boolean nicknameExists(String nickname) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(UserInfo::getNickname, nickname);
-        return userInfoMapper.selectCount(wrapper) > 0;
+        return userInfoMapper.countByNickname(nickname) > 0;
     }
 
-
-    /**
-     * 根据邮箱查询用户列表， 存在多个，是因为可能邮箱都未认证
-     *
-     * @param email
-     * @return
-     */
-    @Override
-    public List<UserInfo> listUserByEmail(String email) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(UserInfo::getEmail, email);
-        return userInfoMapper.selectList(wrapper);
-    }
 
     /**
      * 根据已认证的邮箱查询用户
@@ -192,10 +168,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public UserInfo getUserByVerifiedEmail(String email) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(UserInfo::getEmail, email)
-                .isNotNull(UserInfo::getEmail);
-        return userInfoMapper.selectOne(wrapper);
+        return userInfoMapper.selectByEmail(email);
     }
 
     /**
@@ -206,23 +179,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public boolean exitsByMobile(String mobile) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(UserInfo::getMobile, mobile);
-        return userInfoMapper.selectCount(wrapper) > 0;
-    }
-
-
-    /**
-     * 根据邮箱查询用户
-     *
-     * @param email
-     * @return
-     */
-    @Override
-    public boolean exitsByEmail(String email) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(UserInfo::getEmail, email);
-        return userInfoMapper.selectCount(wrapper) > 0;
+        return userInfoMapper.countByMobile(mobile) > 0;
     }
 
     /**
@@ -233,19 +190,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public int completeUserInfo(CompleteUserInfoCommand command) {
-        final LambdaUpdateWrapper<UserInfo> wrapper = Wrappers.lambdaUpdate();
-        wrapper.set(UserInfo::getTempEmail, command.getEmail());
-        if (Objects.nonNull(command.getNickname())) {
-            wrapper.set(UserInfo::getNickname, command.getNickname());
-        }
-        if (Objects.nonNull(command.getAvatarUrl())) {
-            wrapper.set(UserInfo::getAvatarUrl, command.getAvatarUrl());
-        }
-        if (Objects.nonNull(command.getAvatarThumbUrl())) {
-            wrapper.set(UserInfo::getAvatarThumbUrl, command.getAvatarThumbUrl());
-        }
-        wrapper.eq(UserInfo::getId, command.getId());
-        return userInfoMapper.update(null, wrapper);
+        return userInfoMapper.completeUserInfo(command);
     }
 
     /**
@@ -257,12 +202,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public int verifiedEmail(Long userId, String email) {
-        final LambdaUpdateWrapper<UserInfo> wrapper = Wrappers.lambdaUpdate();
-        wrapper.eq(UserInfo::getId, userId);
-        wrapper.eq(UserInfo::getTempEmail, email);
-        wrapper.isNull(UserInfo::getEmail);
-        wrapper.set(UserInfo::getEmail, email);
-        return userInfoMapper.update(null, wrapper);
+        return userInfoMapper.updateVerifyEmail(userId, email);
     }
 
     /**
@@ -273,9 +213,7 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
      */
     @Override
     public Map<Long, UserInfo> mapListUsers(Set<Long> uidList) {
-        final LambdaQueryWrapper<UserInfo> wrapper = Wrappers.lambdaQuery();
-        wrapper.in(UserInfo::getId, uidList);
-        final List<UserInfo> users = userInfoMapper.selectList(wrapper);
+        final List<UserInfo> users = userInfoMapper.listByIds(new ArrayList<>(uidList));
         return users.stream().collect(Collectors.toMap(UserInfo::getId, Function.identity()));
     }
 

@@ -1,7 +1,5 @@
 package com.ddf.boot.quickstart.core.repository.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.quickstart.core.entity.SysDict;
 import com.ddf.boot.quickstart.core.mapper.SysDictMapper;
 import com.ddf.boot.quickstart.core.repository.SysDictRepository;
@@ -54,11 +52,7 @@ public class SysDictRepositoryImpl implements SysDictRepository {
      */
     @Override
     public List<SysDict> listDictByCode(String dictCode) {
-        final LambdaQueryWrapper<SysDict> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(SysDict::getDictTypeCode, dictCode)
-                .eq(SysDict::getActive, true)
-                .orderByAsc(SysDict::getSort);
-        return sysDictMapper.selectList(wrapper);
+        return sysDictMapper.selectByDictTypeCode(dictCode);
     }
 
     @Override

@@ -19,4 +19,6 @@ public interface GlobalMetadataConfigMapper {
     int updateByPrimaryKeySelective(GlobalMetadataConfig record);
 
     int updateByPrimaryKey(GlobalMetadataConfig record);
+
+    GlobalMetadataConfig selectByCode(String code);
 }

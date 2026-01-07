@@ -90,14 +90,6 @@ public interface UserInfoRepository {
 
 
     /**
-     * 根据邮箱查询用户列表， 存在多个，是因为可能邮箱都未认证
-     *
-     * @param email
-     * @return
-     */
-    List<UserInfo> listUserByEmail(String email);
-
-    /**
      * 根据已认证的邮箱查询用户
      *
      * @param email
@@ -113,14 +105,6 @@ public interface UserInfoRepository {
      */
     boolean exitsByMobile(String mobile);
 
-
-    /**
-     * 根据邮箱查询用户
-     *
-     * @param email
-     * @return
-     */
-    boolean exitsByEmail(String email);
 
     /**
      * 完善用户信息相关的更新

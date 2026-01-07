@@ -1,7 +1,5 @@
 package com.ddf.boot.quickstart.core.repository.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.quickstart.api.enume.UserConfigCodeEnum;
 import com.ddf.boot.quickstart.core.entity.UserMetadataConfig;
 import com.ddf.boot.quickstart.core.mapper.UserMetadataConfigMapper;
@@ -45,9 +43,6 @@ public class UserMetadataConfigRepositoryImpl implements UserMetadataConfigRepos
      */
     @Override
     public UserMetadataConfig getConfig(Long userId, UserConfigCodeEnum userConfigCodeEnum) {
-        final LambdaQueryWrapper<UserMetadataConfig> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(UserMetadataConfig::getUserId, userId)
-                .eq(UserMetadataConfig::getConfigCode, userConfigCodeEnum.name());
-        return userMetadataConfigMapper.selectOne(wrapper);
+        return userMetadataConfigMapper.selectUserConfig(userId, userConfigCodeEnum.getValue());
     }
 }

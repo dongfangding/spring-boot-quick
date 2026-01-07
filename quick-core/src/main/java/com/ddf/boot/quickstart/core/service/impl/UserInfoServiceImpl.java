@@ -35,7 +35,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         userInfo.setRegisterImei(UserContextUtil.getRequestContext().getImei());
         userInfo.setCtime(DateUtils.currentTimeSeconds());
         userInfo.setStatus(UserStatusEnum.NORMAL.name());
-        userInfoMapper.insert(userInfo);
+        userInfoMapper.insertSelective(userInfo);
         return userInfo;
     }
 

@@ -1,7 +1,5 @@
 package com.ddf.boot.quickstart.core.repository.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ddf.boot.quickstart.api.enume.GlobalConfigCodeEnum;
 import com.ddf.boot.quickstart.core.entity.GlobalMetadataConfig;
 import com.ddf.boot.quickstart.core.mapper.GlobalMetadataConfigMapper;
@@ -37,9 +35,7 @@ public class GlobalMetadataConfigRepositoryImpl implements GlobalMetadataConfigR
 
     @Override
     public GlobalMetadataConfig getByCode(GlobalConfigCodeEnum code) {
-        final LambdaQueryWrapper<GlobalMetadataConfig> wrapper = Wrappers.lambdaQuery();
-        wrapper.eq(GlobalMetadataConfig::getConfigCode, code.name());
-        return globalMetadataConfigMapper.selectOne(wrapper);
+        return globalMetadataConfigMapper.selectByCode(code.getValue());
     }
 
     @Override

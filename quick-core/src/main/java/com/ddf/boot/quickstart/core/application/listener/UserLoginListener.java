@@ -31,7 +31,7 @@ public class UserLoginListener implements ApplicationListener<UserLoginEvent> {
         loginPoolTaskExecutor.execute(() -> {
             final UserLoginEventPayload payload = event.getPayload();
             final UserLoginHistory loginHistory = BeanCopierUtils.copy(payload, UserLoginHistory.class);
-            userLoginHistoryMapper.insert(loginHistory);
+            userLoginHistoryMapper.insertSelective(loginHistory);
         });
     }
 }

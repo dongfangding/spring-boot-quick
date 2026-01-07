@@ -124,6 +124,6 @@ public class UserApplicationServiceImpl implements UserApplicationService {
                 .build();
         commonHelper.verifySmsCode(verifyRequest);
         userInfo.setPassword(bCryptPasswordEncoder.encode(request.getNewPassword()));
-        userInfoMapper.updateById(userInfo);
+        userInfoMapper.updateByPrimaryKey(userInfo);
     }
 }

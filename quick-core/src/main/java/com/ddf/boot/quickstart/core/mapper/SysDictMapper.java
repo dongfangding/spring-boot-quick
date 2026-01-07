@@ -1,6 +1,8 @@
 package com.ddf.boot.quickstart.core.mapper;
 
 import com.ddf.boot.quickstart.core.entity.SysDict;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>description</p >
@@ -19,4 +21,11 @@ public interface SysDictMapper {
     int updateByPrimaryKeySelective(SysDict record);
 
     int updateByPrimaryKey(SysDict record);
+    /**
+     * 根据字典类型查询字典明细
+     *
+     * @param getDictTypeCode 字典类型
+     * @return 字典明细列表
+     */
+    List<SysDict> selectByDictTypeCode(@Param("dictTypeCode") String getDictTypeCode);
 }

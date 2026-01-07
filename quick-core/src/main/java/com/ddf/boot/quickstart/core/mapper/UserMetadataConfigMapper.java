@@ -1,6 +1,7 @@
 package com.ddf.boot.quickstart.core.mapper;
 
 import com.ddf.boot.quickstart.core.entity.UserMetadataConfig;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * <p>description</p >
@@ -21,4 +22,7 @@ public interface UserMetadataConfigMapper {
     int updateByPrimaryKey(UserMetadataConfig record);
 
     int insertOrUpdate(UserMetadataConfig config);
+
+    UserMetadataConfig selectUserConfig(@Param("userId") Long userId, @Param("configCode") String configCode);
+
 }
