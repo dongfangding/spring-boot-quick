@@ -3,8 +3,6 @@ package com.ddf.boot.quickstart.core.features.es.mapping;
 import java.io.Serializable;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.annotation.TypeAlias;
-import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 

@@ -1,6 +1,5 @@
 package com.ddf.boot.quickstart.core.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ddf.boot.quickstart.core.entity.UserLoginHistory;
 
 /**
