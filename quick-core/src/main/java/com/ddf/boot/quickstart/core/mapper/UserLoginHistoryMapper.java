@@ -10,7 +10,7 @@ import com.ddf.boot.quickstart.core.entity.UserLoginHistory;
  * @version 1.0
  * @date 2023/02/18 23:43
  */
-public interface UserLoginHistoryMapper extends BaseMapper<UserLoginHistory> {
+public interface UserLoginHistoryMapper {
     int deleteByPrimaryKey(Long id);
 
     int insertSelective(UserLoginHistory record);

@@ -16,7 +16,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <ddf-common-core.version>boot276-2025.2.0-SNAPSHOT</ddf-common-core.version>
         <ddf-common-authentication.version>boot276-2025.2.0-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mybatis-plus.version>
         <ddf-common-limit.version>boot276-2025.2.0-SNAPSHOT</ddf-common-limit.version>
         <ddf-common-redis.version>boot276-2025.2.0-SNAPSHOT</ddf-common-redis.version>
         <ddf-common-captcha.version>boot276-2025.2.0-SNAPSHOT</ddf-common-captcha.version>
@@ -230,6 +229,16 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.ddf.boot.quickstart.core.Application</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
