@@ -14,28 +14,28 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <ddf-common-core.version>boot276-2025.2.0-SNAPSHOT</ddf-common-core.version>
-        <ddf-common-authentication.version>boot276-2025.2.0-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mybatis-plus.version>
-        <ddf-common-limit.version>boot276-2025.2.0-SNAPSHOT</ddf-common-limit.version>
-        <ddf-common-redis.version>boot276-2025.2.0-SNAPSHOT</ddf-common-redis.version>
-        <ddf-common-captcha.version>boot276-2025.2.0-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-vps.version>boot276-2025.2.0-SNAPSHOT</ddf-common-vps.version>
-        <ddf-common-third-party.version>boot276-2025.2.0-SNAPSHOT</ddf-common-third-party.version>
-        <ddf-common-mongo.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mongo.version>
-        <ddf-common-sharding.version>boot276-2025.2.0-SNAPSHOT</ddf-common-sharding.version>
-        <ddf-common-mq.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mq.version>
-        <ddf-common-netty-broker.version>boot276-2025.2.0-SNAPSHOT</ddf-common-netty-broker.version>
-        <ddf-common-rocketmq.version>boot276-2025.2.0-SNAPSHOT</ddf-common-rocketmq.version>
-        <ddf-common-websocket.version>boot276-2025.2.0-SNAPSHOT</ddf-common-websocket.version>
-        <ddf-common-ids-service.version>boot276-2025.2.0-SNAPSHOT</ddf-common-ids-service.version>
-        <ddf-common-es.version>boot276-2025.2.0-SNAPSHOT</ddf-common-es.version>
-        <ddf-common-xxl-executor.version>boot276-2025.2.0-SNAPSHOT</ddf-common-xxl-executor.version>
-        <ddf-common-log4j.version>boot276-2025.2.0-SNAPSHOT</ddf-common-log4j.version>
-        <ddf-common-sentinel.version>boot276-2025.2.0-SNAPSHOT</ddf-common-sentinel.version>
-        <ddf-common-mqtt.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mqtt.version>
-        <ddf-common-mvc.version>boot276-2025.2.0-SNAPSHOT</ddf-common-mvc.version>
-        <ddf-common-alarm.version>boot276-2025.2.0-SNAPSHOT</ddf-common-alarm.version>
+        <ddf-common-core.version>boot33-2025.1.0-SNAPSHOT</ddf-common-core.version>
+        <ddf-common-authentication.version>boot33-2025.1.0-SNAPSHOT</ddf-common-authentication.version>
+        <ddf-common-mybatis-plus.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mybatis-plus.version>
+        <ddf-common-limit.version>boot33-2025.1.0-SNAPSHOT</ddf-common-limit.version>
+        <ddf-common-redis.version>boot33-2025.1.0-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-captcha.version>boot33-2025.1.0-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-vps.version>boot33-2025.1.0-SNAPSHOT</ddf-common-vps.version>
+        <ddf-common-third-party.version>boot33-2025.1.0-SNAPSHOT</ddf-common-third-party.version>
+        <ddf-common-mongo.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mongo.version>
+        <ddf-common-sharding.version>boot33-2025.1.0-SNAPSHOT</ddf-common-sharding.version>
+        <ddf-common-mq.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mq.version>
+        <ddf-common-netty-broker.version>boot33-2025.1.0-SNAPSHOT</ddf-common-netty-broker.version>
+        <ddf-common-rocketmq.version>boot33-2025.1.0-SNAPSHOT</ddf-common-rocketmq.version>
+        <ddf-common-websocket.version>boot33-2025.1.0-SNAPSHOT</ddf-common-websocket.version>
+        <ddf-common-ids-service.version>boot33-2025.1.0-SNAPSHOT</ddf-common-ids-service.version>
+        <ddf-common-es.version>boot33-2025.1.0-SNAPSHOT</ddf-common-es.version>
+        <ddf-common-xxl-executor.version>boot33-2025.1.0-SNAPSHOT</ddf-common-xxl-executor.version>
+        <ddf-common-log4j.version>boot33-2025.1.0-SNAPSHOT</ddf-common-log4j.version>
+        <ddf-common-sentinel.version>boot33-2025.1.0-SNAPSHOT</ddf-common-sentinel.version>
+        <ddf-common-mqtt.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mqtt.version>
+        <ddf-common-mvc.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mvc.version>
+        <ddf-common-alarm.version>boot33-2025.1.0-SNAPSHOT</ddf-common-alarm.version>
     </properties>
 
     <dependencies>
