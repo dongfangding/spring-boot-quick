@@ -1,51 +1,30 @@
 package com.ddf.boot.quickstart.core.application;
 
-import com.ddf.boot.quickstart.api.request.auth.ModifyPasswordRequest;
-import com.ddf.boot.quickstart.api.request.auth.UserRegistryRequest;
-import com.ddf.boot.quickstart.api.request.user.CompleteUserInfoRequest;
-import com.ddf.boot.quickstart.api.response.user.PersonalInfoResponse;
+import com.ddf.boot.quickstart.core.repository.OnlineUserRepository;
+import com.ddf.boot.quickstart.core.repository.UserInfoRepository;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>用户应用层</p >
+ * <p>用户业务</p >
  *
  * @author Snowball
  * @version 1.0
- * @date 2022/12/16 14:39
+ * @date 2022/12/16 14:52
  */
-public interface UserApplicationService {
+@Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@Slf4j
+public class UserApplicationService {
+    private final UserInfoRepository userInfoRepository;
+    private final OnlineUserRepository onlineUserRepository;
 
-    /**
-     * 心跳
-     * @param userId
-     */
-    void heartBeat(Long userId);
-
-    /**
-     * 注册账号
-     *
-     * @param request
-     */
-    void registry(UserRegistryRequest request);
-
-    /**
-     * 完善用户信息
-     *
-     * @param request
-     */
-    PersonalInfoResponse completeInfo(CompleteUserInfoRequest request);
-
-    /**
-     * 个人中心
-     *
-     * @return
-     */
-    PersonalInfoResponse personalInfo();
-
-    /**
-     * 修改密码
-     *
-     * @param request
-     */
-    void modifyPassword(ModifyPasswordRequest request);
-
+    public void heartBeat(Long userId) {
+        // 处理心跳信息
+        userInfoRepository.setHeartBeat(userId);
+        // 将用户放入在线用户列表
+        onlineUserRepository.putOnlineUser(userId);
+    }
 }

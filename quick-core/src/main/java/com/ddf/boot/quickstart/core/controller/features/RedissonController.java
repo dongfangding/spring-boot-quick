@@ -2,9 +2,9 @@ package com.ddf.boot.quickstart.core.controller.features;
 
 import com.ddf.boot.common.limit.exception.LimitExceptionCode;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
-import com.ddf.boot.quickstart.core.client.RedisRequestDefinition;
+import com.ddf.boot.quickstart.core.infra.config.RedisRequestDefinition;
 import com.google.common.base.Preconditions;
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RRateLimiter;
 import org.redisson.api.RateIntervalUnit;

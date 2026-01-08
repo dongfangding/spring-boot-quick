@@ -1,42 +1,50 @@
 package com.ddf.boot.quickstart.core.repository;
 
 import com.ddf.boot.quickstart.api.enume.GlobalConfigCodeEnum;
-import com.ddf.boot.quickstart.core.entity.GlobalMetadataConfig;
+import com.ddf.boot.quickstart.core.infra.mapper.GlobalMetadataConfigMapper;
+import com.ddf.boot.quickstart.core.infra.model.entity.GlobalMetadataConfig;
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.LoadingCache;
+import java.time.Duration;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>全局配置</p >
  *
  * @author Snowball
  * @version 1.0
- * @date 2023/02/25 23:45
+ * @date 2023/02/25 23:46
  */
-public interface GlobalMetadataConfigRepository {
+@Service
+@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@Slf4j
+public class GlobalMetadataConfigRepository {
 
-    /**
-     * 根据code获得配置
-     *
-     * @param code
-     * @return
-     */
-    GlobalMetadataConfig getByCode(GlobalConfigCodeEnum code);
+    private final GlobalMetadataConfigMapper globalMetadataConfigMapper;
 
-    /**
-     * 从缓存中获取配置
-     *
-     * @param code
-     * @return
-     */
-    GlobalMetadataConfig getByCodeFromCache(GlobalConfigCodeEnum code);
+    private final LoadingCache<GlobalConfigCodeEnum, GlobalMetadataConfig> CONFIG_CACHE = Caffeine.newBuilder()
+            .weakValues()
+            .initialCapacity(50)
+            .maximumSize(1000)
+            .expireAfterWrite(Duration.ofHours(1))
+            .build(this::getByCode);
 
-    /**
-     * 清除指定缓存
-     *
-     * @param code
-     */
-    void clearCache(GlobalConfigCodeEnum code);
+    public GlobalMetadataConfig getByCode(GlobalConfigCodeEnum code) {
+        return globalMetadataConfigMapper.selectByCode(code.getValue());
+    }
 
-    /**
-     * 清除字典全部缓存
-     */
-    void clearAllCache();
+    public GlobalMetadataConfig getByCodeFromCache(GlobalConfigCodeEnum code) {
+        return CONFIG_CACHE.get(code);
+    }
+
+    public void clearCache(GlobalConfigCodeEnum code) {
+        CONFIG_CACHE.invalidate(code);
+    }
+
+    public void clearAllCache() {
+        CONFIG_CACHE.invalidateAll();
+    }
 }

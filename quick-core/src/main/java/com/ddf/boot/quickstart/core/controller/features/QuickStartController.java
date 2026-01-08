@@ -12,15 +12,11 @@ import com.ddf.boot.common.lock.zk.impl.ZookeeperDistributedLock;
 import com.ddf.boot.common.redis.ext.RedisBloomFilter;
 import com.ddf.boot.common.redis.ext.RedisTopic;
 import com.ddf.boot.common.redis.helper.RedisTemplateHelper;
-import com.ddf.boot.common.websocket.model.MessageRequest;
-import com.ddf.boot.common.websocket.model.MessageResponse;
-import com.ddf.boot.common.websocket.service.WsMessageService;
 import com.ddf.boot.quickstart.api.enume.ApplicationExceptionCode;
 import com.ddf.boot.quickstart.api.request.features.PublishUniqueNameDTO;
-import com.ddf.boot.quickstart.core.client.RedisRequestDefinition;
-import com.ddf.boot.quickstart.core.entity.GlobalMetadataConfig;
+import com.ddf.boot.quickstart.core.infra.config.RedisRequestDefinition;
+import com.ddf.boot.quickstart.core.infra.model.entity.GlobalMetadataConfig;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +24,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,8 +40,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class QuickStartController {
-
-    private final WsMessageService wsMessageService;
 
     private final RedisTemplateHelper redisTemplateHelper;
 
@@ -132,33 +125,6 @@ public class QuickStartController {
     }
 
     /**
-     * 基于zk的分布式锁的演示
-     *
-     * @return
-     * @throws LockingReleaseException
-     * @throws LockingAcquireException
-     */
-    @GetMapping("zkDistributedLock")
-    public Boolean distributedLock() throws Exception {
-        return zookeeperDistributedLock.lockWork("/zk_distributedLock_demo", 1, TimeUnit.SECONDS, () -> {
-            try {
-                log.info("我获取到了zk锁，下面开始执行任务。。。。。。。。。。。。。");
-                SHARD_INT ++;
-                // 通过获取锁之后的睡眠，然后将请求发给第二个实例，进行演示，看程序是否会阻塞
-                Thread.sleep(10000);
-                log.info("共享int变量的值 = {}", SHARD_INT);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            return Boolean.TRUE;
-        }, () -> {
-            log.error("获取zk分布式锁失败");
-            return Boolean.FALSE;
-        });
-    }
-
-
-    /**
      * 基于redis的分布式锁的演示
      *
      * @return
@@ -182,18 +148,6 @@ public class QuickStartController {
             log.error("获取zk分布式锁失败");
             return Boolean.FALSE;
         });
-    }
-
-
-    /**
-     * 给在线的客户端发送消息
-     *
-     * @param messageRequest
-     * @return
-     */
-    @PostMapping("sendWebSocketMessage")
-    public MessageResponse<?> sendWebSocketMessage(@RequestBody MessageRequest<?> messageRequest) {
-        return wsMessageService.executeCmd(messageRequest);
     }
 
 
@@ -254,7 +208,8 @@ public class QuickStartController {
         if (!uniqueNameBloomFilter.contains(uniqueName)) {
             final boolean add = uniqueNameBloomFilter.add(uniqueName);
             if (add) {
-                addUniqueTopic.publish(PublishUniqueNameDTO.builder()
+                addUniqueTopic.publish(PublishUniqueNameDTO
+                        .builder()
                         .uniqueName(uniqueName)
                         .bizTime(new Date())
                         .build());

@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.api.request.features;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PublishUniqueNameDTO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 5838919803056838896L;
 
     private String uniqueName;

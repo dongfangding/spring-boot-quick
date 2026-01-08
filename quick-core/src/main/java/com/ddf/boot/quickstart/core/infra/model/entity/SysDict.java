@@ -1,21 +1,29 @@
-package com.ddf.boot.quickstart.api.response.common;
+package com.ddf.boot.quickstart.core.infra.model.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
 import lombok.Data;
 
-
 /**
- * 字典表
- *
- * @author snowball
- * @date 2022/8/29 16:57
- **/
+* <p>字典表</p >
+*
+* @author Snowball
+* @version 1.0
+* @date 2023/02/18 23:43
+*/
 @Data
-public class SysDictResponse implements Serializable {
+public class SysDict implements Serializable {
+    private Long id;
 
-    @Serial
-    private static final long serialVersionUID = -2231204865227593502L;
+    /**
+     * 字典类型
+     */
+    private String dictTypeCode;
+
+    /**
+     * 字典名称
+     */
+    private String dictTypeName;
 
     /**
      * 字典明细代码
@@ -37,4 +45,11 @@ public class SysDictResponse implements Serializable {
      */
     private Integer sort;
 
+    /**
+     * 是否有效
+     */
+    private String active;
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 }

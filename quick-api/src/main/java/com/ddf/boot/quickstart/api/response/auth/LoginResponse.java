@@ -1,5 +1,6 @@
 package com.ddf.boot.quickstart.api.response.auth;
 
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginResponse implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1516322558409231083L;
 
     /**

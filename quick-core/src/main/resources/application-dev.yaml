@@ -1,65 +1,8 @@
 mysql_host: 10.88.1.104
 spring:
-  redis:
-    host: 10.88.1.104
-    port: 6379
-    database: 1
-    password: Aa&123456
-  shardingsphere:
-    datasource:
-      names: master
-      master:
-        port: 3306
-        username: root
-        password: Aa&123456
-  elasticsearch:
-    uris: 10.88.1.104:9200
-    username: root
-    password: Aa&123456
-rocketmq:
-  name-server: 10.88.1.104:9876
-customizer:
-  infra:
-    ids:
-      zkAddress: 10.88.1.104:2181
-    zookeeper:
-      monitor:
-        connectAddress: 10.88.1.104:2181
-    mqtt:
-      config:
-        connectionUrls:
-          - protocol: mqtt_tcp
-            url: tcp://10.88.1.104:21883
-        client:
-          clientIdPrefix: boot-quick
-          username: system
-          password: Aa&123456
-    alarm:
-      dingtalk:
-        bizResource:
-          accessToken: sxxx
-          secret: xxxxxx
-        codeException:
-          enabled: false
-          accessToken: xxxxxx
-          secret: xxxxxx
-      lark:
-        bizResource:
-          enabled: false
-          webhookUrl: https://open.larksuite.com/open-apis/bot/v2/hook/98cb9c44-c60a-4c36-a515-bd8c1bd774c9
-          secret: xxxxxx
-        codeException:
-          enabled: false
-          webhookUrl: https://open.larksuite.com/open-apis/bot/v2/hook/a20f1e76-deff-451d-9ea7-6effb8de1f1b
-          secret: zfrFmVdBKDLehlNKnXy9Yg
-        mappingException:
-          java-game-service:
-            enabled: false
-            webhookUrl: https://open.larksuite.com/open-apis/bot/v2/hook/374c7b30-6d26-4457-aef2-3132914f5050
-            secret: xxxxxx
-      exception:
-        enabled: true
-        ignoreCodeOrMessageList:
-          - PAY_CLIENT_NOT_FOUND_BY_MERCHANT
-        ignoreUrlList:
-          - test
+  data:
+    redis:
+      host: 10.88.1.104
+      port: 6379
+      password: Aa&123456
+      database: 1

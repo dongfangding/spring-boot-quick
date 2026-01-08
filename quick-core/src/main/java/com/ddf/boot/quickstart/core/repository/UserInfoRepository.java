@@ -1,11 +1,18 @@
 package com.ddf.boot.quickstart.core.repository;
 
+import com.ddf.boot.common.api.util.DateUtils;
+import com.ddf.boot.common.api.util.JsonUtil;
+import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;
 import com.ddf.boot.quickstart.api.dto.UserHeartBeatDTO;
-import com.ddf.boot.quickstart.core.entity.UserInfo;
-import com.ddf.boot.quickstart.core.model.cqrs.user.CompleteUserInfoCommand;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import com.ddf.boot.quickstart.core.infra.config.ApplicationProperties;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>用户信息仓储/p >
@@ -14,123 +21,14 @@ import java.util.Set;
  * @version 1.0
  * @date 2022/05/21 10:53
  */
-public interface UserInfoRepository {
+@Service
+@Slf4j
+@RequiredArgsConstructor(onConstructor_={@Autowired})
+public class UserInfoRepository {
 
-    /**
-     * 根据userId获取用户信息
-     *
-     * @param userId
-     * @return
-     */
-    UserInfo getById(Long userId);
-
-    /**
-     * 从缓存中获取用户信息
-     *
-     * @param userId
-     * @return
-     */
-    UserInfo getByIdFromCache(Long userId);
-
-    /**
-     * 获取最新用户数据，重新刷新用户缓存
-     *
-     * @param userId
-     * @return
-     */
-    UserInfo refreshUserInfo(Long userId);
-
-    /**
-     * 从缓存中获取批量用户
-     *
-     * @param userIds
-     * @return
-     */
-    Map<Long, UserInfo> listUserInfoMapFromCache(List<Long> userIds);
-
-    /**
-     * 从db中批量获取用户信息
-     *
-     * @param userIds
-     * @return
-     */
-    Map<Long, UserInfo> listUserInfoMapFromDB(List<Long> userIds);
-
-    /**
-     * 从db中批量获取用户信息
-     *
-     * @param userIds
-     * @return
-     */
-    List<UserInfo> listUserInfoFromDB(List<Long> userIds);
-
-    /**
-     * 根据手机号查询用户
-     *
-     * @param mobile
-     * @return
-     */
-    UserInfo getByMobile(String mobile);
-
-    /**
-     * 根据登录账号查询用户
-     *
-     * @param nickname
-     * @return
-     */
-    UserInfo getByAccountName(String nickname);
-
-    /**
-     * 昵称是否存在
-     *
-     * @param nickname
-     * @return
-     */
-    boolean nicknameExists(String nickname);
-
-
-    /**
-     * 根据已认证的邮箱查询用户
-     *
-     * @param email
-     * @return
-     */
-    UserInfo getUserByVerifiedEmail(String email);
-
-    /**
-     * 根据手机号查询用户
-     *
-     * @param mobile
-     * @return
-     */
-    boolean exitsByMobile(String mobile);
-
-
-    /**
-     * 完善用户信息相关的更新
-     *
-     * @param command
-     * @return
-     */
-    int completeUserInfo(CompleteUserInfoCommand command);
-
-    /**
-     * 验证邮箱状态
-     *
-     * @param userId
-     * @param email
-     * @return
-     */
-    int verifiedEmail(Long userId, String email);
-
-    /**
-     * 根据用户id集合查询用户对应的列表信息
-     *
-     * @param uidList
-     * @return
-     */
-    Map<Long, UserInfo> mapListUsers(Set<Long> uidList);
-
+    private final ApplicationProperties applicationProperties;
+    private final StringRedisTemplate stringRedisTemplate;
+    private final ThreadPoolTaskExecutor userReloadCacheExecutor;
 
     /**
      * 获取用户心跳详情
@@ -138,7 +36,11 @@ public interface UserInfoRepository {
      * @param userId
      * @return
      */
-    UserHeartBeatDTO getUserHeartBeatDetail(Long userId);
+    public UserHeartBeatDTO getUserHeartBeatDetail(Long userId) {
+        final String userHeartBeatDetailKey = RedisKeyEnum.USER_HEART_BEAT_DETAIL.getShardingKey(userId + "");
+        final Object o = stringRedisTemplate.opsForHash().get(userHeartBeatDetailKey, userId);
+        return JsonUtil.toBeanChecked(o, UserHeartBeatDTO.class);
+    }
 
 
     /**
@@ -146,7 +48,11 @@ public interface UserInfoRepository {
      *
      * @param userHeartBeatDetail
      */
-    void setUserHeartBeatDetail(UserHeartBeatDTO userHeartBeatDetail);
+    public void setUserHeartBeatDetail(UserHeartBeatDTO userHeartBeatDetail) {
+        final Long hashKey = userHeartBeatDetail.getUserId();
+        final String userHeartBeatDetailKey = RedisKeyEnum.USER_HEART_BEAT_DETAIL.getShardingKey(hashKey + "");
+        stringRedisTemplate.opsForHash().put(userHeartBeatDetailKey, hashKey, JsonUtil.toJson(userHeartBeatDetail));
+    }
 
     /**
      * 增加用户每日在线时长
@@ -156,7 +62,18 @@ public interface UserInfoRepository {
      * @param increaseTimeSeconds
      * @return
      */
-    Double incrementDailyHeartBeat(Long currentTimeSeconds, Long userId, Double increaseTimeSeconds);
+    public Double incrementDailyHeartBeat(Long currentTimeSeconds, Long userId, Double increaseTimeSeconds) {
+        final LocalDateTime localDateTime = DateUtils.ofSeconds(currentTimeSeconds);
+        final Integer currentYearMonthDay = DateUtils.formatYearMonth(localDateTime);
+        String dailyHeartBeatKey = RedisKeyEnum.DAILY_HEART_BEAT.getKey(currentYearMonthDay.toString());
+        final Double score = stringRedisTemplate.opsForZSet()
+                .incrementScore(dailyHeartBeatKey, userId + "", increaseTimeSeconds);
+        final Long expire = stringRedisTemplate.getExpire(dailyHeartBeatKey);
+        if (Objects.nonNull(expire) && expire < 0) {
+            stringRedisTemplate.expire(dailyHeartBeatKey, RedisKeyEnum.DAILY_HEART_BEAT.getTtl());
+        }
+        return score;
+    }
 
 
     /**
@@ -166,20 +83,40 @@ public interface UserInfoRepository {
      * @param increaseTimeSeconds
      * @return
      */
-    Double incrementUserContinueHeartBeat(Long userId, Double increaseTimeSeconds);
+    public Double incrementUserContinueHeartBeat(Long userId, Double increaseTimeSeconds) {
+        String dailyHeartBeatKey = RedisKeyEnum.CONTINUE_HEART_BEAT.getKey();
+        return stringRedisTemplate.opsForZSet().incrementScore(dailyHeartBeatKey, userId + "", increaseTimeSeconds);
+    }
 
     /**
      * 设置心跳
      *
      * @param userId
      */
-    void setHeartBeat(Long userId);
+    public void setHeartBeat(Long userId) {
+        final Long currentTimeSeconds = DateUtils.currentTimeSeconds();
+        UserHeartBeatDTO detail = getUserHeartBeatDetail(userId);
+        // 心跳间隔时间
+        final Long heartBeatIntervalSeconds = applicationProperties.getHeartBeatIntervalSeconds();
+        long heartBeatIntervalPreSeconds = heartBeatIntervalSeconds;
+        boolean isContinueHeartBeat = false;
+        if (Objects.nonNull(detail)) {
+            final Long lastUpdateTimeSeconds = detail.getLastUpdateTimeSeconds();
+            heartBeatIntervalPreSeconds = currentTimeSeconds - lastUpdateTimeSeconds;
+            // 预留两倍心跳时间,超过这个时间，认为没有连续在线
+            if (currentTimeSeconds - lastUpdateTimeSeconds >= heartBeatIntervalSeconds * 2 + 2) {
+                isContinueHeartBeat = true;
+            }
+        } else {
+            detail = new UserHeartBeatDTO();
+            detail.setUserId(userId);
+        }
+        detail.setLastUpdateTimeSeconds(currentTimeSeconds);
+        // 重新设置用户心跳详情
+        setUserHeartBeatDetail(detail);
 
-    /**
-     * 随机取n条用户
-     *
-     * @param number
-     * @return
-     */
-    UserInfo randomUser(Integer number);
+        // 累加当日用户在线时长, 如果上一次心跳在前一天结尾，这一次心跳接收到已经到了第二天，就取两个值最小的
+        long increaseHeartbeatSeconds = Math.min(heartBeatIntervalPreSeconds, DateUtils.calcPassedTodaySeconds(currentTimeSeconds));
+        incrementDailyHeartBeat(currentTimeSeconds, userId, (double) increaseHeartbeatSeconds);
+    }
 }

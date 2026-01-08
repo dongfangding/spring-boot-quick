@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>spring-boot-quick</artifactId>
-        <groupId>com.ddf.spring-boot</groupId>
-        <version>1.0.2-SNAPSHOT</version>
+        <groupId>com.ddf.boot</groupId>
+        <version>simple3-2025.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>quick-core</artifactId>
@@ -14,40 +14,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <ddf-common-core.version>boot33-2025.1.0-SNAPSHOT</ddf-common-core.version>
-        <ddf-common-authentication.version>boot33-2025.1.0-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mybatis-plus.version>
-        <ddf-common-limit.version>boot33-2025.1.0-SNAPSHOT</ddf-common-limit.version>
-        <ddf-common-redis.version>boot33-2025.1.0-SNAPSHOT</ddf-common-redis.version>
-        <ddf-common-captcha.version>boot33-2025.1.0-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-vps.version>boot33-2025.1.0-SNAPSHOT</ddf-common-vps.version>
-        <ddf-common-third-party.version>boot33-2025.1.0-SNAPSHOT</ddf-common-third-party.version>
-        <ddf-common-mongo.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mongo.version>
-        <ddf-common-sharding.version>boot33-2025.1.0-SNAPSHOT</ddf-common-sharding.version>
-        <ddf-common-mq.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mq.version>
-        <ddf-common-netty-broker.version>boot33-2025.1.0-SNAPSHOT</ddf-common-netty-broker.version>
-        <ddf-common-rocketmq.version>boot33-2025.1.0-SNAPSHOT</ddf-common-rocketmq.version>
-        <ddf-common-websocket.version>boot33-2025.1.0-SNAPSHOT</ddf-common-websocket.version>
-        <ddf-common-ids-service.version>boot33-2025.1.0-SNAPSHOT</ddf-common-ids-service.version>
-        <ddf-common-es.version>boot33-2025.1.0-SNAPSHOT</ddf-common-es.version>
-        <ddf-common-xxl-executor.version>boot33-2025.1.0-SNAPSHOT</ddf-common-xxl-executor.version>
-        <ddf-common-log4j.version>boot33-2025.1.0-SNAPSHOT</ddf-common-log4j.version>
-        <ddf-common-sentinel.version>boot33-2025.1.0-SNAPSHOT</ddf-common-sentinel.version>
-        <ddf-common-mqtt.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mqtt.version>
-        <ddf-common-mvc.version>boot33-2025.1.0-SNAPSHOT</ddf-common-mvc.version>
-        <ddf-common-alarm.version>boot33-2025.1.0-SNAPSHOT</ddf-common-alarm.version>
+        <ddf-common-core.version>boot3.3-2025.1-SNAPSHOT</ddf-common-core.version>
+        <ddf-common-authentication.version>boot3.3-2025.1-SNAPSHOT</ddf-common-authentication.version>
+        <ddf-common-mybatis-plus.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mybatis-plus.version>
+        <ddf-common-limit.version>boot3.3-2025.1-SNAPSHOT</ddf-common-limit.version>
+        <ddf-common-redis.version>boot3.3-2025.1-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-log4j.version>boot3.3-2025.1-SNAPSHOT</ddf-common-log4j.version>
+        <ddf-common-mvc.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mvc.version>
+        <ddf-common-alarm.version>boot3.3-2025.1-SNAPSHOT</ddf-common-alarm.version>
+        <ddf-common-captcha.version>boot3.3-2025.1-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-distributed-lock.version>boot3.3-2025.1-SNAPSHOT</ddf-common-distributed-lock.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.ddf.spring-boot</groupId>
+            <groupId>com.ddf.boot</groupId>
             <artifactId>quick-api</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
+            <version>simple3-2025.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
@@ -69,64 +56,10 @@
             <version>${ddf-common-authentication.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-third-party</artifactId>
-            <version>${ddf-common-third-party.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-mqtt</artifactId>
-            <version>${ddf-common-mqtt.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-sentinel</artifactId>
-            <version>${ddf-common-sentinel.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-xxl-executor</artifactId>
-            <version>${ddf-common-xxl-executor.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-es</artifactId>
-            <version>${ddf-common-es.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>log4j-api</artifactId>
-                    <groupId>org.apache.logging.log4j</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <!-- 用于刷新配置 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-sharding</artifactId>
-            <version>${ddf-common-sharding.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-mongo</artifactId>
-            <version>${ddf-common-mongo.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-rocketmq</artifactId>
-            <version>${ddf-common-rocketmq.version}</version>
         </dependency>
 
         <dependency>
@@ -137,21 +70,10 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-ids-service</artifactId>
-            <version>${ddf-common-ids-service.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
             <artifactId>ddf-common-redis</artifactId>
             <version>${ddf-common-redis.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-netty-broker</artifactId>
-            <version>${ddf-common-netty-broker.version}</version>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -171,14 +93,8 @@
 
         <dependency>
             <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-vps</artifactId>
-            <version>${ddf-common-vps.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-websocket</artifactId>
-            <version>${ddf-common-websocket.version}</version>
+            <artifactId>ddf-common-distributed-lock</artifactId>
+            <version>${ddf-common-distributed-lock.version}</version>
         </dependency>
 
         <dependency>
