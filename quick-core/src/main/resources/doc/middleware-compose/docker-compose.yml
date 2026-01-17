@@ -1,6 +1,3 @@
-
-version: "3.9"
-
 networks:
   middleware_bridge:
     driver: bridge
@@ -12,16 +9,21 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-    command: --default-authentication-plugin=mysql_native_password
+      # 显式指定时区，防止 Java 应用读取时间不一致
+      TZ: Asia/Shanghai
+    # 兼容老版本的mysql客户端，因mysql8以上版本的密码规则导致无法连接
+    # command: --default-authentication-plugin=mysql_native_password
     ports:
       - "3306:3306"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./mysql/data:/var/lib/mysql
       - ./mysql/logs:/var/log/mysql
-      - ./mysql/my.cnf:/etc/mysql/my.cnf
+      # 挂载到conf.d下，避免文件权限导致配置不生效
+      - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -p${MYSQL_ROOT_PASSWORD}"]
+      # 优化：避免在进程列表中泄露密码，利用内置 ping 命令
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -64,27 +66,6 @@ services:
       retries: 5
     networks:
       - middleware_bridge
-
-  rabbitmq:
-    image: rabbitmq:3.11.9-management
-    container_name: rabbitmq
-    restart: always
-    environment:
-      RABBITMQ_DEFAULT_USER: rabbitmq
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
-    ports:
-      - "15672:15672"
-      - "5672:5672"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-    healthcheck:
-      test: ["CMD", "rabbitmqctl", "status"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-    networks:
-      - middleware_bridge
-
   mongo:
     image: mongo:6.0.4
     container_name: mongo
@@ -118,6 +99,8 @@ services:
       - "9300:9300"
     volumes:
       - /etc/localtime:/etc/localtime:ro
+        # 启动可能会报错，java.nio.file.AccessDeniedException: /usr/share/elasticsearch/data/nodes
+        # 手动执行下权限，es镜像内部以elasticsearch用户， uid通常为1000运行，所以可以在宿主机执行，给挂载目录权限。sudo chown -R 1000:1000 ./elasticsearch/data
       - ./elasticsearch/data:/usr/share/elasticsearch/data
       - ./elasticsearch/logs:/usr/share/elasticsearch/logs
       - ./elasticsearch/config:/usr/share/elasticsearch/config
@@ -198,23 +181,72 @@ services:
     networks:
       - middleware_bridge
 
-  emqx:
-    image: emqx/emqx-enterprise:5.10.0
-    container_name: emqx
+  emqx1:
+    # 企业版需要license授权， 生产环境只能单机使用
+    # image: emqx/emqx-enterprise:5.10.0
+    # 可使用5.9版本以前的开源版本，还不是BSL协议，然后自己搭建集群
+    image: emqx:5.8.8
+    user: "1000:1000"
+    container_name: emqx1
+    restart: always
+    ports:
+      - "11883:1883"
+      - "18083:8083"
+      - "18084:8084"
+      - "18883:8883"
+      - "19083:18083"
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./emqx1/data:/opt/emqx/data
+      - ./emqx1/log:/opt/emqx/log
+    environment:
+      - "EMQX_NODE_NAME=emqx@node1.emqx.com"
+      - "EMQX_ADMIN_PASSWORD=${EMQX_PASS}"
+      - "EMQX_CLUSTER__DISCOVERY_STRATEGY=static"
+      - "EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.com, emqx@node2.emqx.com]"
+      # 设置 Cookie 必须一致才能组成集群
+      - "EMQX_NODE__COOKIE=emqx_cluster_secret_cookie"
+    healthcheck:
+      test: ["CMD", "/opt/emqx/bin/emqx", "ctl", "status"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    networks:
+      middleware_bridge:
+        aliases:
+          - node1.emqx.com
+  emqx2:
+    # 企业版需要license授权， 生产环境只能单机使用
+    # image: emqx/emqx-enterprise:5.10.0
+    # 可使用5.9版本以前的开源版本，还不是BSL协议，然后自己搭建集群
+    image: emqx:5.8.8
+    user: "1000:1000"
+    container_name: emqx2
     restart: always
     ports:
       - "21883:1883"
       - "28083:8083"
       - "28084:8084"
       - "28883:8883"
-      - "18083:18083"
+      - "29083:18083"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./emqx/data:/opt/emqx/data
-      - ./emqx/log:/opt/emqx/log
+      - ./emqx2/data:/opt/emqx/data
+      - ./emqx2/log:/opt/emqx/log
     environment:
-      - EMQX_NODE_NAME=emqx@node1.emqx.com
-      - EMQX_ADMIN_PASSWORD=${EMQX_PASS}
+      - "EMQX_NODE_NAME=emqx@node2.emqx.com"
+      - "EMQX_ADMIN_PASSWORD=${EMQX_PASS}"
+      - "EMQX_CLUSTER__DISCOVERY_STRATEGY=static"
+      - "EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.com, emqx@node2.emqx.com]"
+      # 设置 Cookie 必须一致才能组成集群
+      - "EMQX_NODE__COOKIE=emqx_cluster_secret_cookie"
+    healthcheck:
+      test: ["CMD", "/opt/emqx/bin/emqx", "ctl", "status"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
     networks:
-      - middleware_bridge
+      middleware_bridge:
+        aliases:
+          - node2.emqx.com
 
