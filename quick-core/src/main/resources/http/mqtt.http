@@ -1,0 +1,41 @@
+###
+POST http://localhost:8080/boot-quick/mqtt/im/c2c/publish
+Content-Type: application/json
+sign: 6128aaca933c654774fe615e486d45280bec718514b081fcc0b7b6a432833b3b
+imei: 2a3e5a02cb4633c8a89dc42e77d38c47c
+nonce: 1767682672776
+version: 1.0.0
+version_code: 100
+os: ANDROID
+system_language: ja
+app_language: zh-hant
+use_vpn: 0
+use_proxy: 0
+device_mode: iPhone X
+time_zone: Asia/Taipei
+sim_operator: 111
+os_version: one plus 12
+
+{
+  "header": {
+    "extras":{},
+    "bizId":" ",
+    "sourceTimestamp":0,
+    "sourceIdentityId":" ",
+    "sourceIdentityName":" ",
+    "sourceIdentityAvatarUrl":" "
+  },
+  "contentType": "",
+  "deserializeType": "",
+  "control": {
+    "qos":"AT_MOST_ONCE",
+    "retain":false,
+    "show":true,
+    "persistence":false,
+    "async": false
+  },
+  "topic": "test/topic",
+  "messageCode": "red_packet",
+  "bizType": "red_packet",
+  "body": ""
+}

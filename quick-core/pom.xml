@@ -124,6 +124,12 @@
         </dependency>
 
 
+        <dependency>
+            <groupId>com.ddf.common</groupId>
+            <artifactId>ddf-common-mqtt</artifactId>
+            <version>${ddf-common-mqtt.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
