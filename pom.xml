@@ -5,14 +5,14 @@
     <parent>
         <artifactId>ddf-common</artifactId>
         <groupId>com.ddf.common</groupId>
-        <version>boot3.3-2025.1-SNAPSHOT</version>
+        <version>boot3.5-2025.1-SNAPSHOT</version>
         <relativePath />
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.ddf.boot</groupId>
     <artifactId>spring-boot-quick</artifactId>
     <packaging>pom</packaging>
-    <version>simple3-2025.1-SNAPSHOT</version>
+    <version>quickstart3.5-2025.1-SNAPSHOT</version>
     <modules>
         <module>quick-api</module>
         <module>quick-core</module>

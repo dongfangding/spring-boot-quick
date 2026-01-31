@@ -41,7 +41,7 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://${mysql_host}:3306/boot-quick?serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&tinyInt1isBit=false&allowPublicKeyRetrieval=true
+      url: jdbc:mysql://${mysql_host}:3306/boot-quick?serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
       username: root
       password: Aa&123456
       initial-size: 10

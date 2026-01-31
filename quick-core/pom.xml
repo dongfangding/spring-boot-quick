@@ -5,7 +5,7 @@
     <parent>
         <artifactId>spring-boot-quick</artifactId>
         <groupId>com.ddf.boot</groupId>
-        <version>simple3-2025.1-SNAPSHOT</version>
+        <version>quickstart3.5-2025.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>quick-core</artifactId>
@@ -14,16 +14,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <ddf-common-core.version>boot3.3-2025.1-SNAPSHOT</ddf-common-core.version>
-        <ddf-common-authentication.version>boot3.3-2025.1-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mybatis-plus.version>
-        <ddf-common-limit.version>boot3.3-2025.1-SNAPSHOT</ddf-common-limit.version>
-        <ddf-common-redis.version>boot3.3-2025.1-SNAPSHOT</ddf-common-redis.version>
-        <ddf-common-log4j.version>boot3.3-2025.1-SNAPSHOT</ddf-common-log4j.version>
-        <ddf-common-mvc.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mvc.version>
-        <ddf-common-alarm.version>boot3.3-2025.1-SNAPSHOT</ddf-common-alarm.version>
-        <ddf-common-captcha.version>boot3.3-2025.1-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-distributed-lock.version>boot3.3-2025.1-SNAPSHOT</ddf-common-distributed-lock.version>
+        <ddf-common-core.version>boot3.5-2025.1-SNAPSHOT</ddf-common-core.version>
+        <ddf-common-authentication.version>boot3.5-2025.1-SNAPSHOT</ddf-common-authentication.version>
+        <ddf-common-mybatis-plus.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mybatis-plus.version>
+        <ddf-common-limit.version>boot3.5-2025.1-SNAPSHOT</ddf-common-limit.version>
+        <ddf-common-redis.version>boot3.5-2025.1-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-log4j.version>boot3.5-2025.1-SNAPSHOT</ddf-common-log4j.version>
+        <ddf-common-mvc.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mvc.version>
+        <ddf-common-alarm.version>boot3.5-2025.1-SNAPSHOT</ddf-common-alarm.version>
+        <ddf-common-captcha.version>boot3.5-2025.1-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-distributed-lock.version>boot3.5-2025.1-SNAPSHOT</ddf-common-distributed-lock.version>
     </properties>
 
     <dependencies>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>com.ddf.boot</groupId>
             <artifactId>quick-api</artifactId>
-            <version>simple3-2025.1-SNAPSHOT</version>
+            <version>quickstart3.5-2025.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
