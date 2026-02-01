@@ -1,6 +1,6 @@
 networks:
-  middleware_bridge:
-    driver: bridge
+  middleware-network:
+    external: true  # 使用已创建的外部网络
 
 services:
   mysql:
@@ -19,16 +19,22 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./mysql/data:/var/lib/mysql
       - ./mysql/logs:/var/log/mysql
+      # - ./mysql:/var/lib/mysql
       # 挂载到conf.d下，避免文件权限导致配置不生效
       - ./mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+      # 这个是为了同时启动nacos
+      # - ./nacos/mysql-init:/docker-entrypoint-initdb.d/
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
     healthcheck:
       # 优化：避免在进程列表中泄露密码，利用内置 ping 命令
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      interval: 5s
+      timeout: 10s
+      retries: 10
     networks:
-      - middleware_bridge
+      - middleware-network
 
   redis:
     image: redis:6.0.17
@@ -46,7 +52,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - middleware_bridge
+      - middleware-network
 
   zookeeper:
     image: zookeeper:3.6.4
@@ -65,9 +71,11 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - middleware_bridge
+      - middleware-network
   mongo:
-    image: mongo:6.0.4
+    # 虚拟机器需要在设置 → 系统 → 处理器 → 勾选 "启用 VT-x/AMD-V", 不然只能使用低版本
+    # image: mongo:6.0.4
+    image: mongo:4.4
     container_name: mongo
     restart: always
     environment:
@@ -86,7 +94,7 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - middleware_bridge
+      - middleware-network
 
   elasticsearch:
     image: elasticsearch:7.17.9
@@ -106,67 +114,99 @@ services:
       - ./elasticsearch/logs:/usr/share/elasticsearch/logs
       - ./elasticsearch/config:/usr/share/elasticsearch/config
     networks:
-      - middleware_bridge
+      - middleware-network
 
   rocketmq-namesrv:
-    image: rocketmqinc/rocketmq-namesrv:4.5.0-alpine
+    image: apache/rocketmq:5.3.2
     container_name: rocketmq-namesrv
     restart: always
     ports:
       - "9876:9876"
     environment:
-      MAX_HEAP_SIZE: 512M
+      - JAVA_OPT_EXT=-Xms256m -Xmx256m
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./rocketmq/namesrv/logs:/root/logs
-      - ./rocketmq/namesrv/store:/root/store
+      - ./rocketmq/namesrv/logs:/home/rocketmq/rocketmq-5.3.2/logs
+      - ./rocketmq/namesrv/store:/home/rocketmq/rocketmq-5.3.2/store
+    command: sh mqnamesrv
     healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 9876"]
+      test: ["CMD-SHELL", "timeout 5 bash -c 'cat < /dev/null > /dev/tcp/localhost/9876' || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 10s
     networks:
-      - middleware_bridge
+      - middleware-network
 
   rocketmq-broker:
-    image: rocketmqinc/rocketmq-broker:4.5.0-alpine
+    image: apache/rocketmq:5.3.2
     container_name: rocketmq-broker
     restart: always
     depends_on:
       rocketmq-namesrv:
         condition: service_healthy
-    environment:
-      MAX_HEAP_SIZE: 512M
-      NAMESRV_ADDR: rocketmq-namesrv:9876
     ports:
       - "10909:10909"
       - "10911:10911"
       - "10912:10912"
+    environment:
+      - NAMESRV_ADDR=rocketmq-namesrv:9876
+      - JAVA_OPT_EXT=-Xms256m -Xmx256m
     volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./rocketmq/broker/logs:/root/logs
-      - ./rocketmq/broker/store:/root/store
-      - ./rocketmq/broker/conf:/root/rocketmq-4.5.0/conf
-    command: ["sh", "mqbroker", "-c", "/root/rocketmq-4.5.0/conf/broker.conf"]
+      - ./rocketmq/broker/logs:/home/rocketmq/rocketmq-5.3.2/logs
+      - ./rocketmq/broker/store:/home/rocketmq/rocketmq-5.3.2/store
+      - ./rocketmq/broker/conf/broker.conf:/home/rocketmq/rocketmq-5.3.2/conf/broker.conf
+    command: sh mqbroker -n rocketmq-namesrv:9876 -c /home/rocketmq/rocketmq-5.3.2/conf/broker.conf
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5 bash -c 'cat < /dev/null > /dev/tcp/localhost/10911' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
     networks:
-      - middleware_bridge
+      - middleware-network
 
-  rocketmq-console:
-    image: styletang/rocketmq-console-ng
-    container_name: rocketmq-console
+  rocketmq-proxy:
+    image: apache/rocketmq:5.3.2
+    container_name: rocketmq-proxy
     restart: always
     depends_on:
       rocketmq-namesrv:
         condition: service_healthy
+      rocketmq-broker:
+        condition: service_healthy
     ports:
-      - "8804:8080"
+      - "8081:8081"
+      - "10901:10901"
+      - "10902:10902"
     environment:
-      JAVA_OPTS: "-Xms256M -Xmx512M -Dlogging.level.root=info -Drocketmq.namesrv.addr=rocketmq-namesrv:9876 -Dcom.rocketmq.sendMessageWithVIPChannel=false"
+      - NAMESRV_ADDR=rocketmq-namesrv:9876
+      - JAVA_OPT_EXT=-Xms256m -Xmx256m
+    command: sh mqproxy
+    healthcheck:
+      test: ["CMD-SHELL", "timeout 5 bash -c 'cat < /dev/null > /dev/tcp/localhost/8081' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     networks:
-      - middleware_bridge
+      - middleware-network
+
+  rocketmq-dashboard:
+    image: apacherocketmq/rocketmq-dashboard:2.1.0
+    container_name: rocketmq-dashboard
+    restart: always
+    ports:
+      - "8800:8080"
+    environment:
+      - JAVA_OPTS=-Xmx256m -Xms128m
+      - ROCKETMQ_CONFIG_NAMESRVADDR=rocketmq-namesrv:9876
+    depends_on:
+      - rocketmq-namesrv
+    networks:
+      - middleware-network
 
   xxl-job-admin:
-    image: xuxueli/xxl-job-admin:2.3.1
+    image: xuxueli/xxl-job-admin:3.3.0
     container_name: xxl-job-admin
     restart: always
     ports:
@@ -180,15 +220,15 @@ services:
       mysql:
         condition: service_healthy
     networks:
-      - middleware_bridge
+      - middleware-network
 
-  emqx1:
+  emqx:
     # 企业版需要license授权， 生产环境只能单机使用
     # image: emqx/emqx-enterprise:5.10.0
     # 可使用5.9版本以前的开源版本，还不是BSL协议，然后自己搭建集群
     image: emqx:5.8.8
     user: "1000:1000"
-    container_name: emqx1
+    container_name: emqx
     restart: always
     ports:
       - "11883:1883"
@@ -198,56 +238,35 @@ services:
       - "19083:18083"
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ./emqx1/data:/opt/emqx/data
-      - ./emqx1/log:/opt/emqx/log
+      - ./emqx/data:/opt/emqx/data
+      - ./emqx/log:/opt/emqx/log
     environment:
       - "EMQX_NODE_NAME=emqx@node1.emqx.com"
       - "EMQX_ADMIN_PASSWORD=${EMQX_PASS}"
-      - "EMQX_CLUSTER__DISCOVERY_STRATEGY=static"
-      - "EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.com, emqx@node2.emqx.com]"
-      # 设置 Cookie 必须一致才能组成集群
-      - "EMQX_NODE__COOKIE=emqx_cluster_secret_cookie"
     healthcheck:
       test: ["CMD", "/opt/emqx/bin/emqx", "ctl", "status"]
       interval: 5s
       timeout: 10s
       retries: 5
     networks:
-      middleware_bridge:
+      middleware-network:
         aliases:
           - node1.emqx.com
-  emqx2:
-    # 企业版需要license授权， 生产环境只能单机使用
-    # image: emqx/emqx-enterprise:5.10.0
-    # 可使用5.9版本以前的开源版本，还不是BSL协议，然后自己搭建集群
-    image: emqx:5.8.8
-    user: "1000:1000"
-    container_name: emqx2
-    restart: always
-    ports:
-      - "21883:1883"
-      - "28083:8083"
-      - "28084:8084"
-      - "28883:8883"
-      - "29083:18083"
-    volumes:
-      - /etc/localtime:/etc/localtime:ro
-      - ./emqx2/data:/opt/emqx/data
-      - ./emqx2/log:/opt/emqx/log
-    environment:
-      - "EMQX_NODE_NAME=emqx@node2.emqx.com"
-      - "EMQX_ADMIN_PASSWORD=${EMQX_PASS}"
-      - "EMQX_CLUSTER__DISCOVERY_STRATEGY=static"
-      - "EMQX_CLUSTER__STATIC__SEEDS=[emqx@node1.emqx.com, emqx@node2.emqx.com]"
-      # 设置 Cookie 必须一致才能组成集群
-      - "EMQX_NODE__COOKIE=emqx_cluster_secret_cookie"
-    healthcheck:
-      test: ["CMD", "/opt/emqx/bin/emqx", "ctl", "status"]
-      interval: 5s
-      timeout: 10s
-      retries: 5
-    networks:
-      middleware_bridge:
-        aliases:
-          - node2.emqx.com
 
+  nacos:
+    image: nacos/nacos-server:${NACOS_VERSION}
+    container_name: nacos-standalone-mysql
+    env_file:
+      - ./nacos/nacos-standalone-mysql.env
+    volumes:
+      - ./nacos/logs/:/home/nacos/logs
+    ports:
+      - "8080:8080"
+      - "8848:8848"
+      - "9848:9848"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    restart: always
+    networks:
+      - middleware-network
