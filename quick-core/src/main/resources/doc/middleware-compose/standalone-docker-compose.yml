@@ -196,7 +196,7 @@ services:
     container_name: rocketmq-dashboard
     restart: always
     ports:
-      - "8800:8080"
+      - "8802:8082"
     environment:
       - JAVA_OPTS=-Xmx256m -Xms128m
       - ROCKETMQ_CONFIG_NAMESRVADDR=rocketmq-namesrv:9876
