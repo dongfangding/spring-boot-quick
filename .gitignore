@@ -5,7 +5,7 @@ target/
 # web application files
 #/web-app/WEB-INF
 # IDE support files
-/.classpath
+/.classpath.
 /.launch
 /.project
 /.settings
@@ -73,6 +73,7 @@ local.properties
 ## .gitignore for linux
 .*
 !.gitignore
+!.gitattributes
 *~
 ## .gitignore for windows
 # Windows image file caches

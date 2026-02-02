@@ -1,0 +1,11 @@
+# shell 脚本
+*.sh text eol=lf
+
+# 配置文件
+*.yml text eol=lf
+*.yaml text eol=lf
+*.env text eol=lf
+
+# 其他源码文件
+*.java text eol=lf
+*.py text eol=lf
