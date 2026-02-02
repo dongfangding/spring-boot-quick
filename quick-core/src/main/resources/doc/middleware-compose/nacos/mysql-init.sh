@@ -2,7 +2,7 @@
 set -e
 
 # 加载 NACOS_VERSION
-source ../.env
+NACOS_VERSION=v3.0.3
 CLEAN_VERSION=${NACOS_VERSION#v}
 # deal -slim
 CLEAN_VERSION=${CLEAN_VERSION%-*}

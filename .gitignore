@@ -74,6 +74,7 @@ local.properties
 .*
 !.gitignore
 !.gitattributes
+!.env
 *~
 ## .gitignore for windows
 # Windows image file caches

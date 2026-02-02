@@ -154,7 +154,7 @@ services:
     volumes:
       - ./rocketmq/broker/logs:/home/rocketmq/rocketmq-5.3.2/logs
       - ./rocketmq/broker/store:/home/rocketmq/rocketmq-5.3.2/store
-      - ./rocketmq/broker/conf/broker.conf:/home/rocketmq/rocketmq-5.3.2/conf/broker.conf
+      - ./rocketmq/broker/conf:/home/rocketmq/rocketmq-5.3.2/conf
     command: sh mqbroker -n rocketmq-namesrv:9876 -c /home/rocketmq/rocketmq-5.3.2/conf/broker.conf
     healthcheck:
       test: [ "CMD-SHELL", "timeout 5 bash -c 'cat < /dev/null > /dev/tcp/localhost/10911' || exit 1" ]
@@ -255,7 +255,7 @@ services:
 
   nacos:
     image: nacos/nacos-server:${NACOS_VERSION}
-    container_name: nacos-standalone-mysql
+    container_name: nacos-standalone
     env_file:
       - ./nacos/nacos-standalone-mysql.env
     volumes:
