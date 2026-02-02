@@ -11,6 +11,7 @@ public interface UserApplicationService {
 
     /**
      * 心跳
+     *
      * @param userId
      */
     void heartBeat(Long userId);

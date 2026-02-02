@@ -6,8 +6,8 @@ import com.ddf.boot.common.redis.helper.RedisCommandHelper;
 import com.ddf.boot.quickstart.api.consts.RedisKeyEnum;
 import com.ddf.boot.quickstart.api.dto.UserHeartBeatDTO;
 import com.ddf.boot.quickstart.core.infra.config.properties.ApplicationProperties;
-import com.ddf.boot.quickstart.core.infra.model.entity.UserInfo;
 import com.ddf.boot.quickstart.core.infra.mapper.UserInfoMapper;
+import com.ddf.boot.quickstart.core.infra.model.entity.UserInfo;
 import com.ddf.boot.quickstart.core.infra.repository.OnlineUserRepository;
 import jakarta.annotation.PostConstruct;
 import java.time.LocalDateTime;
@@ -33,12 +33,10 @@ import org.springframework.stereotype.Service;
 public class OnlineUserRepositoryImpl implements OnlineUserRepository {
 
     private final RedissonClient redissonClient;
-    private RMapCache<Long, String> ON_LINE_MAP;
     private final ApplicationProperties applicationProperties;
     private final UserInfoMapper userInfoMapper;
     private final RedisCommandHelper redisCommandHelper;
-
-
+    private RMapCache<Long, String> ON_LINE_MAP;
 
     @PostConstruct
     public void init() {
@@ -52,7 +50,10 @@ public class OnlineUserRepositoryImpl implements OnlineUserRepository {
      */
     @Override
     public void putOnlineUser(Long userId) {
-        ON_LINE_MAP.put(userId, DateUtils.currentTimeSeconds() + "", applicationProperties.getHeartBeatMaxIntervalSeconds(), TimeUnit.SECONDS);
+        ON_LINE_MAP.put(
+                userId, DateUtils.currentTimeSeconds() + "", applicationProperties.getHeartBeatMaxIntervalSeconds(),
+                TimeUnit.SECONDS
+        );
     }
 
     /**
@@ -106,10 +107,15 @@ public class OnlineUserRepositoryImpl implements OnlineUserRepository {
         final LocalDateTime localDateTime = DateUtils.ofSeconds(currentTimeSeconds);
         final Integer currentYearMonthDay = DateUtils.formatYearMonth(localDateTime);
         String dailyHeartBeatKey = RedisKeyEnum.DAILY_HEART_BEAT.getKey(currentYearMonthDay.toString());
-        final Double score = redisCommandHelper.zIncrementScore(dailyHeartBeatKey, userId.toString(), increaseTimeSeconds);
+        final Double score = redisCommandHelper.zIncrementScore(
+                dailyHeartBeatKey, userId.toString(), increaseTimeSeconds);
         final Long expire = redisCommandHelper.getExpire(dailyHeartBeatKey);
         if (Objects.nonNull(expire) && expire < 0) {
-            redisCommandHelper.expire(dailyHeartBeatKey, RedisKeyEnum.DAILY_HEART_BEAT.getTtl().getSeconds());
+            redisCommandHelper.expire(
+                    dailyHeartBeatKey, RedisKeyEnum.DAILY_HEART_BEAT
+                            .getTtl()
+                            .getSeconds()
+            );
         }
         return score;
     }
@@ -157,7 +163,8 @@ public class OnlineUserRepositoryImpl implements OnlineUserRepository {
         setUserHeartBeatDetail(detail);
 
         // 累加当日用户在线时长, 如果上一次心跳在前一天结尾，这一次心跳接收到已经到了第二天，就取两个值最小的
-        long increaseHeartbeatSeconds = Math.min(heartBeatIntervalPreSeconds, DateUtils.calcPassedTodaySeconds(currentTimeSeconds));
+        long increaseHeartbeatSeconds = Math.min(
+                heartBeatIntervalPreSeconds, DateUtils.calcPassedTodaySeconds(currentTimeSeconds));
         incrementDailyHeartBeat(currentTimeSeconds, userId, (double) increaseHeartbeatSeconds);
     }
 

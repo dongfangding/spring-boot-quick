@@ -1,6 +1,5 @@
 package com.ddf.boot.quickstart.core;
 
-import com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure;
 import com.ddf.boot.common.mvc.logaccess.EnableLogAspect;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;

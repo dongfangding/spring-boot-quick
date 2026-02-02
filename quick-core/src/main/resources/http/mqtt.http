@@ -18,20 +18,20 @@ os_version: one plus 12
 
 {
   "header": {
-    "extras":{},
-    "bizId":" ",
-    "sourceTimestamp":0,
-    "sourceIdentityId":" ",
-    "sourceIdentityName":" ",
-    "sourceIdentityAvatarUrl":" "
+    "extras": {},
+    "bizId": " ",
+    "sourceTimestamp": 0,
+    "sourceIdentityId": " ",
+    "sourceIdentityName": " ",
+    "sourceIdentityAvatarUrl": " "
   },
   "contentType": "",
   "deserializeType": "",
   "control": {
-    "qos":"AT_MOST_ONCE",
-    "retain":false,
-    "show":true,
-    "persistence":false,
+    "qos": "AT_MOST_ONCE",
+    "retain": false,
+    "show": true,
+    "persistence": false,
     "async": false
   },
   "topic": "test/topic",

@@ -29,7 +29,7 @@ services:
       --collation-server=utf8mb4_unicode_ci
     healthcheck:
       # 优化：避免在进程列表中泄露密码，利用内置 ping 命令
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
       interval: 5s
       timeout: 10s
       retries: 10
@@ -40,14 +40,14 @@ services:
     image: redis:6.0.17
     container_name: redis
     restart: always
-    command: ["redis-server", "/data/redis.conf"]
+    command: [ "redis-server", "/data/redis.conf" ]
     ports:
       - "6379:6379"
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - ./redis:/data
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -66,7 +66,7 @@ services:
       - ./zookeeper/data:/data
       - ./zookeeper/datalog:/datalog
     healthcheck:
-      test: ["CMD-SHELL", "zkServer.sh status || exit 1"]
+      test: [ "CMD-SHELL", "zkServer.sh status || exit 1" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -86,9 +86,9 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - ./mongo/configdb:/data/configdb
       - ./mongo/db:/data/db
-    command: ["mongod", "--config", "/data/configdb/mongod.conf"]
+    command: [ "mongod", "--config", "/data/configdb/mongod.conf" ]
     healthcheck:
-      test: ["CMD-SHELL", "mongosh --eval \"db.adminCommand('ping')\""]
+      test: [ "CMD-SHELL", "mongosh --eval \"db.adminCommand('ping')\"" ]
       interval: 15s
       timeout: 5s
       retries: 5
@@ -108,7 +108,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
         # 启动可能会报错，java.nio.file.AccessDeniedException: /usr/share/elasticsearch/data/nodes
-        # 手动执行下权限，es镜像内部以elasticsearch用户， uid通常为1000运行，所以可以在宿主机执行，给挂载目录权限。sudo chown -R 1000:1000 ./elasticsearch/data
+      # 手动执行下权限，es镜像内部以elasticsearch用户， uid通常为1000运行，所以可以在宿主机执行，给挂载目录权限。sudo chown -R 1000:1000 ./elasticsearch/data
       - ./elasticsearch/data:/usr/share/elasticsearch/data
       - ./elasticsearch/logs:/usr/share/elasticsearch/logs
       - ./elasticsearch/config:/usr/share/elasticsearch/config
@@ -126,7 +126,7 @@ services:
       MAX_HEAP_SIZE: 256M
     command: sh mqnamesrv
     healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 9876"]
+      test: [ "CMD-SHELL", "nc -z localhost 9876" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -182,7 +182,7 @@ services:
       - ./rocketmq/namesrv/logs:/root/logs
       - ./rocketmq/namesrv/store:/root/store
     healthcheck:
-      test: ["CMD-SHELL", "nc -z localhost 9876"]
+      test: [ "CMD-SHELL", "nc -z localhost 9876" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -241,7 +241,7 @@ services:
       - "EMQX_NODE_NAME=emqx@node1.emqx.com"
       - "EMQX_ADMIN_PASSWORD=${EMQX_PASS}"
     healthcheck:
-      test: ["CMD", "/opt/emqx/bin/emqx", "ctl", "status"]
+      test: [ "CMD", "/opt/emqx/bin/emqx", "ctl", "status" ]
       interval: 5s
       timeout: 10s
       retries: 5

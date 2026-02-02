@@ -70,15 +70,12 @@ public enum RedisKeyEnum implements RedisKeyConstraint {
      * 如sms_code:%s:%s
      */
     private final String template;
-
+    private final RedisKeyTypeEnum keyType;
     /**
      * 过期秒数,这里不会根据这个做什么事情，自己定义自己使用就行，这里主要是一些固定业务使用的key过期时间是固定的，就在这里当常量定义了
      * 如短信验证码，需要的是一个常量的过期时间，那就在这里定义，用的时候引用这里就行，其它情况下意义不大
      */
     private Duration ttl;
-
-    private final RedisKeyTypeEnum keyType;
-
     private Class clazz;
 
     /**

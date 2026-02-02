@@ -84,6 +84,7 @@ public class QuickStartController {
         config.setId(0L);
         config.setConfigCode("errorCode");
         config.setConfigValue("hello world!");
-        throw new BusinessException(config, ApplicationExceptionCode.TEST_FILL_BIZ_EXCEPTION, System.currentTimeMillis());
+        throw new BusinessException(
+                config, ApplicationExceptionCode.TEST_FILL_BIZ_EXCEPTION, System.currentTimeMillis());
     }
 }
