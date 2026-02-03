@@ -1,8 +1,4 @@
-<<<<<<<< HEAD:quick-core/src/main/java/com/ddf/boot/quickstart/core/infra/config/ApplicationProperties.java
-package com.ddf.boot.quickstart.core.infra.config;
-========
 package com.ddf.boot.quickstart.core.infra.config.properties;
->>>>>>>> origin/master-features:quick-core/src/main/java/com/ddf/boot/quickstart/core/infra/config/properties/ApplicationProperties.java
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
