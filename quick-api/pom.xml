@@ -16,12 +16,12 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <ddf-common-api.version>boot3.3-2025.1-SNAPSHOT</ddf-common-api.version>
+        <ddf-common-api.version>boot3.5-2025.1-SNAPSHOT</ddf-common-api.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-api</artifactId>
             <version>${ddf-common-api.version}</version>
             <optional>true</optional>

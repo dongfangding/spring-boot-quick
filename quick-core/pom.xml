@@ -14,27 +14,27 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-        <ddf-common-core.version>boot3.3-2025.1-SNAPSHOT</ddf-common-core.version>
-        <ddf-common-authentication.version>boot3.3-2025.1-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mybatis-plus.version>
-        <ddf-common-limit.version>boot3.3-2025.1-SNAPSHOT</ddf-common-limit.version>
-        <ddf-common-redis.version>boot3.3-2025.1-SNAPSHOT</ddf-common-redis.version>
-        <ddf-common-captcha.version>boot3.3-2025.1-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-vps.version>boot3.3-2025.1-SNAPSHOT</ddf-common-vps.version>
-        <ddf-common-third-party.version>boot3.3-2025.1-SNAPSHOT</ddf-common-third-party.version>
-        <ddf-common-mongo.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mongo.version>
-        <ddf-common-sharding.version>boot3.3-2025.1-SNAPSHOT</ddf-common-sharding.version>
-        <ddf-common-mq.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mq.version>
-        <ddf-common-netty-broker.version>boot3.3-2025.1-SNAPSHOT</ddf-common-netty-broker.version>
-        <ddf-common-rocketmq.version>boot3.3-2025.1-SNAPSHOT</ddf-common-rocketmq.version>
-        <ddf-common-websocket.version>boot3.3-2025.1-SNAPSHOT</ddf-common-websocket.version>
-        <ddf-common-ids-service.version>boot3.3-2025.1-SNAPSHOT</ddf-common-ids-service.version>
-        <ddf-common-es.version>boot3.3-2025.1-SNAPSHOT</ddf-common-es.version>
-        <ddf-common-xxl-executor.version>boot3.3-2025.1-SNAPSHOT</ddf-common-xxl-executor.version>
-        <ddf-common-log4j.version>boot3.3-2025.1-SNAPSHOT</ddf-common-log4j.version>
-        <ddf-common-mqtt.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mqtt.version>
-        <ddf-common-mvc.version>boot3.3-2025.1-SNAPSHOT</ddf-common-mvc.version>
-        <ddf-common-alarm.version>boot3.3-2025.1-SNAPSHOT</ddf-common-alarm.version>
+        <ddf-common-core.version>boot3.5-2025.1-SNAPSHOT</ddf-common-core.version>
+        <ddf-common-authentication.version>boot3.5-2025.1-SNAPSHOT</ddf-common-authentication.version>
+        <ddf-common-mybatis-plus.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mybatis-plus.version>
+        <ddf-common-limit.version>boot3.5-2025.1-SNAPSHOT</ddf-common-limit.version>
+        <ddf-common-redis.version>boot3.5-2025.1-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-captcha.version>boot3.5-2025.1-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-vps.version>boot3.5-2025.1-SNAPSHOT</ddf-common-vps.version>
+        <ddf-common-third-party.version>boot3.5-2025.1-SNAPSHOT</ddf-common-third-party.version>
+        <ddf-common-mongo.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mongo.version>
+        <ddf-common-sharding.version>boot3.5-2025.1-SNAPSHOT</ddf-common-sharding.version>
+        <ddf-common-mq.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mq.version>
+        <ddf-common-netty-broker.version>boot3.5-2025.1-SNAPSHOT</ddf-common-netty-broker.version>
+        <ddf-common-rocketmq.version>boot3.5-2025.1-SNAPSHOT</ddf-common-rocketmq.version>
+        <ddf-common-websocket.version>boot3.5-2025.1-SNAPSHOT</ddf-common-websocket.version>
+        <ddf-common-ids-service.version>boot3.5-2025.1-SNAPSHOT</ddf-common-ids-service.version>
+        <ddf-common-es.version>boot3.5-2025.1-SNAPSHOT</ddf-common-es.version>
+        <ddf-common-xxl-executor.version>boot3.5-2025.1-SNAPSHOT</ddf-common-xxl-executor.version>
+        <ddf-common-log4j.version>boot3.5-2025.1-SNAPSHOT</ddf-common-log4j.version>
+        <ddf-common-mqtt.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mqtt.version>
+        <ddf-common-mvc.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mvc.version>
+        <ddf-common-alarm.version>boot3.5-2025.1-SNAPSHOT</ddf-common-alarm.version>
         <quick-api.version>simple3.3-2025.1-SNAPSHOT</quick-api.version>
     </properties>
 
@@ -54,13 +54,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-core</artifactId>
             <version>${ddf-common-core.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-redis</artifactId>
             <version>${ddf-common-redis.version}</version>
         </dependency>
@@ -76,13 +76,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-log4j</artifactId>
             <version>${ddf-common-log4j.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-mvc</artifactId>
             <version>${ddf-common-mvc.version}</version>
             <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
@@ -118,14 +118,14 @@
 
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-sharding</artifactId>
             <version>${ddf-common-sharding.version}</version>
         </dependency>
 
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-mqtt</artifactId>
             <version>${ddf-common-mqtt.version}</version>
         </dependency>
