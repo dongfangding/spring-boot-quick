@@ -7,10 +7,12 @@ import com.ddf.boot.quickstart.core.infra.model.entity.GlobalMetadataConfig;
  *
  * @author Snowball
  * @version 1.0
- * @date 2023/02/18 23:43
+ * @date 2025/12/19 11:48
  */
 public interface GlobalMetadataConfigMapper {
     int deleteByPrimaryKey(Long id);
+
+    int insert(GlobalMetadataConfig record);
 
     int insertSelective(GlobalMetadataConfig record);
 
@@ -19,6 +21,4 @@ public interface GlobalMetadataConfigMapper {
     int updateByPrimaryKeySelective(GlobalMetadataConfig record);
 
     int updateByPrimaryKey(GlobalMetadataConfig record);
-
-    GlobalMetadataConfig selectByCode(String code);
 }

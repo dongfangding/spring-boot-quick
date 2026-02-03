@@ -1,18 +1,19 @@
 package com.ddf.boot.quickstart.core.infra.model.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-import lombok.Data;
+/**
+ * <p>description</p >
+ *
+ * @author Snowball
+ * @version 1.0
+ * @date 2025/12/19 11:48
+ */
+
 
 /**
-* <p>字典表</p >
-*
-* @author Snowball
-* @version 1.0
-* @date 2023/02/18 23:43
-*/
-@Data
-public class SysDict implements Serializable {
+ * 字典表
+ */
+public class SysDict {
+    private static final long serialVersionUID = 1L;
     private Long id;
 
     /**
@@ -50,6 +51,67 @@ public class SysDict implements Serializable {
      */
     private String active;
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getDictTypeCode() {
+        return dictTypeCode;
+    }
+
+    public void setDictTypeCode(String dictTypeCode) {
+        this.dictTypeCode = dictTypeCode;
+    }
+
+    public String getDictTypeName() {
+        return dictTypeName;
+    }
+
+    public void setDictTypeName(String dictTypeName) {
+        this.dictTypeName = dictTypeName;
+    }
+
+    public String getDictDetailCode() {
+        return dictDetailCode;
+    }
+
+    public void setDictDetailCode(String dictDetailCode) {
+        this.dictDetailCode = dictDetailCode;
+    }
+
+    public String getDictDetailName() {
+        return dictDetailName;
+    }
+
+    public void setDictDetailName(String dictDetailName) {
+        this.dictDetailName = dictDetailName;
+    }
+
+    public String getRequestValue() {
+        return requestValue;
+    }
+
+    public void setRequestValue(String requestValue) {
+        this.requestValue = requestValue;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public String getActive() {
+        return active;
+    }
+
+    public void setActive(String active) {
+        this.active = active;
+    }
 }

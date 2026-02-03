@@ -1,0 +1,20 @@
+mysql_host: 192.168.10.6
+spring:
+  data:
+    redis:
+      host: 192.168.10.6
+      port: 6379
+      database: 1
+      password: Aa&123456
+customizer:
+  infra:
+    mqtt:
+      config:
+        connectionUrls:
+          - protocol: mqtt_tcp
+            url: tcp://192.168.10.6:21883
+        client:
+          clientIdPrefix: boot-quick
+          username: system
+          password: Aa&123456
+        enable: true

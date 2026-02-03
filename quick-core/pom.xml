@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>spring-boot-quick</artifactId>
-        <groupId>com.ddf.boot</groupId>
-        <version>quickstart3.5-2025.1-SNAPSHOT</version>
+        <groupId>com.ddf.spring-boot</groupId>
+        <version>simple3.3-2025.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>quick-core</artifactId>
@@ -19,61 +19,51 @@
         <ddf-common-mybatis-plus.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mybatis-plus.version>
         <ddf-common-limit.version>boot3.5-2025.1-SNAPSHOT</ddf-common-limit.version>
         <ddf-common-redis.version>boot3.5-2025.1-SNAPSHOT</ddf-common-redis.version>
+        <ddf-common-captcha.version>boot3.5-2025.1-SNAPSHOT</ddf-common-captcha.version>
+        <ddf-common-vps.version>boot3.5-2025.1-SNAPSHOT</ddf-common-vps.version>
+        <ddf-common-third-party.version>boot3.5-2025.1-SNAPSHOT</ddf-common-third-party.version>
+        <ddf-common-mongo.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mongo.version>
+        <ddf-common-sharding.version>boot3.5-2025.1-SNAPSHOT</ddf-common-sharding.version>
+        <ddf-common-mq.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mq.version>
+        <ddf-common-netty-broker.version>boot3.5-2025.1-SNAPSHOT</ddf-common-netty-broker.version>
+        <ddf-common-rocketmq.version>boot3.5-2025.1-SNAPSHOT</ddf-common-rocketmq.version>
+        <ddf-common-websocket.version>boot3.5-2025.1-SNAPSHOT</ddf-common-websocket.version>
+        <ddf-common-ids-service.version>boot3.5-2025.1-SNAPSHOT</ddf-common-ids-service.version>
+        <ddf-common-es.version>boot3.5-2025.1-SNAPSHOT</ddf-common-es.version>
+        <ddf-common-xxl-executor.version>boot3.5-2025.1-SNAPSHOT</ddf-common-xxl-executor.version>
         <ddf-common-log4j.version>boot3.5-2025.1-SNAPSHOT</ddf-common-log4j.version>
+        <ddf-common-mqtt.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mqtt.version>
         <ddf-common-mvc.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mvc.version>
         <ddf-common-alarm.version>boot3.5-2025.1-SNAPSHOT</ddf-common-alarm.version>
-        <ddf-common-captcha.version>boot3.5-2025.1-SNAPSHOT</ddf-common-captcha.version>
-        <ddf-common-distributed-lock.version>boot3.5-2025.1-SNAPSHOT</ddf-common-distributed-lock.version>
+        <quick-api.version>simple3.3-2025.1-SNAPSHOT</quick-api.version>
     </properties>
 
     <dependencies>
+
         <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.ddf.boot</groupId>
-            <artifactId>quick-api</artifactId>
-            <version>quickstart3.5-2025.1-SNAPSHOT</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-properties-migrator</artifactId>
+            <version>3.3.13</version>
+            <scope>compile</scope>
         </dependency>
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>com.ddf.spring-boot</groupId>
+            <artifactId>quick-api</artifactId>
+            <version>${quick-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-core</artifactId>
             <version>${ddf-common-core.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-alarm</artifactId>
-            <version>${ddf-common-alarm.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-authentication</artifactId>
-            <version>${ddf-common-authentication.version}</version>
-        </dependency>
-
-        <!-- 用于刷新配置 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-context</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-limit</artifactId>
-            <version>${ddf-common-limit.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-redis</artifactId>
             <version>${ddf-common-redis.version}</version>
         </dependency>
-
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -86,25 +76,13 @@
         </dependency>
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-captcha</artifactId>
-            <version>${ddf-common-captcha.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
-            <artifactId>ddf-common-distributed-lock</artifactId>
-            <version>${ddf-common-distributed-lock.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-log4j</artifactId>
             <version>${ddf-common-log4j.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.ddf.common</groupId>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-mvc</artifactId>
             <version>${ddf-common-mvc.version}</version>
             <!-- 排除默认日志依赖，如logback， 手动引入log4j依赖， 如果使用logback这里注释放开即可 -->
@@ -138,6 +116,20 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>io.github.dongfangding</groupId>
+            <artifactId>ddf-common-sharding</artifactId>
+            <version>${ddf-common-sharding.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>io.github.dongfangding</groupId>
+            <artifactId>ddf-common-mqtt</artifactId>
+            <version>${ddf-common-mqtt.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -146,16 +138,25 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>com.ddf.boot.quickstart.core.Application</mainClass>
-                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
             </plugin>
         </plugins>
     </build>

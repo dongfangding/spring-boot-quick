@@ -1,18 +1,19 @@
 package com.ddf.boot.quickstart.core.infra.model.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-import lombok.Data;
+/**
+ * <p>description</p >
+ *
+ * @author Snowball
+ * @version 1.0
+ * @date 2025/12/19 11:48
+ */
+
 
 /**
-* <p>用户数据配置表</p >
-*
-* @author Snowball
-* @version 1.0
-* @date 2023/02/18 23:43
-*/
-@Data
-public class UserMetadataConfig implements Serializable {
+ * 用户数据配置表
+ */
+public class UserMetadataConfig {
+    private static final long serialVersionUID = 1L;
     private Long id;
 
     /**
@@ -30,6 +31,35 @@ public class UserMetadataConfig implements Serializable {
      */
     private String configValue;
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getConfigCode() {
+        return configCode;
+    }
+
+    public void setConfigCode(String configCode) {
+        this.configCode = configCode;
+    }
+
+    public String getConfigValue() {
+        return configValue;
+    }
+
+    public void setConfigValue(String configValue) {
+        this.configValue = configValue;
+    }
 }

@@ -3,16 +3,12 @@
 <mapper namespace="com.ddf.boot.quickstart.core.infra.mapper.UserMetadataConfigMapper">
     <insert id="insertOrUpdate" keyColumn="id" keyProperty="id"
             parameterType="com.ddf.boot.quickstart.core.infra.model.entity.UserMetadataConfig" useGeneratedKeys="true">
-        insert into user_metadata_config (user_id, config_code, config_value)
-        values (#{userId,jdbcType=BIGINT}, #{configCode,jdbcType=VARCHAR}, #{configValue,jdbcType=LONGVARCHAR})
-        on duplicate key update config_value = #{configValue}
+        <!--@mbg.generated-->
+        insert into user_metadata_config (user_id, config_code, config_value
+        )
+        values (#{userId,jdbcType=BIGINT}, #{configCode,jdbcType=VARCHAR}, #{configValue,jdbcType=LONGVARCHAR}
+        )
+        on duplicate key update
+        config_value = #{configValue}
     </insert>
-
-    <select id="selectUserConfig" resultMap="BaseResultMap">
-        select
-        <include refid="Base_Column_List"/>
-        from user_metadata_config
-        where user_id = #{userId,jdbcType=BIGINT}
-          and config_code = #{configCode,jdbcType=VARCHAR}
-    </select>
 </mapper>

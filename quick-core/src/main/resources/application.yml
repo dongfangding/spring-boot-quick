@@ -17,33 +17,29 @@ spring:
     encoding: UTF-8
   lifecycle:
     timeout-per-shutdown-phase: 60s
+  profiles:
+    active: dev
+  application:
+    name: spring-boot-quick
   servlet:
     multipart:
       enabled: true
       max-file-size: 10MB
       max-request-size: 10MB
-  profiles:
-    active: dev
-  application:
-    name: spring-boot-quick
+  redis:
+    redisson:
+      file: classpath:redisson.yml
   data:
     redis:
       host: localhost
       port: 6379
-      password: Aa&123456
       database: 1
-  redis:
-    redisson:
-      file: classpath:redisson.yml
-  sql:
-    init:
-      mode: always
+      password: Aa&123456
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://${mysql_host}:3306/boot-quick?serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull&allowPublicKeyRetrieval=true
       username: root
       password: Aa&123456
+      url: jdbc:mysql://${mysql_host}:3306/boot_quick?useUnicode=true&characterEncoding=utf8mb4&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull
       initial-size: 10
       asyncInit: true
       max-active: 200
@@ -51,8 +47,9 @@ spring:
       keep-alive: true
       max-wait: 60000
       use-unfair-lock: true
+      validation-query-timeout: 3000
       time-between-eviction-runs-millis: 59000
-      min-evictable-idle-time-millis: 590000
+      min-evictable-idle-time-millis: 300000
       validation-query: SELECT 1
       test-while-idle: true
       test-on-borrow: true
@@ -72,44 +69,22 @@ spring:
         url-pattern: /druid/*
         reset-enable: true
         login-username: admin
-        login-password: Aa&123456
+        login-password: 123456
         allow:
+
 logging:
   level:
     root: info
+    com.ddf.boot.common.log.AccessLogAspect: info
 
 customizer:
   infra:
-    distributed:
-      lock:
-        redis:
-          enable: true
-    redis:
-      extra-multi:
-        enable: false
-        # 多redis数据源配置
-        map:
-          user:
-            host: localhost
-            port: 6379
-            database: 1
-            password:
     global-properties:
       # worker Id can't be greater than 31 or less than 0
       snowflakeWorkerId: 1
       # dataCenterId Id can't be greater than 31 or less than 0
       snowflakeDataCenterId: 1
-      # 是否开启全局的日志打印详情（默认关闭， 先精准控制日志行为，线上排查问题时，可临时开启）
-      globalLogPrintDetails: false
-      # 要忽略的打印异常日志的异常完全类型, 不会打印error， 不影响打印info日志
-      ignoreLogExceptionClassName:
-        - com.ddf.boot.common.api.exception.BusinessException
-        - com.ddf.boot.common.api.exception.AccessDeniedException
-        - com.ddf.boot.common.api.exception.UnauthorizedException
-        - org.springframework.http.converter.HttpMessageNotReadableException
-        - org.springframework.security.access.AccessDeniedException
-        - org.springframework.web.bind.MethodArgumentNotValidException
-        - org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+
 mybatis:
   mapper-locations: classpath:/mapper/*.xml,classpath:/mapper/ext/*.xml
   configuration:

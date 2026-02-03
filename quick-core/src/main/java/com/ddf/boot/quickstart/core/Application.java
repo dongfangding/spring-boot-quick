@@ -1,8 +1,5 @@
 package com.ddf.boot.quickstart.core;
 
-import com.ddf.boot.common.limit.ratelimit.annotation.EnableRateLimit;
-import com.ddf.boot.common.limit.repeatable.annotation.EnableRepeatable;
-import com.ddf.boot.common.limit.repeatable.validator.RedisRepeatableValidator;
 import com.ddf.boot.common.mvc.logaccess.EnableLogAspect;
 import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
@@ -21,12 +18,9 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication
 @MapperScan("com.ddf.boot.quickstart.core.infra.mapper")
-//@EnableAuthenticate
 @EnableAsync
 @EnableScheduling
 @EnableLogAspect(slowTime = 3000)
-@EnableRepeatable(globalValidator = RedisRepeatableValidator.BEAN_NAME)
-@EnableRateLimit(max = 1000, rate = 500)
 @Slf4j
 public class Application {
 

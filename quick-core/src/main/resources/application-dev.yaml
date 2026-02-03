@@ -1,8 +1,0 @@
-mysql_host: 10.88.1.104
-spring:
-  data:
-    redis:
-      host: 10.88.1.104
-      port: 6379
-      password: Aa&123456
-      database: 1

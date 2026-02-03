@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>ddf-common</artifactId>
-        <groupId>com.ddf.common</groupId>
+        <groupId>io.github.dongfangding</groupId>
         <version>boot3.5-2025.1-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.ddf.boot</groupId>
+    <groupId>com.ddf.spring-boot</groupId>
     <artifactId>spring-boot-quick</artifactId>
     <packaging>pom</packaging>
-    <version>quickstart3.5-2025.1-SNAPSHOT</version>
+    <version>simple3.3-2025.1-SNAPSHOT</version>
     <modules>
         <module>quick-api</module>
         <module>quick-core</module>

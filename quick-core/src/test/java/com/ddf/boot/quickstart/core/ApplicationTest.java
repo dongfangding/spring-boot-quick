@@ -10,11 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @version 1.0
  * @date 2023/02/21 19:28
  */
-@SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT,
-        classes = Application.class, properties = {
-        "server.port=8081",
-        "xxx=xxx"
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT, classes = Application.class, properties = {
+        "server.port=8081", "xxx=xxx"
 })
 @Transactional
 public class ApplicationTest {

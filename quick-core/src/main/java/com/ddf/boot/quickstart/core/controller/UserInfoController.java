@@ -1,10 +1,9 @@
 package com.ddf.boot.quickstart.core.controller;
 
 import com.ddf.boot.common.api.model.common.response.ResponseData;
-import com.ddf.boot.common.authentication.util.UserContextUtil;
 import com.ddf.boot.quickstart.core.application.UserApplicationService;
+import com.ddf.boot.quickstart.core.infra.config.properties.ApplicationProperties;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,10 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("user")
-@RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@RequiredArgsConstructor
 public class UserInfoController {
 
     private final UserApplicationService userApplicationService;
+    private final ApplicationProperties applicationProperties;
 
     /**
      * 心跳
@@ -30,8 +30,7 @@ public class UserInfoController {
      */
     @PostMapping("heartbeat")
     public ResponseData<Void> heartbeat() {
-        userApplicationService.heartBeat(UserContextUtil.getLongUserId());
+        userApplicationService.heartBeat(1L);
         return ResponseData.empty();
     }
-
 }

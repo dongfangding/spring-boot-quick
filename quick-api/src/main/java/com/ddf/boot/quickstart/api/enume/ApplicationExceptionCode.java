@@ -32,8 +32,7 @@ public enum ApplicationExceptionCode implements BaseCallbackCode {
     TEST_SIMPLE_BIZ_MESSAGE("10014", "基本异常"),
     TEST_BIZ_MESSAGE("10015", "boot-quick演示业务异常", "啦啦啦啦，请重试"),
     TEST_FILL_EXCEPTION("10016", "带占位符的异常演示[{0}]"),
-    TEST_FILL_BIZ_EXCEPTION("10017", "带占位符的异常演示[{0}],客户端隐藏详细信息", "报错啦")
-    ;
+    TEST_FILL_BIZ_EXCEPTION("10017", "带占位符的异常演示[{0}],客户端隐藏详细信息", "报错啦");
 
     private final String code;
 
