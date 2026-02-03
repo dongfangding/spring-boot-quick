@@ -16,7 +16,6 @@
         <maven.compiler.target>17</maven.compiler.target>
         <ddf-common-core.version>boot3.5-2025.1-SNAPSHOT</ddf-common-core.version>
         <ddf-common-authentication.version>boot3.5-2025.1-SNAPSHOT</ddf-common-authentication.version>
-        <ddf-common-mybatis-plus.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mybatis-plus.version>
         <ddf-common-limit.version>boot3.5-2025.1-SNAPSHOT</ddf-common-limit.version>
         <ddf-common-redis.version>boot3.5-2025.1-SNAPSHOT</ddf-common-redis.version>
         <ddf-common-captcha.version>boot3.5-2025.1-SNAPSHOT</ddf-common-captcha.version>
@@ -24,7 +23,6 @@
         <ddf-common-third-party.version>boot3.5-2025.1-SNAPSHOT</ddf-common-third-party.version>
         <ddf-common-mongo.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mongo.version>
         <ddf-common-sharding.version>boot3.5-2025.1-SNAPSHOT</ddf-common-sharding.version>
-        <ddf-common-mq.version>boot3.5-2025.1-SNAPSHOT</ddf-common-mq.version>
         <ddf-common-netty-broker.version>boot3.5-2025.1-SNAPSHOT</ddf-common-netty-broker.version>
         <ddf-common-rocketmq.version>boot3.5-2025.1-SNAPSHOT</ddf-common-rocketmq.version>
         <ddf-common-websocket.version>boot3.5-2025.1-SNAPSHOT</ddf-common-websocket.version>
@@ -39,11 +37,10 @@
     </properties>
 
     <dependencies>
-
+        <!-- 升级时使用，可以检测哪些类配置过时 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-properties-migrator</artifactId>
-            <version>3.3.13</version>
             <scope>compile</scope>
         </dependency>
 
@@ -61,6 +58,12 @@
 
         <dependency>
             <groupId>io.github.dongfangding</groupId>
+            <artifactId>ddf-common-mvc</artifactId>
+            <version>${ddf-common-mvc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.github.dongfangding</groupId>
             <artifactId>ddf-common-redis</artifactId>
             <version>${ddf-common-redis.version}</version>
         </dependency>
@@ -68,11 +71,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
 
         <dependency>
@@ -115,7 +113,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>io.github.dongfangding</groupId>
